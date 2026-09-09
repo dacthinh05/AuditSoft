@@ -1,13 +1,13 @@
 {
-  "version": "1.1.2",
+  "version": "1.1.3",
   "releaseDate": "2026-09-09",
-  "title": "AuditSoft v1.1.2 — Tự Động Cập Nhật 1-Click & Tối Ưu Giao Diện",
+  "title": "AuditSoft v1.1.3 — Tối Ưu Nhập Tỷ Lệ & Tùy Chọn Phần Tử Đặc Biệt VSA 530",
   "changelog": [
-    "Bổ sung tính năng Cập nhật Tự động 1-Click: Tự động tải và cài đặt bản mới ngay trong ứng dụng",
-    "Hiển thị thanh tiến trình % tải về trực quan, tự động khởi chạy bộ cài và khởi động lại",
-    "Tối ưu hóa giao diện Chọn Mẫu VSA 530 căn giữa cân đối trên mọi độ phân giải màn hình",
-    "Tinh giản icon hộp kéo thả file B410 cho giao diện thanh lịch và chuyên nghiệp"
+    "Sửa triệt để lỗi nhập liệu tỷ lệ: Cho phép gõ mượt mà số 65% ở Mức trọng yếu thực hiện (PM) và số thập phân 3,5% ở Ngưỡng sai sót bỏ qua (CTT)",
+    "Hỗ trợ cả dấu phẩy ',' và dấu chấm '.' theo thói quen kế toán Việt Nam, loại bỏ hoàn toàn hiện tượng kẹp số tức thời khi đang gõ phím",
+    "Bổ sung tùy chọn Bật / Tắt Quét phần tử đặc biệt (rủi ro đặc thù) theo chuẩn VSA 530, tự động phân bổ lại cỡ mẫu và bước nhảy khi tắt",
+    "Bảo toàn tính toán và xuất file Excel Working Paper A810 chuẩn xác 100%"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.2/AuditSoft-1.1.2-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.2/AuditSoft-1.1.2-Portable.exe"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.3/AuditSoft-1.1.3-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.3/AuditSoft-1.1.3-Portable.exe"
 }
