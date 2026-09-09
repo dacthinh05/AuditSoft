@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const candidates = [
+  path.resolve('dist-v114-build'),
   path.resolve('dist-v113-build'),
   path.resolve('dist-build'),
   path.resolve('dist-v111-build'),

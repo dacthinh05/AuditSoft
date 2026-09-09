@@ -3712,7 +3712,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  line-height: 1.5;
+  text-align: center;
 }
 
 .btn-reuse-step1 {
@@ -3724,6 +3727,11 @@ body {
   font-size: 11.5px;
   font-weight: 700;
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ── SAMPLING SOURCE STATUS CARD ── */
@@ -4963,6 +4971,207 @@ body {
 
 .row-disabled-muted {
   opacity: 0.55;
+}
+
+/* Sampling View Mode Bar & Toggle */
+.sampling-viewmode-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.viewmode-toggle-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.viewmode-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #475569;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.viewmode-tab-btn:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.viewmode-tab-btn.active {
+  background: #2563eb;
+  border-color: #1d4ed8;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
+}
+
+.manual-pick-badge-count {
+  display: inline-block;
+  background: #f59e0b;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 10px;
+  margin-left: 4px;
+}
+
+.viewmode-tab-btn.active .manual-pick-badge-count {
+  background: #ffffff;
+  color: #1d4ed8;
+}
+
+.btn-clear-manual-picks {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.btn-clear-manual-picks:hover {
+  background: #fee2e2;
+}
+
+/* Population Browse Toolbar & Elements */
+.population-browse-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 14px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.population-hint-text {
+  font-size: 12.5px;
+  color: #1e40af;
+  flex: 1;
+}
+
+.population-hint-text code {
+  background: #dbeafe;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.manual-pick-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #2563eb;
+}
+
+.kcm-auto-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #15803d;
+  background: #dcfce7;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid #86efac;
+}
+
+.population-row-selected {
+  background-color: #eff6ff !important;
+}
+
+.population-row-kcm {
+  background-color: #f0fdf4 !important;
+}
+
+/* Badge KTV chỉ định & Nút gỡ nhanh */
+.badge-stratum.manual-pick-item {
+  background: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #93c5fd;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  font-weight: 700;
+}
+
+.quick-remove-pick-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(30, 64, 175, 0.15);
+  color: #1e40af;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: all 120ms ease;
+}
+
+.quick-remove-pick-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.sample-row-manual-pick {
+  background-color: #f8faff;
+}
+
+/* Step 6 shortcuts */
+.step6-label-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn-link-step6 {
+  font-size: 11px;
+  font-weight: 700;
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 6px;
+  transition: all 120ms ease;
+}
+
+.btn-link-step6:hover {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.manual-picks-sub {
+  font-size: 11px;
+  color: #2563eb;
+  font-weight: 600;
+  margin-top: 2px;
 }
 .amount-input-wrap {
   display: inline-flex;

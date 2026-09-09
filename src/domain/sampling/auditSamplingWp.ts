@@ -15,6 +15,8 @@ export interface AuditSamplingWpInput {
   clearlyTrivial?: number
   /** Bật/tắt quét phần tử đặc biệt (rủi ro đặc thù) - Mặc định true */
   includeRiskItems?: boolean
+  /** Danh sách ID chứng từ KTV tự tay chỉ định làm phần tử đặc biệt */
+  manualRiskItemIds?: readonly string[]
 }
 
 export interface WpSamplingStepRow {
@@ -31,8 +33,9 @@ export interface SelectedWpSample extends SampleableItem {
   category: 'KCM_HIGH_VALUE' | 'SPECIFIC_RISK' | 'STEP_JUMP'
   categoryLabel: string
   riskNote: string
+  /** Đánh dấu dòng do KTV tự tay tick chọn làm phần tử đặc biệt */
+  isManualPick?: boolean
 }
-
 export interface AuditSamplingWpResult {
   sectionName: string
   accountCode: string
@@ -96,8 +99,8 @@ export function calculateAuditSamplingWp(input: AuditSamplingWpInput): AuditSamp
     riskFactorOverride,
     clearlyTrivial = 50_000_000,
     includeRiskItems = true,
+    manualRiskItemIds,
   } = input
-
   // 1. Xác định hệ số rủi ro
   let riskFactor = 0.75
   let assuranceText = 'Cao'
@@ -133,12 +136,15 @@ export function calculateAuditSamplingWp(input: AuditSamplingWpInput): AuditSamp
   const riskItems: SampleableItem[] = []
   const remainingItems: SampleableItem[] = []
 
+  const manualSet = new Set(manualRiskItemIds ?? [])
   const shouldCheckRisk = includeRiskItems !== false
 
   for (const it of items) {
     const amt = Math.abs(it.amount)
     if (amt >= kcm) {
       highValueItems.push(it)
+    } else if (manualSet.has(it.id)) {
+      riskItems.push(it)
     } else {
       const riskCheck = shouldCheckRisk ? checkSpecificRisk(it, clearlyTrivial) : { isRisk: false, note: '' }
       if (riskCheck.isRisk) {
@@ -196,15 +202,20 @@ export function calculateAuditSamplingWp(input: AuditSamplingWpInput): AuditSamp
   }))
   samples.push(...highValueSamples)
 
-  const riskSamples: SelectedWpSample[] = riskItems.map((it) => ({
-    ...it,
-    stt: sttCounter++,
-    category: 'SPECIFIC_RISK',
-    categoryLabel: 'Phần tử đặc biệt / Rủi ro',
-    riskNote: checkSpecificRisk(it, clearlyTrivial).note || 'Phần tử có rủi ro đặc thù',
-  }))
+  const riskSamples: SelectedWpSample[] = riskItems.map((it) => {
+    const isManual = manualSet.has(it.id)
+    return {
+      ...it,
+      stt: sttCounter++,
+      category: 'SPECIFIC_RISK',
+      categoryLabel: isManual ? 'Mẫu đặc biệt (KTV chỉ định)' : 'Phần tử đặc biệt / Rủi ro',
+      riskNote: isManual
+        ? 'KTV phán đoán & chỉ định thủ công'
+        : (checkSpecificRisk(it, clearlyTrivial).note || 'Phần tử có rủi ro đặc thù'),
+      isManualPick: isManual,
+    }
+  })
   samples.push(...riskSamples)
-
   const stepJumpSamples: SelectedWpSample[] = stepJumpItems.map((it) => ({
     ...it,
     stt: sttCounter++,
@@ -281,7 +292,9 @@ export function calculateAuditSamplingWp(input: AuditSamplingWpInput): AuditSamp
       label: '6 - Giá trị phần tử đặc biệt (2)',
       valueDisplay: riskAmount.toLocaleString('vi-VN'),
       numericValue: riskAmount,
-      note: shouldCheckRisk ? '= Phần tử đặc biệt / Rủi ro chọn kiểm tra 100%.' : '= Đã tắt quét phần tử đặc biệt.',
+      note: manualSet.size > 0
+        ? `= Gồm ${riskItems.filter((x) => manualSet.has(x.id)).length} mẫu KTV chỉ định${riskItems.filter((x) => !manualSet.has(x.id)).length > 0 ? ` + ${riskItems.filter((x) => !manualSet.has(x.id)).length} mẫu hệ thống quét` : ''}.`
+        : (shouldCheckRisk ? '= Phần tử đặc biệt / Rủi ro chọn kiểm tra 100%.' : '= Đã tắt quét phần tử đặc biệt.'),
     },
     riskCount: {
       stepIndex: '6.1',

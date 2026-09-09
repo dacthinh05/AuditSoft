@@ -150,4 +150,42 @@ describe('Audit Sampling Working Paper Engine (10-Step Model) — Unit Tests', (
     const wb = buildSamplingWorkbook(res)
     expect(wb.worksheets.length).toBe(2)
   })
+
+  it('cho phép KTV tự tay chỉ định phần tử đặc biệt (manualRiskItemIds)', () => {
+    const items: SampleableItem[] = []
+    items.push(makeItem({ id: 'k1', amount: 2_000_000_000, voucher: 'HD_LON_1' }))
+    items.push(makeItem({ id: 'k2', amount: 2_000_000_000, voucher: 'HD_LON_2' }))
+    items.push(makeItem({ id: 'r1', amount: 100_000_000, displayDate: '31/12/2025', voucher: 'CUTOFF' }))
+    items.push(makeItem({ id: 'r2', amount: 80_000_000, description: 'Bút toán ĐIỀU CHỈNH', voucher: 'ADJ' }))
+    for (let i = 1; i <= 96; i++) {
+      items.push(makeItem({ id: `n${i}`, amount: 60_625_000, voucher: `HD_${i}` }))
+    }
+
+    // KTV tự tay chỉ định 2 dòng thường n1 và n2 làm phần tử đặc biệt
+    const res = calculateAuditSamplingWp({
+      sectionName: 'Doanh thu bán hàng',
+      accountCode: '511',
+      periodStr: '01/01 - 31/12/2025',
+      items,
+      performanceMateriality: 750_000_000,
+      itemMaterialityRatio: 0.75,
+      assuranceLevel: 'HIGH',
+      manualRiskItemIds: ['n1', 'n2'],
+    })
+
+    // Dòng 6: Tổng 4 mẫu (2 tự động + 2 KTV chỉ định)
+    expect(res.steps.riskCount.numericValue).toBe(4)
+    expect(res.steps.riskItems.numericValue).toBe(180_000_000 + 60_625_000 * 2)
+    expect(res.steps.riskItems.note).toContain('Gồm 2 mẫu KTV chỉ định + 2 mẫu hệ thống quét')
+
+    // Kiểm tra mẫu thủ công có isManualPick và nhãn riêng
+    const manualSamples = res.riskSamples.filter((s) => s.isManualPick)
+    expect(manualSamples.length).toBe(2)
+    expect(manualSamples[0]?.categoryLabel).toBe('Mẫu đặc biệt (KTV chỉ định)')
+    expect(manualSamples[0]?.riskNote).toBe('KTV phán đoán & chỉ định thủ công')
+
+    // File Excel vẫn xuất hoàn chỉnh
+    const wb = buildSamplingWorkbook(res)
+    expect(wb.worksheets.length).toBe(2)
+  })
 })

@@ -214,6 +214,21 @@ export function SamplingTab(): JSX.Element {
   const [config, setConfig] = useState<SamplingConfig>(DEFAULT_SAMPLING_CONFIG)
   const [strategyFilter, setStrategyFilter] = useState<'ALL' | 'KCM' | 'RISK' | 'STEP'>('ALL')
   const [filterQuery, setFilterQuery] = useState('')
+  const [manualRiskItemIds, setManualRiskItemIds] = useState<Set<string>>(new Set())
+  const [viewMode, setViewMode] = useState<'SAMPLES' | 'POPULATION'>('SAMPLES')
+
+  function handleToggleManualRisk(id: string): void {
+    setManualRiskItemIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  function handleClearAllManualRisk(): void {
+    setManualRiskItemIds(new Set())
+  }
 
   // 1. Chuẩn bị danh sách tổng thể từ nguồn đã chọn (Mặc định: NKC Trước kiểm toán)
   const populationItems = useMemo<SampleableItem[]>(() => {
@@ -519,8 +534,9 @@ export function SamplingTab(): JSX.Element {
       assuranceLevel: config.confidenceLevel === 95 ? 'HIGH' : config.confidenceLevel === 90 ? 'MEDIUM' : 'LOW',
       clearlyTrivial: computedMat.clearlyTrivial,
       includeRiskItems: config.includeRiskItems !== false,
+      manualRiskItemIds: Array.from(manualRiskItemIds),
     })
-  }, [activeSection, sectionCode, filteredSectionItems, computedMat, config.benchmark.pmRatio, config.confidenceLevel, config.includeRiskItems])
+  }, [activeSection, sectionCode, filteredSectionItems, computedMat, config.benchmark.pmRatio, config.confidenceLevel, config.includeRiskItems, manualRiskItemIds])
 
   // 6. Lọc mẫu hiển thị theo phân loại và tìm kiếm
   const displayedSamples = useMemo(() => {
@@ -560,6 +576,24 @@ export function SamplingTab(): JSX.Element {
           return <span className="badge-stratum key-item">Lớn hơn KCM (Mục 5)</span>
         }
         if (r.category === 'SPECIFIC_RISK') {
+          if (r.isManualPick) {
+            return (
+              <span className="badge-stratum manual-pick-item">
+                KTV chỉ định
+                <button
+                  type="button"
+                  className="quick-remove-pick-btn"
+                  title="Bỏ chỉ định dòng này khỏi phần tử đặc biệt"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleToggleManualRisk(r.id)
+                  }}
+                >
+                  ✕
+                </button>
+              </span>
+            )
+          }
           return <span className="badge-stratum risk-item">Mẫu đặc biệt (Mục 6)</span>
         }
         return <span className="badge-stratum mus-item">Bước nhảy (Mục 10)</span>
@@ -592,6 +626,70 @@ export function SamplingTab(): JSX.Element {
       render: (r) => (r.exchangeRate && r.exchangeRate > 0 ? formatNumber(r.exchangeRate) : '-'),
     },
     { key: 'refNotes', label: 'Tham chiếu KTV', width: 160, render: () => <span className="muted italic">[Chờ đối chiếu]</span> },
+  ]
+
+  // 8. Lọc tổng thể chứng từ khi ở chế độ Duyệt toàn bộ
+  const displayedPopulation = useMemo(() => {
+    const q = filterQuery.trim().toUpperCase()
+    if (!q) return filteredSectionItems
+
+    return filteredSectionItems.filter(
+      (it) =>
+        it.voucher.toUpperCase().includes(q) ||
+        it.description.toUpperCase().includes(q) ||
+        it.debit.includes(q) ||
+        it.credit.includes(q),
+    )
+  }, [filteredSectionItems, filterQuery])
+
+  const populationColumns: VirtualColumn<SampleableItem>[] = [
+    {
+      key: 'id',
+      label: 'Chỉ định',
+      width: 78,
+      align: 'center',
+      render: (r) => {
+        const isKcm = Math.abs(r.amount) >= wpResult.kcm
+        if (isKcm) {
+          return (
+            <span className="kcm-auto-tag" title="Số tiền >= KCM, tự động chọn kiểm tra 100% ở Mục 5">
+              &gt;=KCM
+            </span>
+          )
+        }
+        const isChecked = manualRiskItemIds.has(r.id)
+        return (
+          <input
+            type="checkbox"
+            className="manual-pick-checkbox"
+            checked={isChecked}
+            onChange={() => handleToggleManualRisk(r.id)}
+            title={isChecked ? 'Bỏ chọn dòng này khỏi phần tử đặc biệt' : 'Tự tay chọn dòng này làm phần tử đặc biệt (Dòng 6)'}
+          />
+        )
+      },
+    },
+    { key: 'rowIndex', label: 'Dòng', width: 60, align: 'center', render: (r) => <span className="muted">#{r.rowIndex}</span> },
+    { key: 'displayDate', label: 'Ngày CT', width: 90, align: 'center' },
+    { key: 'voucher', label: 'Số CT / HĐ', width: 120, render: (r) => <strong>{r.voucher}</strong> },
+    { key: 'description', label: 'Diễn giải / Nội dung chứng từ', width: 260 },
+    { key: 'debit', label: 'TK Nợ', width: 65, align: 'center', render: (r) => <span className="mono bold">{r.debit}</span> },
+    { key: 'credit', label: 'TK Có', width: 65, align: 'center', render: (r) => <span className="mono bold">{r.credit}</span> },
+    { key: 'amount', label: 'Số tiền phát sinh (VND)', width: 145, align: 'right', render: (r) => <span className="bold">{formatNumber(r.amount)}</span> },
+    {
+      key: 'foreignAmount',
+      label: 'Ngoại tệ (USD)',
+      width: 110,
+      align: 'right',
+      render: (r) => (r.foreignAmount && r.foreignAmount > 0 ? `$${formatNumber(r.foreignAmount)}` : '-'),
+    },
+    {
+      key: 'exchangeRate',
+      label: 'Tỷ giá',
+      width: 85,
+      align: 'right',
+      render: (r) => (r.exchangeRate && r.exchangeRate > 0 ? formatNumber(r.exchangeRate) : '-'),
+    },
   ]
 
   // Chưa nạp dữ liệu -> Hiển thị Dropzone độc lập sạch đẹp, không emoji
@@ -640,27 +738,36 @@ export function SamplingTab(): JSX.Element {
             </div>
           </div>
 
-          {beforeSource.cfg && (
-            <div className="quick-reuse-hint" style={{ marginTop: 18 }}>
-              <span>Hoặc sử dụng lại nguồn NKC Trước ({beforeSource.cfg.sheetName}) đã thiết lập ở Bước 1: </span>
-              <button
-                className="btn btn-reuse-step1"
-                onClick={() => {
-                  if (result && result.beforeEntries) {
-                    setLoadedInfo({
-                      name: `Nguồn 1: ${beforeSource.cfg?.filePath.split(/[\\/]/).pop()} (${beforeSource.cfg?.sheetName})`,
-                      rowCount: result.beforeEntries.length,
-                      totalAmount: Number(result.before.totalAmount.split('|')[1] ?? 0),
-                    })
-                  } else {
-                    useApp.getState().setView('setup')
-                  }
-                }}
-              >
-                Sử dụng Nguồn 1
-              </button>
-            </div>
-          )}
+          {beforeSource.cfg && (() => {
+            const isClipboard = beforeSource.cfg.sheetName === '(clipboard)' || beforeSource.cfg.filePath === '(clipboard)'
+            const sourceLabel = isClipboard
+              ? 'từ Clipboard'
+              : `${beforeSource.cfg.filePath.split(/[\\/]/).pop()} (${beforeSource.cfg.sheetName})`
+
+            return (
+              <div className="quick-reuse-hint" style={{ marginTop: 18 }}>
+                <span>Hoặc dùng lại NKC Trước đã lập ở Bước 1 ({sourceLabel}):</span>
+                <button
+                  className="btn btn-reuse-step1"
+                  onClick={() => {
+                    if (result && result.beforeEntries) {
+                      setLoadedInfo({
+                        name: isClipboard
+                          ? 'Nguồn 1: Dán từ Clipboard (Bước 1)'
+                          : `Nguồn 1: ${sourceLabel}`,
+                        rowCount: result.beforeEntries.length,
+                        totalAmount: Number(result.before.totalAmount.split('|')[1] ?? 0),
+                      })
+                    } else {
+                      useApp.getState().setView('setup')
+                    }
+                  }}
+                >
+                  Sử dụng Nguồn 1
+                </button>
+              </div>
+            )
+          })()}
         </div>
 
         <PasteModal
@@ -1199,23 +1306,43 @@ export function SamplingTab(): JSX.Element {
                 <td className="num-val green-count">{wpResult.steps.highValueCount.valueDisplay}</td>
                 <td className="note-text">Kiểm tra 100% các nghiệp vụ lớn</td>
               </tr>
-              <tr className={`sub-header-row ${config.includeRiskItems === false ? 'row-disabled-muted' : ''}`}>
+              <tr className={`sub-header-row ${config.includeRiskItems === false && manualRiskItemIds.size === 0 ? 'row-disabled-muted' : ''}`}>
                 <td>
-                  <strong>{wpResult.steps.riskItems.label}</strong>
-                  {config.includeRiskItems === false && (
-                    <span className="risk-disabled-tag"> (Đang tắt)</span>
+                  <div className="step6-label-row">
+                    <strong>{wpResult.steps.riskItems.label}</strong>
+                    {config.includeRiskItems === false && manualRiskItemIds.size === 0 && (
+                      <span className="risk-disabled-tag"> (Đang tắt quét tự động)</span>
+                    )}
+                    <button
+                      type="button"
+                      className="btn-link-step6"
+                      onClick={() => {
+                        setViewMode('POPULATION')
+                        document.getElementById('sampling-table-anchor')?.scrollIntoView({ behavior: 'smooth' })
+                      }}
+                      title="Chuyển xuống bảng duyệt toàn bộ tổng thể để tự tay tick chọn chứng từ"
+                    >
+                      + Tự tay chỉ định mẫu
+                    </button>
+                  </div>
+                </td>
+                <td className="num-val">
+                  {fmtVnd(wpResult.steps.riskItems.numericValue)}
+                  {manualRiskItemIds.size > 0 && (
+                    <div className="manual-picks-sub">
+                      (Có {manualRiskItemIds.size} mẫu KTV chỉ định)
+                    </div>
                   )}
                 </td>
-                <td className="num-val">{fmtVnd(wpResult.steps.riskItems.numericValue)}</td>
                 <td className="note-text">{wpResult.steps.riskItems.note}</td>
               </tr>
-              <tr className={`sub-count-row ${config.includeRiskItems === false ? 'row-disabled-muted' : ''}`}>
+              <tr className={`sub-count-row ${config.includeRiskItems === false && manualRiskItemIds.size === 0 ? 'row-disabled-muted' : ''}`}>
                 <td className="indent-1">{wpResult.steps.riskCount.label}</td>
                 <td className="num-val green-count">{wpResult.steps.riskCount.valueDisplay}</td>
                 <td className="note-text">
-                  {config.includeRiskItems === false
+                  {config.includeRiskItems === false && manualRiskItemIds.size === 0
                     ? 'KTV đã tắt tùy chọn quét phần tử đặc biệt'
-                    : 'Cuối kỳ 31/12, tròn số lớn, từ khóa nhạy cảm'}
+                    : 'Cuối kỳ 31/12, tròn số lớn, từ khóa nhạy cảm hoặc KTV chỉ định'}
                 </td>
               </tr>
               <tr>
@@ -1244,63 +1371,132 @@ export function SamplingTab(): JSX.Element {
       </div>
 
       {/* ── CARD 5: Bộ lọc Chiến lược Lấy mẫu & Danh sách mẫu chọn ── */}
-      <div className="toolbar-card sampling-strategy-toolbar">
-        <div className="strategy-filter-pills">
+      <div id="sampling-table-anchor" className="toolbar-card sampling-viewmode-bar">
+        <div className="viewmode-toggle-group">
           <button
-            className={`strat-btn ${strategyFilter === 'ALL' ? 'active' : ''}`}
-            onClick={() => setStrategyFilter('ALL')}
+            type="button"
+            className={`viewmode-tab-btn ${viewMode === 'SAMPLES' ? 'active' : ''}`}
+            onClick={() => setViewMode('SAMPLES')}
           >
-            Tất cả mẫu ({wpResult.samples.length})
+            📋 Mẫu kiểm toán được chọn ({wpResult.samples.length})
           </button>
           <button
-            className={`strat-btn key ${strategyFilter === 'KCM' ? 'active' : ''}`}
-            onClick={() => setStrategyFilter('KCM')}
+            type="button"
+            className={`viewmode-tab-btn ${viewMode === 'POPULATION' ? 'active' : ''}`}
+            onClick={() => setViewMode('POPULATION')}
           >
-            Lớn hơn KCM ({wpResult.highValueSamples.length})
-          </button>
-          <button
-            className={`strat-btn risk ${strategyFilter === 'RISK' ? 'active' : ''}`}
-            onClick={() => setStrategyFilter('RISK')}
-          >
-            Phần tử đặc biệt ({wpResult.riskSamples.length})
-          </button>
-          <button
-            className={`strat-btn mus ${strategyFilter === 'STEP' ? 'active' : ''}`}
-            onClick={() => setStrategyFilter('STEP')}
-          >
-            Bước nhảy ({wpResult.stepJumpSamples.length})
+            🔍 Duyệt toàn bộ tổng thể ({filteredSectionItems.length.toLocaleString('vi-VN')} dòng)
+            {manualRiskItemIds.size > 0 && (
+              <span className="manual-pick-badge-count">
+                Đã chọn: {manualRiskItemIds.size}
+              </span>
+            )}
           </button>
         </div>
 
-        <div className="toolbar-search">
-          <span className="search-icon"><IconSearch size={15} /></span>
-          <input
-            placeholder="Tìm theo Số CT, diễn giải, TK Nợ/Có, lý do chọn..."
-            value={filterQuery}
-            onChange={(e) => setFilterQuery(e.target.value)}
-            className="search-input"
-          />
-          {filterQuery && (
-            <button className="clear-search-btn" onClick={() => setFilterQuery('')}>
-              ✕
-            </button>
-          )}
-        </div>
+        {viewMode === 'POPULATION' && manualRiskItemIds.size > 0 && (
+          <button type="button" className="btn-clear-manual-picks" onClick={handleClearAllManualRisk}>
+            Bỏ chọn tất cả ({manualRiskItemIds.size})
+          </button>
+        )}
       </div>
 
-      {/* ── Virtualized Table of Selected Samples ── */}
-      <VirtualTable
-        rows={displayedSamples}
-        columns={columns}
-        height={460}
-        rowClassName={(r) =>
-          r.category === 'KCM_HIGH_VALUE'
-            ? 'sample-row-key'
-            : r.category === 'SPECIFIC_RISK'
-              ? 'sample-row-risk'
-              : 'sample-row-mus'
-        }
-      />
+      {viewMode === 'SAMPLES' ? (
+        <>
+          <div className="toolbar-card sampling-strategy-toolbar">
+            <div className="strategy-filter-pills">
+              <button
+                className={`strat-btn ${strategyFilter === 'ALL' ? 'active' : ''}`}
+                onClick={() => setStrategyFilter('ALL')}
+              >
+                Tất cả mẫu ({wpResult.samples.length})
+              </button>
+              <button
+                className={`strat-btn key ${strategyFilter === 'KCM' ? 'active' : ''}`}
+                onClick={() => setStrategyFilter('KCM')}
+              >
+                Lớn hơn KCM ({wpResult.highValueSamples.length})
+              </button>
+              <button
+                className={`strat-btn risk ${strategyFilter === 'RISK' ? 'active' : ''}`}
+                onClick={() => setStrategyFilter('RISK')}
+              >
+                Phần tử đặc biệt ({wpResult.riskSamples.length})
+              </button>
+              <button
+                className={`strat-btn mus ${strategyFilter === 'STEP' ? 'active' : ''}`}
+                onClick={() => setStrategyFilter('STEP')}
+              >
+                Bước nhảy ({wpResult.stepJumpSamples.length})
+              </button>
+            </div>
+
+            <div className="toolbar-search">
+              <span className="search-icon"><IconSearch size={15} /></span>
+              <input
+                placeholder="Tìm theo Số CT, diễn giải, TK Nợ/Có, lý do chọn..."
+                value={filterQuery}
+                onChange={(e) => setFilterQuery(e.target.value)}
+                className="search-input"
+              />
+              {filterQuery && (
+                <button className="clear-search-btn" onClick={() => setFilterQuery('')}>
+                  ✕
+                </button>
+              )}
+            </div>
+          </div>
+
+          <VirtualTable
+            rows={displayedSamples}
+            columns={columns}
+            height={460}
+            rowClassName={(r) =>
+              r.category === 'KCM_HIGH_VALUE'
+                ? 'sample-row-key'
+                : r.category === 'SPECIFIC_RISK'
+                  ? (r.isManualPick ? 'sample-row-manual-pick' : 'sample-row-risk')
+                  : 'sample-row-mus'
+            }
+          />
+        </>
+      ) : (
+        <>
+          <div className="toolbar-card population-browse-toolbar">
+            <div className="population-hint-text">
+              <strong>Hướng dẫn:</strong> Tích chọn ô vuông đầu dòng để KTV tự tay chỉ định làm <em>Phần tử đặc biệt (Dòng 6)</em>. Các dòng <code>&gt;= KCM</code> đã được hệ thống tự động chọn 100% ở Mục 5.
+            </div>
+
+            <div className="toolbar-search">
+              <span className="search-icon"><IconSearch size={15} /></span>
+              <input
+                placeholder="Tìm kiếm trong tổng thể (Số CT, diễn giải, TK Nợ/Có)..."
+                value={filterQuery}
+                onChange={(e) => setFilterQuery(e.target.value)}
+                className="search-input"
+              />
+              {filterQuery && (
+                <button className="clear-search-btn" onClick={() => setFilterQuery('')}>
+                  ✕
+                </button>
+              )}
+            </div>
+          </div>
+
+          <VirtualTable
+            rows={displayedPopulation}
+            columns={populationColumns}
+            height={460}
+            rowClassName={(r) =>
+              manualRiskItemIds.has(r.id)
+                ? 'population-row-selected'
+                : Math.abs(r.amount) >= wpResult.kcm
+                  ? 'population-row-kcm'
+                  : ''
+            }
+          />
+        </>
+      )}
 
       <PasteModal
         isOpen={pasteOpen}
