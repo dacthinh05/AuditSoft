@@ -101,4 +101,53 @@ describe('Audit Sampling Working Paper Engine (10-Step Model) — Unit Tests', (
     expect(ws1.getCell('B26').value).toBe('4 - Khoảng cách mẫu: (=2.2/3)')
     expect(ws1.getCell('B34').value).toBe('10 - Bước nhảy')
   })
+
+  it('cho phép tắt quét phần tử đặc biệt (includeRiskItems: false) theo tùy chọn của KTV', async () => {
+    const items: SampleableItem[] = []
+    items.push(makeItem({ id: 'k1', amount: 2_000_000_000, voucher: 'HD_LON_1' }))
+    items.push(makeItem({ id: 'k2', amount: 2_000_000_000, voucher: 'HD_LON_2' }))
+    items.push(makeItem({ id: 'r1', amount: 100_000_000, displayDate: '31/12/2025', voucher: 'CUTOFF' }))
+    items.push(makeItem({ id: 'r2', amount: 80_000_000, description: 'Bút toán ĐIỀU CHỈNH', voucher: 'ADJ' }))
+    for (let i = 1; i <= 96; i++) {
+      items.push(makeItem({ id: `n${i}`, amount: 60_625_000, voucher: `HD_${i}` }))
+    }
+
+    const res = calculateAuditSamplingWp({
+      sectionName: 'Doanh thu bán hàng',
+      accountCode: '511',
+      periodStr: '01/01 - 31/12/2025',
+      items,
+      performanceMateriality: 750_000_000,
+      itemMaterialityRatio: 0.75,
+      assuranceLevel: 'HIGH',
+      includeRiskItems: false, // Tắt phần tử đặc biệt
+    })
+
+    // Dòng 6: Bằng 0 vì đã tắt
+    expect(res.steps.riskCount.numericValue).toBe(0)
+    expect(res.steps.riskItems.numericValue).toBe(0)
+    expect(res.steps.riskItems.note).toContain('Đã tắt')
+
+    // Dòng 7: Cỡ mẫu còn lại = (10 tỷ - 4 tỷ - 0) / 750tr = 8 mẫu
+    expect(res.steps.remainingSampleSize.numericValue).toBe(8)
+
+    // Dòng 8: Tổng mẫu chọn = 2 (KCM) + 0 (Risk) + 8 (Step) = 10 mẫu
+    expect(res.steps.totalSampleSize.numericValue).toBe(10)
+
+    // Dòng 9: Số nghiệp vụ còn lại = 100 - 2 = 98 dòng
+    expect(res.steps.remainingTxCount.numericValue).toBe(98)
+
+    // Dòng 10: Bước nhảy = 98 / 8 = 12 dòng
+    expect(res.steps.stepJump.numericValue).toBe(12)
+
+    // Mẫu chọn thực tế
+    expect(res.samples.length).toBe(10)
+    expect(res.highValueSamples.length).toBe(2)
+    expect(res.riskSamples.length).toBe(0)
+    expect(res.stepJumpSamples.length).toBe(8)
+
+    // Xuất Excel không bị lỗi khi phần tử đặc biệt = 0
+    const wb = buildSamplingWorkbook(res)
+    expect(wb.worksheets.length).toBe(2)
+  })
 })

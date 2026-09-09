@@ -2,9 +2,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const candidates = [
-  path.resolve('dist-v110-build'),
-  path.resolve('dist-v110'),
+  path.resolve('dist-v113-build'),
   path.resolve('dist-build'),
+  path.resolve('dist-v111-build'),
+  path.resolve('dist-v110-build'),
   path.resolve('dist-installer'),
 ]
 const srcDir = candidates.find((d) => fs.existsSync(d)) || path.resolve('dist-v110')

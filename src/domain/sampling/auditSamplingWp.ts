@@ -13,6 +13,8 @@ export interface AuditSamplingWpInput {
   assuranceLevel?: AssuranceLevel // Mức độ đảm bảo mong muốn ('HIGH': 0.75, 'MEDIUM': 0.50, 'LOW': 0.25)
   riskFactorOverride?: number // Cho phép KTV nhập trực tiếp hệ số rủi ro
   clearlyTrivial?: number
+  /** Bật/tắt quét phần tử đặc biệt (rủi ro đặc thù) - Mặc định true */
+  includeRiskItems?: boolean
 }
 
 export interface WpSamplingStepRow {
@@ -93,6 +95,7 @@ export function calculateAuditSamplingWp(input: AuditSamplingWpInput): AuditSamp
     assuranceLevel = 'HIGH',
     riskFactorOverride,
     clearlyTrivial = 50_000_000,
+    includeRiskItems = true,
   } = input
 
   // 1. Xác định hệ số rủi ro
@@ -130,12 +133,14 @@ export function calculateAuditSamplingWp(input: AuditSamplingWpInput): AuditSamp
   const riskItems: SampleableItem[] = []
   const remainingItems: SampleableItem[] = []
 
+  const shouldCheckRisk = includeRiskItems !== false
+
   for (const it of items) {
     const amt = Math.abs(it.amount)
     if (amt >= kcm) {
       highValueItems.push(it)
     } else {
-      const riskCheck = checkSpecificRisk(it, clearlyTrivial)
+      const riskCheck = shouldCheckRisk ? checkSpecificRisk(it, clearlyTrivial) : { isRisk: false, note: '' }
       if (riskCheck.isRisk) {
         riskItems.push(it)
       } else {
@@ -230,9 +235,9 @@ export function calculateAuditSamplingWp(input: AuditSamplingWpInput): AuditSamp
     pmRatio: {
       stepIndex: '2.1',
       label: '2.1 - Tỷ lệ % mức trọng yếu khoản mục so với tổng thể',
-      valueDisplay: `${(pmItemRatio * 100).toFixed(0)}%`,
+      valueDisplay: `${Number((pmItemRatio * 100).toFixed(2)).toString().replace('.', ',')}%`,
       numericValue: pmItemRatio,
-      note: 'Mặc định 75% hoặc 50% theo VSA 320.',
+      note: 'Khung quy định 50% - 75% theo VSA 320.',
     },
     pmItem: {
       stepIndex: '2.2',
@@ -276,14 +281,14 @@ export function calculateAuditSamplingWp(input: AuditSamplingWpInput): AuditSamp
       label: '6 - Giá trị phần tử đặc biệt (2)',
       valueDisplay: riskAmount.toLocaleString('vi-VN'),
       numericValue: riskAmount,
-      note: '= Phần tử đặc biệt / Rủi ro chọn kiểm tra 100%.',
+      note: shouldCheckRisk ? '= Phần tử đặc biệt / Rủi ro chọn kiểm tra 100%.' : '= Đã tắt quét phần tử đặc biệt.',
     },
     riskCount: {
       stepIndex: '6.1',
       label: '    Số lượng mẫu',
       valueDisplay: `${riskCount} mẫu`,
       numericValue: riskCount,
-      note: '= Số lượng nghiệp vụ đặc biệt.',
+      note: shouldCheckRisk ? '= Số lượng nghiệp vụ đặc biệt.' : '= Đã tắt quét phần tử đặc biệt.',
     },
     remainingSampleSize: {
       stepIndex: '7',

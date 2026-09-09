@@ -68,6 +68,26 @@ describe('VSA 530 & VSA 320 Sampling Engine — Comprehensive Tests', () => {
     expect(matProfit.overallMateriality).toBe(1_250_000_000)
   })
 
+  it('tính đúng PM 65% và CTT 3.5% khi người dùng thiết lập tỷ lệ lẻ (khớp số liệu ảnh thực tế)', () => {
+    const totals = {
+      totalRevenue: 54_366_422_054, // Doanh thu thực tế trong ảnh
+      totalAssets: 50_000_000_000,
+      totalEquity: 30_000_000_000,
+      totalExpenses: 40_000_000_000,
+      profitBeforeTax: 14_000_000_000,
+    }
+    // OM = 54.366.422.054 * 1.5% = 815.496.331 đ
+    // PM (65%) = 815.496.331 * 65% = 530.072.615 đ
+    // CTT (3.5%) = 815.496.331 * 3.5% = 28.542.372 đ
+    const mat = computeMateriality(
+      { base: 'REVENUE', percentage: 1.5, pmRatio: 0.65, cttRatio: 0.035 },
+      totals
+    )
+    expect(mat.overallMateriality).toBe(815_496_331)
+    expect(mat.performanceMateriality).toBe(530_072_615)
+    expect(mat.clearlyTrivial).toBe(28_542_372)
+  })
+
   it('cho phép nhập thủ công OM (MANUAL) và tự động tính lại PM, CTT chính xác', () => {
     const totals = {
       totalRevenue: 100_000_000_000,

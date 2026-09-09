@@ -103,6 +103,102 @@ interface LoadedSourceInfo {
   }
 }
 
+interface PercentRateInputProps {
+  value: number
+  isRatio?: boolean
+  min?: number
+  max?: number
+  step?: number
+  onChange: (val: number) => void
+}
+
+function PercentRateInput({
+  value,
+  isRatio = false,
+  min = 0,
+  max = 100,
+  step = 1,
+  onChange,
+}: PercentRateInputProps): JSX.Element {
+  const numericPercent = isRatio ? value * 100 : value
+  const [isFocused, setIsFocused] = useState(false)
+  const [text, setText] = useState('')
+
+  const displayVal = useMemo(() => {
+    if (numericPercent == null || isNaN(numericPercent)) return '0'
+    const rounded = Math.round(numericPercent * 100) / 100
+    return rounded.toString().replace('.', ',')
+  }, [numericPercent])
+
+  const currentText = isFocused ? text : displayVal
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
+    const raw = e.target.value
+    const sanitized = raw.replace(/[^0-9.,]/g, '')
+    const parts = sanitized.split(/[.,]/)
+    const clean = parts[0] + (parts.length > 1 ? (sanitized.includes(',') ? ',' : '.') + parts.slice(1).join('') : '')
+    setText(clean)
+
+    const normalized = clean.replace(',', '.')
+    if (normalized === '' || normalized === '.' || clean.endsWith(',') || clean.endsWith('.')) {
+      return
+    }
+
+    const parsed = parseFloat(normalized)
+    if (!isNaN(parsed) && isFinite(parsed)) {
+      if (parsed >= 0 && parsed <= 100) {
+        onChange(isRatio ? parsed / 100 : parsed)
+      }
+    }
+  }
+
+  function handleBlur(): void {
+    setIsFocused(false)
+    const normalized = text.replace(',', '.')
+    let parsed = parseFloat(normalized)
+
+    if (isNaN(parsed) || !isFinite(parsed) || text.trim() === '') {
+      parsed = numericPercent || min || 0
+    }
+
+    if (min != null && parsed < min) parsed = min
+    if (max != null && parsed > max) parsed = max
+
+    parsed = Math.round(parsed * 100) / 100
+    onChange(isRatio ? parsed / 100 : parsed)
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>): void {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      e.preventDefault()
+      const delta = e.key === 'ArrowUp' ? step : -step
+      const normalized = currentText.replace(',', '.')
+      let parsed = parseFloat(normalized)
+      if (isNaN(parsed)) parsed = numericPercent || 0
+      parsed = Math.round((parsed + delta) * 100) / 100
+      if (min != null && parsed < min) parsed = min
+      if (max != null && parsed > max) parsed = max
+      setText(parsed.toString().replace('.', ','))
+      onChange(isRatio ? parsed / 100 : parsed)
+    }
+  }
+
+  return (
+    <input
+      type="text"
+      inputMode="decimal"
+      value={currentText}
+      onFocus={() => {
+        setIsFocused(true)
+        setText(displayVal)
+      }}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      onKeyDown={handleKeyDown}
+    />
+  )
+}
+
 export function SamplingTab(): JSX.Element {
   const result = useApp((s) => s.result)
   const beforeSource = useApp((s) => s.before)
@@ -422,8 +518,9 @@ export function SamplingTab(): JSX.Element {
       itemMaterialityRatio: config.benchmark.pmRatio,
       assuranceLevel: config.confidenceLevel === 95 ? 'HIGH' : config.confidenceLevel === 90 ? 'MEDIUM' : 'LOW',
       clearlyTrivial: computedMat.clearlyTrivial,
+      includeRiskItems: config.includeRiskItems !== false,
     })
-  }, [activeSection, sectionCode, filteredSectionItems, computedMat, config.benchmark.pmRatio, config.confidenceLevel])
+  }, [activeSection, sectionCode, filteredSectionItems, computedMat, config.benchmark.pmRatio, config.confidenceLevel, config.includeRiskItems])
 
   // 6. Lọc mẫu hiển thị theo phân loại và tìm kiếm
   const displayedSamples = useMemo(() => {
@@ -700,6 +797,17 @@ export function SamplingTab(): JSX.Element {
             />
             <span><strong>Gom các dòng cùng Số chứng từ / Hóa đơn trước khi lấy mẫu</strong> (Khuyên dùng)</span>
           </label>
+
+          <label className="checkbox-label risk-items-toggle">
+            <input
+              type="checkbox"
+              checked={config.includeRiskItems !== false}
+              onChange={(e) => setConfig((c) => ({ ...c, includeRiskItems: e.target.checked }))}
+            />
+            <span>
+              <strong>Quét phần tử đặc biệt / rủi ro</strong> (Cuối kỳ 31/12, số tiền tròn lớn, từ khóa nhạy cảm)
+            </span>
+          </label>
         </div>
       </div>
 
@@ -919,16 +1027,16 @@ export function SamplingTab(): JSX.Element {
                 <td className="center code-col">(d)</td>
                 <td className="num">
                   <div className="rate-input-wrap">
-                    <input
-                      type="number"
-                      step="0.1"
-                      min="0.1"
-                      max="30"
+                    <PercentRateInput
                       value={config.benchmark.percentage}
-                      onChange={(e) =>
+                      isRatio={false}
+                      min={0.01}
+                      max={50}
+                      step={0.1}
+                      onChange={(val) =>
                         setConfig((c) => ({
                           ...c,
-                          benchmark: { ...c.benchmark, percentage: Math.max(0.1, Number(e.target.value)) },
+                          benchmark: { ...c.benchmark, percentage: val },
                         }))
                       }
                     />
@@ -970,16 +1078,16 @@ export function SamplingTab(): JSX.Element {
                 <td className="center code-col">(f)</td>
                 <td className="num">
                   <div className="rate-input-wrap">
-                    <input
-                      type="number"
-                      step="5"
-                      min="50"
-                      max="75"
-                      value={Math.round(config.benchmark.pmRatio * 100)}
-                      onChange={(e) =>
+                    <PercentRateInput
+                      value={config.benchmark.pmRatio}
+                      isRatio={true}
+                      min={50}
+                      max={75}
+                      step={5}
+                      onChange={(val) =>
                         setConfig((c) => ({
                           ...c,
-                          benchmark: { ...c.benchmark, pmRatio: Math.min(0.75, Math.max(0.5, Number(e.target.value) / 100)) },
+                          benchmark: { ...c.benchmark, pmRatio: val },
                         }))
                       }
                     />
@@ -999,16 +1107,16 @@ export function SamplingTab(): JSX.Element {
                 <td className="center code-col">(h)</td>
                 <td className="num">
                   <div className="rate-input-wrap">
-                    <input
-                      type="number"
-                      step="1"
-                      min="1"
-                      max="10"
-                      value={Math.round(config.benchmark.cttRatio * 100)}
-                      onChange={(e) =>
+                    <PercentRateInput
+                      value={config.benchmark.cttRatio}
+                      isRatio={true}
+                      min={0}
+                      max={10}
+                      step={0.5}
+                      onChange={(val) =>
                         setConfig((c) => ({
                           ...c,
-                          benchmark: { ...c.benchmark, cttRatio: Math.max(0.01, Number(e.target.value) / 100) },
+                          benchmark: { ...c.benchmark, cttRatio: val },
                         }))
                       }
                     />
@@ -1091,15 +1199,24 @@ export function SamplingTab(): JSX.Element {
                 <td className="num-val green-count">{wpResult.steps.highValueCount.valueDisplay}</td>
                 <td className="note-text">Kiểm tra 100% các nghiệp vụ lớn</td>
               </tr>
-              <tr className="sub-header-row">
-                <td><strong>{wpResult.steps.riskItems.label}</strong></td>
+              <tr className={`sub-header-row ${config.includeRiskItems === false ? 'row-disabled-muted' : ''}`}>
+                <td>
+                  <strong>{wpResult.steps.riskItems.label}</strong>
+                  {config.includeRiskItems === false && (
+                    <span className="risk-disabled-tag"> (Đang tắt)</span>
+                  )}
+                </td>
                 <td className="num-val">{fmtVnd(wpResult.steps.riskItems.numericValue)}</td>
                 <td className="note-text">{wpResult.steps.riskItems.note}</td>
               </tr>
-              <tr className="sub-count-row">
+              <tr className={`sub-count-row ${config.includeRiskItems === false ? 'row-disabled-muted' : ''}`}>
                 <td className="indent-1">{wpResult.steps.riskCount.label}</td>
                 <td className="num-val green-count">{wpResult.steps.riskCount.valueDisplay}</td>
-                <td className="note-text">Cuối kỳ 31/12, tròn số lớn, từ khóa nhạy cảm</td>
+                <td className="note-text">
+                  {config.includeRiskItems === false
+                    ? 'KTV đã tắt tùy chọn quét phần tử đặc biệt'
+                    : 'Cuối kỳ 31/12, tròn số lớn, từ khóa nhạy cảm'}
+                </td>
               </tr>
               <tr>
                 <td><strong>{wpResult.steps.remainingSampleSize.label}</strong></td>
