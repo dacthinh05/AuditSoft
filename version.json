@@ -1,14 +1,13 @@
 {
-  "version": "1.1.1",
+  "version": "1.1.2",
   "releaseDate": "2026-09-09",
-  "title": "AuditSoft v1.1.1 — Khắc Phục Triệt Để Lỗi Mở File B410 Gộp & Cập Nhật Giao Diện",
+  "title": "AuditSoft v1.1.2 — Tự Động Cập Nhật 1-Click & Tối Ưu Giao Diện",
   "changelog": [
-    "Khắc phục triệt để lỗi cảnh báo 'We found a problem with some content' khi mở file B410 Tổng hợp trong Excel",
-    "Làm sạch toàn bộ dải Defined Names rác và chuẩn hóa công thức ngoại liên kết trong file B410",
-    "Tạm thời ẩn module 12 Giấy làm việc đang phát triển theo định hướng người dùng",
-    "Cố định Module Chuyển đổi Tờ khai eTax là module số 4 trên thanh điều hướng",
-    "Cấu hình cài đặt NSIS theo quyền người dùng thường (per-user), tránh bị chặn bởi UAC/IT"
+    "Bổ sung tính năng Cập nhật Tự động 1-Click: Tự động tải và cài đặt bản mới ngay trong ứng dụng",
+    "Hiển thị thanh tiến trình % tải về trực quan, tự động khởi chạy bộ cài và khởi động lại",
+    "Tối ưu hóa giao diện Chọn Mẫu VSA 530 căn giữa cân đối trên mọi độ phân giải màn hình",
+    "Tinh giản icon hộp kéo thả file B410 cho giao diện thanh lịch và chuyên nghiệp"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/latest",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/latest"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.2/AuditSoft-1.1.2-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.2/AuditSoft-1.1.2-Portable.exe"
 }
