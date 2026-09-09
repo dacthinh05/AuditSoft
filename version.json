@@ -1,14 +1,13 @@
 {
-  "version": "1.1.4",
+  "version": "1.1.5",
   "releaseDate": "2026-09-09",
-  "title": "AuditSoft v1.1.4 — Cho Phép KTV Tự Tay Chỉ Định Phần Tử Đặc Biệt (VSA 530)",
+  "title": "AuditSoft v1.1.5 — Tối Ưu Bảng Chọn Mẫu: Click Hàng, Sắp Xếp Nhanh & Mở Rộng 100% Giao Diện",
   "changelog": [
-    "Bổ sung chế độ 'Duyệt toàn bộ tổng thể chứng từ': Cho phép KTV duyệt sổ kế toán và tự tay tick chọn bất kỳ dòng nào làm Phần tử đặc biệt",
-    "Tự động đồng bộ số liệu dòng KTV chỉ định vào Dòng 6 bảng 10 bước và tự động trừ bớt số tiền khỏi tổng thể mẫu đại diện",
-    "Gắn nhãn riêng 'KTV chỉ định' trên danh sách mẫu chọn kèm nút gỡ nhanh (✕) trực tiếp",
-    "Bổ sung nút lối tắt '+ Tự tay chỉ định mẫu' ngay tại Dòng 6 của Bảng 10 bước",
-    "Bảo toàn tính toán và xuất file Excel Working Paper A810 hoàn chỉnh 100%"
+    "Tự động tick chọn checkbox khi click vào bất kỳ đâu trên hàng chứng từ (trừ các dòng >= KCM đã được bảo vệ)",
+    "Bổ sung tính năng Sắp xếp nhanh (Quick Sort) khi bấm vào tiêu đề cột: Số tiền phát sinh (to nhất lên đầu), Đã chỉ định, Ngày CT, Số CT",
+    "Mở rộng giao diện lấp đầy 100% bề ngang: Tự động co giãn cột Diễn giải để triệt tiêu toàn bộ mảng trắng thừa bên phải",
+    "Tăng chiều cao bảng chọn mẫu lên 680px (hiển thị hơn 22 dòng cùng lúc, gấp đôi không gian xem xét chứng từ)"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.4/AuditSoft-1.1.4-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.4/AuditSoft-1.1.4-Portable.exe"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.5/AuditSoft-1.1.5-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.5/AuditSoft-1.1.5-Portable.exe"
 }
