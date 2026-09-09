@@ -216,7 +216,17 @@ export function SamplingTab(): JSX.Element {
   const [filterQuery, setFilterQuery] = useState('')
   const [manualRiskItemIds, setManualRiskItemIds] = useState<Set<string>>(new Set())
   const [viewMode, setViewMode] = useState<'SAMPLES' | 'POPULATION'>('SAMPLES')
+  const [popSortKey, setPopSortKey] = useState<string>('id')
+  const [popSortDirection, setPopSortDirection] = useState<'asc' | 'desc'>('desc')
 
+  function handlePopSort(key: string): void {
+    if (popSortKey === key) {
+      setPopSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'))
+    } else {
+      setPopSortKey(key)
+      setPopSortDirection(key === 'amount' || key === 'id' ? 'desc' : 'asc')
+    }
+  }
   function handleToggleManualRisk(id: string): void {
     setManualRiskItemIds((prev) => {
       const next = new Set(prev)
@@ -570,7 +580,7 @@ export function SamplingTab(): JSX.Element {
     {
       key: 'categoryLabel',
       label: 'Phân tầng mẫu chọn',
-      width: 175,
+      width: 180,
       render: (r) => {
         if (r.category === 'KCM_HIGH_VALUE') {
           return <span className="badge-stratum key-item">Lớn hơn KCM (Mục 5)</span>
@@ -605,54 +615,80 @@ export function SamplingTab(): JSX.Element {
       width: 220,
       render: (r) => <span className="risk-reason-tag" title={r.riskNote}>{r.riskNote}</span>,
     },
-    { key: 'displayDate', label: 'Ngày CT', width: 90, align: 'center' },
+    { key: 'displayDate', label: 'Ngày CT', width: 95, align: 'center' },
     { key: 'voucher', label: 'Số CT / HĐ', width: 120, render: (r) => <strong>{r.voucher}</strong> },
-    { key: 'description', label: 'Diễn giải / Nội dung chứng từ', width: 240 },
-    { key: 'debit', label: 'TK Nợ', width: 65, align: 'center', render: (r) => <span className="mono bold">{r.debit}</span> },
-    { key: 'credit', label: 'TK Có', width: 65, align: 'center', render: (r) => <span className="mono bold">{r.credit}</span> },
-    { key: 'amount', label: 'Số tiền phát sinh (VND)', width: 135, align: 'right', render: (r) => <span className="bold">{formatNumber(r.amount)}</span> },
+    { key: 'description', label: 'Diễn giải / Nội dung chứng từ', width: 280, flex: true },
+    { key: 'debit', label: 'TK Nợ', width: 70, align: 'center', render: (r) => <span className="mono bold">{r.debit}</span> },
+    { key: 'credit', label: 'TK Có', width: 70, align: 'center', render: (r) => <span className="mono bold">{r.credit}</span> },
+    { key: 'amount', label: 'Số tiền phát sinh (VND)', width: 160, align: 'right', render: (r) => <span className="bold">{formatNumber(r.amount)}</span> },
     {
       key: 'foreignAmount',
       label: 'Ngoại tệ (USD)',
-      width: 115,
+      width: 105,
       align: 'right',
       render: (r) => (r.foreignAmount && r.foreignAmount > 0 ? `$${formatNumber(r.foreignAmount)}` : '-'),
     },
     {
       key: 'exchangeRate',
       label: 'Tỷ giá',
-      width: 90,
+      width: 85,
       align: 'right',
       render: (r) => (r.exchangeRate && r.exchangeRate > 0 ? formatNumber(r.exchangeRate) : '-'),
     },
-    { key: 'refNotes', label: 'Tham chiếu KTV', width: 160, render: () => <span className="muted italic">[Chờ đối chiếu]</span> },
+    { key: 'refNotes', label: 'Tham chiếu KTV', width: 150, render: () => <span className="muted italic">[Chờ đối chiếu]</span> },
   ]
 
-  // 8. Lọc tổng thể chứng từ khi ở chế độ Duyệt toàn bộ
   const displayedPopulation = useMemo(() => {
+    let list = filteredSectionItems
     const q = filterQuery.trim().toUpperCase()
-    if (!q) return filteredSectionItems
+    if (q) {
+      list = list.filter(
+        (it) =>
+          it.voucher.toUpperCase().includes(q) ||
+          it.description.toUpperCase().includes(q) ||
+          it.debit.includes(q) ||
+          it.credit.includes(q),
+      )
+    }
 
-    return filteredSectionItems.filter(
-      (it) =>
-        it.voucher.toUpperCase().includes(q) ||
-        it.description.toUpperCase().includes(q) ||
-        it.debit.includes(q) ||
-        it.credit.includes(q),
-    )
-  }, [filteredSectionItems, filterQuery])
+    if (!popSortKey || popSortKey === 'none') return list
+
+    const dir = popSortDirection === 'desc' ? -1 : 1
+    return [...list].sort((a, b) => {
+      if (popSortKey === 'id') {
+        const aChecked = manualRiskItemIds.has(a.id) ? 2 : Math.abs(a.amount) >= wpResult.kcm ? 1 : 0
+        const bChecked = manualRiskItemIds.has(b.id) ? 2 : Math.abs(b.amount) >= wpResult.kcm ? 1 : 0
+        if (aChecked !== bChecked) return (aChecked - bChecked) * dir
+        return (Math.abs(b.amount) - Math.abs(a.amount))
+      }
+      if (popSortKey === 'amount') {
+        return (Math.abs(a.amount) - Math.abs(b.amount)) * dir
+      }
+      if (popSortKey === 'rowIndex') {
+        return (a.rowIndex - b.rowIndex) * dir
+      }
+      if (popSortKey === 'displayDate') {
+        return a.displayDate.localeCompare(b.displayDate) * dir
+      }
+      if (popSortKey === 'voucher') {
+        return a.voucher.localeCompare(b.voucher, undefined, { numeric: true }) * dir
+      }
+      return 0
+    })
+  }, [filteredSectionItems, filterQuery, popSortKey, popSortDirection, manualRiskItemIds, wpResult.kcm])
 
   const populationColumns: VirtualColumn<SampleableItem>[] = [
     {
       key: 'id',
       label: 'Chỉ định',
-      width: 78,
+      width: 80,
+      sortable: true,
       align: 'center',
       render: (r) => {
         const isKcm = Math.abs(r.amount) >= wpResult.kcm
         if (isKcm) {
           return (
-            <span className="kcm-auto-tag" title="Số tiền >= KCM, tự động chọn kiểm tra 100% ở Mục 5">
+            <span className="kcm-auto-tag" title="Số tiền >= KCM, tự động chọn 100% ở Mục 5">
               &gt;=KCM
             </span>
           )
@@ -663,23 +699,27 @@ export function SamplingTab(): JSX.Element {
             type="checkbox"
             className="manual-pick-checkbox"
             checked={isChecked}
-            onChange={() => handleToggleManualRisk(r.id)}
+            onChange={(e) => {
+              e.stopPropagation()
+              handleToggleManualRisk(r.id)
+            }}
+            onClick={(e) => e.stopPropagation()}
             title={isChecked ? 'Bỏ chọn dòng này khỏi phần tử đặc biệt' : 'Tự tay chọn dòng này làm phần tử đặc biệt (Dòng 6)'}
           />
         )
       },
     },
-    { key: 'rowIndex', label: 'Dòng', width: 60, align: 'center', render: (r) => <span className="muted">#{r.rowIndex}</span> },
-    { key: 'displayDate', label: 'Ngày CT', width: 90, align: 'center' },
-    { key: 'voucher', label: 'Số CT / HĐ', width: 120, render: (r) => <strong>{r.voucher}</strong> },
-    { key: 'description', label: 'Diễn giải / Nội dung chứng từ', width: 260 },
-    { key: 'debit', label: 'TK Nợ', width: 65, align: 'center', render: (r) => <span className="mono bold">{r.debit}</span> },
-    { key: 'credit', label: 'TK Có', width: 65, align: 'center', render: (r) => <span className="mono bold">{r.credit}</span> },
-    { key: 'amount', label: 'Số tiền phát sinh (VND)', width: 145, align: 'right', render: (r) => <span className="bold">{formatNumber(r.amount)}</span> },
+    { key: 'rowIndex', label: 'Dòng', width: 65, sortable: true, align: 'center', render: (r) => <span className="muted">#{r.rowIndex}</span> },
+    { key: 'displayDate', label: 'Ngày CT', width: 95, sortable: true, align: 'center' },
+    { key: 'voucher', label: 'Số CT / HĐ', width: 120, sortable: true, render: (r) => <strong>{r.voucher}</strong> },
+    { key: 'description', label: 'Diễn giải / Nội dung chứng từ', width: 280, flex: true },
+    { key: 'debit', label: 'TK Nợ', width: 70, align: 'center', render: (r) => <span className="mono bold">{r.debit}</span> },
+    { key: 'credit', label: 'TK Có', width: 70, align: 'center', render: (r) => <span className="mono bold">{r.credit}</span> },
+    { key: 'amount', label: 'Số tiền phát sinh (VND)', width: 160, sortable: true, align: 'right', render: (r) => <span className="bold">{formatNumber(r.amount)}</span> },
     {
       key: 'foreignAmount',
       label: 'Ngoại tệ (USD)',
-      width: 110,
+      width: 105,
       align: 'right',
       render: (r) => (r.foreignAmount && r.foreignAmount > 0 ? `$${formatNumber(r.foreignAmount)}` : '-'),
     },
@@ -1450,7 +1490,8 @@ export function SamplingTab(): JSX.Element {
           <VirtualTable
             rows={displayedSamples}
             columns={columns}
-            height={460}
+            height={680}
+            sortKey={strategyFilter === 'ALL' ? undefined : undefined}
             rowClassName={(r) =>
               r.category === 'KCM_HIGH_VALUE'
                 ? 'sample-row-key'
@@ -1486,13 +1527,21 @@ export function SamplingTab(): JSX.Element {
           <VirtualTable
             rows={displayedPopulation}
             columns={populationColumns}
-            height={460}
+            height={680}
+            sortKey={popSortKey}
+            sortDirection={popSortDirection}
+            onSort={handlePopSort}
+            onRowClick={(r) => {
+              if (Math.abs(r.amount) < wpResult.kcm) {
+                handleToggleManualRisk(r.id)
+              }
+            }}
             rowClassName={(r) =>
               manualRiskItemIds.has(r.id)
-                ? 'population-row-selected'
+                ? 'population-row-selected population-row-clickable'
                 : Math.abs(r.amount) >= wpResult.kcm
                   ? 'population-row-kcm'
-                  : ''
+                  : 'population-row-clickable'
             }
           />
         </>
