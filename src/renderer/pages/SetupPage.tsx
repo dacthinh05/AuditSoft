@@ -345,8 +345,6 @@ export function SetupPage(): JSX.Element {
           </p>
         </div>
         <div className="hero-badges">
-          <div className="hero-badge-pill">Chuẩn hóa số tiền chính xác 100%</div>
-          <div className="hero-badge-pill">Tốc độ 120.000+ dòng / 1.5s</div>
           <div className="hero-badge-pill">Xuất Working Paper B360</div>
         </div>
       </div>

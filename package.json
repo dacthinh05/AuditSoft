@@ -20,9 +20,9 @@
     "start": "electron .",
     "dist": "npm run build && electron-builder --win",
     "dist:dir": "npm run build && electron-builder --win --dir",
-    "dist:portable": "npm run build && electron-builder --win portable -c.directories.output=dist-v110 && node scripts/sync-installer.mjs",
-    "dist:setup": "npm run build && electron-builder --win nsis -c.directories.output=dist-v110 && node scripts/sync-installer.mjs",
-    "dist:all": "npm run build && electron-builder --win nsis portable -c.directories.output=dist-v110 && node scripts/sync-installer.mjs",
+    "dist:portable": "npm run build && electron-builder --win portable -c.directories.output=dist-v110-build --publish never && node scripts/sync-installer.mjs",
+    "dist:setup": "npm run build && electron-builder --win nsis -c.directories.output=dist-v110-build --publish never && node scripts/sync-installer.mjs",
+    "dist:all": "npm run build && electron-builder --win nsis portable -c.directories.output=dist-v110-build --publish never && node scripts/sync-installer.mjs",
     "keygen": "vite-node scripts/keygen.ts --",
     "gen:icon": "node scripts/generateIcon.js",
     "release": "node scripts/publish-distribution.mjs"

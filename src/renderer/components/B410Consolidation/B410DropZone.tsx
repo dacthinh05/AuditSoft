@@ -331,9 +331,6 @@ export const B410DropZone: React.FC = () => {
               <IconDownloadCloud size={15} style={{ color: '#2563eb' }} />
               Tải Biểu Mẫu Chuẩn B410 (.xlsx)
             </button>
-            <span style={{ padding: '6px 12px', background: '#eff6ff', color: '#2563eb', borderRadius: '6px', fontSize: '12px', fontWeight: 600 }}>
-              Pure TypeScript Pipeline
-            </span>
           </div>
         </div>
 
