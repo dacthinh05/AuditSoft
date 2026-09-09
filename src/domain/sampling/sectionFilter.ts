@@ -43,6 +43,18 @@ export function isAllocationOrClosing(item: SampleableItem): boolean {
   // 4. Kiểm tra tiền tố KC ngắn (ví dụ: "KC DT", "KC CP", "KC GIA VON")
   if (/^KC\s+/i.test(item.description || '')) return true
 
+  // 5. Kiểm tra TK Nợ hoặc TK Có ghi chữ "Kết chuyển" hoặc "KC" (khi file kế toán bị lệch cột)
+  const upperDebit = (item.debit || '').toUpperCase()
+  const upperCredit = (item.credit || '').toUpperCase()
+  if (upperDebit.includes('KẾT') || upperDebit.includes('KET') || upperDebit.startsWith('KC')) return true
+  if (upperCredit.includes('KẾT') || upperCredit.includes('KET') || upperCredit.startsWith('KC')) return true
+
+  // 6. Kiểm tra số chứng từ bắt đầu bằng NVK mà có dấu hiệu kết chuyển
+  const upperVoucher = (item.voucher || '').toUpperCase()
+  if (upperVoucher.startsWith('NVK') && (upperDebit.includes('KẾT') || upperCredit.includes('KẾT') || upperDebit.includes('911') || upperCredit.includes('911') || Math.abs(item.amount) === 911)) {
+    return true
+  }
+
   return false
 }
 
@@ -57,8 +69,8 @@ export function filterBySection(
   const section = getSectionDef(sectionKey)
 
   return items.filter((item) => {
-    // 1. Loại trừ kết chuyển 911 nếu được yêu cầu
-    if (exclude911 && is911(item.debit, item.credit)) {
+    // 1. Loại trừ kết chuyển 911 và bút toán phân bổ nếu được yêu cầu
+    if (exclude911 && isAllocationOrClosing(item)) {
       return false
     }
 

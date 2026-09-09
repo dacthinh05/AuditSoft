@@ -1,13 +1,14 @@
 {
-  "version": "1.1.5",
+  "version": "1.1.6",
   "releaseDate": "2026-09-09",
-  "title": "AuditSoft v1.1.5 — Tối Ưu Bảng Chọn Mẫu: Click Hàng, Sắp Xếp Nhanh & Mở Rộng 100% Giao Diện",
+  "title": "AuditSoft v1.1.6 — Hoàn Thiện Chọn Mẫu Đặc Biệt & Lọc Sạch Bút Toán Kết Chuyển",
   "changelog": [
-    "Tự động tick chọn checkbox khi click vào bất kỳ đâu trên hàng chứng từ (trừ các dòng >= KCM đã được bảo vệ)",
-    "Bổ sung tính năng Sắp xếp nhanh (Quick Sort) khi bấm vào tiêu đề cột: Số tiền phát sinh (to nhất lên đầu), Đã chỉ định, Ngày CT, Số CT",
-    "Mở rộng giao diện lấp đầy 100% bề ngang: Tự động co giãn cột Diễn giải để triệt tiêu toàn bộ mảng trắng thừa bên phải",
-    "Tăng chiều cao bảng chọn mẫu lên 680px (hiển thị hơn 22 dòng cùng lúc, gấp đôi không gian xem xét chứng từ)"
+    "Khắc phục triệt để lỗi lọt bút toán kết chuyển (NVK) có chữ 'Kết chuyển' ở cột tài khoản",
+    "Đổi tên Tab 2 thành 'Chọn mẫu đặc biệt', tinh giản icon/emoji theo phong cách doanh nghiệp tối giản",
+    "Bổ sung Checkbox 'Cho phần mềm tự chọn' ngay cạnh tab để KTV linh hoạt quyết định giữa quét máy và chọn thủ công",
+    "Hỗ trợ Sắp xếp nhanh (Quick Sort) ngày tháng theo dòng thời gian chuẩn xác và toàn diện mọi cột ở cả 2 bảng",
+    "Tự động co giãn lấp đầy 100% bề ngang cho cả bảng Mẫu kiểm toán được chọn, hiển thị trọn vẹn cột Tham chiếu KTV"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.5/AuditSoft-1.1.5-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.5/AuditSoft-1.1.5-Portable.exe"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.6/AuditSoft-1.1.6-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.6/AuditSoft-1.1.6-Portable.exe"
 }

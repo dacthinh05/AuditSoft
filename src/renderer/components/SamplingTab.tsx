@@ -103,6 +103,21 @@ interface LoadedSourceInfo {
   }
 }
 
+function parseDateToTimestamp(str: string): number {
+  if (!str) return 0
+  const parts = str.split(/[-/]/)
+  if (parts.length === 3) {
+    const d = parseInt(parts[0] ?? '0', 10)
+    const m = parseInt(parts[1] ?? '0', 10)
+    const y = parseInt(parts[2] ?? '0', 10)
+    if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+      if (d > 1000) return d * 10000 + m * 100 + y
+      return y * 10000 + m * 100 + d
+    }
+  }
+  return 0
+}
+
 interface PercentRateInputProps {
   value: number
   isRatio?: boolean
@@ -218,6 +233,8 @@ export function SamplingTab(): JSX.Element {
   const [viewMode, setViewMode] = useState<'SAMPLES' | 'POPULATION'>('SAMPLES')
   const [popSortKey, setPopSortKey] = useState<string>('id')
   const [popSortDirection, setPopSortDirection] = useState<'asc' | 'desc'>('desc')
+  const [sampleSortKey, setSampleSortKey] = useState<string>('stt')
+  const [sampleSortDirection, setSampleSortDirection] = useState<'asc' | 'desc'>('asc')
 
   function handlePopSort(key: string): void {
     if (popSortKey === key) {
@@ -225,6 +242,15 @@ export function SamplingTab(): JSX.Element {
     } else {
       setPopSortKey(key)
       setPopSortDirection(key === 'amount' || key === 'id' ? 'desc' : 'asc')
+    }
+  }
+
+  function handleSampleSort(key: string): void {
+    if (sampleSortKey === key) {
+      setSampleSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'))
+    } else {
+      setSampleSortKey(key)
+      setSampleSortDirection(key === 'amount' ? 'desc' : 'asc')
     }
   }
   function handleToggleManualRisk(id: string): void {
@@ -561,26 +587,58 @@ export function SamplingTab(): JSX.Element {
     }
 
     const q = filterQuery.trim().toUpperCase()
-    if (!q) return list
+    if (q) {
+      list = list.filter(
+        (it) =>
+          it.voucher.toUpperCase().includes(q) ||
+          it.description.toUpperCase().includes(q) ||
+          it.debit.includes(q) ||
+          it.credit.includes(q) ||
+          it.categoryLabel.includes(q) ||
+          it.riskNote.toUpperCase().includes(q),
+      )
+    }
 
-    return list.filter(
-      (it) =>
-        it.voucher.toUpperCase().includes(q) ||
-        it.description.toUpperCase().includes(q) ||
-        it.debit.includes(q) ||
-        it.credit.includes(q) ||
-        it.categoryLabel.includes(q) ||
-        it.riskNote.toUpperCase().includes(q),
-    )
-  }, [wpResult, strategyFilter, filterQuery])
+    if (!sampleSortKey || sampleSortKey === 'none') return list
+
+    const dir = sampleSortDirection === 'desc' ? -1 : 1
+    return [...list].sort((a, b) => {
+      if (sampleSortKey === 'stt') {
+        return (a.stt - b.stt) * dir
+      }
+      if (sampleSortKey === 'amount') {
+        return (Math.abs(a.amount) - Math.abs(b.amount)) * dir
+      }
+      if (sampleSortKey === 'displayDate') {
+        return (parseDateToTimestamp(a.displayDate) - parseDateToTimestamp(b.displayDate)) * dir
+      }
+      if (sampleSortKey === 'voucher') {
+        return a.voucher.localeCompare(b.voucher, undefined, { numeric: true }) * dir
+      }
+      if (sampleSortKey === 'debit') {
+        return a.debit.localeCompare(b.debit) * dir
+      }
+      if (sampleSortKey === 'credit') {
+        return a.credit.localeCompare(b.credit) * dir
+      }
+      if (sampleSortKey === 'categoryLabel') {
+        return a.categoryLabel.localeCompare(b.categoryLabel) * dir
+      }
+      if (sampleSortKey === 'description') {
+        return a.description.localeCompare(b.description) * dir
+      }
+      return 0
+    })
+  }, [wpResult, strategyFilter, filterQuery, sampleSortKey, sampleSortDirection])
 
   // 7. Cấu hình cột bảng ảo hóa danh sách mẫu
   const columns: VirtualColumn<SelectedWpSample>[] = [
-    { key: 'stt', label: 'STT', width: 55, align: 'center', render: (r) => <strong>#{r.stt}</strong> },
+    { key: 'stt', label: 'STT', width: 55, sortable: true, align: 'center', render: (r) => <strong>#{r.stt}</strong> },
     {
       key: 'categoryLabel',
       label: 'Phân tầng mẫu chọn',
       width: 180,
+      sortable: true,
       render: (r) => {
         if (r.category === 'KCM_HIGH_VALUE') {
           return <span className="badge-stratum key-item">Lớn hơn KCM (Mục 5)</span>
@@ -615,12 +673,12 @@ export function SamplingTab(): JSX.Element {
       width: 220,
       render: (r) => <span className="risk-reason-tag" title={r.riskNote}>{r.riskNote}</span>,
     },
-    { key: 'displayDate', label: 'Ngày CT', width: 95, align: 'center' },
-    { key: 'voucher', label: 'Số CT / HĐ', width: 120, render: (r) => <strong>{r.voucher}</strong> },
-    { key: 'description', label: 'Diễn giải / Nội dung chứng từ', width: 280, flex: true },
-    { key: 'debit', label: 'TK Nợ', width: 70, align: 'center', render: (r) => <span className="mono bold">{r.debit}</span> },
-    { key: 'credit', label: 'TK Có', width: 70, align: 'center', render: (r) => <span className="mono bold">{r.credit}</span> },
-    { key: 'amount', label: 'Số tiền phát sinh (VND)', width: 160, align: 'right', render: (r) => <span className="bold">{formatNumber(r.amount)}</span> },
+    { key: 'displayDate', label: 'Ngày CT', width: 95, sortable: true, align: 'center' },
+    { key: 'voucher', label: 'Số CT / HĐ', width: 120, sortable: true, render: (r) => <strong>{r.voucher}</strong> },
+    { key: 'description', label: 'Diễn giải / Nội dung chứng từ', width: 280, flex: true, sortable: true },
+    { key: 'debit', label: 'TK Nợ', width: 70, sortable: true, align: 'center', render: (r) => <span className="mono bold">{r.debit}</span> },
+    { key: 'credit', label: 'TK Có', width: 70, sortable: true, align: 'center', render: (r) => <span className="mono bold">{r.credit}</span> },
+    { key: 'amount', label: 'Số tiền phát sinh (VND)', width: 160, sortable: true, align: 'right', render: (r) => <span className="bold">{formatNumber(r.amount)}</span> },
     {
       key: 'foreignAmount',
       label: 'Ngoại tệ (USD)',
@@ -635,7 +693,7 @@ export function SamplingTab(): JSX.Element {
       align: 'right',
       render: (r) => (r.exchangeRate && r.exchangeRate > 0 ? formatNumber(r.exchangeRate) : '-'),
     },
-    { key: 'refNotes', label: 'Tham chiếu KTV', width: 150, render: () => <span className="muted italic">[Chờ đối chiếu]</span> },
+    { key: 'refNotes', label: 'Tham chiếu KTV', width: 175, render: () => <span className="muted italic">[Chờ đối chiếu]</span> },
   ]
 
   const displayedPopulation = useMemo(() => {
@@ -668,10 +726,19 @@ export function SamplingTab(): JSX.Element {
         return (a.rowIndex - b.rowIndex) * dir
       }
       if (popSortKey === 'displayDate') {
-        return a.displayDate.localeCompare(b.displayDate) * dir
+        return (parseDateToTimestamp(a.displayDate) - parseDateToTimestamp(b.displayDate)) * dir
       }
       if (popSortKey === 'voucher') {
         return a.voucher.localeCompare(b.voucher, undefined, { numeric: true }) * dir
+      }
+      if (popSortKey === 'debit') {
+        return a.debit.localeCompare(b.debit) * dir
+      }
+      if (popSortKey === 'credit') {
+        return a.credit.localeCompare(b.credit) * dir
+      }
+      if (popSortKey === 'description') {
+        return a.description.localeCompare(b.description) * dir
       }
       return 0
     })
@@ -712,9 +779,9 @@ export function SamplingTab(): JSX.Element {
     { key: 'rowIndex', label: 'Dòng', width: 65, sortable: true, align: 'center', render: (r) => <span className="muted">#{r.rowIndex}</span> },
     { key: 'displayDate', label: 'Ngày CT', width: 95, sortable: true, align: 'center' },
     { key: 'voucher', label: 'Số CT / HĐ', width: 120, sortable: true, render: (r) => <strong>{r.voucher}</strong> },
-    { key: 'description', label: 'Diễn giải / Nội dung chứng từ', width: 280, flex: true },
-    { key: 'debit', label: 'TK Nợ', width: 70, align: 'center', render: (r) => <span className="mono bold">{r.debit}</span> },
-    { key: 'credit', label: 'TK Có', width: 70, align: 'center', render: (r) => <span className="mono bold">{r.credit}</span> },
+    { key: 'description', label: 'Diễn giải / Nội dung chứng từ', width: 280, flex: true, sortable: true },
+    { key: 'debit', label: 'TK Nợ', width: 70, sortable: true, align: 'center', render: (r) => <span className="mono bold">{r.debit}</span> },
+    { key: 'credit', label: 'TK Có', width: 70, sortable: true, align: 'center', render: (r) => <span className="mono bold">{r.credit}</span> },
     { key: 'amount', label: 'Số tiền phát sinh (VND)', width: 160, sortable: true, align: 'right', render: (r) => <span className="bold">{formatNumber(r.amount)}</span> },
     {
       key: 'foreignAmount',
@@ -1362,7 +1429,7 @@ export function SamplingTab(): JSX.Element {
                       }}
                       title="Chuyển xuống bảng duyệt toàn bộ tổng thể để tự tay tick chọn chứng từ"
                     >
-                      + Tự tay chỉ định mẫu
+                      + Tự chọn mẫu đặc biệt
                     </button>
                   </div>
                 </td>
@@ -1418,20 +1485,29 @@ export function SamplingTab(): JSX.Element {
             className={`viewmode-tab-btn ${viewMode === 'SAMPLES' ? 'active' : ''}`}
             onClick={() => setViewMode('SAMPLES')}
           >
-            📋 Mẫu kiểm toán được chọn ({wpResult.samples.length})
+            Mẫu kiểm toán được chọn ({wpResult.samples.length})
           </button>
           <button
             type="button"
             className={`viewmode-tab-btn ${viewMode === 'POPULATION' ? 'active' : ''}`}
             onClick={() => setViewMode('POPULATION')}
           >
-            🔍 Duyệt toàn bộ tổng thể ({filteredSectionItems.length.toLocaleString('vi-VN')} dòng)
+            Chọn mẫu đặc biệt ({filteredSectionItems.length.toLocaleString('vi-VN')} dòng)
             {manualRiskItemIds.size > 0 && (
               <span className="manual-pick-badge-count">
-                Đã chọn: {manualRiskItemIds.size}
+                KTV chọn: {manualRiskItemIds.size}
               </span>
             )}
           </button>
+
+          <label className="auto-scan-inline-toggle" title="Cho phép phần mềm tự động quét thêm các dòng rủi ro theo VSA 530 (cuối kỳ 31/12, số tròn, từ khóa nhạy cảm)">
+            <input
+              type="checkbox"
+              checked={config.includeRiskItems !== false}
+              onChange={(e) => setConfig((c) => ({ ...c, includeRiskItems: e.target.checked }))}
+            />
+            <span>Cho phần mềm tự chọn</span>
+          </label>
         </div>
 
         {viewMode === 'POPULATION' && manualRiskItemIds.size > 0 && (
@@ -1491,7 +1567,9 @@ export function SamplingTab(): JSX.Element {
             rows={displayedSamples}
             columns={columns}
             height={680}
-            sortKey={strategyFilter === 'ALL' ? undefined : undefined}
+            sortKey={sampleSortKey}
+            sortDirection={sampleSortDirection}
+            onSort={handleSampleSort}
             rowClassName={(r) =>
               r.category === 'KCM_HIGH_VALUE'
                 ? 'sample-row-key'

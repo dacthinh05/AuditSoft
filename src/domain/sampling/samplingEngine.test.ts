@@ -164,4 +164,18 @@ describe('VSA 530 & VSA 320 Sampling Engine — Comprehensive Tests', () => {
     expect(selectedIds).toContain('2')
     expect(selectedIds).not.toContain('4') // ID 4 không thuộc Phải thu
   })
+
+  it('loại trừ triệt để bút toán kết chuyển NVK có TK Nợ là Kết chuyển (khớp trường hợp thực tế NVK0137)', () => {
+    const items: SampleableItem[] = [
+      makeItem({ id: '1', voucher: 'HD001', debit: '131', credit: '5111', amount: 50_000_000, description: 'Doanh thu bán hàng' }),
+      makeItem({ id: '2', voucher: 'NVK0137', debit: 'Kết chuyển DT', credit: '5112', amount: 911, description: '"' }),
+      makeItem({ id: '3', voucher: 'NVK0138', debit: '5111', credit: '911', amount: 500_000_000, description: 'Kết chuyển doanh thu xác định KQKD' }),
+    ]
+
+    const filtered = filterBySection(items, 'REVENUE_511', undefined, true)
+    expect(filtered.length).toBe(1)
+    expect(filtered[0]?.voucher).toBe('HD001')
+    expect(filtered.find((x) => x.voucher === 'NVK0137')).toBeUndefined()
+    expect(filtered.find((x) => x.voucher === 'NVK0138')).toBeUndefined()
+  })
 })

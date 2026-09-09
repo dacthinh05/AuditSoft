@@ -5050,6 +5050,35 @@ body {
   background: #fee2e2;
 }
 
+.auto-scan-inline-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e40af;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 8px;
+  user-select: none;
+  transition: all 120ms ease;
+}
+
+.auto-scan-inline-toggle:hover {
+  background: #dbeafe;
+}
+
+.auto-scan-inline-toggle input {
+  cursor: pointer;
+  accent-color: #2563eb;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+}
+
 /* Population Browse Toolbar & Elements */
 .population-browse-toolbar {
   display: flex;
