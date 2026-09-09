@@ -1,0 +1,12 @@
+{
+  "version": "0.1.0",
+  "releaseDate": "2026-09-09",
+  "title": "AuditSoft v0.1.0 — Khởi tạo hệ thống",
+  "changelog": [
+    "Hệ thống Đối chiếu NKC và Bốc mẫu VSA 530",
+    "Hỗ trợ 12 giấy làm việc kiểm toán tự động",
+    "Tích hợp tính năng tự động kiểm tra phiên bản mới"
+  ],
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/latest",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/latest"
+}
