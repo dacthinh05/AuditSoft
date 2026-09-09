@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "types": ["node"],
+    "outDir": "dist-electron",
+    "rootDir": "src",
+    "sourceMap": true
+  },
+  "include": ["src/main", "src/preload", "src/workers", "src/infrastructure", "src/domain", "src/shared"],
+  "exclude": ["**/__tests__/**", "**/*.test.ts"]
+}

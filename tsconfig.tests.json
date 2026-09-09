@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "types": ["node"],
+    "noEmit": true
+  },
+  "include": [
+    "src/domain",
+    "src/infrastructure",
+    "src/shared",
+    "src/main",
+    "src/preload",
+    "src/workers",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ]
+}

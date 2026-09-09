@@ -1,0 +1,1178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HSoThueDTu xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://kekhaithue.gdt.gov.vn/TKhaiThue">
+  <HSoKhaiThue id="ID-NODETOSIGN-XML">
+    <TTinChung>
+      <TTinDVu>
+        <maDVu>HTKK</maDVu>
+        <tenDVu>HỖ TRỢ KÊ KHAI THUẾ</tenDVu>
+        <pbanDVu>5.6.1</pbanDVu>
+        <ttinNhaCCapDVu>AD12C7991DF239CC3B2398579882D065</ttinNhaCCapDVu>
+      </TTinDVu>
+      <TTinTKhaiThue>
+        <TKhaiThue>
+          <maTKhai>892</maTKhai>
+          <tenTKhai>TỜ KHAI QUYẾT TOÁN THUẾ THU NHẬP DOANH NGHIỆP (Mẫu số 03/TNDN)</tenTKhai>
+          <moTaBMau>(Ban hành kèm theo Thông tư số 80/2021/TT-BTC ngày 29 tháng 9 năm 2021 của Bộ trưởng Bộ Tài chính)</moTaBMau>
+          <pbanTKhaiXML>2.9.2</pbanTKhaiXML>
+          <loaiTKhai>C</loaiTKhai>
+          <soLan>0</soLan>
+          <KyKKhaiThue>
+            <kieuKy>Y</kieuKy>
+            <kyKKhai>2025</kyKKhai>
+            <kyKKhaiTuNgay>01/01/2025</kyKKhaiTuNgay>
+            <kyKKhaiDenNgay>31/12/2025</kyKKhaiDenNgay>
+            <kyKKhaiTuThang />
+            <kyKKhaiDenThang />
+          </KyKKhaiThue>
+          <maCQTNoiNop>71300</maCQTNoiNop>
+          <tenCQTNoiNop>Thuế Tỉnh Đồng Nai</tenCQTNoiNop>
+          <ngayLapTKhai>2026-03-18</ngayLapTKhai>
+          <GiaHan>
+            <maLyDoGiaHan />
+            <lyDoGiaHan />
+          </GiaHan>
+          <nguoiKy />
+          <ngayKy>2026-03-14</ngayKy>
+          <nganhNgheKD />
+        </TKhaiThue>
+        <NNT>
+          <mst>3700426920</mst>
+          <tenNNT>CÔNG TY TNHH CÔNG NGHIỆP KIẾN ĐẠT</tenNNT>
+          <dchiNNT>Lô C6, Đường Số 7, KCN Long Bình, Phường Long Bình, Tỉnh Đồng Nai</dchiNNT>
+          <phuongXa />
+          <maHuyenNNT />
+          <tenHuyenNNT />
+          <maTinhNNT>713</maTinhNNT>
+          <tenTinhNNT>Tỉnh Đồng Nai</tenTinhNNT>
+          <dthoaiNNT>02513993888</dthoaiNNT>
+          <faxNNT />
+          <emailNNT />
+        </NNT>
+      </TTinTKhaiThue>
+    </TTinChung>
+    <CTieuTKhaiChinh>
+      <Header>
+        <kyTaiChinh_Tu>01/01</kyTaiChinh_Tu>
+        <kyTaiChinh_Den>31/12</kyTaiChinh_Den>
+        <ma_THQuyetToan>01</ma_THQuyetToan>
+        <ten_THQuyetToan>QT định kỳ</ten_THQuyetToan>
+        <ct04_ma>G46</ct04_ma>
+        <ct04_ten>G46 - Bán buôn</ct04_ten>
+        <ct05>100.00</ct05>
+      </Header>
+      <ctA1>31615542690</ctA1>
+      <ctB1>460361745</ctB1>
+      <ctB2>0</ctB2>
+      <ctB3>0</ctB3>
+      <ctB4>306435761</ctB4>
+      <ctB5>0</ctB5>
+      <ctB6>0</ctB6>
+      <ctB7>153925984</ctB7>
+      <ctB8>0</ctB8>
+      <ctB9>0</ctB9>
+      <ctB10>0</ctB10>
+      <ctB11>0</ctB11>
+      <ctB12>0</ctB12>
+      <ctB13>32075904435</ctB13>
+      <ctB14>32075904435</ctB14>
+      <ctB15>0</ctB15>
+      <ctC1>32075904435</ctC1>
+      <ctC2>0</ctC2>
+      <dsThMienThue>
+        <thMienThue id="ID_1">
+          <ma_loaiMien />
+          <ten_loaiMien />
+          <ctC2_soThuNhap>0</ctC2_soThuNhap>
+        </thMienThue>
+      </dsThMienThue>
+      <ctC3>0</ctC3>
+      <ctC3a>0</ctC3a>
+      <ctC3b>0</ctC3b>
+      <ctC4>32075904435</ctC4>
+      <ctC5>0</ctC5>
+      <ctC6>32075904435</ctC6>
+      <ctC7_thuNhap>32075904435</ctC7_thuNhap>
+      <ctC7_tenThueSuat>+ Thu nhập tính thuế áp dụng thuế suất 20%</ctC7_tenThueSuat>
+      <ctC7_thueSuat>20</ctC7_thueSuat>
+      <ctC8>0</ctC8>
+      <ctC8a>0</ctC8a>
+      <ctC9>6415180887</ctC9>
+      <ctC10>0</ctC10>
+      <ctC11>0</ctC11>
+      <ctC12>0</ctC12>
+      <ctC13>0</ctC13>
+      <ctC14>0</ctC14>
+      <ctC15>0</ctC15>
+      <ctC16>0</ctC16>
+      <ctC17>6415180887</ctC17>
+      <ctD1>0</ctD1>
+      <ctD2>0</ctD2>
+      <ctD3>0</ctD3>
+      <ctD4>0</ctD4>
+      <ctD5>0</ctD5>
+      <ctD6>0</ctD6>
+      <ctD7>0</ctD7>
+      <ctD8>0</ctD8>
+      <ctE>6415180887</ctE>
+      <ctE1>6415180887</ctE1>
+      <ctE2>0</ctE2>
+      <ctE3>0</ctE3>
+      <ctE4>0</ctE4>
+      <ctE5>0</ctE5>
+      <ctE6>0</ctE6>
+      <ctG>5470000000</ctG>
+      <thueTNDN_tamnop_sxkd>5470000000</thueTNDN_tamnop_sxkd>
+      <ctG1>0</ctG1>
+      <ctG2>5470000000</ctG2>
+      <thueTNDN_tamnop_cnbds>0</thueTNDN_tamnop_cnbds>
+      <ctG3>0</ctG3>
+      <ctG4>0</ctG4>
+      <ctG5>0</ctG5>
+      <ctH1>945180887</ctH1>
+      <ctH2>0</ctH2>
+      <ctH3>0</ctH3>
+      <ctI>945180887</ctI>
+      <ctI1>945180887</ctI1>
+      <ctI2>0</ctI2>
+      <NghiaVuThue>
+        <CtE1>
+          <soKK>6415180887</soKK>
+          <tieuMuc1052>6415180887</tieuMuc1052>
+          <tieuMuc1056>0</tieuMuc1056>
+          <tieuMuc1057>0</tieuMuc1057>
+          <tieuMuc1099>0</tieuMuc1099>
+        </CtE1>
+        <CtE2>
+          <soKK>0</soKK>
+          <tieuMuc1053>0</tieuMuc1053>
+        </CtE2>
+        <CtE5>
+          <soKK>0</soKK>
+          <tieuMuc1052>0</tieuMuc1052>
+          <tieuMuc1056>0</tieuMuc1056>
+          <tieuMuc1057>0</tieuMuc1057>
+          <tieuMuc1099>0</tieuMuc1099>
+        </CtE5>
+        <tong1052>6415180887</tong1052>
+        <tong1056>0</tong1056>
+        <tong1057>0</tong1057>
+        <tong1053>0</tong1053>
+      </NghiaVuThue>
+    </CTieuTKhaiChinh>
+    <PLuc>
+      <PLuc_03_1A_TNDN>
+        <ct04>136462602011</ct04>
+        <ct05>37983386260</ct05>
+        <ct06>180757964</ct06>
+        <ct07>0</ct07>
+        <ct08>22106250</ct08>
+        <ct09>158651714</ct09>
+        <ct10>583029092</ct10>
+        <ct11>94716189</ct11>
+        <ct12>105596106003</ct12>
+        <ct13>86787264165</ct13>
+        <ct14>2390122487</ct14>
+        <ct15>16418719351</ct15>
+        <ct16>95308623</ct16>
+        <ct17>0</ct17>
+        <ct18>31173458513</ct18>
+        <ct19>443085894</ct19>
+        <ct20>1001717</ct20>
+        <ct21>442084177</ct21>
+        <ct22>31615542690</ct22>
+      </PLuc_03_1A_TNDN>
+      <PL_GDLK2-01>
+        <Muc_I>
+          <CTiet id="ID_1">
+            <tenLKet>Công ty TNHH Kiến Đạt</tenLKet>
+            <ma_quocGia>VN</ma_quocGia>
+            <ten_quocGia>Việt Nam</ten_quocGia>
+            <mstLKet>4601073264</mstLKet>
+            <ctA_GCN>0</ctA_GCN>
+            <ctB_GCN>1</ctB_GCN>
+            <ctC_GCN>0</ctC_GCN>
+            <ctD_GCN>0</ctD_GCN>
+            <ctDD_GCN>0</ctDD_GCN>
+            <ctE_GCN>0</ctE_GCN>
+            <ctG_GCN>0</ctG_GCN>
+            <ctH_GCN>0</ctH_GCN>
+            <ctI_GCN>0</ctI_GCN>
+            <ctK_GCN>0</ctK_GCN>
+            <ctL_GCN>0</ctL_GCN>
+          </CTiet>
+        </Muc_I>
+        <Muc_II>
+          <ct1>0</ct1>
+          <ct1a>0</ct1a>
+          <ct2>0</ct2>
+          <ct2a>0</ct2a>
+          <ct2b>0</ct2b>
+          <ct2c>0</ct2c>
+          <ct2c_1>0</ct2c_1>
+          <ct2c_2>0</ct2c_2>
+          <ct2c_3>0</ct2c_3>
+        </Muc_II>
+        <Muc_III>
+          <Dong_I>
+            <ct3>26635401988</ct3>
+            <ct7>0</ct7>
+          </Dong_I>
+          <Dong_II>
+            <ct3>26635401988</ct3>
+            <ct4>26635401988</ct4>
+            <ct5>0</ct5>
+            <ct7>0</ct7>
+            <ct8>0</ct8>
+            <ct9>0</ct9>
+            <ct11>0</ct11>
+            <ct12a>0</ct12a>
+            <ct12b>0</ct12b>
+            <ct12c>0</ct12c>
+            <ct12d>0</ct12d>
+          </Dong_II>
+          <Dong_II_1>
+            <ct3>26635401988</ct3>
+            <ct4>26635401988</ct4>
+            <ct5>0</ct5>
+            <ct7>0</ct7>
+            <ct8>0</ct8>
+            <ct9>0</ct9>
+            <ct11>0</ct11>
+            <ct12a>0</ct12a>
+            <ct12b>0</ct12b>
+            <ct12c>0</ct12c>
+            <ct12d>0</ct12d>
+          </Dong_II_1>
+          <Dong_II_1_1.1>
+            <ct3>0</ct3>
+            <ct4>0</ct4>
+            <ct5>0</ct5>
+            <ct7>0</ct7>
+            <ct8>0</ct8>
+            <ct9>0</ct9>
+            <ct11>0</ct11>
+            <ct12a>0</ct12a>
+            <ct12b>0</ct12b>
+            <ct12c>0</ct12c>
+            <ct12d>0</ct12d>
+          </Dong_II_1_1.1>
+          <Dong_II_1_1.1_CTiet>
+            <CTiet id="ID_1">
+              <ct2 />
+              <ct3>0</ct3>
+              <ct4>0</ct4>
+              <ct5>0</ct5>
+              <ct6_ma />
+              <ct6_ten />
+              <ct7>0</ct7>
+              <ct8>0</ct8>
+              <ct9>0</ct9>
+              <ct10_ma />
+              <ct10_ten />
+              <ct11>0</ct11>
+              <ct12a>0</ct12a>
+              <ct12b>0</ct12b>
+              <ct12c>0</ct12c>
+              <ct12d>0</ct12d>
+              <ct13>0</ct13>
+            </CTiet>
+          </Dong_II_1_1.1_CTiet>
+          <Dong_II_1_1.2>
+            <ct3>26635401988</ct3>
+            <ct4>26635401988</ct4>
+            <ct5>0</ct5>
+            <ct7>0</ct7>
+            <ct8>0</ct8>
+            <ct9>0</ct9>
+            <ct11>0</ct11>
+            <ct12a>0</ct12a>
+            <ct12b>0</ct12b>
+            <ct12c>0</ct12c>
+            <ct12d>0</ct12d>
+          </Dong_II_1_1.2>
+          <Dong_II_1_1.2_CTiet>
+            <CTiet id="ID_1">
+              <ct2 />
+              <ct3>26635401988</ct3>
+              <ct4>26635401988</ct4>
+              <ct5>0</ct5>
+              <ct6_ma>PP2.3</ct6_ma>
+              <ct6_ten>PP2.3: Phương pháp so sánh tỷ suất lợi nhuận thuần.</ct6_ten>
+              <ct7>0</ct7>
+              <ct8>0</ct8>
+              <ct9>0</ct9>
+              <ct10_ma />
+              <ct10_ten />
+              <ct11>0</ct11>
+              <ct12a>0</ct12a>
+              <ct12b>0</ct12b>
+              <ct12c>0</ct12c>
+              <ct12d>0</ct12d>
+              <ct13>0</ct13>
+            </CTiet>
+          </Dong_II_1_1.2_CTiet>
+          <Dong_II_2>
+            <ct3>0</ct3>
+            <ct4>0</ct4>
+            <ct5>0</ct5>
+            <ct7>0</ct7>
+            <ct8>0</ct8>
+            <ct9>0</ct9>
+            <ct11>0</ct11>
+            <ct12a>0</ct12a>
+            <ct12b>0</ct12b>
+            <ct12c>0</ct12c>
+            <ct12d>0</ct12d>
+          </Dong_II_2>
+          <Dong_II_2_2.1>
+            <ct3>0</ct3>
+            <ct4>0</ct4>
+            <ct5>0</ct5>
+            <ct7>0</ct7>
+            <ct8>0</ct8>
+            <ct9>0</ct9>
+            <ct11>0</ct11>
+            <ct12a>0</ct12a>
+            <ct12b>0</ct12b>
+            <ct12c>0</ct12c>
+            <ct12d>0</ct12d>
+          </Dong_II_2_2.1>
+          <Dong_II_2_2.1_CTiet>
+            <CTiet id="ID_1">
+              <ct2 />
+              <ct3>0</ct3>
+              <ct4>0</ct4>
+              <ct5>0</ct5>
+              <ct6_ma />
+              <ct6_ten />
+              <ct7>0</ct7>
+              <ct8>0</ct8>
+              <ct9>0</ct9>
+              <ct10_ma />
+              <ct10_ten />
+              <ct11>0</ct11>
+              <ct12a>0</ct12a>
+              <ct12b>0</ct12b>
+              <ct12c>0</ct12c>
+              <ct12d>0</ct12d>
+              <ct13>0</ct13>
+            </CTiet>
+          </Dong_II_2_2.1_CTiet>
+          <Dong_II_2_2.2>
+            <ct3>0</ct3>
+            <ct4>0</ct4>
+            <ct5>0</ct5>
+            <ct7>0</ct7>
+            <ct8>0</ct8>
+            <ct9>0</ct9>
+            <ct11>0</ct11>
+            <ct12a>0</ct12a>
+            <ct12b>0</ct12b>
+            <ct12c>0</ct12c>
+            <ct12d>0</ct12d>
+          </Dong_II_2_2.2>
+          <Dong_II_2_2.2_CTiet>
+            <CTiet id="ID_1">
+              <ct2 />
+              <ct3>0</ct3>
+              <ct4>0</ct4>
+              <ct5>0</ct5>
+              <ct6_ma />
+              <ct6_ten />
+              <ct7>0</ct7>
+              <ct8>0</ct8>
+              <ct9>0</ct9>
+              <ct10_ma />
+              <ct10_ten />
+              <ct11>0</ct11>
+              <ct12a>0</ct12a>
+              <ct12b>0</ct12b>
+              <ct12c>0</ct12c>
+              <ct12d>0</ct12d>
+              <ct13>0</ct13>
+            </CTiet>
+          </Dong_II_2_2.2_CTiet>
+          <Dong_II_2_2.3>
+            <ct3>0</ct3>
+            <ct4>0</ct4>
+            <ct5>0</ct5>
+            <ct7>0</ct7>
+            <ct8>0</ct8>
+            <ct9>0</ct9>
+            <ct11>0</ct11>
+            <ct12a>0</ct12a>
+            <ct12b>0</ct12b>
+            <ct12c>0</ct12c>
+            <ct12d>0</ct12d>
+          </Dong_II_2_2.3>
+          <Dong_II_2_2.3_CTiet>
+            <CTiet id="ID_1">
+              <ct2 />
+              <ct3>0</ct3>
+              <ct4>0</ct4>
+              <ct5>0</ct5>
+              <ct6_ma />
+              <ct6_ten />
+              <ct7>0</ct7>
+              <ct8>0</ct8>
+              <ct9>0</ct9>
+              <ct10_ma />
+              <ct10_ten />
+              <ct11>0</ct11>
+              <ct12a>0</ct12a>
+              <ct12b>0</ct12b>
+              <ct12c>0</ct12c>
+              <ct12d>0</ct12d>
+              <ct13>0</ct13>
+            </CTiet>
+          </Dong_II_2_2.3_CTiet>
+          <Dong_II_2_2.4>
+            <ct3>0</ct3>
+            <ct4>0</ct4>
+            <ct5>0</ct5>
+            <ct7>0</ct7>
+            <ct8>0</ct8>
+            <ct9>0</ct9>
+            <ct11>0</ct11>
+            <ct12a>0</ct12a>
+            <ct12b>0</ct12b>
+            <ct12c>0</ct12c>
+            <ct12d>0</ct12d>
+          </Dong_II_2_2.4>
+          <Dong_II_2_2.4_2.4.1>
+            <ct3>0</ct3>
+            <ct4>0</ct4>
+            <ct5>0</ct5>
+            <ct7>0</ct7>
+            <ct8>0</ct8>
+            <ct9>0</ct9>
+            <ct11>0</ct11>
+            <ct12a>0</ct12a>
+            <ct12b>0</ct12b>
+            <ct12c>0</ct12c>
+            <ct12d>0</ct12d>
+          </Dong_II_2_2.4_2.4.1>
+          <Dong_II_2_2.4_2.4.1_CTiet>
+            <CTiet id="ID_1">
+              <ct2 />
+              <ct3>0</ct3>
+              <ct4>0</ct4>
+              <ct5>0</ct5>
+              <ct6_ma />
+              <ct6_ten />
+              <ct7>0</ct7>
+              <ct8>0</ct8>
+              <ct9>0</ct9>
+              <ct10_ma />
+              <ct10_ten />
+              <ct11>0</ct11>
+              <ct12a>0</ct12a>
+              <ct12b>0</ct12b>
+              <ct12c>0</ct12c>
+              <ct12d>0</ct12d>
+              <ct13>0</ct13>
+            </CTiet>
+          </Dong_II_2_2.4_2.4.1_CTiet>
+          <Dong_II_2_2.4_2.4.2>
+            <ct3>0</ct3>
+            <ct4>0</ct4>
+            <ct5>0</ct5>
+            <ct7>0</ct7>
+            <ct8>0</ct8>
+            <ct9>0</ct9>
+            <ct11>0</ct11>
+            <ct12a>0</ct12a>
+            <ct12b>0</ct12b>
+            <ct12c>0</ct12c>
+            <ct12d>0</ct12d>
+          </Dong_II_2_2.4_2.4.2>
+          <Dong_II_2_2.4_2.4.2_CTiet>
+            <CTiet id="ID_1">
+              <ct2 />
+              <ct3>0</ct3>
+              <ct4>0</ct4>
+              <ct5>0</ct5>
+              <ct6_ma />
+              <ct6_ten />
+              <ct7>0</ct7>
+              <ct8>0</ct8>
+              <ct9>0</ct9>
+              <ct10_ma />
+              <ct10_ten />
+              <ct11>0</ct11>
+              <ct12a>0</ct12a>
+              <ct12b>0</ct12b>
+              <ct12c>0</ct12c>
+              <ct12d>0</ct12d>
+              <ct13>0</ct13>
+            </CTiet>
+          </Dong_II_2_2.4_2.4.2_CTiet>
+          <Dong_II_2_2.5>
+            <ct3>0</ct3>
+            <ct4>0</ct4>
+            <ct5>0</ct5>
+            <ct7>0</ct7>
+            <ct8>0</ct8>
+            <ct9>0</ct9>
+            <ct11>0</ct11>
+            <ct12a>0</ct12a>
+            <ct12b>0</ct12b>
+            <ct12c>0</ct12c>
+            <ct12d>0</ct12d>
+          </Dong_II_2_2.5>
+          <Dong_II_2_2.5_CTiet>
+            <CTiet id="ID_1">
+              <ct2 />
+              <ct3>0</ct3>
+              <ct4>0</ct4>
+              <ct5>0</ct5>
+              <ct6_ma />
+              <ct6_ten />
+              <ct7>0</ct7>
+              <ct8>0</ct8>
+              <ct9>0</ct9>
+              <ct10_ma />
+              <ct10_ten />
+              <ct11>0</ct11>
+              <ct12a>0</ct12a>
+              <ct12b>0</ct12b>
+              <ct12c>0</ct12c>
+              <ct12d>0</ct12d>
+              <ct13>0</ct13>
+            </CTiet>
+          </Dong_II_2_2.5_CTiet>
+        </Muc_III>
+        <Muc_IV>
+          <IV_1>
+            <co>0</co>
+            <khong>1</khong>
+            <Dong_1>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>136462602011</ct05>
+              <ct06>136462602011</ct06>
+            </Dong_1>
+            <Dong_1a>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>37983386260</ct05>
+              <ct06>37983386260</ct06>
+            </Dong_1a>
+            <Dong_2>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>180757964</ct05>
+              <ct06>180757964</ct06>
+            </Dong_2>
+            <Dong_3>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>136281844047</ct05>
+              <ct06>136281844047</ct06>
+            </Dong_3>
+            <Dong_4>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>86787264165</ct05>
+              <ct06>86787264165</ct06>
+            </Dong_4>
+            <Dong_5>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>49494579882</ct05>
+              <ct06>49494579882</ct06>
+            </Dong_5>
+            <Dong_6>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>2390122487</ct05>
+              <ct06>2390122487</ct06>
+            </Dong_6>
+            <Dong_7>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>16418719351</ct05>
+              <ct06>16418719351</ct06>
+            </Dong_7>
+            <Dong_8>
+              <ct06>583029092</ct06>
+            </Dong_8>
+            <Dong_8.1>
+              <ct06>94716189</ct06>
+            </Dong_8.1>
+            <Dong_9>
+              <ct06>95308623</ct06>
+            </Dong_9>
+            <Dong_9.1>
+              <ct06>0</ct06>
+            </Dong_9.1>
+            <Dong_9.1a>
+              <ct06>0</ct06>
+            </Dong_9.1a>
+            <Dong_9.1b>
+              <ct06>0</ct06>
+            </Dong_9.1b>
+            <Dong_10>
+              <ct06>2776259011</ct06>
+            </Dong_10>
+            <Dong_11>
+              <ct06>31173458513</ct06>
+            </Dong_11>
+            <Dong_12>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>30685738044</ct06>
+            </Dong_12>
+            <Dong_13>
+              <ct06>33855001335</ct06>
+            </Dong_13>
+            <Dong_14>
+              <ct06>-0.280</ct06>
+            </Dong_14>
+            <Dong_15>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_15>
+            <Dong_15.1>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_15.1>
+            <Dong_15.2>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_15.2>
+            <Dong_15.3>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_15.3>
+            <Dong_15.4>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_15.4>
+            <Dong_15.5>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_15.5>
+            <Dong_16>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>-0.280</ct06>
+            </Dong_16>
+            <Dong_17.1>
+              <CTiet id="ID_1">
+                <ct2_ma />
+                <ct2_ten />
+                <ct03>0</ct03>
+                <ct04>0</ct04>
+                <ct06>0</ct06>
+              </CTiet>
+            </Dong_17.1>
+          </IV_1>
+          <IV_2>
+            <co>0</co>
+            <khong>0</khong>
+            <Dong_1>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_1>
+            <Dong_2>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_2>
+            <Dong_3>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_3>
+            <Dong_4>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_4>
+            <Dong_5>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_5>
+            <Dong_6>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_6>
+            <Dong_7>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_7>
+            <Dong_8>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_8>
+            <Dong_9>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_9>
+            <Dong_10>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_10>
+            <Dong_11>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_11>
+            <Dong_12>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_12>
+            <Dong_13>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_13>
+            <Dong_14>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_14>
+            <Dong_15>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_15>
+            <Dong_16>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_16>
+            <Dong_17>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_17>
+            <Dong_18>
+              <CTiet id="ID_1">
+                <ct2_ma />
+                <ct2_ten />
+                <ct03>0</ct03>
+                <ct04>0</ct04>
+              </CTiet>
+            </Dong_18>
+          </IV_2>
+          <IV_3>
+            <co>0</co>
+            <khong>0</khong>
+            <Dong_1>
+              <ct06>0</ct06>
+            </Dong_1>
+            <Dong_1.1>
+              <ct06>0</ct06>
+            </Dong_1.1>
+            <Dong_1.1a>
+              <ct06>0</ct06>
+            </Dong_1.1a>
+            <Dong_1.1b>
+              <ct06>0</ct06>
+            </Dong_1.1b>
+            <Dong_1.1c>
+              <ct06>0</ct06>
+            </Dong_1.1c>
+            <Dong_1.2>
+              <ct06>0</ct06>
+            </Dong_1.2>
+            <Dong_1.3>
+              <ct06>0</ct06>
+            </Dong_1.3>
+            <Dong_1.4>
+              <ct06>0</ct06>
+            </Dong_1.4>
+            <Dong_1.5>
+              <ct06>0</ct06>
+            </Dong_1.5>
+            <Dong_1.6>
+              <ct06>0</ct06>
+            </Dong_1.6>
+            <Dong_1.7>
+              <ct06>0</ct06>
+            </Dong_1.7>
+            <Dong_1.8>
+              <ct06>0</ct06>
+            </Dong_1.8>
+            <Dong_1.9>
+              <ct06>0</ct06>
+            </Dong_1.9>
+            <Dong_1.10>
+              <ct06>0</ct06>
+            </Dong_1.10>
+            <Dong_1.11>
+              <ct06>0</ct06>
+            </Dong_1.11>
+            <Dong_2>
+              <ct06>0</ct06>
+            </Dong_2>
+            <Dong_2.1>
+              <ct06>0</ct06>
+            </Dong_2.1>
+            <Dong_2.1a>
+              <ct06>0</ct06>
+            </Dong_2.1a>
+            <Dong_2.1b>
+              <ct06>0</ct06>
+            </Dong_2.1b>
+            <Dong_2.1c>
+              <ct06>0</ct06>
+            </Dong_2.1c>
+            <Dong_2.2>
+              <ct06>0</ct06>
+            </Dong_2.2>
+            <Dong_2.3>
+              <ct06>0</ct06>
+            </Dong_2.3>
+            <Dong_2.4>
+              <ct06>0</ct06>
+            </Dong_2.4>
+            <Dong_2.5>
+              <ct06>0</ct06>
+            </Dong_2.5>
+            <Dong_2.6>
+              <ct06>0</ct06>
+            </Dong_2.6>
+            <Dong_2.7>
+              <ct06>0</ct06>
+            </Dong_2.7>
+            <Dong_2.8>
+              <ct06>0</ct06>
+            </Dong_2.8>
+            <Dong_2.9>
+              <ct06>0</ct06>
+            </Dong_2.9>
+            <Dong_2.10>
+              <ct06>0</ct06>
+            </Dong_2.10>
+            <Dong_2.11>
+              <ct06>0</ct06>
+            </Dong_2.11>
+            <Dong_2.12>
+              <ct06>0</ct06>
+            </Dong_2.12>
+            <Dong_3>
+              <ct06>0</ct06>
+            </Dong_3>
+            <Dong_3.1>
+              <ct06>0</ct06>
+            </Dong_3.1>
+            <Dong_3.2>
+              <ct06>0</ct06>
+            </Dong_3.2>
+            <Dong_3.3>
+              <ct06>0</ct06>
+            </Dong_3.3>
+            <Dong_3.4>
+              <ct06>0</ct06>
+            </Dong_3.4>
+            <Dong_4>
+              <ct06>0</ct06>
+            </Dong_4>
+            <Dong_4.1>
+              <ct06>0</ct06>
+            </Dong_4.1>
+            <Dong_4.2>
+              <ct06>0</ct06>
+            </Dong_4.2>
+            <Dong_4.3>
+              <ct06>0</ct06>
+            </Dong_4.3>
+            <Dong_4.4>
+              <ct06>0</ct06>
+            </Dong_4.4>
+            <Dong_4.5>
+              <ct06>0</ct06>
+            </Dong_4.5>
+            <Dong_5>
+              <ct06>0</ct06>
+            </Dong_5>
+            <Dong_6>
+              <ct06>0</ct06>
+            </Dong_6>
+            <Dong_7>
+              <ct06>0</ct06>
+            </Dong_7>
+            <Dong_8>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_8>
+            <Dong_9>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_9>
+            <Dong_9.1>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_9.1>
+            <Dong_9.2>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_9.2>
+            <Dong_thu_10>
+              <ct06>0</ct06>
+            </Dong_thu_10>
+            <Dong_thu_11>
+              <ct06>0</ct06>
+            </Dong_thu_11>
+            <Dong_thu_12>
+              <ct06>0</ct06>
+            </Dong_thu_12>
+            <Dong_thu_13>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_thu_13>
+            <Dong_thu_13.1>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_thu_13.1>
+            <Dong_thu_13.2>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_thu_13.2>
+            <Dong_thu_13.3>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_thu_13.3>
+            <Dong_thu_13.4>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_thu_13.4>
+            <Dong_thu_13.5>
+              <ct03>0</ct03>
+              <ct04>0</ct04>
+              <ct05>0</ct05>
+              <ct06>0</ct06>
+            </Dong_thu_13.5>
+            <Dong_thu_14>
+              <ct06>0</ct06>
+            </Dong_thu_14>
+            <Dong_thu_15>
+              <CTiet id="ID_1">
+                <ct2_ma />
+                <ct2_ten />
+                <ct03>0</ct03>
+                <ct04>0</ct04>
+              </CTiet>
+            </Dong_thu_15>
+          </IV_3>
+        </Muc_IV>
+      </PL_GDLK2-01>
+      <PL_GDLK2-02>
+        <Dong_1.1>
+          <daLapVaLuu>1</daLapVaLuu>
+          <ghiChu>Báo cáo nội bộ</ghiChu>
+        </Dong_1.1>
+        <Dong_1.2>
+          <daLapVaLuu>1</daLapVaLuu>
+          <ghiChu>Báo cáo nội bộ</ghiChu>
+        </Dong_1.2>
+        <Dong_1.3>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_1.3>
+        <Dong_2.1>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.1>
+        <Dong_2.2>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.2>
+        <Dong_2.3>
+          <daLapVaLuu>1</daLapVaLuu>
+          <ghiChu>GDLK NDD132 01</ghiChu>
+        </Dong_2.3>
+        <Dong_2.4>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.4>
+        <Dong_2.5>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.5>
+        <Dong_2.6>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.6>
+        <Dong_2.7>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.7>
+        <Dong_2.8>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.8>
+        <Dong_2.9>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.9>
+        <Dong_2.10>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.10>
+        <Dong_2.11>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.11>
+        <Dong_2.12>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.12>
+        <Dong_2.13>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.13>
+        <Dong_2.14>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.14>
+        <Dong_3.1>
+          <daLapVaLuu>1</daLapVaLuu>
+          <ghiChu>03-1A/TNDN</ghiChu>
+        </Dong_3.1>
+        <Dong_3.2>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_3.2>
+        <Dong_3.3>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_3.3>
+        <Dong_3.4>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_3.4>
+      </PL_GDLK2-02>
+      <PL_GDLK2-03>
+        <Dong_1.1>
+          <daLapVaLuu>1</daLapVaLuu>
+          <ghiChu>Báo cáo nội bộ</ghiChu>
+        </Dong_1.1>
+        <Dong_2.1>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.1>
+        <Dong_2.2>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.2>
+        <Dong_2.3>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.3>
+        <Dong_2.4>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.4>
+        <Dong_2.5>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.5>
+        <Dong_2.6>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_2.6>
+        <Dong_3.1>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_3.1>
+        <Dong_3.2>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_3.2>
+        <Dong_3.3>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_3.3>
+        <Dong_3.4>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_3.4>
+        <Dong_3.5>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_3.5>
+        <Dong_4.1>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_4.1>
+        <Dong_4.2>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_4.2>
+        <Dong_4.3>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_4.3>
+        <Dong_5.1>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_5.1>
+        <Dong_5.2>
+          <daLapVaLuu>0</daLapVaLuu>
+          <ghiChu />
+        </Dong_5.2>
+      </PL_GDLK2-03>
+    </PLuc>
+  </HSoKhaiThue>
+<CKyDTu><Signature Id="CKyDTuID-NODETOSIGN-XML" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" /><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" /><Reference URI="#ID-NODETOSIGN-XML"><Transforms><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" /><DigestValue>r2S4EG11VSOmQCLf7ZvF/5cyNO0YfU4hGE23D4k5WkE=</DigestValue></Reference><Reference URI="#ObjectCKyDTuID-NODETOSIGN-XML"><Transforms><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" /><DigestValue>fOMcDYK3gBZZ5q+mh2HnQUw6e34CLsB50ZBVONBXztk=</DigestValue></Reference></SignedInfo><SignatureValue>23vXRwubpMv9BFiWlgfGRK2rH26pLI0BYkvztAWMszJFIbCJ58TiFC8qy4hoddRpxjAIvYFviVINEIqQY6Is350gqSm/mXHqSkVtfZAOrBh062M+vCSVfKxIXYyOQ8mrmxVzO6icMmF4pud6WiAvZbaHQSGYrgF0DW02SKKEySy0Z6SyjjAlYIINVGzHAlv1v2D5vk+9aHgUtN/jgaETtvtLswIwt/Eoy9GnQwZIMamNkn3PG3yU0oWeTs5EyV+fZdVxyJXaJmU2+vc7leBrpQy3rUWmcF4KhjW4QuA8uGG1MQUtYlsd4cUcK11o26R5xIGH31d+3FOgAbLKxN7V9w==</SignatureValue><KeyInfo><X509Data><X509SubjectName>OID.0.9.2342.19200300.100.1.1=MST:3700426920, CN=CÔNG TY TRÁCH NHIỆM HỮU HẠN CÔNG NGHIỆP KIẾN ĐẠT., S=Tỉnh Đồng Nai, C=VN</X509SubjectName><X509Certificate>MIIFgDCCBGigAwIBAgIQVAEBbEqf+y5j+fxJjYLH2TANBgkqhkiG9w0BAQsFADBeMQswCQYDVQQGEwJWTjEzMDEGA1UECgwqQ8OUTkcgVFkgQ+G7lCBQSOG6pk4gQ0jhu64gS8OdIFPhu5AgRkFTVENBMRowGAYDVQQDDBFGYXN0Q0EgU0hBLTI1NiBSMTAeFw0yNTExMDYwNzI3MDBaFw0yODExMDYwNzI3MDBaMIGWMQswCQYDVQQGEwJWTjEbMBkGA1UECAwSVOG7iW5oIMSQ4buTbmcgTmFpMUowSAYDVQQDDEFDw5RORyBUWSBUUsOBQ0ggTkhJ4buGTSBI4buuVSBI4bqgTiBDw5RORyBOR0hJ4buGUCBLSeG6vk4gxJDhuqBULjEeMBwGCgmSJomT8ixkAQEMDk1TVDozNzAwNDI2OTIwMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5DqzzfyY3qUfZGxSzcS1S0V1Pr5sGmtorIYIWLxgh+cSdj2t9DRQ7Nk3V9Bv1Y8TzL6JPOkbqtYlZxJKNA3DvaDSPUmwmZ4hGf+fs/k+L26qWRoVGa7ZcqcpjTl4l4EFQCMMcUEA2XYdgRltNMPa9PRhpvM1vo98lkI/5pB2pRVqvyFC9fwYggdgQ0VoItE6UAJ03rwePDUtM9hGja87t15D1CMIdPaZWzgy+m/hX9034N05TviRNiZHNheszuViozaGVgdhkD8vDaPi3zmFdb1nk7M124b7Tb4B+VY88WpmorjR/JHy+yF/uo/n0/nPuEJZXCvxjdscOxJsxJRppwIDAQABo4IB/zCCAfswDAYDVR0TAQH/BAIwADAfBgNVHSMEGDAWgBSg0G1lKpp0gVMGD7XDMPg3AEPuRDBhBggrBgEFBQcBAQRVMFMwLgYIKwYBBQUHMAKGImh0dHA6Ly9wdWIuZmFzdGNhLnZuL0Zhc3RDQS1SMS5jcnQwIQYIKwYBBQUHMAGGFWh0dHA6Ly9vY3NwLmZhc3RjYS52bjBlBgNVHSAEXjBcMFoGDCsGAQQBge0DAQkDATBKMBoGCCsGAQUFBwICMA4MDE9yZ2FuaXphdGlvbjAsBggrBgEFBQcCAjAgDB5odHRwczovL2Zhc3RjYS52bi9kb3dubG9hZC9DUFMwNAYDVR0lBC0wKwYIKwYBBQUHAwIGCCsGAQUFBwMEBgorBgEEAYI3CgMMBgkqhkiG9y8BAQUwgZoGA1UdHwSBkjCBjzCBjKAmoCSGImh0dHA6Ly9jcmwuZmFzdGNhLnZuL2Zhc3RjYS1yMS5jcmyiYqRgMF4xGjAYBgNVBAMMEUZhc3RDQSBTSEEtMjU2IFIxMTMwMQYDVQQKDCpDw5RORyBUWSBD4buUIFBI4bqmTiBDSOG7riBLw50gU+G7kCBGQVNUQ0ExCzAJBgNVBAYTAlZOMB0GA1UdDgQWBBQSEVBeiD30rYB3eJoNv6PbeZVJHzAOBgNVHQ8BAf8EBAMCBPAwDQYJKoZIhvcNAQELBQADggEBADFlTzR6vuv9D6zmNv3LOZOYHOchtcryxzf+/aJ8B6BxsKwH4VrDxRDL17G17ENV3X+GRxT40EHw8sy5Qvi6ooOg/B3iEvlhxcp8vrFaA3o2WQdViKU5pNduHvnjTzs6mTV0kC9KW2tnfFPQu7+McwCHtZRGuLdCY3p70tFbTFpH1Snvt/jMMGQb5n2TGqfnZCGuAYKfqJe99eFWSUIpMX+MoDfe6xYNZOouBh6525JoXvcQ6ius97nffudBSaR6dCMVe8kCI5kpbtJ5qa/jvOueIN8Xd+uuCjoLj0c/amIBW5Lwy8j+EdKCgpZdSs+18i2lqQrYhvoFoXqBwctnHV4=</X509Certificate></X509Data></KeyInfo><Object Id="ObjectCKyDTuID-NODETOSIGN-XML"><SignatureProperties xmlns=""><SignatureProperty Target="#CKyDTuID-NODETOSIGN-XML" Id="SignatureProperty-CKyDTuID-NODETOSIGN-XML"><SigningTime>2026-03-18T10:11:31</SigningTime></SignatureProperty></SignatureProperties></Object></Signature></CKyDTu></HSoThueDTu>

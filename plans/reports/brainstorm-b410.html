@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brainstorm: Module Tổng Hợp B410 (Update)</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      color: var(--text);
+      background-color: var(--bg);
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 { color: var(--text); margin-top: 0; }
+    h1 { font-size: 1.5rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    
+    .mockup-window {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f1f5f9;
+    }
+    .mockup-header {
+      background: #e2e8f0;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mockup-body { padding: 1.5rem; }
+    .drop-zone {
+      border: 2px dashed #94a3b8;
+      border-radius: 8px;
+      padding: 3rem 1rem;
+      text-align: center;
+      background: var(--card);
+      cursor: pointer;
+    }
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+    .file-item.error { border-left: 4px solid var(--danger); }
+    .file-item.success { border-left: 4px solid var(--success); }
+    
+    .table-mockup {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+    }
+    .table-mockup th, .table-mockup td {
+      border: 1px solid var(--border);
+      padding: 0.5rem;
+      text-align: left;
+    }
+    .table-mockup th { background: #f8fafc; }
+    .highlight-col { background: #eff6ff; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Kế hoạch: Module Tổng Hợp B410 (Kiến trúc Native COM)</h1>
+    
+    <div class="card">
+      <h2>1. Hợp đồng chuyển giao & Kiến trúc mới</h2>
+      <p><strong>Mục tiêu:</strong> Gộp file B410 an toàn, đảm bảo giữ nguyên vẹn 100% hình ảnh (ngay cả hình nổi), merged cells, độ rộng cột, layout trang in bằng cách dùng <strong>Excel COM làm Engine chính</strong> thay vì ExcelJS. Bổ sung các cột truy vết nguồn gốc dòng dữ liệu.</p>
+      
+      <p><strong>Ràng buộc & Chống treo (Anti-hang):</strong></p>
+      <ul>
+        <li>Xử lý tuần tự từng file, tắt DisplayAlerts, có Timeout, dùng try/finally để giải phóng COM.</li>
+        <li>Không dùng <code>taskkill</code> để bảo vệ các file Excel đang mở khác của user.</li>
+        <li>File lỗi (có pass, macro hỏng) sẽ bị bỏ qua an toàn, tiếp tục file khác.</li>
+        <li>Tên sheet mới được cắt < 31 ký tự, xử lý trùng lặp tên.</li>
+      </ul>
+      <p><strong>Quy tắc xác định vùng dữ liệu:</strong> Quét dựa trên cột "Nội dung lỗi" để tìm LastDataRow. Bỏ qua các dòng subtotal/chữ ký ở cuối bảng gốc.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>2. UI Kéo Thả & Báo Cáo</h2>
+        <div class="mockup-window">
+          <div class="mockup-header">Tổng Hợp B410 (COM Engine)</div>
+          <div class="mockup-body">
+            <div class="drop-zone">Kéo thả file B410 (.xls, .xlsx)</div>
+            <div style="margin-top: 1rem;">
+              <div class="file-item success">
+                <span>[1/3] B410 - Gia Cuong.xlsx</span> <span style="color: var(--success)">Thành công (15 dòng, 2 ảnh)</span>
+              </div>
+              <div class="file-item error">
+                <span>[2/3] B410 - Sai Pass.xls</span> <span style="color: var(--danger)">Lỗi: File có mật khẩu</span>
+              </div>
+              <div class="file-item success">
+                <span>[3/3] B410 - Regent 2025.xls</span> <span style="color: var(--success)">Thành công (8 dòng, kèm Bảng kê)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>3. Output Master File (Có cột truy vết)</h2>
+        <p>File kết quả bổ sung tự động các cột kỹ thuật để Trưởng nhóm dễ rà soát:</p>
+        <table class="table-mockup">
+          <thead>
+            <tr>
+              <th>TT</th>
+              <th>Thực trạng DN</th>
+              <th>Hướng xử lý</th>
+              <th class="highlight-col">Nguồn File</th>
+              <th class="highlight-col">Người Lập</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>[Ảnh hóa đơn] Bán hàng liên kết...</td>
+              <td>Cần thuyết minh...</td>
+              <td class="highlight-col">B410-GiaCuong.xlsx</td>
+              <td class="highlight-col">Trần Gia Cường</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Thiếu hợp đồng vay...</td>
+              <td>Bổ sung...</td>
+              <td class="highlight-col">Regent 2025.xls</td>
+              <td class="highlight-col">Tạ Công Trình</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="background: #fffbeb; border-color: #fcd34d;">
+      <h2>🚀 Kế hoạch tiếp theo: Technical Spike (Trước khi sang ak-cook)</h2>
+      <p>Triển khai lệnh <strong>ak-plan</strong> kết hợp viết một đoạn script thử nghiệm (Spike) để chứng minh COM Engine gộp thành công 5 trường hợp B410 thực tế (File có ảnh, file lỗi, file nhiều sheet, file có merge cell) trước khi ráp vào code thật của ứng dụng.</p>
+    </div>
+  </div>
+</body>
+</html>

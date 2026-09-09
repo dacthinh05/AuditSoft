@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <!-- Background Canvas -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080e1e" />
+      <stop offset="40%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#040711" />
+    </linearGradient>
+
+    <!-- Outer Rim Bevel -->
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.85" />
+      <stop offset="25%" stop-color="#1e293b" stop-opacity="0.4" />
+      <stop offset="70%" stop-color="#0f172a" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0.75" />
+    </linearGradient>
+
+    <!-- Dual Ambient Corner Glows -->
+    <radialGradient id="glowTopLeft" cx="20%" cy="20%" r="65%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25" />
+      <stop offset="50%" stop-color="#1d4ed8" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="glowBottomRight" cx="80%" cy="80%" r="65%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.2" />
+      <stop offset="50%" stop-color="#047857" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- FACET 1: Top-Left Shoulder (Vivid Sky to Royal Blue) -->
+    <linearGradient id="facetTopLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7dd3fc" />
+      <stop offset="35%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+
+    <!-- FACET 2: Bottom-Left Taper (Royal Navy) -->
+    <linearGradient id="facetBotLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="50%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#1e3a8a" />
+    </linearGradient>
+
+    <!-- FACET 3: Top-Right Shoulder (Mint / Emerald Highlight) -->
+    <linearGradient id="facetTopRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6ee7b7" />
+      <stop offset="40%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- FACET 4: Bottom-Right Taper (Deep Emerald) -->
+    <linearGradient id="facetBotRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="55%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+
+    <!-- Inner Core Cavity Gradient -->
+    <linearGradient id="innerCavityGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#131e36" />
+      <stop offset="100%" stop-color="#070c18" />
+    </linearGradient>
+
+    <!-- Apex Keystone Facet -->
+    <linearGradient id="apexJewel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#bae6fd" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+
+    <!-- Reconcile Checkmark Ribbon Gradient -->
+    <linearGradient id="checkRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#f0fdf4" />
+      <stop offset="75%" stop-color="#6ee7b7" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+
+    <!-- Specular Bevel Highlights -->
+    <linearGradient id="specularTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Drop Shadows & Glow Filters -->
+    <filter id="shadowApp" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000000" flood-opacity="0.65" />
+    </filter>
+
+    <filter id="glowShield" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#0284c7" flood-opacity="0.45" />
+      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#10b981" flood-opacity="0.35" />
+    </filter>
+
+    <filter id="glowCheckmark" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#0ea5e9" flood-opacity="0.6" />
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#10b981" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- ================= 1. SQUIRCLE ICON CONTAINER ================= -->
+  <rect x="14" y="14" width="228" height="228" rx="54" fill="url(#bgGrad)" stroke="url(#rimGrad)" stroke-width="2" filter="url(#shadowApp)" />
+  <rect x="14" y="14" width="228" height="228" rx="54" fill="url(#glowTopLeft)" />
+  <rect x="14" y="14" width="228" height="228" rx="54" fill="url(#glowBottomRight)" />
+
+  <!-- Subtle Financial / Tech Precision Grid Markings (6% opacity) -->
+  <g opacity="0.06" stroke="#38bdf8" stroke-width="1" fill="none">
+    <circle cx="128" cy="128" r="94" stroke-dasharray="4 6" />
+    <circle cx="128" cy="128" r="68" />
+    <path d="M 40 128 H 216 M 128 40 V 216" stroke-dasharray="3 5" />
+  </g>
+
+  <!-- ================= 2. THE 3D FACETED AUDIT SHIELD (MONOGRAM 'A') ================= -->
+  <g filter="url(#glowShield)">
+
+    <!-- Center Inner Cavity (Deep Recessed Base Plate) -->
+    <path d="M 128 42
+             L 186 74
+             L 186 128
+             C 186 168 160 200 128 214
+             C 96 200 70 168 70 128
+             L 70 74
+             Z"
+          fill="url(#innerCavityGrad)"
+          stroke="#1e293b"
+          stroke-width="1.5" />
+
+    <!-- FACET 1: Top-Left Shoulder (Vivid Sky to Royal Blue) -->
+    <path d="M 128 42
+             L 70 74
+             L 70 128
+             L 102 128
+             L 102 92
+             L 128 76
+             Z"
+          fill="url(#facetTopLeft)" />
+
+    <!-- FACET 2: Bottom-Left Taper (Royal Navy) -->
+    <path d="M 70 128
+             C 70 168 96 200 128 214
+             L 128 178
+             C 112 166 102 148 102 128
+             Z"
+          fill="url(#facetBotLeft)" />
+
+    <!-- FACET 3: Top-Right Shoulder (Mint / Emerald Highlight) -->
+    <path d="M 128 42
+             L 186 74
+             L 186 128
+             L 154 128
+             L 154 92
+             L 128 76
+             Z"
+          fill="url(#facetTopRight)" />
+
+    <!-- FACET 4: Bottom-Right Taper (Deep Emerald) -->
+    <path d="M 186 128
+             C 186 168 160 200 128 214
+             L 128 178
+             C 144 166 154 148 154 128
+             Z"
+          fill="url(#facetBotRight)" />
+
+    <!-- Specular Bevel Highlights on Leading Edges -->
+    <path d="M 128 42 L 70 74 L 70 128"
+          stroke="url(#specularTop)"
+          stroke-width="2.5"
+          fill="none"
+          stroke-linecap="round" />
+
+    <path d="M 128 42 L 186 74"
+          stroke="#ffffff"
+          stroke-opacity="0.45"
+          stroke-width="2"
+          fill="none"
+          stroke-linecap="round" />
+
+    <!-- Apex Keystone Diamond (Flush-Integrated Jewel) -->
+    <polygon points="128,42 138,58 128,74 118,58"
+             fill="url(#apexJewel)" />
+    <!-- Apex Specular Sparkle -->
+    <circle cx="128" cy="58" r="2.5" fill="#ffffff" />
+
+    <!-- ================= 3. LUMINOUS RECONCILIATION CHECKMARK RIBBON ================= -->
+    <!-- Perfectly balanced, bold, vibrant checkmark connecting the two data streams -->
+    <g filter="url(#glowCheckmark)">
+      <!-- Checkmark Halo Shadow Base -->
+      <path d="M 86 126
+               L 116 156
+               C 118.5 158.5 122.5 158.5 125 156
+               L 184 94"
+            fill="none"
+            stroke="#0ea5e9"
+            stroke-width="20"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            opacity="0.3" />
+
+      <!-- Main Glowing Reconcile Checkmark Ribbon -->
+      <path d="M 86 126
+               L 116 156
+               C 118.5 158.5 122.5 158.5 125 156
+               L 184 94"
+            fill="none"
+            stroke="url(#checkRibbon)"
+            stroke-width="16"
+            stroke-linecap="round"
+            stroke-linejoin="round" />
+
+      <!-- High-Intensity Specular Core Light -->
+      <path d="M 88 126
+               L 116 154
+               C 118.5 156.5 122.5 156.5 125 154
+               L 182 94"
+            fill="none"
+            stroke="#ffffff"
+            stroke-width="6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            opacity="0.95" />
+    </g>
+
+    <!-- Base Convergence Sparkle -->
+    <polygon points="128,206 131,212 128,218 125,212" fill="#ffffff" opacity="0.8" />
+
+  </g>
+</svg>

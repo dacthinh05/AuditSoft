@@ -1,0 +1,14 @@
+{
+  "version": "1.1.0",
+  "releaseDate": "2026-09-09",
+  "title": "AuditSoft v1.1.0 — Chuyển Đổi QTT TNDN TT80 & Tự Động Đồng Bộ HTKK",
+  "changelog": [
+    "Bổ sung Module Chuyển Đổi QTT TNDN (03/TNDN) sang chuẩn Thông tư 80/2021/TT-BTC",
+    "Tự động chuyển đổi và bảo toàn 100% tất cả các phụ lục (03-1A, GDLK NĐ 132...)",
+    "Tự động phát hiện HTKK cục bộ trên máy và đồng bộ số hiệu phiên bản mới nhất",
+    "Cung cấp tính năng Lưu khuôn mẫu mặc định tùy chỉnh cho các lần chuyển đổi sau",
+    "Tối ưu hóa giao diện kế toán doanh nghiệp, sạch sẽ, bảo toàn số liệu tuyệt đối"
+  ],
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/latest",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/latest"
+}
