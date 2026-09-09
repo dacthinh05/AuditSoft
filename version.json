@@ -1,13 +1,13 @@
 {
-  "version": "1.1.0",
+  "version": "1.1.1",
   "releaseDate": "2026-09-09",
-  "title": "AuditSoft v1.1.0 — Chuyển Đổi QTT TNDN TT80 & Tự Động Đồng Bộ HTKK",
+  "title": "AuditSoft v1.1.1 — Khắc Phục Triệt Để Lỗi Mở File B410 Gộp & Cập Nhật Giao Diện",
   "changelog": [
-    "Bổ sung Module Chuyển Đổi QTT TNDN (03/TNDN) sang chuẩn Thông tư 80/2021/TT-BTC",
-    "Tự động chuyển đổi và bảo toàn 100% tất cả các phụ lục (03-1A, GDLK NĐ 132...)",
-    "Tự động phát hiện HTKK cục bộ trên máy và đồng bộ số hiệu phiên bản mới nhất",
-    "Cung cấp tính năng Lưu khuôn mẫu mặc định tùy chỉnh cho các lần chuyển đổi sau",
-    "Tối ưu hóa giao diện kế toán doanh nghiệp, sạch sẽ, bảo toàn số liệu tuyệt đối"
+    "Khắc phục triệt để lỗi cảnh báo 'We found a problem with some content' khi mở file B410 Tổng hợp trong Excel",
+    "Làm sạch toàn bộ dải Defined Names rác và chuẩn hóa công thức ngoại liên kết trong file B410",
+    "Tạm thời ẩn module 12 Giấy làm việc đang phát triển theo định hướng người dùng",
+    "Cố định Module Chuyển đổi Tờ khai eTax là module số 4 trên thanh điều hướng",
+    "Cấu hình cài đặt NSIS theo quyền người dùng thường (per-user), tránh bị chặn bởi UAC/IT"
   ],
   "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/latest",
   "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/latest"
