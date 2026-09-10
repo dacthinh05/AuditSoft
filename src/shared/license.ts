@@ -14,8 +14,6 @@ const STORAGE_KEY_MACHINE_ID = 'auditsoft_machine_id'
 const STORAGE_KEY_LICENSE = 'auditsoft_license_token'
 const STORAGE_KEY_TRIAL_EXPORTS = 'auditsoft_trial_export_count'
 export const MAX_TRIAL_EXPORTS = 20
-export const DEFAULT_VIP_LICENSE_KEY =
-  'ASKEY-eyJtIjoiQVMtQUxMLU1BQ0hJTkVTLVBSTyIsIm4iOiJLaeG7g20gdG_DoW4gdmnDqm4gVklQIC0gVGjhu4tuaCBMeW54IFBybyIsInQiOiJMSUZFVElNRSIsImV4cCI6MCwiaWF0IjoxNzg4OTIxNDg4fQ.RvSrZXpgmzwOlSRWgxIBm7jHpoYnCyIaAlY2wSHTjZguWf-aVST0NKORd8Bbcxz15s_KnyZnq7tdcQRMPgBlAQ'
 
 export type LicensePlan = 'LIFETIME' | 'PRO' | 'ENTERPRISE' | 'ANNUAL' | 'TRIAL'
 

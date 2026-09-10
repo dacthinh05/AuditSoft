@@ -1,4 +1,5 @@
 import { app } from 'electron'
+import { createHash } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import { spawn } from 'node:child_process'
@@ -145,6 +146,12 @@ export async function downloadAndInstallUpdate(
     if (!response.ok) {
       throw new Error(`Máy chủ báo lỗi HTTP ${response.status}: ${response.statusText}`)
     }
+    // SEC-H2: fetch theo redirect nhưng host đích phải thuộc GitHub (chặn redirect ra ngoài).
+    const finalHost = new URL(response.url).hostname.toLowerCase()
+    const hostOk = finalHost === 'github.com' || finalHost.endsWith('.githubusercontent.com')
+    if (!hostOk) {
+      throw new Error(`Máy chủ chuyển hướng không tin cậy: ${finalHost}`)
+    }
 
     const totalBytes = parseInt(response.headers.get('content-length') || '0', 10)
     const reader = response.body?.getReader()
@@ -178,6 +185,20 @@ export async function downloadAndInstallUpdate(
       fileStream.end(() => resolve())
       fileStream.on('error', reject)
     })
+    // SEC-H2: xác thực SHA-256 từ manifest chính thức trước khi chạy installer.
+    const manifestRes = await fetch(DEFAULT_MANIFEST_URL, {
+      headers: { 'Accept': 'application/json', 'User-Agent': `AuditSoft/${app.getVersion() || '1.0.0'}` },
+    })
+    const manifest = (await manifestRes.json()) as UpdateManifest
+    const expectedHash = manifest?.sha256?.trim().toLowerCase()
+    if (!expectedHash) {
+      throw new Error('Manifest phát hành thiếu mã SHA-256 — từ chối cài đặt để đảm bảo an toàn. Liên hệ quản trị viên.')
+    }
+    const fileBuffer = fs.readFileSync(installerPath)
+    const actualHash = createHash('sha256').update(fileBuffer).digest('hex')
+    if (actualHash !== expectedHash) {
+      throw new Error('File cài đặt không khớp mã SHA-256 của bản phát hành — có thể đã bị thay đổi. Đã hủy cài đặt.')
+    }
 
     onProgress?.({
       stage: 'verifying',

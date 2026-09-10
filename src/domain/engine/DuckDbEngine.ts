@@ -2,6 +2,23 @@ import type { EngineStats, IAuditDataEngine, JournalEntryRecord } from './IAudit
 import { DUCKDB_JOURNAL_SCHEMA_DDL, JOURNAL_ENTRIES_TABLE_NAME } from './schema'
 
 /**
+ * SEC-H5: escape chuỗi cho SQL DuckDB (quote-doubling + bao quote đơn).
+ * Mọi trường chuỗi đi vào INSERT đều phải qua hàm này — không nối thô.
+ */
+export function escapeSqlString(v: string | null | undefined): string {
+  return `'${(v ?? '').replace(/'/g, "''")}'`
+}
+
+/** Ngày chỉ cho dạng YYYY-MM-DD, còn lại thành NULL (chặn injection qua trường ngày). */
+export function escapeSqlDate(v: string | null | undefined): string {
+  return v != null && /^\d{4}-\d{2}-\d{2}$/.test(v) ? `'${v}'` : 'NULL'
+}
+
+/** Số nguyên an toàn cho source_row (rơi ngoài khoảng → 0, không bao giờ nối thô). */
+export function escapeSqlInt(v: number): string {
+  return Number.isSafeInteger(v) ? String(v) : '0'
+}
+/**
  * Động cơ dữ liệu nhúng DuckDB In-Process OLAP
  * Chạy trên nền tảng DuckDB C++ native hoặc WASM.
  * Tận dụng định dạng lưu trữ dạng cột (columnar storage) và vectorization để đạt tốc độ truy vấn gấp 30-50x.
@@ -78,13 +95,9 @@ export class DuckDbEngine implements IAuditDataEngine {
       // Tạo bulk insert statement
       const valuesSql = chunk
         .map((r) => {
-          const escDesc = (r.description || '').replace(/'/g, "''")
-          const escDoc = (r.docNo || '').replace(/'/g, "''")
-          const escPCode = (r.partnerCode || '').replace(/'/g, "''")
-          const escPName = (r.partnerName || '').replace(/'/g, "''")
-          const dateVal = r.entryDate ? `'${r.entryDate}'` : 'NULL'
-          const docDateVal = r.docDate ? `'${r.docDate}'` : 'NULL'
-          return `('${r.id}', ${dateVal}, '${escDoc}', ${docDateVal}, '${escDesc}', '${r.debitAccount}', '${r.creditAccount}', ${r.amount.toString()}, '${escPCode}', '${escPName}', ${r.sourceRow})`
+          // amount là bigint nên toString() luôn an toàn; vẫn ép BigInt để loại giá trị lạ.
+          const amountVal = BigInt(r.amount).toString()
+          return `(${escapeSqlString(r.id)}, ${escapeSqlDate(r.entryDate)}, ${escapeSqlString(r.docNo)}, ${escapeSqlDate(r.docDate)}, ${escapeSqlString(r.description)}, ${escapeSqlString(r.debitAccount)}, ${escapeSqlString(r.creditAccount)}, ${amountVal}, ${escapeSqlString(r.partnerCode)}, ${escapeSqlString(r.partnerName)}, ${escapeSqlInt(r.sourceRow)})`
         })
         .join(',\n')
 

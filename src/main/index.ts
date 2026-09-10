@@ -10,12 +10,14 @@ import { readSheetRows } from '../infrastructure/excel/readWorkbook'
 import { IPC } from '../shared/ipc'
 import { runFullAnalysis } from './AnalysisPipeline'
 import { buildAuditWorkbook } from './export/AuditReportExporter'
+import { buildTaxReconWorkbook } from './export/TaxReconExporter'
+import type { TaxCrossReconciliationResult } from '../domain/analytics/TaxCrossReconciler'
 import fs from 'node:fs'
 import ExcelJS from 'exceljs'
 import { checkForAppUpdates, downloadAndInstallUpdate } from './updater'
 import { LocalHtkkScanner } from '../domain/etax/LocalHtkkScanner'
+import { assertAuditDirectory, assertAuditFileReadable } from './ipcFileGuard'
 import { LocalXmlIngestionEngine } from '../domain/etax/ingestion/LocalXmlIngestionEngine'
-import { registerDbConnectorIpc } from './ipc/dbConnectorIpc'
 
 let mainWindow: BrowserWindow | null = null
 let activeReconcileWorker: Worker | null = null
@@ -115,12 +117,12 @@ function registerIpcHandlers(): void {
   })
 
   ipcMain.handle(IPC.inspectWorkbook, async (_e, rawFilePath: unknown) => {
-    const filePath = zString(rawFilePath, 'filePath')
+    const filePath = assertAuditFileReadable(zString(rawFilePath, 'filePath'), 'workbook')
     return inspectWorkbookFile(filePath)
   })
 
   ipcMain.handle(IPC.readWorkbookRows, async (_e, rawFilePath: unknown, rawSheetName: unknown) => {
-    const filePath = zString(rawFilePath, 'filePath')
+    const filePath = assertAuditFileReadable(zString(rawFilePath, 'filePath'), 'workbook')
     const sheetName = zString(rawSheetName, 'sheetName')
     return readSheetRows(filePath, sheetName)
   })
@@ -205,6 +207,23 @@ function registerIpcHandlers(): void {
     })
   })
 
+  ipcMain.handle(IPC.exportTaxReport, async (_e, rawResult: unknown) => {
+    const result = rawResult as TaxCrossReconciliationResult
+    if (!result || !Array.isArray(result.vatRows)) throw new Error('Thiếu kết quả đối chiếu thuế')
+    const win = mainWindow ?? undefined
+    const save = await dialog.showSaveDialog(win as BrowserWindow, {
+      title: 'Xuất bảng đối chiếu thuế',
+      defaultPath: 'DoiChieu-Thue-GTGT-TNCN.xlsx',
+      filters: [{ name: 'Excel', extensions: ['xlsx'] }],
+    })
+    if (save.canceled || !save.filePath) {
+      return { ok: false, outPath: null }
+    }
+    const wb = buildTaxReconWorkbook(result)
+    await wb.xlsx.writeFile(save.filePath)
+    return { ok: true, outPath: save.filePath }
+  })
+
   // ── Working Paper Auto-Fill ──
   ipcMain.handle(IPC.pickDirectory, async () => {
     const win = mainWindow ?? undefined
@@ -223,8 +242,6 @@ function registerIpcHandlers(): void {
     await shell.openPath(p)
   })
   ipcMain.handle(IPC.showItemInFolder, async (_e, rawPath: unknown) => {
-    const p = zString(rawPath, 'targetPath')
-    shell.showItemInFolder(path.resolve(p))
   })
 
   ipcMain.handle(IPC.generateWorkingPapers, async (_e, rawReq: unknown) => {
@@ -243,13 +260,17 @@ function registerIpcHandlers(): void {
     const defaultOutDir = req.outputDir || path.resolve(path.dirname(req.sourcePath), `HoSoKiemToan_${sanitizedClient}_${year}`)
 
     const ctx = await extractAccountingContext(req.sourcePath, req.engagement)
+    if (req.taxVatDeclarations && req.taxVatDeclarations.length > 0) {
+      ctx.vatDeclarations = req.taxVatDeclarations
+    }
     return generateAllWorkingPapers(templateDir, defaultOutDir, ctx)
   })
 
   // ── Auto-Update ──
-  ipcMain.handle(IPC.checkUpdate, async (_e, rawUrl: unknown) => {
-    const customUrl = typeof rawUrl === 'string' && rawUrl.trim() !== '' ? rawUrl.trim() : undefined
-    return checkForAppUpdates(customUrl)
+  // SEC-H3: không tin URL manifest từ renderer — luôn dùng manifest chính thức.
+  // Mirror nội bộ (nếu cần) đặt qua biến môi trường AUDITSOFT_UPDATE_URL.
+  ipcMain.handle(IPC.checkUpdate, async () => {
+    return checkForAppUpdates()
   })
 
   ipcMain.handle(IPC.openExternalUrl, async (_e, rawUrl: unknown) => {
@@ -322,13 +343,14 @@ function registerIpcHandlers(): void {
     return { ok: true, outPath: save.filePath }
   })
   ipcMain.handle(IPC.detectLocalHtkk, async (_event, customPath?: string) => {
-    return LocalHtkkScanner.detect(customPath)
+    return LocalHtkkScanner.detect(assertAuditDirectory(customPath))
   })
   ipcMain.handle(IPC.readHtkkFile, async (_event, filePath: string) => {
-    return LocalHtkkScanner.readXmlFile(filePath)
+    return LocalHtkkScanner.readXmlFile(assertAuditFileReadable(filePath, 'xml'))
   })
   ipcMain.handle(IPC.importTaxXmlFiles, async (_event, filePaths: string[]) => {
-    return LocalXmlIngestionEngine.ingestFiles(filePaths)
+    if (!Array.isArray(filePaths) || filePaths.length === 0) throw new Error('Chưa chọn file tờ khai.')
+    return LocalXmlIngestionEngine.ingestFiles(filePaths.map((p) => assertAuditFileReadable(p, 'archive')))
   })
   ipcMain.handle(IPC.pickTaxFiles, async () => {
     if (!mainWindow) return { canceled: true, filePaths: [] }
@@ -382,7 +404,6 @@ function zString(v: unknown, field: string): string {
 
 app.whenReady().then(() => {
   registerIpcHandlers()
-  registerDbConnectorIpc()
   createWindow()
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
