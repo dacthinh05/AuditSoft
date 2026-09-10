@@ -16,3 +16,11 @@ dist-bin/
 *.exe
 *.xlsx
 dist-release/
+
+# Test Output & Temporary Artifacts
+output_test_glv/
+output_*/
+test_out/
+test-out/
+*.tmp
+~conv_*
