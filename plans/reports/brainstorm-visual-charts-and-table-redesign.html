@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trực Quan Hóa Đồ Thị & Cải Tiến Ma Trận 12 Tháng - AuditSoft</title>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --border-subtle: #f1f5f9;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --warning: #b45309;
+      --warning-bg: #fffbeb;
+      --warning-border: #fde68a;
+      --danger: #b91c1c;
+      --danger-bg: #fef2f2;
+      --success: #047857;
+      --success-bg: #ecfdf5;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--text);
+      background-color: var(--bg);
+      margin: 0;
+      padding: 1.5rem;
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.75rem;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0;
+    }
+
+    /* Chart Controls */
+    .chart-toggles {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .toggle-pill {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    .toggle-pill.active {
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* SVG Chart */
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 0.5rem;
+    }
+    svg.trend-chart {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .axis-line { stroke: #e2e8f0; stroke-dasharray: 4 4; }
+    .axis-label { fill: #94a3b8; font-size: 10.5px; font-weight: 600; font-family: monospace; }
+    
+    .chart-line {
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+      transition: opacity 0.2s;
+    }
+    .chart-area {
+      opacity: 0.08;
+      transition: opacity 0.2s;
+    }
+    .chart-point {
+      cursor: pointer;
+      transition: transform 0.15s, r 0.15s;
+    }
+    .chart-point:hover {
+      r: 6;
+      filter: drop-shadow(0 0 6px rgba(0,0,0,0.3));
+    }
+
+    .tooltip-box {
+      position: absolute;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-family: monospace;
+      pointer-events: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      border: 1px solid #334155;
+      z-index: 10;
+      display: none;
+      white-space: nowrap;
+    }
+
+    /* Matrix Table Redesign */
+    .table-container {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    table.matrix-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    table.matrix-table th, table.matrix-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-subtle);
+      border-right: 1px solid var(--border-subtle);
+      white-space: nowrap;
+    }
+    table.matrix-table th {
+      background: #f8fafc;
+      color: #475569;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    
+    /* Sticky First Column */
+    .sticky-col {
+      position: sticky;
+      left: 0;
+      background: #ffffff !important;
+      z-index: 2;
+      font-family: system-ui, sans-serif !important;
+      font-size: 12.5px;
+      min-width: 210px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.03);
+    }
+    th.sticky-col {
+      background: #f8fafc !important;
+      z-index: 3;
+    }
+
+    /* Number Styling */
+    .val-active {
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .val-zero {
+      color: #cbd5e1;
+      font-weight: 400;
+    }
+    .val-spike {
+      background: #fffbeb;
+      color: #b45309;
+      font-weight: 800;
+      border: 1px solid #fde68a !important;
+      border-radius: 4px;
+      display: inline-block;
+      padding: 1px 6px;
+    }
+
+    /* Compact Alert Badge */
+    .smart-alerts-card {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 0.85rem 1.25rem;
+    }
+    .alert-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #b45309;
+      margin-bottom: 0.4rem;
+    }
+    .alert-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 0.5rem;
+      font-size: 0.775rem;
+      color: #78350f;
+    }
+    .alert-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255,255,255,0.7);
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid #fef3c7;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 3px solid #0284c7; border-radius: 12px; padding: 1rem 1.5rem;">
+    <h1 style="margin: 0; font-size: 1.25rem; color: #0f172a; font-weight: 700;">
+      📊 Đề Xuất Cải Tiến Trực Quan Hóa: Đồ Thị Xu Hướng & Ma Trận 12 Tháng
+    </h1>
+    <div style="font-size: 0.85rem; color: #64748b; margin-top: 0.25rem;">
+      Giải quyết triệt để vấn đề: Số mờ, bảng 12 tháng tràn mép mất cột, quá nhiều số 0 gây rối mắt, các hộp cảnh báo màu vàng chồng chéo.
+    </div>
+  </div>
+
+  <!-- 1. ĐỒ THỊ XU HƯỚNG 12 THÁNG TRỰC QUAN -->
+  <div class="card">
+    <div class="card-head">
+      <h2 class="card-title">
+        <span>📈 Đồ Thị Trực Quan Biến Động 12 Tháng</span>
+        <span style="font-size: 0.75rem; background: #eff6ff; color: #1d4ed8; padding: 2px 8px; border-radius: 4px; font-weight: 600;">
+          Tương Tác Realtime (Hover xem số tiền)
+        </span>
+      </h2>
+
+      <!-- Series Toggles -->
+      <div class="chart-toggles">
+        <button class="toggle-pill active" id="btn-rev" onclick="toggleSeries('rev')">
+          <span class="dot" style="background: #0284c7;"></span>
+          <span>Doanh thu 511</span>
+        </button>
+        <button class="toggle-pill active" id="btn-other" onclick="toggleSeries('other')">
+          <span class="dot" style="background: #d97706;"></span>
+          <span>Chi phí khác 811 (Đột biến T4)</span>
+        </button>
+        <button class="toggle-pill active" id="btn-adm" onclick="toggleSeries('adm')">
+          <span class="dot" style="background: #8b5cf6;"></span>
+          <span>Chi phí QLDN 642</span>
+        </button>
+        <button class="toggle-pill active" id="btn-fin" onclick="toggleSeries('fin')">
+          <span class="dot" style="background: #f43f5e;"></span>
+          <span>Chi phí TC 635</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Chart Canvas -->
+    <div class="chart-wrapper" id="chart-wrap">
+      <div class="tooltip-box" id="tooltip"></div>
+      <svg class="trend-chart" viewBox="0 0 1000 240" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="gradRev" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0284c7" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#0284c7" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="gradOther" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#d97706" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#d97706" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Grid lines & Y Axis Labels -->
+        <g>
+          <line x1="60" y1="20" x2="980" y2="20" class="axis-line" />
+          <text x="50" y="24" text-anchor="end" class="axis-label">14 tỷ</text>
+
+          <line x1="60" y1="65" x2="980" y2="65" class="axis-line" />
+          <text x="50" y="69" text-anchor="end" class="axis-label">10 tỷ</text>
+
+          <line x1="60" y1="110" x2="980" y2="110" class="axis-line" />
+          <text x="50" y="114" text-anchor="end" class="axis-label">6 tỷ</text>
+
+          <line x1="60" y1="155" x2="980" y2="155" class="axis-line" />
+          <text x="50" y="159" text-anchor="end" class="axis-label">2 tỷ</text>
+
+          <line x1="60" y1="200" x2="980" y2="200" stroke="#cbd5e1" stroke-width="1.5" />
+          <text x="50" y="204" text-anchor="end" class="axis-label">0 đ</text>
+        </g>
+
+        <!-- X Axis Labels (T1..T12) -->
+        <g id="x-labels">
+          <!-- Rendered by JS -->
+        </g>
+
+        <!-- Series Paths -->
+        <!-- Area 511 -->
+        <path id="area-rev" class="chart-area" fill="url(#gradRev)" d="" />
+        <!-- Line 511 -->
+        <path id="line-rev" class="chart-line" stroke="#0284c7" d="" />
+
+        <!-- Area 811 -->
+        <path id="area-other" class="chart-area" fill="url(#gradOther)" d="" />
+        <!-- Line 811 -->
+        <path id="line-other" class="chart-line" stroke="#d97706" d="" />
+
+        <!-- Line 642 -->
+        <path id="line-adm" class="chart-line" stroke="#8b5cf6" stroke-width="2" d="" />
+        <!-- Line 635 -->
+        <path id="line-fin" class="chart-line" stroke="#f43f5e" stroke-width="2" d="" />
+
+        <!-- Data points & Spike Rings -->
+        <g id="data-points">
+          <!-- Rendered by JS -->
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 2. BẢNG MA TRẬN 12 THÁNG ĐÃ CẢI TIẾN -->
+  <div class="card">
+    <div class="card-head">
+      <h2 class="card-title">
+        <span>📋 Bảng Ma Trận 12 Tháng (Số Đậm Nét, Cố Định Cột, Thay Thế Số 0 Bằng Dấu "-")</span>
+      </h2>
+      <span style="font-size: 0.75rem; color: #64748b;">
+        💡 Cuộn ngang để xem đầy đủ T11, T12 và CẢ NĂM mà không bị mất cột Khoản Mục
+      </span>
+    </div>
+
+    <div class="table-container">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th class="sticky-col">Khoản Mục</th>
+            <th style="text-align: right;">T1</th>
+            <th style="text-align: right;">T2</th>
+            <th style="text-align: right;">T3</th>
+            <th style="text-align: right;">T4</th>
+            <th style="text-align: right;">T5</th>
+            <th style="text-align: right;">T6</th>
+            <th style="text-align: right;">T7</th>
+            <th style="text-align: right;">T8</th>
+            <th style="text-align: right;">T9</th>
+            <th style="text-align: right;">T10</th>
+            <th style="text-align: right;">T11</th>
+            <th style="text-align: right;">T12</th>
+            <th style="text-align: right; background: #eff6ff; color: #1d4ed8;">CẢ NĂM</th>
+          </tr>
+        </thead>
+        <tbody id="matrix-tbody">
+          <!-- Rendered by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 3. HỘP CẢNH BÁO THÔNG MINH GỌN GÀNG (THAY CHO 3 KHỐI VÀNG DÀI NGOẰNG) -->
+  <div class="smart-alerts-card">
+    <div class="alert-header">
+      <span>⚠️ TỔNG HỢP CÁC ĐIỂM BIẾN ĐỘNG ĐỘT BIẾN CẦN LƯU Ý KIỂM TOÁN (CUT-OFF):</span>
+    </div>
+    <div class="alert-items">
+      <div class="alert-item">
+        <b>Tháng 4:</b> Chi phí khác (811) vọt lên <b>12.75 tỷ</b> (chiếm 65% tổng chi phí cả năm).
+      </div>
+      <div class="alert-item">
+        <b>Tháng 6, 9:</b> Chi phí QLDN (642) tăng đột biến lên <b>524 tr & 563 tr</b> (> 200% mức TB).
+      </div>
+      <div class="alert-item">
+        <b>Tháng 5, 8:</b> Chi phí tài chính (635) đạt đỉnh <b>285 tr & 684 tr</b>.
+      </div>
+      <div class="alert-item">
+        <b>Tháng 12:</b> Cần tập trung kiểm tra thủ tục cắt niên độ (Cut-off) doanh thu và giá vốn.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Số liệu thật trích xuất từ màn hình của khách hàng
+  const MONTHS = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+  
+  const SERIES_DATA = {
+    rev: [6156820788, 6183943269, 8213592995, 6218924903, 6228807273, 8118742901, 6498254987, 4224559721, 4011918069, 5091942422, 6179730000, 7500000000],
+    other: [0, 0, 0, 12753616535, 0, 0, 0, 0, 0, 0, 0, 0],
+    adm: [309853545, 303805940, 519411843, 234642616, 260548312, 524769994, 253181483, 254540606, 563522787, 289720525, 226550000, 310000000],
+    fin: [210281146, 179752624, 167621396, 169470968, 285450396, 205663519, 128620627, 684461323, 8900823, 574246, 1200000, 2500000]
+  };
+
+  const TABLE_ROWS = [
+    { label: 'Doanh thu bán hàng & CCDV', code: 'Có 511', vals: SERIES_DATA.rev, spikes: [] },
+    { label: 'Mua hàng tồn kho trong kỳ', code: 'Nợ 15x', vals: [0,0,0,0,0,0,0,0,0,0,0,0], spikes: [] },
+    { label: 'Giá vốn hàng bán', code: 'Nợ 632', vals: [282871597, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 450000000], spikes: [12] },
+    { label: 'Chi phí bán hàng', code: 'Nợ 641', vals: [0,0,0,0,0,0,0,0,0,0,0,0], spikes: [] },
+    { label: 'Chi phí QLDN', code: 'Nợ 642', vals: SERIES_DATA.adm, spikes: [6, 9] },
+    { label: 'Chi phí tài chính', code: 'Nợ 635', vals: SERIES_DATA.fin, spikes: [5, 8] },
+    { label: 'Doanh thu tài chính', code: 'Có 515', vals: [6780734, 17139291, 282849, 3288360, 4894055, 155352, 25334379, 1113238, 590697, 367874, 210000, 500000], spikes: [2, 7] },
+    { label: 'Chi phí khác', code: 'Nợ 811', vals: SERIES_DATA.other, spikes: [4] }
+  ];
+
+  const visibility = { rev: true, other: true, adm: true, fin: true };
+
+  const MAX_Y = 14000000000; // 14 tỷ
+  const X_START = 80;
+  const X_END = 960;
+  const Y_TOP = 20;
+  const Y_BOTTOM = 200;
+
+  function getY(val) {
+    return Y_BOTTOM - (val / MAX_Y) * (Y_BOTTOM - Y_TOP);
+  }
+
+  function getX(mIdx) {
+    return X_START + (mIdx / 11) * (X_END - X_START);
+  }
+
+  function buildSmoothPath(vals) {
+    let d = '';
+    for (let i = 0; i < 12; i++) {
+      const x = getX(i);
+      const y = getY(vals[i]);
+      if (i === 0) {
+        d += `M ${x} ${y}`;
+      } else {
+        const prevX = getX(i - 1);
+        const prevY = getY(vals[i - 1]);
+        const cpX1 = prevX + (x - prevX) / 2;
+        const cpX2 = cpX1;
+        d += ` C ${cpX1} ${prevY}, ${cpX2} ${y}, ${x} ${y}`;
+      }
+    }
+    return d;
+  }
+
+  function renderChart() {
+    // 1. X Labels
+    const xGroup = document.getElementById('x-labels');
+    xGroup.innerHTML = MONTHS.map((m, idx) => `
+      <text x="${getX(idx)}" y="222" text-anchor="middle" class="axis-label" style="font-weight: 700; fill: #64748b;">${m}</text>
+    `).join('');
+
+    // 2. Paths
+    const pathRev = buildSmoothPath(SERIES_DATA.rev);
+    document.getElementById('line-rev').setAttribute('d', pathRev);
+    document.getElementById('area-rev').setAttribute('d', pathRev + ` L ${getX(11)} ${Y_BOTTOM} L ${getX(0)} ${Y_BOTTOM} Z`);
+
+    const pathOther = buildSmoothPath(SERIES_DATA.other);
+    document.getElementById('line-other').setAttribute('d', pathOther);
+    document.getElementById('area-other').setAttribute('d', pathOther + ` L ${getX(11)} ${Y_BOTTOM} L ${getX(0)} ${Y_BOTTOM} Z`);
+
+    document.getElementById('line-adm').setAttribute('d', buildSmoothPath(SERIES_DATA.adm));
+    document.getElementById('line-fin').setAttribute('d', buildSmoothPath(SERIES_DATA.fin));
+
+    // 3. Points & Anomaly Rings
+    const ptsGroup = document.getElementById('data-points');
+    let ptsHtml = '';
+
+    // T4 spike for Other Expenses
+    const xT4 = getX(3);
+    const yT4 = getY(SERIES_DATA.other[3]);
+    ptsHtml += `
+      <circle cx="${xT4}" cy="${yT4}" r="12" fill="none" stroke="#d97706" stroke-width="1.5" stroke-dasharray="3 3">
+        <animate attributeName="r" values="8;16;8" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="${xT4}" cy="${yT4}" r="5" fill="#d97706" class="chart-point"
+        onmouseenter="showTip(event, 'T4 - Chi Phí Khác (811): 12.753.616.535 đ ⚠️ Đột biến')"
+        onmouseleave="hideTip()"
+      />
+    `;
+
+    // Points for Revenue
+    SERIES_DATA.rev.forEach((v, idx) => {
+      ptsHtml += `
+        <circle cx="${getX(idx)}" cy="${getY(v)}" r="3.5" fill="#0284c7" class="chart-point"
+          onmouseenter="showTip(event, '${MONTHS[idx]} - Doanh Thu (511): ${v.toLocaleString('vi-VN')} đ')"
+          onmouseleave="hideTip()"
+        />
+      `;
+    });
+
+    ptsGroup.innerHTML = ptsHtml;
+  }
+
+  function toggleSeries(key) {
+    visibility[key] = !visibility[key];
+    const btn = document.getElementById(`btn-${key}`);
+    btn.classList.toggle('active', visibility[key]);
+
+    const opacity = visibility[key] ? '1' : '0';
+    if (key === 'rev') {
+      document.getElementById('line-rev').style.opacity = opacity;
+      document.getElementById('area-rev').style.opacity = visibility[key] ? '0.08' : '0';
+    } else if (key === 'other') {
+      document.getElementById('line-other').style.opacity = opacity;
+      document.getElementById('area-other').style.opacity = visibility[key] ? '0.08' : '0';
+    } else if (key === 'adm') {
+      document.getElementById('line-adm').style.opacity = opacity;
+    } else if (key === 'fin') {
+      document.getElementById('line-fin').style.opacity = opacity;
+    }
+  }
+
+  function showTip(e, text) {
+    const tip = document.getElementById('tooltip');
+    tip.innerText = text;
+    tip.style.display = 'block';
+    tip.style.left = (e.clientX - 100) + 'px';
+    tip.style.top = (e.clientY - 40) + 'px';
+  }
+
+  function hideTip() {
+    document.getElementById('tooltip').style.display = 'none';
+  }
+
+  // 4. Render Redesigned Matrix Table
+  function renderTable() {
+    const tbody = document.getElementById('matrix-tbody');
+    let html = '';
+
+    TABLE_ROWS.forEach(row => {
+      const total = row.vals.reduce((a, b) => a + b, 0);
+      html += `<tr>`;
+      html += `
+        <td class="sticky-col">
+          <b style="color: #0f172a;">${row.label}</b>
+          <span style="font-size: 11px; color: #64748b; margin-left: 6px;">(${row.code})</span>
+        </td>
+      `;
+
+      row.vals.forEach((v, idx) => {
+        const isSpike = row.spikes.includes(idx + 1);
+        if (v === 0) {
+          html += `<td style="text-align: right;"><span class="val-zero">-</span></td>`;
+        } else if (isSpike) {
+          html += `<td style="text-align: right;"><span class="val-spike">${v.toLocaleString('vi-VN')} ⚠️</span></td>`;
+        } else {
+          html += `<td style="text-align: right;"><span class="val-active">${v.toLocaleString('vi-VN')}</span></td>`;
+        }
+      });
+
+      html += `<td style="text-align: right; background: #eff6ff; font-weight: 800; color: #1d4ed8;">${total > 0 ? total.toLocaleString('vi-VN') : '-'}</td>`;
+      html += `</tr>`;
+    });
+
+    // Dòng tổng
+    html += `
+      <tr style="background: #f8fafc; font-weight: 800; border-top: 2px solid #cbd5e1;">
+        <td class="sticky-col" style="background: #f8fafc !important;">TỔNG PHÁT SINH THÁNG</td>
+        ${MONTHS.map((_, mIdx) => {
+          const mSum = TABLE_ROWS.reduce((sum, r) => sum + r.vals[mIdx], 0);
+          return `<td style="text-align: right; color: #0f172a;">${mSum > 0 ? mSum.toLocaleString('vi-VN') : '-'}</td>`;
+        }).join('')}
+        <td style="text-align: right; background: #eff6ff; color: #1d4ed8; font-size: 13px;">
+          ${TABLE_ROWS.reduce((sum, r) => sum + r.vals.reduce((a,b)=>a+b, 0), 0).toLocaleString('vi-VN')}
+        </td>
+      </tr>
+    `;
+
+    tbody.innerHTML = html;
+  }
+
+  renderChart();
+  renderTable();
+</script>
+
+</body>
+</html>
