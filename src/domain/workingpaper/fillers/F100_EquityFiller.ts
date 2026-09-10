@@ -2,6 +2,7 @@ import type ExcelJS from 'exceljs'
 import type { WorkingPaperFillContext, SectionFillResult } from '../types'
 import {
   fillAddSheet,
+  findWorksheetFuzzy,
   normalizeWorkbookSharedFormulas,
   setLeadRowValues,
 } from '../helpers'
@@ -24,7 +25,7 @@ export function fillEquityWorkingPaper(
   }
 
   // 2. F110 Lead schedule
-  const wsF110 = wb.getWorksheet('F110')
+  const wsF110 = findWorksheetFuzzy(wb, ['F110', 'F 110'])
   if (wsF110) {
     // 4111 Vốn đầu tư của CSH (Row 11) - in F110, Col 4 is ck, Col 6 is aje, Col 7 is sau, Col 8 is dk
     const acc4111 = ctx.cdfsAccounts.get('4111') || ctx.cdfsAccounts.get('411')
@@ -51,7 +52,7 @@ export function fillEquityWorkingPaper(
     setLeadRowValues(wsF110, 14, { ck: ck4212, dk: dk4212, colAje: 6, colSau: 7, colDk: 8 })
     itemsCount++
 
-    updatedSheets.push('F110')
+    updatedSheets.push(wsF110.name)
   }
 
   return {

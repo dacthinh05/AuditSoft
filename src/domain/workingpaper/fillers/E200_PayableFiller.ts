@@ -2,6 +2,7 @@ import type ExcelJS from 'exceljs'
 import type { WorkingPaperFillContext, SectionFillResult } from '../types'
 import {
   fillAddSheet,
+  findWorksheetFuzzy,
   normalizeWorkbookSharedFormulas,
   setLeadRowValues,
   styleCellAmount,
@@ -28,7 +29,7 @@ export function fillPayableWorkingPaper(
   }
 
   // 2. E 210 Lead schedule
-  const wsE210 = wb.getWorksheet('E 210')
+  const wsE210 = findWorksheetFuzzy(wb, ['E 210', 'E210'])
   if (wsE210) {
     const sum331CoCK = Array.from(ctx.cdfsAccounts.values())
       .filter((a) => a.matk.startsWith('331'))
@@ -50,11 +51,43 @@ export function fillPayableWorkingPaper(
     setLeadRowValues(wsE210, 16, { ck: sum331CoCK, dk: sum331CoDK })
 
     itemsCount += 2
-    updatedSheets.push('E 210')
+    updatedSheets.push(wsE210.name)
+  }
+  // 2.1 E 250.2 Chi tiết số dư phải trả người bán (331) theo Nhà cung cấp
+  const wsE250_2 = findWorksheetFuzzy(wb, ['E 250.2', 'E250.2', 'E 250.1', 'E250.1'])
+  if (wsE250_2) {
+    const vendorBalanceMap = new Map<string, { no: number; co: number; desc: string }>()
+    for (const t of ctx.nkcTransactions) {
+      if (t.debit.startsWith('331') || t.credit.startsWith('331')) {
+        const key = t.custId || (t.desc.split(' ')[0] ?? 'NCC')
+        const curr = vendorBalanceMap.get(key) ?? { no: 0, co: 0, desc: t.desc }
+        if (t.debit.startsWith('331')) curr.no += t.amount
+        if (t.credit.startsWith('331')) curr.co += t.amount
+        vendorBalanceMap.set(key, curr)
+      }
+    }
+
+    const sortedVendors = Array.from(vendorBalanceMap.entries())
+      .sort((a, b) => Math.abs(b[1].co - b[1].no) - Math.abs(a[1].co - a[1].no))
+      .slice(0, 25)
+
+    let r = 20
+    for (const [vendorId, bal] of sortedVendors) {
+      const net = bal.co - bal.no
+      const row = wsE250_2.getRow(r)
+      styleCellCode(row.getCell(1), vendorId)
+      styleCellText(row.getCell(2), bal.desc.slice(0, 50))
+      styleCellAmount(row.getCell(3), net > 0 ? net : 0) // Dư Có 331 (Phải trả)
+      styleCellAmount(row.getCell(4), net < 0 ? Math.abs(net) : 0) // Dư Nợ 331 (Trả trước)
+      r++
+      itemsCount++
+    }
+    updatedSheets.push(wsE250_2.name)
   }
 
-  // 3. E 291 Chọn mẫu kiểm tra phát sinh phải trả người bán
-  const wsE291 = wb.getWorksheet('E 291') || wb.getWorksheet('E291')
+
+  // 3. E 291 Chọn mẫu kiểm tra phát sinh phải trả người bán (Hàng 20-42, giữ hàng 44 =SUM)
+  const wsE291 = findWorksheetFuzzy(wb, ['E 291', 'E291', 'E 251', 'E251'])
   if (wsE291) {
     const topPurchases = ctx.nkcTransactions
       .filter((t) => t.credit.startsWith('331'))

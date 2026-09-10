@@ -2,6 +2,7 @@ import type ExcelJS from 'exceljs'
 import type { WorkingPaperFillContext, SectionFillResult } from '../types'
 import {
   fillAddSheet,
+  findWorksheetFuzzy,
   normalizeWorkbookSharedFormulas,
   setLeadRowValues,
   styleCellAmount,
@@ -28,7 +29,7 @@ export function fillReceivableWorkingPaper(
   }
 
   // 2. D 310 Lead schedule
-  const wsD310 = wb.getWorksheet('D 310')
+  const wsD310 = findWorksheetFuzzy(wb, ['D 310', 'D310'])
   if (wsD310) {
     const acc131 = ctx.cdfsAccounts.get('131') || ctx.cdfsAccounts.get('1311') || ctx.cdfsAccounts.get('1312')
     if (acc131) {
@@ -57,11 +58,11 @@ export function fillReceivableWorkingPaper(
 
       itemsCount += 3
     }
-    updatedSheets.push('D 310')
+    updatedSheets.push(wsD310.name)
   }
 
   // 3. D 351.2 Chi tiết công nợ khách hàng
-  const wsD351 = wb.getWorksheet('D 351.2') || wb.getWorksheet('D 351.1')
+  const wsD351 = findWorksheetFuzzy(wb, ['D 351.2', 'D351.2', 'D 351.1', 'D351.1', 'D351'])
   if (wsD351) {
     const custBalanceMap = new Map<string, { no: number; co: number; desc: string }>()
 
@@ -94,7 +95,7 @@ export function fillReceivableWorkingPaper(
   }
 
   // 4. D 391 Chọn mẫu kiểm tra phát sinh công nợ phải thu
-  const wsD391 = wb.getWorksheet('D 391')
+  const wsD391 = findWorksheetFuzzy(wb, ['D 391', 'D391', 'D 354', 'D354'])
   if (wsD391) {
     const topReceivableEntries = ctx.nkcTransactions
       .filter((t) => t.debit.startsWith('131') || t.credit.startsWith('131'))
@@ -113,7 +114,7 @@ export function fillReceivableWorkingPaper(
       r++
       itemsCount++
     }
-    updatedSheets.push('D 391')
+    updatedSheets.push(wsD391.name)
   }
 
   return {

@@ -2,6 +2,7 @@ import type ExcelJS from 'exceljs'
 import type { WorkingPaperFillContext, SectionFillResult } from '../types'
 import {
   fillAddSheet,
+  findWorksheetFuzzy,
   normalizeWorkbookSharedFormulas,
   setLeadRowValues,
   styleCellAmount,
@@ -28,7 +29,7 @@ export function fillCashWorkingPaper(
   }
 
   // 2. D 110 Lead schedule tổng hợp
-  const wsD110 = wb.getWorksheet('D 110')
+  const wsD110 = findWorksheetFuzzy(wb, ['D 110', 'D110'])
   if (wsD110) {
     const sum111CK = Array.from(ctx.cdfsAccounts.values())
       .filter((a) => a.matk.startsWith('111'))
@@ -66,11 +67,11 @@ export function fillCashWorkingPaper(
     setLeadRowValues(wsD110, 20, { tk: '1288', ten: 'Đầu tư ngắn hạn khác', ck: 0, dk: 0 })
     itemsCount++
 
-    updatedSheets.push('D 110')
+    updatedSheets.push(wsD110.name)
   }
 
   // 3. D 110.1 Chi tiết từng tài khoản ngân hàng
-  const wsD110_1 = wb.getWorksheet('D 110.1')
+  const wsD110_1 = findWorksheetFuzzy(wb, ['D 110.1', 'D110.1'])
   if (wsD110_1) {
     const bankAccounts = Array.from(ctx.cdfsAccounts.values()).filter((a) => a.matk.startsWith('112'))
     for (let i = 0; i < 8; i++) {
@@ -88,11 +89,11 @@ export function fillCashWorkingPaper(
         setLeadRowValues(wsD110_1, r, { ck: 0, dk: 0 })
       }
     }
-    updatedSheets.push('D 110.1')
+    updatedSheets.push(wsD110_1.name)
   }
 
   // 4. D 141 Bút toán điều chỉnh
-  const wsD141 = wb.getWorksheet('D 141')
+  const wsD141 = findWorksheetFuzzy(wb, ['D 141', 'D141'])
   if (wsD141 && ctx.adjustingEntries && ctx.adjustingEntries.length > 0) {
     const cashAjes = ctx.adjustingEntries.filter(
       (a) => a.tkNo.startsWith('111') || a.tkCo.startsWith('111') || a.tkNo.startsWith('112') || a.tkCo.startsWith('112'),
@@ -111,11 +112,10 @@ export function fillCashWorkingPaper(
       styleCellText(row.getCell(7), aje.chiTieuCdkt || 'Tiền và tương đương tiền')
       itemsCount++
     }
-    updatedSheets.push('D 141')
+    updatedSheets.push(wsD141.name)
   }
-
   // 5. D 191.1 Chọn mẫu chi tiền mặt (1111)
-  const wsD191_1 = wb.getWorksheet('D 191.1')
+  const wsD191_1 = findWorksheetFuzzy(wb, ['D 191.1', 'D191.1'])
   if (wsD191_1) {
     const cashOutEntries = ctx.nkcTransactions.filter((t) => t.credit.startsWith('1111'))
     const keyCash = cashOutEntries.filter((t) => Math.abs(t.amount) >= 10_000_000).sort((a, b) => b.amount - a.amount).slice(0, 10)
@@ -142,11 +142,11 @@ export function fillCashWorkingPaper(
       r++
       itemsCount++
     }
-    updatedSheets.push('D 191.1')
+    updatedSheets.push(wsD191_1.name)
   }
 
   // 6. D 191.2 Chọn mẫu phát sinh tiền gửi ngân hàng (112)
-  const wsD191_2 = wb.getWorksheet('D 191.2')
+  const wsD191_2 = findWorksheetFuzzy(wb, ['D 191.2', 'D191.2'])
   if (wsD191_2) {
     const bankEntries = ctx.nkcTransactions.filter((t) => t.debit.startsWith('112') || t.credit.startsWith('112'))
     const topBank = bankEntries.sort((a, b) => b.amount - a.amount).slice(0, 20)
@@ -160,59 +160,82 @@ export function fillCashWorkingPaper(
       styleCellCode(row.getCell(4), item.debit)
       styleCellCode(row.getCell(5), item.credit)
       styleCellAmount(row.getCell(6), item.amount)
-      styleCellCode(row.getCell(7), 'ü')
+      styleCellCode(row.getCell(7), 'P')
       r++
       itemsCount++
     }
-    updatedSheets.push('D 191.2')
+    updatedSheets.push(wsD191_2.name)
   }
 
-  // 7. D 195TM Cutoff Tiền mặt
-  const ws195TM = wb.getWorksheet('D 195TM')
+  // 7. D 195TM Cutoff Tiền mặt (Lấy các giao dịch sát ngày khóa sổ 31/12)
+  const ws195TM = findWorksheetFuzzy(wb, ['D 195TM', 'D195TM'])
   if (ws195TM) {
-    const cashYearEnd = ctx.nkcTransactions
-      .filter((t) => t.debit.startsWith('111') || t.credit.startsWith('111'))
-      .sort((a, b) => b.amount - a.amount)
-      .slice(0, 5)
+    const cashAll = ctx.nkcTransactions.filter((t) => t.debit.startsWith('111') || t.credit.startsWith('111'))
+    const cashYearEnd = cashAll
+      .filter((t) => t.month === 12)
+      .slice(-5)
+    const fallbackSamples = cashYearEnd.length >= 5 ? cashYearEnd : cashAll.slice(-5)
 
-    let r = 14
-    for (const item of cashYearEnd.slice(0, 5)) {
+    for (let i = 0; i < 10; i++) {
+      const r = 14 + i
       const row = ws195TM.getRow(r)
-      styleCellDate(row.getCell(1), item.dateVal)
-      styleCellCode(row.getCell(2), item.docNo)
-      styleCellText(row.getCell(3), item.desc)
-      styleCellCode(row.getCell(4), item.debit)
-      styleCellCode(row.getCell(5), item.credit)
-      styleCellAmount(row.getCell(6), item.amount)
-      styleCellCode(row.getCell(7), 'ü')
-      r++
-      itemsCount++
+      const item = fallbackSamples[i]
+      if (item) {
+        styleCellDate(row.getCell(1), item.dateVal)
+        styleCellCode(row.getCell(2), item.docNo)
+        styleCellText(row.getCell(3), item.desc)
+        styleCellCode(row.getCell(4), item.debit)
+        styleCellCode(row.getCell(5), item.credit)
+        styleCellAmount(row.getCell(6), item.amount)
+        styleCellCode(row.getCell(7), 'P')
+        itemsCount++
+      } else {
+        // Dọn sạch dữ liệu cũ và tickmark mồ côi
+        row.getCell(1).value = ''
+        row.getCell(2).value = ''
+        row.getCell(3).value = ''
+        row.getCell(4).value = ''
+        row.getCell(5).value = ''
+        row.getCell(6).value = 0
+        row.getCell(7).value = ''
+      }
     }
-    updatedSheets.push('D 195TM')
+    updatedSheets.push(ws195TM.name)
   }
 
-  // 8. D 195TGNH Cutoff Tiền gửi ngân hàng
-  const ws195TGNH = wb.getWorksheet('D 195TGNH')
+  // 8. D 195TGNH Cutoff Tiền gửi ngân hàng (Lấy các giao dịch sát 31/12)
+  const ws195TGNH = findWorksheetFuzzy(wb, ['D 195TGNH', 'D195TGNH'])
   if (ws195TGNH) {
-    const bankYearEnd = ctx.nkcTransactions
-      .filter((t) => t.debit.startsWith('112') || t.credit.startsWith('112'))
-      .sort((a, b) => b.amount - a.amount)
-      .slice(0, 5)
+    const bankAll = ctx.nkcTransactions.filter((t) => t.debit.startsWith('112') || t.credit.startsWith('112'))
+    const bankYearEnd = bankAll
+      .filter((t) => t.month === 12)
+      .slice(-5)
+    const fallbackBank = bankYearEnd.length >= 5 ? bankYearEnd : bankAll.slice(-5)
 
-    let r = 13
-    for (const item of bankYearEnd) {
+    for (let i = 0; i < 10; i++) {
+      const r = 13 + i
       const row = ws195TGNH.getRow(r)
-      styleCellDate(row.getCell(1), item.dateVal)
-      styleCellCode(row.getCell(2), item.docNo)
-      styleCellText(row.getCell(3), item.desc)
-      styleCellCode(row.getCell(4), item.debit)
-      styleCellCode(row.getCell(5), item.credit)
-      styleCellAmount(row.getCell(6), item.amount)
-      styleCellCode(row.getCell(7), 'ü')
-      r++
-      itemsCount++
+      const item = fallbackBank[i]
+      if (item) {
+        styleCellDate(row.getCell(1), item.dateVal)
+        styleCellCode(row.getCell(2), item.docNo)
+        styleCellText(row.getCell(3), item.desc)
+        styleCellCode(row.getCell(4), item.debit)
+        styleCellCode(row.getCell(5), item.credit)
+        styleCellAmount(row.getCell(6), item.amount)
+        styleCellCode(row.getCell(7), 'P')
+        itemsCount++
+      } else {
+        row.getCell(1).value = ''
+        row.getCell(2).value = ''
+        row.getCell(3).value = ''
+        row.getCell(4).value = ''
+        row.getCell(5).value = ''
+        row.getCell(6).value = 0
+        row.getCell(7).value = ''
+      }
     }
-    updatedSheets.push('D 195TGNH')
+    updatedSheets.push(ws195TGNH.name)
   }
 
   return {
