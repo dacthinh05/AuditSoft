@@ -3,168 +3,93 @@
   "diagram_type": "dataflow",
   "meta": {
     "title": "AuditSoft — Sơ Đồ Luồng Dữ Liệu & Liên Kết Phân Hệ",
-    "subtitle": "Quy trình khép kín: Sổ Kế Toán -> Đối Chiếu NKC -> Phân Tích Rủi Ro -> Bốc Mẫu VSA 530 -> B410 Master",
+    "subtitle": "Quy trình 3 trụ cột: Tiếp Nhận & Đối Chiếu -> Bốc Mẫu VSA 530 -> Tổng Hợp B410 & Giấy Làm Việc",
     "visual_preset": "signal-flow",
     "theme": "dark",
     "animation": "trace",
     "views": [
       {
-        "id": "chap-1",
-        "title": "1. Thu Thập Dữ Liệu Đầu Vào",
-        "narrative": "KTV nạp Sổ Nhật Ký Chung, Bảng CĐPS, file Tờ khai Thuế XML và các file B410 chi tiết của nhóm kiểm toán.",
-        "focus_nodes": ["src_nkc", "src_cdfs", "src_etax", "src_b410_ktv"]
+        "id": "chap-all",
+        "title": "Toàn Bộ Chu Trình Kiểm Toán",
+        "narrative": "Quy trình 3 trụ cột khép kín: Tiếp nhận & Đối chiếu -> Bốc mẫu VSA 530 -> Báo cáo B410 Master & Giấy làm việc.",
+        "focus_nodes": ["mod_reconcile", "mod_analytics", "mod_etax", "mod_sampling", "mod_b410", "mod_wp"]
       },
       {
-        "id": "chap-2",
-        "title": "2. Đối Chiếu Sổ Sách & Phân Tích Rủi Ro",
-        "narrative": "Phân hệ #02 đối chiếu tìm chênh lệch Trước vs Sau KT; #05 phân tích xu hướng 12 tháng & Pareto nhà cung cấp; #04 chuyển đổi tờ khai XML TT 80.",
+        "id": "chap-1",
+        "title": "1. Tiếp Nhận & Đối Chiếu Dữ Liệu",
+        "narrative": "Đối chiếu 2 sổ NKC (#02), phân tích xu hướng 12 tháng & Pareto (#05), nâng cấp tờ khai thuế XML (#04).",
         "focus_nodes": ["mod_reconcile", "mod_analytics", "mod_etax"]
       },
       {
-        "id": "chap-3",
-        "title": "3. Bốc Mẫu Kiểm Toán Chuẩn Mực VSA 530",
-        "narrative": "Lọc sạch bút toán kết chuyển, bốc mẫu bước nhảy MUS, tự động bắt phần tử trọng yếu và nhận diện bút toán rủi ro cao từ bước đối chiếu.",
-        "focus_nodes": ["mod_sampling", "audit_testing"]
+        "id": "chap-2",
+        "title": "2. Bốc Mẫu Kiểm Toán VSA 530",
+        "narrative": "Trung tâm bốc mẫu (#03) tiếp nhận bút toán chênh lệch từ #02 và cảnh báo rủi ro từ #05 để phân tầng bốc mẫu.",
+        "focus_nodes": ["mod_sampling"]
       },
       {
-        "id": "chap-4",
-        "title": "4. Tổng Hợp Sai Sót B410 & Giấy Làm Việc",
-        "narrative": "Toàn bộ sai sót kiểm tra chi tiết được tự động gộp vào file B410 Master (#01) và đồng bộ vào bộ 12 Giấy làm việc chuẩn mẫu VACPA (#06).",
-        "focus_nodes": ["mod_b410", "mod_wp", "tax_risk"]
+        "id": "chap-3",
+        "title": "3. Báo Cáo & Tổng Hợp Hồ Sơ",
+        "narrative": "Hợp nhất sai sót vào bảng B410 Master (#01) và tự động sinh bộ 12 Giấy làm việc chuẩn mẫu VACPA (#06).",
+        "focus_nodes": ["mod_b410", "mod_wp"]
       }
     ]
   },
   "stages": [
-    { "id": "stage-sources", "label": "1. Dữ Liệu Sổ Sách Đầu Vào", "order": 0 },
-    { "id": "stage-audit-analysis", "label": "2. Đối Chiếu & Rà Soát Rủi Ro", "order": 1 },
-    { "id": "stage-sampling", "label": "3. Bốc Mẫu Chuẩn Mực VSA 530", "order": 2 },
-    { "id": "stage-deliverables", "label": "4. Hồ Sơ Báo Cáo & Giấy Làm Việc", "order": 3 }
+    { "id": "stage-ingest-reconcile", "label": "1. TIẾP NHẬN & ĐỐI CHIẾU SỔ SÁCH", "order": 0 },
+    { "id": "stage-sampling", "label": "2. BỐC MẪU CHUẨN MỰC VSA 530", "order": 1 },
+    { "id": "stage-reporting", "label": "3. BÁO CÁO & TỔNG HỢP HỒ SƠ", "order": 2 }
   ],
   "nodes": [
     {
-      "id": "src_nkc",
-      "label": "Sổ Nhật Ký Chung (NKC)",
-      "description": "File Excel hoặc dán clipboard sổ kế toán trước/sau kiểm toán",
-      "role": "source",
-      "stage": "stage-sources",
-      "classification": "confidential"
-    },
-    {
-      "id": "src_cdfs",
-      "label": "Bảng CĐPS / Sổ Cái",
-      "description": "Bảng cân đối phát sinh tài khoản dùng để đối chiếu tổng thể",
-      "role": "source",
-      "stage": "stage-sources",
-      "classification": "confidential"
-    },
-    {
-      "id": "src_etax",
-      "label": "Tờ Khai Thuế eTax XML",
-      "description": "File XML tờ khai QTT 03/TNDN, 01/GTGT từ Thuế điện tử",
-      "role": "source",
-      "stage": "stage-sources",
-      "classification": "confidential"
-    },
-    {
-      "id": "src_b410_ktv",
-      "label": "File B410 Chi Tiết Nhóm",
-      "description": "Các file Excel B410 do từng trợ lý kiểm toán lập cho từng phần hành",
-      "role": "source",
-      "stage": "stage-sources",
-      "classification": "internal"
-    },
-    {
       "id": "mod_reconcile",
       "label": "#02 Đối Chiếu 2 Sổ NKC",
-      "description": "So khớp đối chiếu dòng bút toán, phân loại chênh lệch thừa/thiếu/lệch tiền",
+      "description": "Nạp 2 sổ NKC trước & sau kiểm toán, so khớp tự động, bóc tách chênh lệch từng dòng bút toán",
       "role": "transform",
-      "stage": "stage-audit-analysis",
+      "stage": "stage-ingest-reconcile",
       "classification": "internal"
     },
     {
       "id": "mod_analytics",
       "label": "#05 Phân Tích Cơ Bản & Rủi Ro",
-      "description": "Biến động 12 tháng, phân tích Pareto khách hàng/nhà cung cấp lớn nhất",
+      "description": "Biến động doanh thu/chi phí 12 tháng, phân tích Pareto khách hàng/nhà cung cấp trọng yếu",
       "role": "transform",
-      "stage": "stage-audit-analysis",
+      "stage": "stage-ingest-reconcile",
       "classification": "internal"
     },
     {
       "id": "mod_etax",
       "label": "#04 Chuyển Đổi Tờ Khai eTax",
-      "description": "Nâng cấp cấu trúc XML TT 151 sang TT 80 mới nhất (XML 2.9.4)",
+      "description": "Nâng cấp cấu trúc XML tờ khai thuế từ TT 151 sang TT 80 mới nhất (XML 2.9.4 / HTKK 5.6.2)",
       "role": "transform",
-      "stage": "stage-audit-analysis",
+      "stage": "stage-ingest-reconcile",
       "classification": "internal"
     },
     {
       "id": "mod_sampling",
       "label": "#03 Chọn Mẫu VSA 530",
-      "description": "Phân tầng Key Items, lấy mẫu số học MUS và duyệt chọn mẫu đặc biệt",
+      "description": "Lọc sạch bút toán kết chuyển, bốc mẫu Key items, bước nhảy số học MUS kết hợp tự chọn mẫu đặc biệt",
       "role": "filter",
-      "stage": "stage-sampling",
-      "classification": "internal"
-    },
-    {
-      "id": "audit_testing",
-      "label": "Thực Hiện Kiểm Tra Mẫu",
-      "description": "KTV kiểm tra chứng từ gốc theo danh sách mẫu được bốc",
-      "role": "consumer",
       "stage": "stage-sampling",
       "classification": "internal"
     },
     {
       "id": "mod_b410",
       "label": "#01 Tổng Hợp B410 Master",
-      "description": "Hợp nhất tự động toàn bộ bút toán sai sót vào bảng Master B410",
+      "description": "Hợp nhất tự động toàn bộ file B410 chi tiết của KTV thành file Master B410 chuẩn, giữ nguyên định dạng",
       "role": "store",
-      "stage": "stage-deliverables",
+      "stage": "stage-reporting",
       "classification": "internal"
     },
     {
       "id": "mod_wp",
       "label": "#06 Lập 12 Giấy Làm Việc",
-      "description": "Sinh bộ Working Papers hồ sơ kiểm toán mẫu theo chuẩn VACPA",
+      "description": "Tự động sinh bộ hồ sơ 12 Giấy làm việc kiểm toán mẫu chuẩn VACPA (A110, B410, C/E-series...)",
       "role": "sink",
-      "stage": "stage-deliverables",
-      "classification": "internal"
-    },
-    {
-      "id": "tax_risk",
-      "label": "Rà Soát Rủi Ro Thuế B4",
-      "description": "Hồ sơ rủi ro thuế TNDN, tiền mặt > 20 triệu, chi phí không được trừ",
-      "role": "sink",
-      "stage": "stage-deliverables",
+      "stage": "stage-reporting",
       "classification": "internal"
     }
   ],
   "flows": [
-    {
-      "from": "src_nkc",
-      "to": "mod_reconcile",
-      "label": "Dữ liệu 2 sổ NKC",
-      "schema_type": "Excel/CSV"
-    },
-    {
-      "from": "src_cdfs",
-      "to": "mod_reconcile",
-      "label": "Số dư đối chiếu"
-    },
-    {
-      "from": "src_nkc",
-      "to": "mod_analytics",
-      "label": "Bút toán 12 tháng"
-    },
-    {
-      "from": "src_etax",
-      "to": "mod_etax",
-      "label": "XML gốc tờ khai"
-    },
-    {
-      "from": "src_nkc",
-      "to": "mod_sampling",
-      "label": "Tổng thể sau lọc kết chuyển"
-    },
     {
       "from": "mod_reconcile",
       "to": "mod_sampling",
@@ -173,37 +98,22 @@
     {
       "from": "mod_analytics",
       "to": "mod_sampling",
-      "label": "Tháng biến động rủi ro"
+      "label": "Tháng & đối tác rủi ro cao"
     },
     {
-      "from": "mod_analytics",
-      "to": "tax_risk",
-      "label": "Chỉ tiêu B4 & Chi phí rủi ro"
+      "from": "mod_etax",
+      "to": "mod_analytics",
+      "label": "Dữ liệu thuế đối chiếu chéo"
     },
     {
       "from": "mod_sampling",
-      "to": "audit_testing",
-      "label": "Danh sách mẫu kiểm toán"
-    },
-    {
-      "from": "audit_testing",
       "to": "mod_b410",
-      "label": "Sai sót kiểm toán phát hiện"
-    },
-    {
-      "from": "src_b410_ktv",
-      "to": "mod_b410",
-      "label": "Nạp các file B410 thành viên"
-    },
-    {
-      "from": "mod_reconcile",
-      "to": "mod_b410",
-      "label": "Bút toán điều chỉnh đề xuất"
+      "label": "Danh sách mẫu & Sai sót phát hiện"
     },
     {
       "from": "mod_b410",
       "to": "mod_wp",
-      "label": "Hợp nhất vào Hồ sơ kiểm toán"
+      "label": "Đồng bộ số liệu vào hồ sơ VACPA"
     }
   ]
 }
