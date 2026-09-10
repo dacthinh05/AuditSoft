@@ -1,50 +1,15 @@
+import { ModuleGateBanner } from '../ModuleGateBanner'
 import { useEffect, useState, useRef } from 'react'
 import { useApp } from '../../state/store'
-import type { AnalysisResult, JournalEntry, IncomeStatementData, JournalRowDTO } from '../../../shared/types/analytics'
-import { makeMoney } from '../../../domain/money'
-import type { IngestedTaxDeclarations } from '../../../shared/types/taxAnalytics'
-import type { TaxCrossReconciliationResult } from '../../../domain/analytics/TaxCrossReconciler'
 import type { GlAnalyticsResult } from '../../../domain/analytics/types'
 import { EbitdaCalculator } from '../../../domain/analytics/EbitdaCalculator'
 import { RelatedPartyScanner } from '../../../domain/analytics/RelatedPartyScanner'
 import { ConcentrationAnalyzer } from '../../../domain/analytics/ConcentrationAnalyzer'
 import { Trend12MAnalyzer } from '../../../domain/analytics/Trend12MAnalyzer'
-import { TaxCrossReconciler } from '../../../domain/analytics/TaxCrossReconciler'
 import { FinancialCorrelationEngine } from '../../../domain/analytics/FinancialCorrelationEngine'
+import { analyzeJournal } from '../../../domain/analytics/ExpenseDetailAnalyzer'
+import { dtoToEntries, dtoToKqkd } from './analyticsMappers'
 import { GlAnalyticsTab } from './GlAnalyticsTab'
-import { TaxAnalyticsTab } from './TaxAnalyticsTab'
-
-function dtoToEntries(rows: JournalRowDTO[]): JournalEntry[] {
-  return rows.map((row) => ({
-    id: row.id,
-    source: { fileName: '', sheetName: '', rowNumber: 0 },
-    postingDate: row.date,
-    documentNumber: row.doc,
-    description: row.desc,
-    debitAccount: row.debit,
-    creditAccount: row.credit,
-    amount: makeMoney(BigInt(Math.round(row.amount)), 0),
-    foreignAmount: null,
-    exchangeRate: null,
-    objectCode: null,
-    customerName: null,
-    month: row.month,
-    issues: [],
-  }))
-}
-
-function dtoToKqkd(kqkd: AnalysisResult['kqkd']): IncomeStatementData | null {
-  if (!kqkd || !kqkd.lines) return null
-  return {
-    lines: kqkd.lines.map((l) => ({
-      maSo: l.maSo,
-      chiTieu: l.chiTieu,
-      current: l.current != null ? makeMoney(BigInt(Math.round(l.current)), 0) : null,
-      prior: l.prior != null ? makeMoney(BigInt(Math.round(l.prior)), 0) : null,
-    })),
-    source: null,
-  }
-}
 
 function extractDroppedFilePath(file: File): string | null {
   if (window.auditsoft?.getPathForFile) {
@@ -70,7 +35,7 @@ function isExcelOrCsvPath(nameOrPath: string): boolean {
 export function PreliminaryAnalyticsPage(): JSX.Element {
   const beforeCfg = useApp((s) => s.before.cfg)
   const afterCfg = useApp((s) => s.after.cfg)
-  const [activeSubTab, setActiveSubTab] = useState<'gl' | 'tax'>('gl')
+  const setGlSnapshot = useApp((s) => s.setGlSnapshot)
 
   const [isLoading, setIsLoading] = useState(false)
   const [loadingMsg, setLoadingMsg] = useState('')
@@ -78,10 +43,7 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
   const [isDragging, setIsDragging] = useState(false)
   const dragCounter = useRef(0)
 
-  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null)
   const [glResult, setGlResult] = useState<GlAnalyticsResult | null>(null)
-  const [taxData, setTaxData] = useState<IngestedTaxDeclarations | null>(null)
-  const [taxReconResult, setTaxReconResult] = useState<TaxCrossReconciliationResult | null>(null)
 
   const filePath = beforeCfg?.filePath || afterCfg?.filePath || ''
 
@@ -100,7 +62,6 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
           filePath,
         })
         if (cancelled) return
-        setAnalysisResult(res)
 
         const entries = dtoToEntries(res.journals || [])
         const incomeStatement = dtoToKqkd(res.kqkd)
@@ -111,6 +72,7 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
         const pareto = ConcentrationAnalyzer.analyze(entries)
         const trend12m = Trend12MAnalyzer.analyze(entries)
         const correlations = FinancialCorrelationEngine.analyze(entries, incomeStatement)
+        const expenseDetail = analyzeJournal(entries)
 
         setGlResult({
           ebitda,
@@ -118,17 +80,11 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
           pareto,
           trend12m,
           correlations,
+          expenseDetail,
         })
 
-        // Nếu đã có dữ liệu thuế, chạy đối chiếu luôn
-        if (taxData) {
-          const recon = TaxCrossReconciler.reconcile(
-            entries,
-            taxData.vatDeclarations,
-            taxData.pitDeclarations,
-          )
-          setTaxReconResult(recon)
-        }
+        // Cache journals thô cho module Thuế đối chiếu chéo
+        setGlSnapshot({ filePath, journals: res.journals || [] })
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : String(err))
@@ -143,33 +99,6 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
       cancelled = true
     }
   }, [filePath])
-
-  // 2. Xử lý khi người dùng kéo thả file XML thuế
-  async function handleTaxFilesSelected(filePaths: string[]): Promise<void> {
-    if (!window.auditsoft?.importTaxXmlFiles) return
-
-    setIsLoading(true)
-    setLoadingMsg(`Đang đọc ${filePaths.length} tệp tờ khai thuế...`)
-    setError(null)
-
-    try {
-      const ingested = await window.auditsoft.importTaxXmlFiles(filePaths)
-      setTaxData(ingested)
-
-      // Đối chiếu chéo với sổ NKC (nếu đã nạp)
-      const entries = dtoToEntries(analysisResult?.journals || [])
-      const recon = TaxCrossReconciler.reconcile(
-        entries,
-        ingested.vatDeclarations,
-        ingested.pitDeclarations,
-      )
-      setTaxReconResult(recon)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err))
-    } finally {
-      setIsLoading(false)
-    }
-  }
 
   // 3. Chọn file sổ kế toán nếu chưa nạp hoặc muốn đổi
   async function handlePickAccountingFile(): Promise<void> {
@@ -186,7 +115,6 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
 
   // 4. Kéo thả file Excel trực tiếp vào màn hình
   function handleDragEnter(e: React.DragEvent): void {
-    if (activeSubTab === 'tax') return
     e.preventDefault()
     e.stopPropagation()
     dragCounter.current++
@@ -196,7 +124,6 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
   }
 
   function handleDragLeave(e: React.DragEvent): void {
-    if (activeSubTab === 'tax') return
     e.preventDefault()
     e.stopPropagation()
     dragCounter.current--
@@ -212,8 +139,6 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
   }
 
   async function handleDrop(e: React.DragEvent): Promise<void> {
-    // Khi đang ở tab Thuế XML, để TaxDropZone tự xử lý — không can thiệp
-    if (activeSubTab === 'tax') return
     e.preventDefault()
     e.stopPropagation()
     dragCounter.current = 0
@@ -266,6 +191,7 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
         background: '#f8fafc',
       }}
     >
+      <ModuleGateBanner requirement="BEFORE" moduleName="Phân tích cơ bản" />
       {/* Floating Drag Overlay khi kéo thả file đè lên trang */}
       {isDragging && (
         <div
@@ -307,7 +233,7 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <h1 style={{ margin: 0, color: '#0f172a', fontSize: '18px', fontWeight: 700 }}>
-              Phân Tích Cơ Bản Sổ NKC & Thống Kê Thuế GTGT/TNCN
+              Phân Tích Sổ NKC & Đồ Thị Tương Quan Tài Chính
             </h1>
             <span
               style={{
@@ -324,7 +250,7 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
             </span>
           </div>
           <div style={{ fontSize: '12.5px', color: '#64748b', marginTop: '4px' }}>
-            Bóc tách EBITDA 30% Lãi vay (NĐ 132/2020), Quét nghi ngờ Bên liên quan (VSA 550), Tỷ trọng Pareto & Đối chiếu Thuế.
+            Bóc tách EBITDA 30% Lãi vay (NĐ 132/2020), Quét nghi ngờ Bên liên quan (VSA 550), Tỷ trọng Pareto, Ma trận 12 tháng & Đồ thị tương quan.
           </div>
         </div>
 
@@ -398,65 +324,6 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
         )}
       </div>
 
-      {/* ── Sub-tab Navigation (Pill Switcher Chuẩn UI) ── */}
-      <div
-        style={{
-          display: 'inline-flex',
-          background: '#f1f5f9',
-          padding: '4px',
-          borderRadius: '8px',
-          border: '1px solid #e2e8f0',
-          gap: '4px',
-          width: 'fit-content',
-        }}
-      >
-        <button
-          type="button"
-          onClick={() => setActiveSubTab('gl')}
-          style={{
-            background: activeSubTab === 'gl' ? '#ffffff' : 'transparent',
-            color: activeSubTab === 'gl' ? '#0284c7' : '#64748b',
-            border: 'none',
-            padding: '6px 16px',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontWeight: activeSubTab === 'gl' ? 700 : 600,
-            fontSize: '12.5px',
-            boxShadow: activeSubTab === 'gl' ? '0 1px 2px rgba(0, 0, 0, 0.08)' : 'none',
-            transition: 'all 0.15s ease',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-          }}
-        >
-          <span>📊</span>
-          <span>Phân Tích Sổ NKC & BCTC (EBITDA, Bên Liên Quan, Pareto, 12 Tháng)</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveSubTab('tax')}
-          style={{
-            background: activeSubTab === 'tax' ? '#ffffff' : 'transparent',
-            color: activeSubTab === 'tax' ? '#0284c7' : '#64748b',
-            border: 'none',
-            padding: '6px 16px',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontWeight: activeSubTab === 'tax' ? 700 : 600,
-            fontSize: '12.5px',
-            boxShadow: activeSubTab === 'tax' ? '0 1px 2px rgba(0, 0, 0, 0.08)' : 'none',
-            transition: 'all 0.15s ease',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-          }}
-        >
-          <span>📑</span>
-          <span>Thống Kê Tờ Khai Thuế GTGT & TNCN (Kéo Thả XML / ZIP)</span>
-        </button>
-      </div>
-
       {error && (
         <div
           style={{
@@ -479,9 +346,8 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
         </div>
       )}
 
-      {/* Nội dung Sub-tab 1: Sổ NKC */}
-      {activeSubTab === 'gl' && (
-        <div>
+      {/* Nội dung phân tích Sổ NKC */}
+      <div>
           {glResult ? (
             <GlAnalyticsTab data={glResult} />
           ) : (
@@ -527,17 +393,6 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
             )
           )}
         </div>
-      )}
-
-      {/* Nội dung Sub-tab 2: Thuế XML */}
-      {activeSubTab === 'tax' && (
-        <TaxAnalyticsTab
-          taxData={taxData}
-          reconResult={taxReconResult}
-          onFilesSelected={handleTaxFilesSelected}
-          isLoading={isLoading}
-        />
-      )}
     </div>
   )
 }

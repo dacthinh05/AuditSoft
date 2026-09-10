@@ -1,7 +1,7 @@
-import { useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useApp, runReconcileNow } from '../state/store'
 import { PasteModal } from '../components/PasteModal'
-import type { ColumnMapping, SourceKind } from '../../domain/types'
+import type { ColumnMapping, SourceKind, StandardizeResult } from '../../domain/types'
 import {
   IconFolder,
   IconClipboard,
@@ -10,16 +10,11 @@ import {
   IconArrowRight,
 } from '../components/Icons'
 import { extractDroppedFilePath, isExcelOrCsvPath } from '../lib/fileDrop'
-import { DataSourceSwitcher } from '../components/DatabaseConnector/DataSourceSwitcher'
 
-const FIELDS: { key: keyof ColumnMapping; label: string; desc: string }[] = [
-  { key: 'date', label: 'Ngày ghi sổ', desc: 'Ngày chứng từ' },
-  { key: 'voucher', label: 'Số chứng từ', desc: 'Số phiếu / HĐ' },
-  { key: 'description', label: 'Diễn giải', desc: 'Nội dung nghiệp vụ' },
-  { key: 'debit', label: 'Tài khoản Nợ', desc: 'TK Nợ đối ứng' },
-  { key: 'credit', label: 'Tài khoản Có', desc: 'TK Có đối ứng' },
-  { key: 'amount', label: 'Số tiền phát sinh', desc: 'Giá trị phát sinh' },
-]
+import { standardizeSource } from '../../domain/pipeline/standardize'
+import { NkcSpecSection } from '../components/NkcSpecSection'
+
+import { NKC_COLUMN_SPEC as FIELDS, isAfterReady, isBeforeReady } from '../../domain/nkcRequirements'
 
 function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
   const side = useApp((s) => (kind === 'BEFORE' ? s.before : s.after))
@@ -38,6 +33,38 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
   const isLoaded = Boolean(side.pasted || side.meta)
   const isReady = Boolean(side.pasted || (side.cfg && mappingComplete))
   const isBefore = kind === 'BEFORE'
+  const [preflight, setPreflight] = useState<StandardizeResult | null>(null)
+  const [preflighting, setPreflighting] = useState(false)
+  const [preflightError, setPreflightError] = useState<string | null>(null)
+
+  // Đổi file/map là kết quả kiểm tra cũ hết hiệu lực
+  useEffect(() => {
+    setPreflight(null)
+    setPreflightError(null)
+  }, [side.cfg])
+
+  const canPreflight = isReady && side.cfg != null && !side.pasted && side.cfg.filePath !== '(clipboard)'
+
+  async function runPreflight(): Promise<void> {
+    if (!canPreflight || side.cfg == null) return
+    setPreflighting(true)
+    setPreflightError(null)
+    try {
+      const res = await window.auditsoft.readWorkbookRows(side.cfg.filePath, side.cfg.sheetName)
+      setPreflight(
+        standardizeSource({
+          rows: (res.rows ?? []) as unknown[][],
+          firstDataRowIndex: side.cfg.headerRow,
+          mapping: side.cfg.mapping,
+        }),
+      )
+    } catch (err) {
+      setPreflightError(err instanceof Error ? err.message : String(err))
+    } finally {
+      setPreflighting(false)
+    }
+  }
+
 
   async function loadFile(filePath: string): Promise<void> {
     if (typeof window.auditsoft === 'undefined') {
@@ -199,7 +226,7 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
               </div>
 
               <div className="file-actions-right">
-                {side.pasted && (
+                {side.pasted ? (
                   <button
                     type="button"
                     className="btn-reselect"
@@ -207,7 +234,7 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
                   >
                     Dán lại
                   </button>
-                )}
+                ) : null}
                 <button
                   type="button"
                   className="btn-action primary-upload"
@@ -281,7 +308,6 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
           </>
         )}
       </div>
-
       {/* ── 6-Field Column Mapping ── */}
       {side.cfg && (sheet || side.pasted) && (
         <div className="column-mapping-container">
@@ -290,7 +316,7 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
             <span className="mapping-status-count">
               {sheet
                 ? sheet.confidence >= 80 ? '✓ Tự động nhận diện chính xác' : 'Vui lòng kiểm tra lại mapping'
-                : '✓ Đã khớp 6 cột TT200 tự động (Clipboard)'}
+                : '✓ Đã khớp 6 cột TT200 tự động'}
             </span>
           </div>
 
@@ -322,12 +348,39 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
                           Cột {idx + 1}: {lbl || `(Cột ${idx + 1})`}
                         </option>
                       ))
-                      : <option value="">-- Clipboard: 6 cột TT200 tự động --</option>}
+                      : <option value="">-- Nguồn tự động: 6 cột TT200 --</option>}
                   </select>
                 </div>
               )
             })}
           </div>
+        </div>
+      )}
+      {/* ── Kiểm tra trước khi đối chiếu (Preflight) ── */}
+      {canPreflight && (
+        <div style={{ marginTop: '10px', background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '8px', padding: '10px 12px', fontSize: '12.5px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <button
+              type="button"
+              onClick={() => void runPreflight()}
+              disabled={preflighting}
+              style={{ background: '#0284c7', color: '#fff', border: 'none', borderRadius: '7px', padding: '6px 12px', fontSize: '12.5px', fontWeight: 700, cursor: 'pointer' }}
+            >
+              {preflighting ? 'Đang kiểm tra…' : '🔍 Kiểm tra file trước'}
+            </button>
+            {preflightError && <span style={{ color: '#b91c1c' }}>Lỗi: {preflightError}</span>}
+          </div>
+          {preflight && (
+            <div style={{ marginTop: '8px', color: '#0c4a6e', lineHeight: 1.6 }}>
+              <strong>Kết quả kiểm tra:</strong> {preflight.stats.dataRows.toLocaleString('vi-VN')} dòng hợp lệ
+              {' • '}{preflight.stats.blankRows.toLocaleString('vi-VN')} dòng trống (bỏ qua)
+              {' • '}{preflight.stats.zeroOrBadAmountRows.toLocaleString('vi-VN')} dòng tiền 0/lỗi (bị loại)
+              {' • '}{preflight.stats.errorRows.toLocaleString('vi-VN')} dòng gắn cờ lỗi
+              {preflight.stats.dataRows === 0 && (
+                <span style={{ color: '#b91c1c', fontWeight: 700 }}> — File không có dòng hợp lệ nào, hãy xem lại chuẩn NKC bên dưới.</span>
+              )}
+            </div>
+          )}
         </div>
       )}
       {/* Paste Modal */}
@@ -373,10 +426,33 @@ export function SetupPage(): JSX.Element {
           <div className="hero-badge-pill">Xuất Working Paper B360</div>
         </div>
       </div>
-      {/* ── Data Source Switcher (Excel vs Database) ── */}
-      <div className="mb-4">
-        <DataSourceSwitcher />
+      {/* ── Stepper 3 bước ── */}
+      <div style={{ display: 'flex', gap: '10px', margin: '14px 0 4px', flexWrap: 'wrap' }}>
+        {[
+          { n: 1, title: 'Nhập NKC TRƯỚC điều chỉnh', done: beforeReady, hint: 'Nguồn ① — mở khóa Phân tích, Thuế, Bốc mẫu' },
+          { n: 2, title: 'Nhập NKC SAU điều chỉnh', done: afterReady, hint: 'Nguồn ② — mở khóa So khớp, Xuất GLV' },
+          { n: 3, title: 'Đối chiếu & dùng các module', done: ready, hint: 'Bấm nút chạy ở thanh bên dưới' },
+        ].map((s) => (
+          <div
+            key={s.n}
+            style={{
+              flex: '1 1 200px',
+              background: s.done ? '#ecfdf5' : '#ffffff',
+              border: `1px solid ${s.done ? '#a7f3d0' : '#e2e8f0'}`,
+              borderRadius: '10px',
+              padding: '10px 14px',
+              fontSize: '12.5px',
+            }}
+          >
+            <div style={{ fontWeight: 800, color: s.done ? '#047857' : '#0f172a' }}>
+              {s.done ? '✓' : `${s.n}.`} {s.title}
+            </div>
+            <div style={{ color: '#64748b', marginTop: '2px' }}>{s.hint}</div>
+          </div>
+        ))}
       </div>
+      <NkcSpecSection />
+      {/* ── 2 Source Cards Grid ── */}
 
 
       {/* ── 2 Source Cards Grid ── */}

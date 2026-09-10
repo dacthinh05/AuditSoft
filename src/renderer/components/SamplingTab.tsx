@@ -1,3 +1,4 @@
+import { ModuleGateBanner } from './ModuleGateBanner'
 import { useMemo, useState, useRef } from 'react'
 import { useApp } from '../state/store'
 import {
@@ -899,6 +900,7 @@ export function SamplingTab(): JSX.Element {
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
+      <ModuleGateBanner requirement="BEFORE" moduleName="Bốc mẫu kiểm toán" />
       {/* Floating Drag Overlay khi kéo thả file đè lên trang đã nạp dữ liệu */}
       {isDragging && (
         <div className="sampling-drag-overlay">

@@ -1,3 +1,4 @@
+import { ModuleGateBanner } from '../components/ModuleGateBanner'
 import { useMemo, useState } from 'react'
 import { useApp, type TabKey } from '../state/store'
 import { useTrialExport } from '../../shared/license'
@@ -598,6 +599,7 @@ export function ResultsPage(): JSX.Element {
 
   return (
     <div className="page results-page">
+      <ModuleGateBanner requirement="BOTH" moduleName="So khớp đối chiếu" />
       {/* ── Top Action & Filter Header ── */}
       <div className="results-top-header">
         <label className="filter-toggle">
