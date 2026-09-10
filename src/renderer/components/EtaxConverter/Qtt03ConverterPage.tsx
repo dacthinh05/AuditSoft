@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useTrialExport } from '../../../shared/license'
+import { useApp } from '../../state/store'
 import { useEffect } from 'react'
 import { HtkkLocalBanner } from './HtkkLocalBanner'
 import { Qtt03DropZone } from './Qtt03DropZone'
@@ -33,13 +35,11 @@ export const Qtt03ConverterPage: React.FC = () => {
   const [newDoc, setNewDoc] = useState<Qtt03Document | null>(null)
   const [summary, setSummary] = useState<Qtt03ReconcileSummary | null>(null)
   const [exportModalOpen, setExportModalOpen] = useState(false)
-  const [sourceFileName, setSourceFileName] = useState<string>('03_TNDN.xml')
 
-  const handleFilesSelected = (oldXml: string, templateXml?: string, oldName?: string) => {
+  const handleFilesSelected = (oldXml: string, templateXml?: string, _oldName?: string) => {
     try {
       setLoading(true)
       setError(null)
-      if (oldName) setSourceFileName(oldName)
 
       // 1. Phân tích tờ khai cũ
       const parsedOld = EtaxXmlParser.parseQtt03(oldXml)
@@ -120,7 +120,17 @@ export const Qtt03ConverterPage: React.FC = () => {
             </button>
             <button
               type="button"
-              onClick={() => setExportModalOpen(true)}
+              onClick={() => {
+                const trial = useTrialExport()
+                if (!trial.allowed) {
+                  setError(trial.message)
+                  useApp.getState().setLicenseModalOpen(true)
+                  useApp.getState().refreshTrialStatus()
+                  return
+                }
+                useApp.getState().refreshTrialStatus()
+                setExportModalOpen(true)
+              }}
               style={{
                 padding: '7px 18px',
                 borderRadius: '6px',

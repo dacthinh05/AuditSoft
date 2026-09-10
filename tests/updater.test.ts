@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { compareVersions, DEFAULT_MANIFEST_URL } from '../src/main/updater'
+import { compareVersions, DEFAULT_MANIFEST_URL, downloadAndInstallUpdate } from '../src/main/updater'
 import type { UpdateManifest } from '../src/shared/types/update'
 
 describe('Auto-Update Engine — Remote Manifest & Version Comparison', () => {
@@ -29,9 +29,15 @@ describe('Auto-Update Engine — Remote Manifest & Version Comparison', () => {
 
     const data = (await res.json()) as UpdateManifest
     expect(data.version).toMatch(/^\d+\.\d+\.\d+$/)
-    expect(data.downloadUrl).toContain('https://github.com/dacthinh05/AuditSoft/releases/latest')
-    expect(data.portableUrl).toContain('https://github.com/dacthinh05/AuditSoft/releases/latest')
+    expect(data.downloadUrl).toContain('https://github.com/dacthinh05/AuditSoft/releases/')
+    expect(data.portableUrl).toContain('https://github.com/dacthinh05/AuditSoft/releases/')
     expect(Array.isArray(data.changelog)).toBe(true)
     expect(data.changelog.length).toBeGreaterThan(0)
+  })
+
+  it('từ chối tải file cập nhật từ địa chỉ không thuộc kho chính thức (SEC-01)', async () => {
+    await expect(
+      downloadAndInstallUpdate('https://malicious.com/fake-installer.exe')
+    ).rejects.toThrow('Nguồn phát hành không thuộc kho chính thức')
   })
 })

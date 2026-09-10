@@ -13,7 +13,7 @@ export const MASTER_PUBLIC_KEY_BASE64 = 'MCowBQYDK2VwAyEAOoDptMuej36M+mMrNKwoS4R
 const STORAGE_KEY_MACHINE_ID = 'auditsoft_machine_id'
 const STORAGE_KEY_LICENSE = 'auditsoft_license_token'
 const STORAGE_KEY_TRIAL_EXPORTS = 'auditsoft_trial_export_count'
-export const MAX_TRIAL_EXPORTS = 30
+export const MAX_TRIAL_EXPORTS = 20
 export const DEFAULT_VIP_LICENSE_KEY =
   'ASKEY-eyJtIjoiQVMtQUxMLU1BQ0hJTkVTLVBSTyIsIm4iOiJLaeG7g20gdG_DoW4gdmnDqm4gVklQIC0gVGjhu4tuaCBMeW54IFBybyIsInQiOiJMSUZFVElNRSIsImV4cCI6MCwiaWF0IjoxNzg4OTIxNDg4fQ.RvSrZXpgmzwOlSRWgxIBm7jHpoYnCyIaAlY2wSHTjZguWf-aVST0NKORd8Bbcxz15s_KnyZnq7tdcQRMPgBlAQ'
 
@@ -403,18 +403,9 @@ export function getLicenseStatus(): LicenseStatus {
       }
     }
 
-    // Xác thực nhanh thông tin payload
-    const parsed = parseLicenseToken(data.licenseKey)
-    if (!parsed.success || !parsed.payload) {
-      return {
-        isLicensed: false,
-        machineId,
-        licenseKey: null,
-        activatedAt: null,
-      }
-    }
-    const isUniversal = parsed.payload.m === '*' || parsed.payload.m === 'AS-ALL-MACHINES-PRO'
-    if (!isUniversal && parsed.payload.m.toUpperCase().trim() !== machineId.toUpperCase().trim()) {
+    // Xác thực toàn diện chữ ký số Ed25519 & tính hợp lệ của giấy phép (BIZ-01)
+    const verifyRes = verifyLicense(machineId, data.licenseKey)
+    if (!verifyRes.valid || !verifyRes.payload) {
       return {
         isLicensed: false,
         machineId,
@@ -423,17 +414,18 @@ export function getLicenseStatus(): LicenseStatus {
       }
     }
 
+    const payload = verifyRes.payload
     const nowSec = Math.floor(Date.now() / 1000)
-    const isExpired = parsed.payload.exp > 0 && parsed.payload.exp < nowSec
+    const isExpired = payload.exp > 0 && payload.exp < nowSec
 
     return {
       isLicensed: !isExpired,
       machineId,
-      customerName: data.customerName || parsed.payload.n || 'Kiểm toán viên VIP',
+      customerName: data.customerName || payload.n || 'Kiểm toán viên VIP',
       licenseKey: data.licenseKey,
       activatedAt: data.activatedAt ?? 'Không xác định',
-      expiresAt: parsed.payload.exp > 0 ? new Date(parsed.payload.exp * 1000).toLocaleDateString('vi-VN') : 'Vĩnh viễn',
-      plan: parsed.payload.t,
+      expiresAt: payload.exp > 0 ? new Date(payload.exp * 1000).toLocaleDateString('vi-VN') : 'Vĩnh viễn',
+      plan: payload.t,
       isExpired,
     }
   } catch {
@@ -551,7 +543,7 @@ export function useTrialExport(): { allowed: boolean; remainingExports: number; 
     return {
       allowed: true,
       remainingExports: 999999,
-      message: 'Bản quyền Vĩnh Viễn đã kích hoạt — Không giới hạn lượt xuất báo cáo!',
+      message: 'Bản quyền đã kích hoạt thành công — Không giới hạn lượt xuất báo cáo.',
     }
   }
 
@@ -560,7 +552,7 @@ export function useTrialExport(): { allowed: boolean; remainingExports: number; 
     return {
       allowed: false,
       remainingExports: 0,
-      message: `Bạn đã sử dụng hết ${MAX_TRIAL_EXPORTS} lượt xuất Excel dùng thử miễn phí. Vui lòng nâng cấp bản quyền để tiếp tục sử dụng!`,
+      message: `Bạn đã dùng hết ${MAX_TRIAL_EXPORTS} lượt xuất thử miễn phí. Hãy kích hoạt bản quyền để tiếp tục xuất file.`,
     }
   }
 
@@ -571,7 +563,7 @@ export function useTrialExport(): { allowed: boolean; remainingExports: number; 
   return {
     allowed: true,
     remainingExports: remaining,
-    message: `Đã sử dụng lượt xuất thử ${newCount}/${MAX_TRIAL_EXPORTS}. Còn lại ${remaining} lượt miễn phí.`,
+    message: `Bạn vừa dùng lượt xuất ${newCount}/${MAX_TRIAL_EXPORTS}. Còn lại ${remaining} lượt miễn phí.`,
   }
 }
 

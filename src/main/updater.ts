@@ -1,5 +1,8 @@
 import { app } from 'electron'
-import type { AppUpdateInfo, UpdateManifest } from '../shared/types/update'
+import fs from 'node:fs'
+import path from 'node:path'
+import { spawn } from 'node:child_process'
+import type { AppUpdateInfo, UpdateManifest, UpdateProgress, InstallUpdateResult } from '../shared/types/update'
 
 /**
  * URL manifest thông tin phiên bản mới nhất.
@@ -97,6 +100,124 @@ export async function checkForAppUpdates(customUrl?: string): Promise<AppUpdateI
       hasUpdate: false,
       checkedAt: now,
       error: errMsg.includes('abort') ? 'Hết thời gian kết nối (Timeout)' : 'Không có kết nối mạng',
+    }
+  }
+}
+
+/**
+ * Tải trực tiếp gói cài đặt Setup.exe từ máy chủ, hiển thị tiến trình % và kích hoạt cài đặt tự động
+ */
+export const OFFICIAL_RELEASE_PREFIX = 'https://github.com/dacthinh05/AuditSoft/releases/'
+
+export async function downloadAndInstallUpdate(
+  downloadUrl: string,
+  onProgress?: (progress: UpdateProgress) => void
+): Promise<InstallUpdateResult> {
+  let targetUrl = downloadUrl.trim()
+  if (targetUrl.endsWith('/latest') || targetUrl.includes('/releases/tag/')) {
+    targetUrl = 'https://github.com/dacthinh05/AuditSoft/releases/latest/download/AuditSoft-Setup.exe'
+  }
+
+  // Bảo vệ an ninh (SEC-01): Chỉ chấp nhận URL tải về từ GitHub Releases chính thức của dự án
+  if (!targetUrl.startsWith(OFFICIAL_RELEASE_PREFIX)) {
+    throw new Error(`Địa chỉ tải cập nhật không an toàn: Nguồn phát hành không thuộc kho chính thức (${OFFICIAL_RELEASE_PREFIX}).`)
+  }
+
+  const tempDir = app.getPath('temp')
+  const installerPath = path.join(tempDir, `AuditSoft_Update_Setup_${Date.now()}.exe`)
+
+  try {
+    onProgress?.({
+      stage: 'downloading',
+      percent: 0,
+      transferredBytes: 0,
+      totalBytes: 0,
+      message: 'Đang kết nối đến máy chủ cập nhật...',
+    })
+
+    const response = await fetch(targetUrl, {
+      redirect: 'follow',
+      headers: {
+        'User-Agent': `AuditSoft/${app.getVersion() || '1.0.0'}`,
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error(`Máy chủ báo lỗi HTTP ${response.status}: ${response.statusText}`)
+    }
+
+    const totalBytes = parseInt(response.headers.get('content-length') || '0', 10)
+    const reader = response.body?.getReader()
+    if (!reader) {
+      throw new Error('Không thể đọc dữ liệu phản hồi từ máy chủ')
+    }
+
+    const fileStream = fs.createWriteStream(installerPath)
+    let transferredBytes = 0
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      if (value) {
+        fileStream.write(Buffer.from(value))
+        transferredBytes += value.byteLength
+        const percent = totalBytes > 0 ? Math.min(100, Math.round((transferredBytes / totalBytes) * 100)) : 0
+        onProgress?.({
+          stage: 'downloading',
+          percent,
+          transferredBytes,
+          totalBytes,
+          message: totalBytes > 0
+            ? `Đang tải: ${percent}% (${(transferredBytes / (1024 * 1024)).toFixed(1)} MB / ${(totalBytes / (1024 * 1024)).toFixed(1)} MB)`
+            : `Đang tải: ${(transferredBytes / (1024 * 1024)).toFixed(1)} MB...`,
+        })
+      }
+    }
+
+    await new Promise<void>((resolve, reject) => {
+      fileStream.end(() => resolve())
+      fileStream.on('error', reject)
+    })
+
+    onProgress?.({
+      stage: 'verifying',
+      percent: 100,
+      transferredBytes,
+      totalBytes,
+      message: 'Đã tải xong 100%. Đang khởi chạy bộ cài đặt và khởi động lại...',
+    })
+
+    // Kích hoạt bộ cài đặt installer
+    const child = spawn(installerPath, [], {
+      detached: true,
+      stdio: 'ignore',
+    })
+    child.unref()
+
+    // Thoát app sau 1.2s để installer ghi đè file nhị phân
+    setTimeout(() => {
+      app.quit()
+    }, 1200)
+
+    return {
+      success: true,
+      message: 'Khởi chạy bộ cài đặt thành công!',
+    }
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : String(err)
+    onProgress?.({
+      stage: 'error',
+      percent: 0,
+      transferredBytes: 0,
+      totalBytes: 0,
+      message: `Lỗi tải: ${errorMsg}`,
+    })
+    try {
+      if (fs.existsSync(installerPath)) fs.unlinkSync(installerPath)
+    } catch {}
+    return {
+      success: false,
+      message: errorMsg,
     }
   }
 }

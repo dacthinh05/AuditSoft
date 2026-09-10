@@ -164,4 +164,20 @@ describe('License System — Asymmetric Cryptography (Ed25519 Machine-Locked)', 
     removeLicense()
     expect(getLicenseStatus().isLicensed).toBe(false)
   })
+
+  it('từ chối mã bản quyền giả mạo hoặc không có chữ ký số hợp lệ trong storage (BIZ-01)', () => {
+    const fakeKey = 'ASKEY-eyJtIjoiKiIsIm4iOiJGYWtlIFVzZXIiLCJ0IjoiTElGRVRJTUUiLCJleHAiOjAsImlhdCI6MTc4ODkyMTQ4OH0.fake_invalid_signature_bytes_1234567890'
+    const fakeData = JSON.stringify({
+      licenseKey: fakeKey,
+      customerName: 'Fake User',
+      activatedAt: new Date().toISOString(),
+    })
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('auditsoft_license_token', fakeData)
+    }
+
+    const status = getLicenseStatus()
+    expect(status.isLicensed).toBe(false)
+    expect(status.licenseKey).toBeNull()
+  })
 })
