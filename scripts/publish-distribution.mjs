@@ -77,44 +77,70 @@ try {
 
 // 5. Kiem tra xem co the dung gh CLI de tao Release khong
 let ghLoggedIn = false
-try {
-  const ghStatus = execSync('gh auth status', { stdio: 'pipe', encoding: 'utf8' })
-  if (ghStatus && !ghStatus.includes('not logged into')) {
-    ghLoggedIn = true
-  }
-} catch {}
-
-if (ghLoggedIn && hasSetup && hasPortable) {
-  console.log('\n[INFO] Tim thay GitHub CLI da dang nhap! Dang tao GitHub Release tu dong...')
+if (!process.env.GH_TOKEN) {
   try {
-    const changelogText = (versionData.changelog || []).map((c) => `- ${c}`).join('\n')
-    const notes = `### ${versionData.title || `AuditSoft v${version}`}\n\n${changelogText}`
-    execFileSync(
-      'gh',
-      [
-        'release',
-        'create',
-        `v${version}`,
-        setupExePath,
-        portableExePath,
-        '--title',
-        versionData.title || `AuditSoft v${version}`,
-        '--notes',
-        notes,
-        '--repo',
-        'dacthinh05/AuditSoft',
-      ],
-      { stdio: 'inherit' }
-    )
-    console.log(`\n🎉 [THANH CONG] Da tao GitHub Release v${version} thanh cong!`)
-    process.exit(0)
-  } catch (err) {
-    console.log('[CANH BAO] Tao release qua gh gap loi, chuyen sang che do mo trinh duyet:', err.message)
+    const creds = execSync('git credential fill', { input: 'protocol=https\nhost=github.com\n', encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] })
+    const match = creds.match(/password=(.+)/)
+    if (match && match[1]) {
+      process.env.GH_TOKEN = match[1].trim()
+    }
+  } catch {}
+}
+try {
+  execSync('gh release list --repo dacthinh05/AuditSoft --limit 1', { stdio: 'ignore', env: process.env })
+  ghLoggedIn = true
+} catch {}
+if (ghLoggedIn && hasSetup && hasPortable) {
+  console.log('\n[INFO] Tim thay GitHub CLI da dang nhap! Dang dong bo GitHub Release tu dong...')
+  let releaseExists = false
+  try {
+    execSync(`gh release view v${version} --repo dacthinh05/AuditSoft`, { stdio: 'ignore', env: process.env })
+    releaseExists = true
+  } catch {}
+  if (releaseExists) {
+    try {
+      for (const exePath of [setupExePath, portableExePath]) {
+        console.log(`[Upload] Đang tải ${path.basename(exePath)} lên GitHub Release...`)
+        execFileSync(
+          'gh',
+          ['release', 'upload', `v${version}`, exePath, '--clobber', '--repo', 'dacthinh05/AuditSoft'],
+          { stdio: 'inherit', env: process.env }
+        )
+        console.log(`[OK] Đã tải xong ${path.basename(exePath)}!`)
+      }
+      console.log(`\n🎉 [THANH CONG] Toàn bộ file thực thi đã được đẩy lên Release v${version} tự động!`)
+      process.exit(0)
+    } catch (uploadErr) {
+      console.error('[LOI] Không thể upload:', uploadErr.message)
+    }
+  } else {
+    try {
+      const changelogText = (versionData.changelog || []).map((c) => `- ${c}`).join('\n')
+      const notes = `### ${versionData.title || `AuditSoft v${version}`}\n\n${changelogText}`
+      execFileSync(
+        'gh',
+        [
+          'release',
+          'create',
+          `v${version}`,
+          setupExePath,
+          portableExePath,
+          '--title',
+          versionData.title || `AuditSoft v${version}`,
+          '--notes',
+          notes,
+          '--repo',
+          'dacthinh05/AuditSoft',
+        ],
+        { stdio: 'inherit', env: process.env }
+      )
+      console.log(`\n🎉 [THANH CONG] Da tao GitHub Release v${version} thanh cong!`)
+      process.exit(0)
+    } catch (err) {
+      console.log('[CANH BAO] Tao release qua gh gap loi, chuyen sang che do mo trinh duyet:', err.message)
+    }
   }
 }
-
-// 6. Mo trinh duyet tao release thu cong
-console.log('\n================================================================')
 console.log('           HUONG DAN HOAN TAT GITHUB RELEASE (1-CLICK)          ')
 console.log('================================================================')
 console.log(`1. Trinh duyet se duoc mo den trang tao Release tren GitHub:`)

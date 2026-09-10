@@ -21,3 +21,16 @@ export interface AppUpdateInfo {
   checkedAt: string
   error?: string
 }
+
+export interface UpdateProgress {
+  percent: number
+  transferredBytes: number
+  totalBytes: number
+  stage: 'downloading' | 'verifying' | 'installing' | 'error'
+  message?: string
+}
+
+export interface InstallUpdateResult {
+  success: boolean
+  message: string
+}

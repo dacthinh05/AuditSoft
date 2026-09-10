@@ -398,7 +398,7 @@ export const B410DropZone: React.FC = () => {
         }}
         onClick={handleSelectFiles}
       >
-        <div style={{ fontSize: '40px', marginBottom: '12px' }}>📄📥</div>
+        <div style={{ fontSize: '40px', marginBottom: '12px' }}>📥</div>
         <h3 style={{ fontSize: '16px', fontWeight: 600, color: '#1e293b', margin: '0 0 6px 0' }}>
           Kéo & thả file B410 của các thành viên vào đây
         </h3>

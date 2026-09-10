@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kế Hoạch Triển Khai: Bộ Đồ Thị Tài Chính Tương Quan & Tối Ưu Ma Trận 12 Tháng - AuditSoft</title>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --border-subtle: #f1f5f9;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --success: #047857;
+      --warning: #b45309;
+      --danger: #b91c1c;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--text);
+      background-color: var(--bg);
+      margin: 0;
+      padding: 1.75rem 1.25rem;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .header-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--primary);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .header-card h1 {
+      margin: 0 0 0.4rem 0;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .header-card p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .tag {
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .tag-blue { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .tag-green { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+    .tag-slate { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+
+    /* Phase Timeline */
+    .timeline-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .phase-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .phase-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.5rem;
+    }
+    .phase-number {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #0284c7;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .phase-effort {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .phase-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+    }
+    ul.phase-tasks {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: 0.825rem;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    /* Interactive Preview Box */
+    .preview-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.75rem;
+    }
+    .preview-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0;
+    }
+
+    /* Sub-view switcher tabs */
+    .view-tabs {
+      display: inline-flex;
+      background: #f1f5f9;
+      padding: 3px;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      gap: 3px;
+    }
+    .tab-btn {
+      border: none;
+      background: transparent;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .tab-btn.active {
+      background: #ffffff;
+      color: #0284c7;
+      font-weight: 700;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+
+    /* Architecture Grid */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 850px) { .arch-grid { grid-template-columns: 1fr; } }
+
+    .arch-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .arch-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.5rem;
+    }
+
+    table.spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+    table.spec-table th {
+      background: #f8fafc;
+      color: #475569;
+      font-weight: 700;
+      padding: 6px 8px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    table.spec-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: #1e293b;
+    }
+    .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header-card">
+    <h1>Kế Hoạch Triển Khai: Bộ Đồ Thị Tài Chính Tương Quan & Tối Ưu Ma Trận 12 Tháng (VSA 520)</h1>
+    <p>Trực quan hóa đa chiều quan hệ nhân quả Doanh thu - Giá vốn, bóc tách cấu trúc giá thành sản xuất (621/622/627), tỷ lệ chi phí hoạt động OPEX, và dòng chảy lợi nhuận Waterfall theo chuẩn Enterprise SaaS tối giản, độ tương phản cao, triệt tiêu hoàn toàn emoji rườm rà.</p>
+    <div class="tag-row">
+      <span class="tag tag-blue">Chuẩn Mực VSA 520</span>
+      <span class="tag tag-green">Zero-Dependency Pure SVG</span>
+      <span class="tag tag-slate">Thời Gian Thực Hiện: 2.5 Ngày</span>
+      <span class="tag tag-blue">AuditSoft v1.2.0</span>
+    </div>
+  </div>
+
+  <!-- 4 Giai Đoạn Triển Khai -->
+  <div>
+    <div class="timeline-title">
+      <span>Lộ Trình Thực Hiện Chi Tiết (4 Giai Đoạn)</span>
+    </div>
+    <div class="timeline-grid">
+      <!-- Phase 1 -->
+      <div class="phase-card">
+        <div class="phase-head">
+          <span class="phase-number">Phase 1</span>
+          <span class="phase-effort">5 Giờ</span>
+        </div>
+        <h3 class="phase-name">Lõi Tính Toán Tương Quan Tài Chính</h3>
+        <ul class="phase-tasks">
+          <li>Xây dựng <code>FinancialCorrelationEngine.ts</code>.</li>
+          <li>Tính toán Biên lãi gộp 12 tháng: <code>(511 - 632) / 511</code>, xác định baseline cả năm và cờ cảnh báo lệch $\pm 10\%$.</li>
+          <li>Bóc tách chi phí giá vốn: 621 (NVL), 622 (NCTT), 627 (SXC), 154/156 (Thương mại).</li>
+          <li>Tính tỷ lệ OPEX: Chi phí bán hàng (641) &amp; QLDN (642) trên doanh thu.</li>
+          <li>Xây dựng cấu trúc các bước cầu nối lợi nhuận Waterfall.</li>
+          <li>Viết unit tests <code>tests/financial-correlation-engine.test.ts</code>.</li>
+        </ul>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase-card">
+        <div class="phase-head">
+          <span class="phase-number">Phase 2</span>
+          <span class="phase-effort">8 Giờ</span>
+        </div>
+        <h3 class="phase-name">Bộ 4 Biểu Đồ Pure React SVG</h3>
+        <ul class="phase-tasks">
+          <li><code>RevenueCogsComboChart.tsx</code>: Cột kép Doanh thu - Giá vốn &amp; Đường Biên lãi gộp trục phụ.</li>
+          <li><code>CogsStructureStackedChart.tsx</code>: Cột 100% xếp chồng cơ cấu chi phí giá vốn 12 tháng.</li>
+          <li><code>OpexRatioAreaChart.tsx</code>: Biểu đồ diện tích tỷ lệ chi phí bán hàng &amp; quản lý.</li>
+          <li><code>ProfitWaterfallChart.tsx</code>: Biểu đồ thác nước từ Doanh thu thuần về LNTT.</li>
+          <li><code>ChartTooltip.tsx</code>: Tooltip popover số tiền VNĐ sắc nét khi hover.</li>
+        </ul>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="phase-card">
+        <div class="phase-head">
+          <span class="phase-number">Phase 3</span>
+          <span class="phase-effort">5 Giờ</span>
+        </div>
+        <h3 class="phase-name">Tối Ưu GlAnalyticsTab &amp; Ma Trận</h3>
+        <ul class="phase-tasks">
+          <li>Tích hợp bộ chuyển góc nhìn biểu đồ (Sub-View Switcher).</li>
+          <li>Áp dụng <code>sticky column</code> cho cột Khoản mục bên trái của bảng ma trận 12 tháng.</li>
+          <li>Thay thế toàn bộ số 0 bằng dấu gạch ngang mờ <code>-</code> giúp bảng thoáng đãng.</li>
+          <li>Tăng tương phản số phát sinh (màu <code>#0f172a</code>, font monospace 700).</li>
+          <li>Xây dựng <code>SmartAuditAlerts.tsx</code> gom các khối cảnh báo vàng thành lưới tinh gọn.</li>
+          <li>Loại bỏ hoàn toàn icon rườm rà.</li>
+        </ul>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="phase-card">
+        <div class="phase-head">
+          <span class="phase-number">Phase 4</span>
+          <span class="phase-effort">3 Giờ</span>
+        </div>
+        <h3 class="phase-name">Kiểm Thử Toàn Trình &amp; Đóng Gói</h3>
+        <ul class="phase-tasks">
+          <li>Chạy bộ unit test <code>tests/financial-correlation-engine.test.ts</code>.</li>
+          <li>Kiểm tra typecheck toàn bộ dự án (<code>npm run typecheck</code>).</li>
+          <li>Kiểm tra linting (<code>npm run lint</code>).</li>
+          <li>Chạy 100% test suite dự án (<code>npm test</code>).</li>
+          <li>Biên dịch gói build đóng gói (<code>npm run build</code>).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bảng Phân Định Trách Nhiệm Tệp -->
+  <div class="arch-grid">
+    <div class="arch-card">
+      <h4 class="arch-title">Phân Hệ Tính Toán Nghiệp Vụ (Domain Engines)</h4>
+      <table class="spec-table font-mono">
+        <thead>
+          <tr>
+            <th>Tệp Mã Nguồn</th>
+            <th>Trách Nhiệm Cốt Lõi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>src/domain/analytics/FinancialCorrelationEngine.ts</code></td>
+            <td>Tính toán Biên lãi gộp, bóc tách 621/622/627, OPEX ratios, và chuỗi Waterfall</td>
+          </tr>
+          <tr>
+            <td><code>src/domain/analytics/types.ts</code></td>
+            <td>Khai báo các interfaces: <code>GrossMarginPoint</code>, <code>CogsStructureMonth</code>, <code>WaterfallStep</code>...</td>
+          </tr>
+          <tr>
+            <td><code>tests/financial-correlation-engine.test.ts</code></td>
+            <td>Unit test độc lập kiểm tra độ chính xác công thức toán tài chính</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="arch-card">
+      <h4 class="arch-title">Phân Hệ Giao Diện &amp; Biểu Đồ (Renderer SVG)</h4>
+      <table class="spec-table font-mono">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Dạng Trực Quan Hóa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>RevenueCogsComboChart.tsx</code></td>
+            <td>Cột kép (Bar) Doanh thu - Giá vốn &amp; Đường (Line) Biên lãi gộp %</td>
+          </tr>
+          <tr>
+            <td><code>CogsStructureStackedChart.tsx</code></td>
+            <td>Cột xếp chồng tỷ trọng 100% (100% Stacked Bar) bóc tách chi phí giá thành</td>
+          </tr>
+          <tr>
+            <td><code>OpexRatioAreaChart.tsx</code></td>
+            <td>Diện tích xếp tầng (Stacked Area) tỷ lệ chi phí hoạt động trên doanh thu</td>
+          </tr>
+          <tr>
+            <td><code>ProfitWaterfallChart.tsx</code></td>
+            <td>Thác nước cầu nối lợi nhuận (Waterfall / Profit Bridge Chart)</td>
+          </tr>
+          <tr>
+            <td><code>SmartAuditAlerts.tsx</code></td>
+            <td>Thẻ tổng hợp cảnh báo rủi ro kiểm toán thông minh, tinh gọn</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

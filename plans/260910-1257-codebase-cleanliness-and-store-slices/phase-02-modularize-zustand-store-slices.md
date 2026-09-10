@@ -1,7 +1,7 @@
 ---
 title: "Phase 2: Modularize Zustand Store into Domain Slices"
 description: "Tách file store.ts thành 6 Slices độc lập nằm trong src/renderer/state/slices/, tái cấu trúc store.ts theo chuẩn Zustand Slice Pattern."
-status: planned
+status: completed
 priority: P1
 effort: "0.8h"
 tags: ["zustand", "slices", "refactoring", "state-management"]

@@ -14,7 +14,7 @@ describe('B410 Real Directories Verification', () => {
       path.join(folder, 'B410 - Dung Khanh 2025 D2 - Duy Phuc.xlsx'),
       path.join(folder, 'B410 - Dung Khanh 2025D2 - Ngan.xlsx'),
     ].filter((f) => fs.existsSync(f))
-
+    if (!fs.existsSync(masterFile)) return
     const outPath = 'D:/Desktop/Project/5. AuditSoft/B410/Output_DungKhanh_Consolidated.xlsx'
     const res = await B410Consolidator.consolidate(masterFile, memberFiles, outPath)
     if (!res.success) {
@@ -65,7 +65,7 @@ describe('B410 Real Directories Verification', () => {
       path.join(folder, 'B410 - Cuori 2025 - Quynh.xlsx'),
       path.join(folder, 'B410_CUORI 2025_Truc Nha.xlsx'),
     ].filter((f) => fs.existsSync(f))
-
+    if (!fs.existsSync(masterFile)) return
     const outPath = 'D:/Desktop/Project/5. AuditSoft/B410/Output_Cuori_Consolidated.xlsx'
     const res = await B410Consolidator.consolidate(masterFile, memberFiles, outPath)
 
@@ -102,7 +102,7 @@ describe('B410 Real Directories Verification', () => {
       path.join(folder, 'B410 - Proconcepts 2026D1 - Tuấn.xlsx'),
       path.join(folder, 'B410 - ProConcepts D1 2026 - Luong - Thanh Tú.xlsx'),
     ].filter((f) => fs.existsSync(f))
-
+    if (!fs.existsSync(masterFile)) return
     const outPath = 'D:/Desktop/Project/5. AuditSoft/B410/Output_ProConcepts_Consolidated.xlsx'
     const res = await B410Consolidator.consolidate(masterFile, memberFiles, outPath)
 

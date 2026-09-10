@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useApp } from '../state/store'
 import { IconX, IconDownloadCloud, IconRefresh, IconCheck } from './Icons'
-
+import type { UpdateProgress } from '../../shared/types/update'
 export function UpdateModal(): JSX.Element | null {
   const updateModalOpen = useApp((s) => s.updateModalOpen)
   const setUpdateModalOpen = useApp((s) => s.setUpdateModalOpen)
@@ -10,7 +10,43 @@ export function UpdateModal(): JSX.Element | null {
   const checkAppUpdate = useApp((s) => s.checkAppUpdate)
 
   const [checking, setChecking] = useState(false)
+  const [downloading, setDownloading] = useState(false)
+  const [downloadProgress, setDownloadProgress] = useState<UpdateProgress | null>(null)
+  const [downloadError, setDownloadError] = useState<string | null>(null)
 
+  useEffect(() => {
+    if (!window.auditsoft?.onUpdateProgress) return
+    const cleanup = window.auditsoft.onUpdateProgress((p) => {
+      setDownloadProgress(p)
+      if (p.stage === 'error') {
+        setDownloading(false)
+        setDownloadError(p.message || 'Lỗi khi tải bản cập nhật')
+      }
+    })
+    return cleanup
+  }, [])
+
+  const handleAutoInstall = async () => {
+    if (downloading) return
+    setDownloading(true)
+    setDownloadError(null)
+    const targetUrl = updateInfo?.downloadUrl || `https://github.com/dacthinh05/AuditSoft/releases/download/v${latestVer}/AuditSoft-${latestVer}-Setup.exe`
+    try {
+      if (window.auditsoft?.downloadAndInstallUpdate) {
+        const res = await window.auditsoft.downloadAndInstallUpdate(targetUrl)
+        if (!res.success) {
+          setDownloading(false)
+          setDownloadError(res.message)
+        }
+      } else {
+        handleOpenUrl(targetUrl)
+        setDownloading(false)
+      }
+    } catch (err) {
+      setDownloading(false)
+      setDownloadError(err instanceof Error ? err.message : String(err))
+    }
+  }
   if (!updateModalOpen) return null
 
   const handleManualCheck = async () => {
@@ -193,57 +229,134 @@ export function UpdateModal(): JSX.Element | null {
                 </div>
               )}
 
-              {/* Tải về */}
-              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', paddingTop: 8 }}>
-                {updateInfo?.downloadUrl && (
+              {/* Lỗi tải nếu có */}
+              {downloadError && (
+                <div
+                  style={{
+                    marginBottom: 12,
+                    padding: '8px 12px',
+                    borderRadius: 8,
+                    background: '#fef2f2',
+                    border: '1px solid #fecaca',
+                    color: '#b91c1c',
+                    fontSize: 12.5,
+                  }}
+                >
+                  ⚠️ {downloadError}
+                </div>
+              )}
+
+              {/* Tiến trình tải ngầm */}
+              {downloading ? (
+                <div
+                  style={{
+                    background: '#f0fdf4',
+                    border: '1px solid #bbf7d0',
+                    borderRadius: 10,
+                    padding: '14px 16px',
+                    marginBottom: 8,
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 12.5, fontWeight: 600, color: '#15803d' }}>
+                    <span>{downloadProgress?.message || 'Đang tải bản cập nhật...'}</span>
+                    <span>{downloadProgress?.percent || 0}%</span>
+                  </div>
+                  <div style={{ height: 8, width: '100%', background: '#dcfce7', borderRadius: 4, overflow: 'hidden' }}>
+                    <div
+                      style={{
+                        height: '100%',
+                        width: `${downloadProgress?.percent || 0}%`,
+                        background: '#16a34a',
+                        borderRadius: 4,
+                        transition: 'width 200ms ease',
+                      }}
+                    />
+                  </div>
+                  <div style={{ fontSize: 11.5, color: '#166534', marginTop: 6, textAlign: 'center' }}>
+                    Tải xong ứng dụng sẽ tự động mở bộ cài đặt và khởi động lại.
+                  </div>
+                </div>
+              ) : (
+                /* Nút Tự Động Cài Đặt Ngay (1-Click) */
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingTop: 4 }}>
                   <button
                     type="button"
                     style={{
-                      flex: 1,
+                      width: '100%',
                       display: 'inline-flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      gap: 7,
-                      padding: '9px 16px',
-                      fontSize: 13,
-                      fontWeight: 600,
-                      background: '#2563eb',
+                      gap: 8,
+                      padding: '11px 18px',
+                      fontSize: 14,
+                      fontWeight: 700,
+                      background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
                       color: '#ffffff',
-                      borderRadius: 8,
+                      borderRadius: 9,
                       border: 'none',
                       cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
+                      transition: 'transform 120ms ease, box-shadow 120ms ease',
                     }}
-                    onClick={() => handleOpenUrl(updateInfo.downloadUrl)}
+                    onClick={handleAutoInstall}
                   >
-                    <IconDownloadCloud size={15} />
-                    Tải Bộ Cài (Setup.exe)
+                    <IconDownloadCloud size={17} />
+                    <span>TỰ ĐỘNG CÀI ĐẶT NGAY (1-CLICK)</span>
                   </button>
-                )}
-                {updateInfo?.portableUrl && (
-                  <button
-                    type="button"
-                    style={{
-                      flex: 1,
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 7,
-                      padding: '9px 16px',
-                      fontSize: 13,
-                      fontWeight: 600,
-                      background: '#f8fafc',
-                      color: '#334155',
-                      border: '1px solid #cbd5e1',
-                      borderRadius: 8,
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => handleOpenUrl(updateInfo.portableUrl)}
-                  >
-                    <IconDownloadCloud size={15} />
-                    Bản Portable (.exe)
-                  </button>
-                )}
-              </div>
+
+                  {/* Nút phụ: Mở trình duyệt tải thủ công */}
+                  <div style={{ display: 'flex', gap: 8, marginTop: 2 }}>
+                    {updateInfo?.downloadUrl && (
+                      <button
+                        type="button"
+                        style={{
+                          flex: 1,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: 6,
+                          padding: '7px 12px',
+                          fontSize: 12,
+                          fontWeight: 500,
+                          background: '#f8fafc',
+                          color: '#475569',
+                          borderRadius: 7,
+                          border: '1px solid #e2e8f0',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => handleOpenUrl(updateInfo.downloadUrl)}
+                        title="Tải thủ công qua trình duyệt"
+                      >
+                        <span>Tải thủ công (Setup)</span>
+                      </button>
+                    )}
+                    {updateInfo?.portableUrl && (
+                      <button
+                        type="button"
+                        style={{
+                          flex: 1,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: 6,
+                          padding: '7px 12px',
+                          fontSize: 12,
+                          fontWeight: 500,
+                          background: '#f8fafc',
+                          color: '#475569',
+                          borderRadius: 7,
+                          border: '1px solid #e2e8f0',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => handleOpenUrl(updateInfo.portableUrl)}
+                        title="Tải bản Portable qua trình duyệt"
+                      >
+                        <span>Bản Portable (.exe)</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             /* Bản mới nhất / Chưa có thông báo mới (Không bao giờ báo lỗi 404 đáng sợ) */

@@ -1,7 +1,7 @@
 ---
 title: "Phase 1: Workspace & Git Hygiene (.gitignore và dọn dẹp file tạm)"
 description: "Bổ sung các đường dẫn file tạm vào .gitignore và dọn dẹp các thư mục đầu ra thử nghiệm trên ổ đĩa."
-status: planned
+status: completed
 priority: P1
 effort: "0.3h"
 tags: ["gitignore", "workspace", "hygiene", "cleanup"]

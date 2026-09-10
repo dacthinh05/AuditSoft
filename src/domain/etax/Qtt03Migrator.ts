@@ -1,7 +1,6 @@
 import { PersistentTemplateStore } from './PersistentTemplateStore'
 import { EtaxXmlParser } from './EtaxXmlParser'
 import { EtaxXmlSerializer } from './EtaxXmlSerializer'
-import { getQtt03TT80BlankTemplate } from './templates/qtt03_tt80'
 import type { XmlNode } from './types'
 
 export interface MigrateOptions {

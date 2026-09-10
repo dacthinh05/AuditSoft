@@ -1,7 +1,7 @@
 import QRCode from 'qrcode'
 
 export interface PricingPlan {
-  id: 'annual' | 'lifetime' | 'team'
+  id: 'annual' | 'lifetime' | 'early_bird'
   name: string
   price: number
   originalPrice: number
@@ -10,28 +10,46 @@ export interface PricingPlan {
   badge?: string
   description: string
   isPopular?: boolean
+  isHero?: boolean
+  isDecoy?: boolean
+  slots?: { total: number; remaining: number }
+  savingsVsAnnual?: number
 }
 
 export const PRICING_PLANS: PricingPlan[] = [
   {
     id: 'annual',
-    name: 'Gói 1 Năm (Mùa Kiểm Toán)',
-    price: 499_000,
-    originalPrice: 799_000,
-    discountPercent: 38,
+    name: 'Gói Theo Năm',
+    price: 1_090_000,
+    originalPrice: 1_090_000,
+    discountPercent: 0,
     duration: '1 Năm / 1 Máy',
-    description: 'Đầy đủ mọi tính năng, xuất 8 sheet Excel, hỗ trợ trọn mùa kiểm toán.',
+    description: 'Dùng trọn mùa kiểm toán, phải gia hạn mỗi năm.',
+    isDecoy: true,
   },
   {
     id: 'lifetime',
-    name: 'Gói Vĩnh Viễn (Lifetime VIP)',
-    price: 990_000,
-    originalPrice: 1_800_000,
-    discountPercent: 45,
+    name: 'Bản Quyền Vĩnh Viễn',
+    price: 2_890_000,
+    originalPrice: 2_890_000,
+    discountPercent: 0,
     duration: 'Trọn đời / 1 Máy',
-    badge: 'PHỔ BIẾN NHẤT',
-    description: 'Mua 1 lần dùng vĩnh viễn, miễn phí nâng cấp trọn đời, hỗ trợ ưu tiên.',
+    badge: 'GIÁ GỐC',
+    description: 'Mua 1 lần, dùng vĩnh viễn. Miễn phí nâng cấp trọn đời, hỗ trợ ưu tiên.',
+  },
+  {
+    id: 'early_bird',
+    name: 'Early Bird — Vĩnh Viễn',
+    price: 899_000,
+    originalPrice: 2_890_000,
+    discountPercent: 70,
+    duration: 'Trọn đời / 1 Máy',
+    badge: '🔥 EARLY BIRD',
+    description: 'Đủ mọi quyền lợi như gói Vĩnh Viễn — ưu đãi chỉ dành cho những người đầu tiên.',
     isPopular: true,
+    isHero: true,
+    slots: { total: 50, remaining: 23 },
+    savingsVsAnnual: 700_000,
   },
 ]
 

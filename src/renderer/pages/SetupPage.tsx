@@ -10,6 +10,7 @@ import {
   IconArrowRight,
 } from '../components/Icons'
 import { extractDroppedFilePath, isExcelOrCsvPath } from '../lib/fileDrop'
+import { DataSourceSwitcher } from '../components/DatabaseConnector/DataSourceSwitcher'
 
 const FIELDS: { key: keyof ColumnMapping; label: string; desc: string }[] = [
   { key: 'date', label: 'Ngày ghi sổ', desc: 'Ngày chứng từ' },
@@ -173,32 +174,52 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
           <IconFileSpreadsheet size={32} />
         </div>
 
-        {side.meta && side.cfg ? (
+        {side.cfg ? (
           <div className="loaded-source-panel" style={{ width: '100%' }}>
             <div className="file-summary-bar">
               <div className="file-info-left">
-                <span className="file-badge-icon">📊</span>
+                <span className="file-badge-icon" aria-hidden="true">{side.pasted ? '📋' : '📊'}</span>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 13.5, color: '#0f172a' }}>
-                    {side.meta.filePath.split(/[/\\]/).pop()}
+                    {side.pasted
+                      ? 'Dữ liệu dán từ Clipboard'
+                      : side.meta?.filePath.split(/[/\\]/).pop()}
                   </div>
                   <div style={{ fontSize: 11.5, color: '#64748b' }}>
-                    {sheet ? `${sheet.totalRows.toLocaleString('vi-VN')} dòng dữ liệu` : ''}
+                    {side.pasted
+                      ? `${side.pasted.rows.length.toLocaleString('vi-VN')} dòng bút toán đã nhận diện`
+                      : sheet
+                        ? `${sheet.totalRows.toLocaleString('vi-VN')} dòng dữ liệu`
+                        : ''}
                   </div>
                 </div>
+                {side.pasted && (
+                  <span className="pasted-count-tag">✓ Đã nạp nguồn</span>
+                )}
               </div>
 
-              <button
-                type="button"
-                className="btn-action primary-upload"
-                onClick={() => void pickFile()}
-                style={{ padding: '6px 12px', fontSize: 12 }}
-              >
-                Đổi file khác
-              </button>
+              <div className="file-actions-right">
+                {side.pasted && (
+                  <button
+                    type="button"
+                    className="btn-reselect"
+                    onClick={() => setPasteOpen(true)}
+                  >
+                    Dán lại
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className="btn-action primary-upload"
+                  onClick={() => void pickFile()}
+                  style={{ padding: '6px 12px', fontSize: 12 }}
+                >
+                  Đổi file khác
+                </button>
+              </div>
             </div>
 
-            {side.meta.sheets.length > 1 && (
+            {side.meta != null && side.meta.sheets.length > 1 && (
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12 }}>
                 <span style={{ fontWeight: 600, color: '#475569' }}>Sheet dữ liệu:</span>
                 <select
@@ -262,12 +283,14 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
       </div>
 
       {/* ── 6-Field Column Mapping ── */}
-      {side.cfg && sheet && (
+      {side.cfg && (sheet || side.pasted) && (
         <div className="column-mapping-container">
           <div className="mapping-header-text">
             <span>Khớp 6 cột chuẩn mực TT200:</span>
             <span className="mapping-status-count">
-              {sheet.confidence >= 80 ? '✓ Tự động nhận diện chính xác' : 'Vui lòng kiểm tra lại mapping'}
+              {sheet
+                ? sheet.confidence >= 80 ? '✓ Tự động nhận diện chính xác' : 'Vui lòng kiểm tra lại mapping'
+                : '✓ Đã khớp 6 cột TT200 tự động (Clipboard)'}
             </span>
           </div>
 
@@ -293,11 +316,13 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
                     }}
                   >
                     <option value="">-- Chưa chọn --</option>
-                    {sheet.headerLabels.map((lbl, idx) => (
-                      <option key={idx} value={String(idx)}>
-                        Cột {idx + 1}: {lbl || `(Cột ${idx + 1})`}
-                      </option>
-                    ))}
+                    {sheet
+                      ? sheet.headerLabels.map((lbl, idx) => (
+                        <option key={idx} value={String(idx)}>
+                          Cột {idx + 1}: {lbl || `(Cột ${idx + 1})`}
+                        </option>
+                      ))
+                      : <option value="">-- Clipboard: 6 cột TT200 tự động --</option>}
                   </select>
                 </div>
               )
@@ -348,6 +373,11 @@ export function SetupPage(): JSX.Element {
           <div className="hero-badge-pill">Xuất Working Paper B360</div>
         </div>
       </div>
+      {/* ── Data Source Switcher (Excel vs Database) ── */}
+      <div className="mb-4">
+        <DataSourceSwitcher />
+      </div>
+
 
       {/* ── 2 Source Cards Grid ── */}
       <div className="source-cards-grid">

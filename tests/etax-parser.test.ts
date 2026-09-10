@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest'
 import fs from 'fs'
-import path from 'path'
 import { EtaxXmlParser } from '../src/domain/etax/EtaxXmlParser'
 import { EtaxXmlSerializer } from '../src/domain/etax/EtaxXmlSerializer'
 

@@ -171,6 +171,11 @@ export function normalizeWorkbookSharedFormulas(wb: ExcelJS.Workbook): void {
           const val = cell.value as unknown as Record<string, unknown>
           if ('sharedFormula' in val && !('formula' in val)) {
             cell.value = val.result !== undefined ? (val.result as string | number | boolean | Date) : null
+          } else if ('formula' in val && typeof val.formula === 'string') {
+            // Neu cong thuc chua link ngoai [N]... hoac #REF! bi dut gay
+            if (val.formula.includes('[') || val.formula.includes('#REF!')) {
+              cell.value = val.result !== undefined ? (val.result as string | number | boolean | Date) : null
+            }
           }
         }
       })

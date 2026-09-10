@@ -1,7 +1,7 @@
 ---
 title: "Tối Ưu Cấu Trúc Toàn Diện: Zustand Slices Modularization, Git Hygiene & Nâng Điểm Sức Khỏe Lên 9.8/10"
 description: "Tái cấu trúc file store.ts 240+ dòng thành các Zustand Slices độc lập theo từng miền nghiệp vụ, bổ sung .gitignore chặn file tạm, và dọn dẹp sạch sẽ working tree để đưa điểm sức khỏe dự án từ 8.8/10 (A-) lên 9.8/10 (A+)."
-status: planned
+status: completed
 priority: P1
 effort: "1.5h"
 tags: ["refactoring", "clean-architecture", "zustand-slices", "git-hygiene", "code-quality"]
@@ -36,9 +36,9 @@ Kế hoạch này giải quyết triệt để 2 vấn đề trên theo **Phươ
 
 | # | Phase | Status | Priority | Effort |
 |---|-------|--------|----------|--------|
-| 1 | [Phase 1: Workspace & Git Hygiene (.gitignore và dọn dẹp file tạm)](./phase-01-workspace-and-git-hygiene.md) | Planned | P1 | 0.3h |
-| 2 | [Phase 2: Modularize Zustand Store into Domain Slices](./phase-02-modularize-zustand-store-slices.md) | Planned | P1 | 0.8h |
-| 3 | [Phase 3: Verification, Full Suite Regression Check & Git Grooming](./phase-03-verification-and-git-grooming.md) | Planned | P1 | 0.4h |
+| 1 | [Phase 1: Workspace & Git Hygiene (.gitignore và dọn dẹp file tạm)](./phase-01-workspace-and-git-hygiene.md) | Completed | P1 | 0.3h |
+| 2 | [Phase 2: Modularize Zustand Store into Domain Slices](./phase-02-modularize-zustand-store-slices.md) | Completed | P1 | 0.8h |
+| 3 | [Phase 3: Verification, Full Suite Regression Check & Git Grooming](./phase-03-verification-and-git-grooming.md) | Completed | P1 | 0.4h |
 
 ## Architecture Transformation
 
@@ -71,10 +71,10 @@ flowchart TD
 
 ## Acceptance Criteria
 
-- [ ] `.gitignore` có các dòng chặn `output_test_glv/`, `~conv_*`, `*.tmp`.
-- [ ] `src/renderer/state/slices/` chứa đủ 6 file slice, mỗi file dưới 70 dòng code, phân định trách nhiệm rõ ràng.
-- [ ] `src/renderer/state/store.ts` gọn gàng, tổng hợp các slice theo chuẩn Zustand Slice Pattern.
-- [ ] Không có bất kỳ component nào trong `src/renderer/` bị gãy import hay lỗi type.
-- [ ] `npm run typecheck` đạt 0 lỗi trên toàn bộ dự án.
-- [ ] `npm run test` đạt 100% PASS trên toàn bộ test suite.
-- [ ] `npm run build` đóng gói Vite và Electron thành công.
+- [x] `.gitignore` có các dòng chặn `output_test_glv/`, `~conv_*`, `*.tmp`.
+- [x] `src/renderer/state/slices/` chứa đủ 6 file slice, mỗi file dưới 70 dòng code, phân định trách nhiệm rõ ràng.
+- [x] `src/renderer/state/store.ts` gọn gàng, tổng hợp các slice theo chuẩn Zustand Slice Pattern.
+- [x] Không có bất kỳ component nào trong `src/renderer/` bị gãy import hay lỗi type.
+- [x] `npm run typecheck` đạt 0 lỗi trên toàn bộ dự án.
+- [x] `npm run test` đạt 100% PASS trên toàn bộ test suite.
+- [x] `npm run build` đóng gói Vite và Electron thành công.

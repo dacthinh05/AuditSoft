@@ -15,8 +15,8 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
   const [copiedMid, setCopiedMid] = useState(false)
   const [copiedMemo, setCopiedMemo] = useState(false)
   const [qrDataUrl, setQrDataUrl] = useState<string>('')
-  const [selectedPlan, setSelectedPlan] = useState<PricingPlan>(PRICING_PLANS[1]!) // Mặc định Gói Vĩnh Viễn 990k
-
+  const [selectedPlan, setSelectedPlan] = useState<PricingPlan>(PRICING_PLANS[2]!) // Mặc định Early Bird
+  const [activeTab, setActiveTab] = useState<'benefits' | 'activate'>('benefits')
   const [licenseState, setLicenseState] = useState<LicenseStatus>({
     isLicensed: false,
     machineId: '',
@@ -33,6 +33,7 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
       const st = getLicenseStatus()
       setLicenseState(st)
       setTrialInfo(getTrialExportStatus())
+      setActiveTab(st.isLicensed ? 'activate' : 'benefits')
       setStatusMsg(null)
       setInputKey('')
       setInputName('')
@@ -76,7 +77,7 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
 
   async function handleActivate(): Promise<void> {
     if (!inputKey.trim()) {
-      setStatusMsg({ type: 'err', text: 'Vui lòng nhập License Key nhận được từ Thịnh Lynx.' })
+      setStatusMsg({ type: 'err', text: 'Vui lòng dán mã bản quyền bạn đã nhận.' })
       return
     }
 
@@ -98,7 +99,7 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
     setLicenseState(updated)
     setTrialInfo(getTrialExportStatus())
     useApp.getState().refreshTrialStatus()
-    setStatusMsg({ type: 'ok', text: 'Đã hủy kích hoạt bản quyền trên máy này.' })
+    setStatusMsg({ type: 'ok', text: 'Đã xóa bản quyền khỏi máy này.' })
   }
 
   return (
@@ -109,13 +110,13 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
           <div className="modal-title-group">
             <AppLogoIcon size={24} />
             <div>
-              <div className="modal-title">Bản Quyền & Kích Hoạt Phần Mềm — AuditSoft (Audit Suite)</div>
+              <div className="modal-title">Bản quyền phần mềm AuditSoft</div>
               <div className="modal-subtitle">
                 {licenseState.isLicensed
-                  ? 'Bản quyền Vĩnh Viễn đã kích hoạt thành công'
+                  ? 'Bản quyền vĩnh viễn đã kích hoạt'
                   : trialInfo.isExpired
-                    ? 'Đã hết lượt dùng thử miễn phí — Vui lòng kích hoạt bản quyền'
-                    : 'Tác giả: Thịnh Lynx · Hệ thống Đối chiếu Kiểm toán Chuyên sâu'}
+                    ? `Đã hết ${trialInfo.maxExports} lượt xuất thử miễn phí — Vui lòng kích hoạt bản quyền`
+                    : `Bản dùng thử: Còn ${trialInfo.remainingExports}/${trialInfo.maxExports} lượt xuất báo cáo`}
               </div>
             </div>
           </div>
@@ -124,8 +125,133 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
           </button>
         </div>
 
+        {/* ── Modal Tabs Switcher ── */}
+        <div className="compact-license-tabs">
+          <button
+            type="button"
+            className={`license-tab-btn ${activeTab === 'benefits' ? 'active' : ''}`}
+            onClick={() => setActiveTab('benefits')}
+          >
+            <span>Quyền lợi bản quyền</span>
+            {!licenseState.isLicensed && <span className="tab-badge-highlight">Chi tiết</span>}
+          </button>
+          <button
+            type="button"
+            className={`license-tab-btn ${activeTab === 'activate' ? 'active' : ''}`}
+            onClick={() => setActiveTab('activate')}
+          >
+            <span>Kích hoạt & Thanh toán</span>
+            {trialInfo.isExpired && !licenseState.isLicensed && (
+              <span className="tab-badge-highlight" style={{ background: '#ef4444' }}>Hết lượt</span>
+            )}
+          </button>
+        </div>
+
         {/* ── Modal Body (Compact, Single View, Zero Scroll) ── */}
         <div className="modal-body compact-license-body">
+          {activeTab === 'benefits' ? (
+            <div className="benefits-tab-body">
+              {/* Hero Banner */}
+              <div className="benefits-hero-card">
+                <div className="benefits-hero-left">
+                  <div className="benefits-hero-title">
+                    <span>AuditSoft Pro dành cho kiểm toán viên</span>
+                  </div>
+                  <div className="benefits-hero-desc">
+                    Tự động hóa bốc mẫu VSA 530, đối chiếu sổ NKC và tổng hợp bảng sai sót B410.
+                  </div>
+                </div>
+                <div className="benefits-hero-badge">
+                  Bản quyền vĩnh viễn
+                </div>
+              </div>
+
+              {/* 6 Value Proposition Cards */}
+              <div className="benefits-grid-2col">
+                <div className="benefit-item-card">
+                  <div className="benefit-item-icon">1</div>
+                  <div className="benefit-item-content">
+                    <div className="benefit-item-title">Bốc mẫu VSA 530 tự động trong 3 giây</div>
+                    <div className="benefit-item-desc">
+                      Tự tính mức trọng yếu OM, PM, CTT; chia tầng Key Items, số tròn, rủi ro 31/12 và chọn mẫu hệ thống.
+                    </div>
+                  </div>
+                </div>
+
+                <div className="benefit-item-card">
+                  <div className="benefit-item-icon">2</div>
+                  <div className="benefit-item-content">
+                    <div className="benefit-item-title">Đối chiếu tự động 2 sổ Nhật ký chung</div>
+                    <div className="benefit-item-desc">
+                      So khớp chi tiết từng dòng chứng từ Nợ/Có giữa 2 kỳ, tự động phát hiện giao dịch thêm mới, bị xóa hoặc lệch tiền.
+                    </div>
+                  </div>
+                </div>
+
+                <div className="benefit-item-card">
+                  <div className="benefit-item-icon">3</div>
+                  <div className="benefit-item-content">
+                    <div className="benefit-item-title">Tổng hợp bảng sai sót B410 chuẩn mực</div>
+                    <div className="benefit-item-desc">
+                      Gộp dữ liệu từ các nhóm kiểm toán, tự động sửa lỗi hiển thị, lọc ảnh thừa và chống đè định dạng.
+                    </div>
+                  </div>
+                </div>
+
+                <div className="benefit-item-card">
+                  <div className="benefit-item-icon">4</div>
+                  <div className="benefit-item-content">
+                    <div className="benefit-item-title">Xuất file Excel không giới hạn số lượt</div>
+                    <div className="benefit-item-desc">
+                      Bỏ giới hạn 20 lượt dùng thử, cho phép xử lý và xuất báo cáo không hạn chế số lần sử dụng.
+                    </div>
+                  </div>
+                </div>
+
+                <div className="benefit-item-card">
+                  <div className="benefit-item-icon">5</div>
+                  <div className="benefit-item-content">
+                    <div className="benefit-item-title">Bảo mật dữ liệu trên máy tính cá nhân</div>
+                    <div className="benefit-item-desc">
+                      Xử lý trực tiếp trên máy nội bộ, không gửi nhật ký chung hay sổ cái ra ngoài môi trường máy chủ.
+                    </div>
+                  </div>
+                </div>
+
+                <div className="benefit-item-card">
+                  <div className="benefit-item-icon">6</div>
+                  <div className="benefit-item-content">
+                    <div className="benefit-item-title">Hỗ trợ kỹ thuật trực tiếp từ tác giả</div>
+                    <div className="benefit-item-desc">
+                      Hỗ trợ qua Zalo và UltraViewer khi gặp file dữ liệu lỗi cấu trúc hoặc cần xử lý gấp trong mùa kiểm toán.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Metrics Bar */}
+              <div className="benefits-highlight-strip">
+                <span>Xử lý tệp dữ liệu lớn trên 60.000 dòng</span>
+                <span>•</span>
+                <span>Đối chiếu chính xác từng dòng chứng từ</span>
+                <span>•</span>
+                <span>Kích hoạt 1 lần, sử dụng lâu dài</span>
+              </div>
+
+              {/* Strong Call to Action */}
+              <button
+                type="button"
+                className="btn-cta-upgrade"
+                onClick={() => {
+                  setActiveTab('activate')
+                  setSelectedPlan(PRICING_PLANS[2]!)
+                }}
+              >
+                <span>🔥 Nhận ưu đãi Early Bird — Vĩnh viễn chỉ 899.000 đ →</span>
+              </button>
+            </div>
+          ) : (
+            <>
           {/* Section 1: Activation / Machine ID Row */}
           {licenseState.isLicensed ? (
             <div className="licensed-compact-banner">
@@ -144,9 +270,13 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
             </div>
           ) : (
             <div className="compact-activation-panel">
-              {trialInfo.isExpired && (
+              {trialInfo.isExpired ? (
                 <div className="trial-expired-compact-bar">
-                  <span>❌ Đã hết lượt dùng thử miễn phí. Quét mã VietQR bên dưới hoặc nhập License Key để mở khóa vĩnh viễn.</span>
+                  <span>Bạn đã dùng hết {trialInfo.maxExports} lượt xuất thử miễn phí. Hãy quét mã QR bên dưới hoặc nhập mã bản quyền để mở khóa vĩnh viễn.</span>
+                </div>
+              ) : (
+                <div style={{ padding: '8px 12px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '8px', marginBottom: '12px', fontSize: '12.5px', color: '#166534', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span>Chế độ dùng thử: Còn <strong>{trialInfo.remainingExports}/{trialInfo.maxExports}</strong> lượt xuất Excel.</span>
                 </div>
               )}
               {/* Machine ID Row */}
@@ -193,32 +323,78 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
             </div>
           )}
 
-          {/* Section 2: Pricing Selector Cards */}
-          <div className="compact-pricing-row">
+          {/* Section 2: Pricing Selector Cards — 3 mức giá */}
+          <div className="pricing-3col-row">
             {PRICING_PLANS.map((plan) => {
               const isSelected = selectedPlan.id === plan.id
+              const slotPct = plan.slots ? Math.round((1 - plan.slots.remaining / plan.slots.total) * 100) : null
               return (
                 <div
                   key={plan.id}
-                  className={`compact-pricing-card ${isSelected ? 'selected' : ''}`}
+                  className={[
+                    'pricing-tier-card',
+                    isSelected ? 'selected' : '',
+                    plan.isHero ? 'hero' : '',
+                    plan.isDecoy ? 'decoy' : '',
+                  ].filter(Boolean).join(' ')}
                   onClick={() => setSelectedPlan(plan)}
                 >
-                  {plan.badge && <span className="compact-popular-badge">{plan.badge}</span>}
-                  <div className="compact-plan-title-row">
-                    <span className="compact-plan-name">{plan.name}</span>
-                    <span className="compact-discount-tag">Tiết kiệm -{plan.discountPercent}%</span>
+                  {/* Badge trên cùng */}
+                  {plan.badge && (
+                    <div className={`pricing-tier-badge ${plan.isHero ? 'badge-fire' : 'badge-neutral'}`}>
+                      {plan.badge}
+                    </div>
+                  )}
+
+                  {/* Tên gói */}
+                  <div className="tier-name">{plan.name}</div>
+
+                  {/* Giá chính */}
+                  <div className="tier-price-block">
+                    <span className="tier-price-main">{plan.price.toLocaleString('vi-VN')} đ</span>
+                    {plan.isHero && (
+                      <span className="tier-orig-crossed">{plan.originalPrice.toLocaleString('vi-VN')} đ</span>
+                    )}
                   </div>
-                  <div className="compact-price-row">
-                    <span className="compact-main-price">{plan.price.toLocaleString('vi-VN')} VNĐ</span>
-                    <span className="compact-orig-price">{plan.originalPrice.toLocaleString('vi-VN')} đ</span>
-                    <span className={`compact-select-pill ${isSelected ? 'active' : ''}`}>
-                      {isSelected ? '✓ Đang chọn' : 'Chọn gói'}
-                    </span>
+
+                  {/* Tiết kiệm */}
+                  {plan.isHero && (
+                    <div className="tier-savings-callout">
+                      Bạn tiết kiệm <strong>1.991.000 đ</strong> so với giá gốc
+                    </div>
+                  )}
+
+                  {/* Duration */}
+                  <div className="tier-duration">{plan.duration}</div>
+
+                  {/* Scarcity bar — chỉ cho Early Bird */}
+                  {plan.slots && slotPct !== null && (
+                    <div className="tier-slots-wrap">
+                      <div className="tier-slots-bar">
+                        <div className="tier-slots-fill" style={{ width: `${slotPct}%` }} />
+                      </div>
+                      <div className="tier-slots-label">
+                        Còn <strong>{plan.slots.remaining}</strong>/{plan.slots.total} suất Early Bird
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Select pill */}
+                  <div className={`tier-select-pill ${isSelected ? 'active' : ''}`}>
+                    {isSelected ? '✓ Đang chọn gói này' : plan.isHero ? 'Chọn Early Bird' : 'Chọn gói'}
                   </div>
                 </div>
               )
             })}
           </div>
+
+          {/* Savings urgency strip — chỉ hiện khi chọn Early Bird */}
+          {selectedPlan.id === 'early_bird' && (
+            <div className="urgency-strip">
+              <span className="urgency-flame">🔥</span>
+              <span>Ưu đãi Early Bird <strong>899.000 đ / Vĩnh viễn</strong> — tiết kiệm 1.991.000 đ so với giá gốc. Hết suất là hết, không mở lại.</span>
+            </div>
+          )}
 
           {/* Section 3: VietQR & Bank Info Row */}
           <div className="compact-payment-grid">
@@ -277,10 +453,12 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
               </div>
 
               <div className="compact-support-hint">
-                👉 Sau khi chuyển khoản, gửi bill & Mã máy qua Zalo <strong>0817.567.008</strong> (Thịnh Lynx) để nhận key kích hoạt ngay!
+                Sau khi chuyển khoản, bạn gửi ảnh giao dịch và mã máy qua Zalo <strong>0817.567.008</strong> (Thịnh Lynx) để nhận mã kích hoạt.
               </div>
             </div>
           </div>
+            </>
+          )}
         </div>
 
         {/* ── Modal Foot ── */}

@@ -3,12 +3,13 @@ import type {
   AuditBridgeApi,
   AuditAnalyzeRequest,
   AuditExportRequest,
+  AnalysisResult,
   ExportRunRequest,
   ExportResultPayload,
   PickFileResult,
   ReconcileRunRequest,
 } from '../shared/ipc'
-import type { AnalysisResult } from '../shared/types/analytics'
+import type { UpdateProgress } from '../shared/types/update'
 import type { ProgressMessage, ReconcileResult } from '../domain/types'
 
 /** Chuẩn kênh IPC phải khớp với shared/ipc.ts (IPC).
@@ -33,6 +34,10 @@ const CHANNELS = {
   downloadB410Template: 'auditsoft/downloadB410Template',
   detectLocalHtkk: 'auditsoft/detectLocalHtkk',
   readHtkkFile: 'auditsoft/readHtkkFile',
+  downloadAndInstallUpdate: 'auditsoft/downloadAndInstallUpdate',
+  updateProgress: 'auditsoft:updateProgress',
+  importTaxXmlFiles: 'auditsoft/importTaxXmlFiles',
+  pickTaxFiles: 'auditsoft/pickTaxFiles',
 } as const
 
 const api: AuditBridgeApi = {
@@ -55,10 +60,18 @@ const api: AuditBridgeApi = {
   readWorkbookRows: (filePath: string, sheetName: string) => ipcRenderer.invoke(CHANNELS.readWorkbookRows, filePath, sheetName),
   checkUpdate: (customUrl?: string) => ipcRenderer.invoke(CHANNELS.checkUpdate, customUrl),
   openExternalUrl: (url: string) => ipcRenderer.invoke(CHANNELS.openExternalUrl, url),
+  downloadAndInstallUpdate: (downloadUrl: string) => ipcRenderer.invoke(CHANNELS.downloadAndInstallUpdate, downloadUrl),
+  onUpdateProgress: (cb: (p: UpdateProgress) => void) => {
+    const listener = (_e: unknown, p: UpdateProgress): void => cb(p)
+    ipcRenderer.on(CHANNELS.updateProgress, listener as never)
+    return () => ipcRenderer.removeListener(CHANNELS.updateProgress, listener as never)
+  },
   consolidateB410: (req) => ipcRenderer.invoke(CHANNELS.consolidateB410, req),
   downloadB410Template: () => ipcRenderer.invoke(CHANNELS.downloadB410Template),
   detectLocalHtkk: (customPath?: string) => ipcRenderer.invoke(CHANNELS.detectLocalHtkk, customPath),
   readHtkkFile: (filePath: string) => ipcRenderer.invoke(CHANNELS.readHtkkFile, filePath),
+  importTaxXmlFiles: (filePaths: string[]) => ipcRenderer.invoke(CHANNELS.importTaxXmlFiles, filePaths),
+  pickTaxFiles: () => ipcRenderer.invoke(CHANNELS.pickTaxFiles),
   getPathForFile: (file: File): string => {
     try {
       if (webUtils && typeof webUtils.getPathForFile === 'function') {
@@ -71,6 +84,14 @@ const api: AuditBridgeApi = {
       return file.path
     }
     return ''
+  },
+  testDbConnection: (config) => ipcRenderer.invoke('db:test-connection', config),
+  previewDbSample: (config, limit) => ipcRenderer.invoke('db:preview-sample', config, limit),
+  fetchDbEntries: (config) => ipcRenderer.invoke('db:fetch-entries', config),
+  onDbProgress: (cb) => {
+    const listener = (_e: unknown, data: { fetched: number }): void => cb(data)
+    ipcRenderer.on('db:fetch-progress', listener as never)
+    return () => ipcRenderer.removeListener('db:fetch-progress', listener as never)
   },
 }
 

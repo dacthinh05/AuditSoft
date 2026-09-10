@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kế Hoạch Triển Khai: Module Phân Tích Cơ Bản Sổ NKC & Thuế GTGT/TNCN</title>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-card: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--bg);
+      margin: 0;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header-card {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .header-card h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.8rem;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .header-card p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .callout-notice {
+      background: rgba(245, 158, 11, 0.1);
+      border-left: 4px solid var(--warning);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      margin-top: 1.25rem;
+      color: #fbbf24;
+      font-size: 0.95rem;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .tag {
+      padding: 0.3rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .tag-blue { background: #0369a1; color: #e0f2fe; }
+    .tag-green { background: #065f46; color: #a7f3d0; }
+    .tag-yellow { background: #78350f; color: #fde68a; }
+
+    /* Timeline & Phases */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .phase-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .phase-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+    .phase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .phase-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .phase-badge {
+      background: #0284c7;
+      color: #fff;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .phase-effort {
+      font-size: 0.85rem;
+      color: #38bdf8;
+      font-weight: 600;
+    }
+
+    ul.task-list {
+      margin: 0;
+      padding-left: 1.25rem;
+      color: #e2e8f0;
+      font-size: 0.9rem;
+    }
+    ul.task-list li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* Grid */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+    table.data-table th {
+      background: #0f172a;
+      color: var(--text-muted);
+      padding: 0.6rem 0.75rem;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+    table.data-table td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid #293548;
+      color: #e2e8f0;
+    }
+    .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header-card">
+    <h1>
+      <span>🚀 Kế Hoạch Triển Khai: Module Phân Tích Cơ Bản (VSA 520 & Tax Suite)</span>
+    </h1>
+    <p>Xây dựng phân hệ phân tích kiểm toán sơ bộ toàn diện: Bóc tách EBITDA 30% lãi vay (NĐ 132/2020), Quét nghi ngờ bên liên quan (VSA 550), Tỷ trọng Pareto khách hàng/NCC, Ma trận 12 tháng, kết hợp Kéo-thả tờ khai Thuế GTGT/TNCN từ TaxRecord để đối chiếu chéo số liệu.</p>
+    
+    <div class="callout-notice">
+      <b>📌 Thông báo điều chỉnh phạm vi theo chỉ đạo của người dùng:</b><br>
+      Phần xuất file <b>Excel Working Paper</b> tạm gác lại sau khi các module khác hoàn chỉnh vì người dùng đang tự chỉnh sửa file <b>GLV MẪU</b>. Toàn bộ trọng tâm giai đoạn này dành cho <b>Lõi phân tích (Domain Engines)</b>, <b>Lõi kéo thả XML Thuế</b> và <b>Giao diện Dashboard trực quan (`PreliminaryAnalyticsPage`)</b>.
+    </div>
+
+    <div class="tag-row">
+      <span class="tag tag-blue">AuditSoft v1.2.0</span>
+      <span class="tag tag-green">Tái Sử Dụng TaxRecord</span>
+      <span class="tag tag-yellow">Thời Gian Ước Tính: 3.5 Ngày</span>
+    </div>
+  </div>
+
+  <!-- 5 Phases Roadmap -->
+  <h2 style="color: #38bdf8; margin-bottom: 1rem;">📍 Lộ Trình Thực Hiện (5 Giai Đoạn)</h2>
+  <div class="timeline">
+    <!-- Phase 1 -->
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-title">
+          <span class="phase-badge">Phase 1</span>
+          <span>Port TaxRecord XML Parsers & Data Types</span>
+        </div>
+        <div class="phase-effort">⏱️ 6 giờ</div>
+      </div>
+      <ul class="task-list">
+        <li>Tái sử dụng <b><code>VatXmlParser.ts</code></b> từ TaxRecord: Đọc chỉ tiêu [22] đến [43] tờ khai 01/GTGT chuẩn TT80.</li>
+        <li>Tái sử dụng <b><code>PitXmlParser.ts</code></b> từ TaxRecord: Đọc tờ khai 05/KK-TNCN và 05/QTT-TNCN.</li>
+        <li>Tái sử dụng <b><code>LocalXmlIngestionEngine.ts</code></b> & <b><code>ZipExtractor.ts</code></b>: Tự động quét file XML hoặc giải nén file ZIP kéo thả.</li>
+        <li>Thiết lập kiểu dữ liệu tiền tệ an toàn <b><code>BigInt</code></b> trong <code>src/shared/types/taxAnalytics.ts</code>.</li>
+        <li>Viết bộ unit test <code>tests/vat-pit-xml-parsers.test.ts</code> kiểm chứng độ chính xác khi đọc XML mẫu.</li>
+      </ul>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-title">
+          <span class="phase-badge">Phase 2</span>
+          <span>Core Accounting Domain Analytics Engines</span>
+        </div>
+        <div class="phase-effort">⏱️ 8 giờ</div>
+      </div>
+      <ul class="task-list">
+        <li>Xây dựng <b><code>EbitdaCalculator.ts</code></b>: Bóc tách Lãi vay thuần (TK 635 trừ 515), Khấu hao TSCĐ (Có 214), Lợi nhuận thuần HĐKD Mã 30, tính EBITDA và trần 30% theo Nghị định 132/2020/NĐ-CP (Chỉ tiêu B4).</li>
+        <li>Xây dựng <b><code>RelatedPartyScanner.ts</code></b>: Quét các giao dịch cho vay (128) hoặc mượn vốn (341, 3388) 0% lãi suất (thiếu 515/635), tạm ứng 141 tồn đọng lớn.</li>
+        <li>Xây dựng <b><code>ConcentrationAnalyzer.ts</code></b>: Phân tích tỷ trọng Pareto % của Top Khách hàng (TK 511) và Top Nhà cung cấp (TK 15x, 6xx, 331).</li>
+        <li>Xây dựng <b><code>Trend12MAnalyzer.ts</code></b>: Ma trận 12 tháng x các tài khoản trọng yếu, tính tốc độ tăng trưởng MoM % và gắn cờ cảnh báo tháng đột biến.</li>
+        <li>Viết unit test <code>tests/accounting-analytics-engines.test.ts</code> kiểm tra độ chính xác của 4 engine.</li>
+      </ul>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-title">
+          <span class="phase-badge">Phase 3</span>
+          <span>Tax Cross-Reconciler Engine (Thuần Logic Đối Chiếu)</span>
+        </div>
+        <div class="phase-effort">⏱️ 4 giờ</div>
+      </div>
+      <ul class="task-list">
+        <li>Xây dựng <b><code>TaxCrossReconciler.ts</code></b> so khớp dữ liệu Thuế GTGT/TNCN với phát sinh Sổ NKC kế toán.</li>
+        <li>Đối chiếu Doanh thu tờ khai 01/GTGT ([34]) vs Phát sinh Có TK 511 từng Quý và Cả năm.</li>
+        <li>Đối chiếu Thuế GTGT đầu ra ([35]) vs Có TK 33311; Thuế đầu vào ([25]) vs Nợ TK 1331.</li>
+        <li>Đối chiếu Thu nhập chịu thuế TNCN ([21]) vs Chi phí lương TK 334 / 6411 / 6421.</li>
+        <li>So sánh tính nhất quán giữa Tờ khai Quý (05/KK) và Quyết toán năm (05/QTT).</li>
+        <li>Viết unit test <code>tests/tax-cross-reconciler.test.ts</code> kiểm thử phát hiện chênh lệch đối chiếu.</li>
+      </ul>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-title">
+          <span class="phase-badge">Phase 4</span>
+          <span>UI Dashboard & PreliminaryAnalyticsPage</span>
+        </div>
+        <div class="phase-effort">⏱️ 8 giờ</div>
+      </div>
+      <ul class="task-list">
+        <li>Tích hợp nút điều hướng <b>Tab 5: Phân Tích Cơ Bản</b> trên thanh header của <code>App.tsx</code>.</li>
+        <li>Đăng ký IPC channels trong <code>src/shared/ipc.ts</code> và <code>src/main/ipc/analyticsHandlers.ts</code>.</li>
+        <li>Mở rộng Zustand Store quản lý state phân tích kế toán và tờ khai thuế trong <code>src/renderer/state/store.ts</code>.</li>
+        <li>Xây dựng <b><code>GlAnalyticsTab.tsx</code></b>: 5 Thẻ KPI nổi bật (EBITDA, Lãi vay, Cảnh báo đỏ 30%, Bên liên quan), Bảng EBITDA, Bảng Bên liên quan, Bảng Pareto, Ma trận 12 tháng.</li>
+        <li>Xây dựng <b><code>TaxAnalyticsTab.tsx</code></b>: Vùng kéo thả <code>TaxDropZone.tsx</code>, Bảng Thống kê Thuế GTGT & TNCN, Bảng Đối chiếu chéo trực quan.</li>
+      </ul>
+    </div>
+
+    <!-- Phase 5 -->
+    <div class="phase-card">
+      <div class="phase-header">
+        <div class="phase-title">
+          <span class="phase-badge">Phase 5</span>
+          <span>End-to-End Integration, Testing & Verification</span>
+        </div>
+        <div class="phase-effort">⏱️ 3 giờ</div>
+      </div>
+      <ul class="task-list">
+        <li>Kiểm thử toàn trình E2E với file NKC mẫu và file XML thuế thật.</li>
+        <li>Kiểm tra typecheck toàn bộ dự án (<code>npm run typecheck</code>).</li>
+        <li>Kiểm tra linting (<code>npm run lint</code>).</li>
+        <li>Chạy 100% test suite của dự án (<code>npm test</code>).</li>
+        <li>Kiểm tra build hoàn chỉnh (<code>npm run build</code>).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Grid: Architecture & File Ownership -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        <span>📦 Danh Sách Tệp Port Từ TaxRecord</span>
+      </div>
+      <table class="data-table font-mono">
+        <thead>
+          <tr>
+            <th>Tệp Mới Trong AuditSoft</th>
+            <th>Trách Nhiệm</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>src/domain/etax/parsers/VatXmlParser.ts</code></td>
+            <td>Parser tờ khai 01/GTGT ([22]..[43])</td>
+          </tr>
+          <tr>
+            <td><code>src/domain/etax/parsers/PitXmlParser.ts</code></td>
+            <td>Parser tờ khai 05/KK và 05/QTT</td>
+          </tr>
+          <tr>
+            <td><code>src/domain/etax/ingestion/LocalXmlIngestionEngine.ts</code></td>
+            <td>Quét & nạp file XML/ZIP</td>
+          </tr>
+          <tr>
+            <td><code>src/domain/etax/ingestion/ZipExtractor.ts</code></td>
+            <td>Giải nén file ZIP an toàn</td>
+          </tr>
+          <tr>
+            <td><code>src/shared/types/taxAnalytics.ts</code></td>
+            <td>Types thuế GTGT/TNCN BigInt</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>⚙️ Danh Sách Tệp Domain Mới</span>
+      </div>
+      <table class="data-table font-mono">
+        <thead>
+          <tr>
+            <th>Tệp Domain Trong AuditSoft</th>
+            <th>Trách Nhiệm</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>src/domain/analytics/EbitdaCalculator.ts</code></td>
+            <td>Tính lãi vay thuần & 30% EBITDA</td>
+          </tr>
+          <tr>
+            <td><code>src/domain/analytics/RelatedPartyScanner.ts</code></td>
+            <td>Quét vay mượn 0% & tạm ứng 141</td>
+          </tr>
+          <tr>
+            <td><code>src/domain/analytics/ConcentrationAnalyzer.ts</code></td>
+            <td>Tỷ trọng Pareto Khách hàng & NCC</td>
+          </tr>
+          <tr>
+            <td><code>src/domain/analytics/Trend12MAnalyzer.ts</code></td>
+            <td>Ma trận biến động 12 tháng</td>
+          </tr>
+          <tr>
+            <td><code>src/domain/analytics/TaxCrossReconciler.ts</code></td>
+            <td>Đối chiếu Thuế vs Sổ NKC</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

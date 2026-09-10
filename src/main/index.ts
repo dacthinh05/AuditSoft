@@ -12,8 +12,10 @@ import { runFullAnalysis } from './AnalysisPipeline'
 import { buildAuditWorkbook } from './export/AuditReportExporter'
 import fs from 'node:fs'
 import ExcelJS from 'exceljs'
-import { checkForAppUpdates } from './updater'
+import { checkForAppUpdates, downloadAndInstallUpdate } from './updater'
 import { LocalHtkkScanner } from '../domain/etax/LocalHtkkScanner'
+import { LocalXmlIngestionEngine } from '../domain/etax/ingestion/LocalXmlIngestionEngine'
+import { registerDbConnectorIpc } from './ipc/dbConnectorIpc'
 
 let mainWindow: BrowserWindow | null = null
 let activeReconcileWorker: Worker | null = null
@@ -257,6 +259,15 @@ function registerIpcHandlers(): void {
     }
   })
 
+  ipcMain.handle(IPC.downloadAndInstallUpdate, async (event, rawUrl: unknown) => {
+    const url = zString(rawUrl, 'downloadUrl')
+    return downloadAndInstallUpdate(url, (progress) => {
+      if (!event.sender.isDestroyed()) {
+        event.sender.send(IPC.updateProgress, progress)
+      }
+    })
+  })
+
   ipcMain.handle(IPC.consolidateB410, async (_e, rawReq: unknown) => {
     const req = rawReq as { masterTemplatePath?: string; sourceFiles: string[]; outputPath?: string }
     if (!req || !Array.isArray(req.sourceFiles) || req.sourceFiles.length === 0) {
@@ -316,6 +327,21 @@ function registerIpcHandlers(): void {
   ipcMain.handle(IPC.readHtkkFile, async (_event, filePath: string) => {
     return LocalHtkkScanner.readXmlFile(filePath)
   })
+  ipcMain.handle(IPC.importTaxXmlFiles, async (_event, filePaths: string[]) => {
+    return LocalXmlIngestionEngine.ingestFiles(filePaths)
+  })
+  ipcMain.handle(IPC.pickTaxFiles, async () => {
+    if (!mainWindow) return { canceled: true, filePaths: [] }
+    const res = await dialog.showOpenDialog(mainWindow, {
+      title: 'Chọn các tệp tờ khai thuế XML hoặc ZIP',
+      properties: ['openFile', 'multiSelections'],
+      filters: [
+        { name: 'Tờ khai Thuế (XML, ZIP)', extensions: ['xml', 'zip'] },
+        { name: 'Tất cả tệp', extensions: ['*'] },
+      ],
+    })
+    return { canceled: res.canceled, filePaths: res.filePaths }
+  })
 }
 
 function resolveB410TemplatePath(customPath?: string): string {
@@ -356,6 +382,7 @@ function zString(v: unknown, field: string): string {
 
 app.whenReady().then(() => {
   registerIpcHandlers()
+  registerDbConnectorIpc()
   createWindow()
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

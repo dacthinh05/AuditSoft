@@ -439,13 +439,13 @@ export async function renderMasterB410(options: RenderOptions): Promise<B410Cons
           r.eachCell({ includeEmpty: true }, (c, cNum) => {
             const destC = destR.getCell(cNum)
 
-            // Nếu là công thức, lấy kết quả đã tính để không bao giờ bị lỗi gãy link công thức (repair error)
+            // Neu la cong thuc, chuyen thanh gia tri tinh de tranh dut gay link ngoai [N]... giua cac file
             if (typeof c.value === 'object' && c.value !== null) {
               const valObj = c.value as unknown as Record<string, unknown>
-              if ('result' in valObj && valObj.result !== undefined) {
-                destC.value = valObj.result as ExcelJS.CellValue
-              } else if ('richText' in valObj) {
+              if ('richText' in valObj) {
                 destC.value = c.value
+              } else if ('result' in valObj && valObj.result !== undefined) {
+                destC.value = valObj.result as ExcelJS.CellValue
               } else if ('formula' in valObj || 'sharedFormula' in valObj) {
                 destC.value = (valObj.result !== undefined ? valObj.result : '') as ExcelJS.CellValue
               } else {
@@ -453,6 +453,12 @@ export async function renderMasterB410(options: RenderOptions): Promise<B410Cons
               }
             } else {
               destC.value = c.value
+            }
+            // Dam bao khong con formula model gay link
+            const m = destC.model as unknown as Record<string, unknown>
+            if (m) {
+              delete m.formula
+              delete m.sharedFormula
             }
             destC.font = c.font
             destC.alignment = c.alignment
@@ -491,9 +497,9 @@ export async function renderMasterB410(options: RenderOptions): Promise<B410Cons
     horizontalCentered: true,
   }
 
-  // 8. Dọn dẹp an toàn toàn bộ Shared Formula trước khi ghi file
+  // 8. Don dep an toan toan bo Defined Names rac & Shared/External Formula truoc khi ghi file
+  masterWb.definedNames.model = []
   normalizeWorkbookSharedFormulas(masterWb)
-
   // 9. Lưu file .xlsx
   await masterWb.xlsx.writeFile(outputPath)
   const executionTimeMs = Date.now() - startTimeMs

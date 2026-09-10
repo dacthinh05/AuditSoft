@@ -4,6 +4,9 @@ import { useTrialExport } from '../../shared/license'
 import { formatDateISO, formatMoney, formatMoneySigned, formatNumber } from '../lib/format'
 import { applyMainFilter } from '../../domain/pipeline/mainReport'
 import type { DiffRow } from '../../domain/types'
+import { AuditDataProfilerBar } from '../components/DataProfiler/AuditDataProfilerBar'
+import { profileDiffRows, extractMonthAndDay, TIER_THRESHOLDS } from '../../domain/profiling/dataProfiler'
+import { moneyFromJSON } from '../../domain/money'
 import {
   IconOverview,
   IconSearch,
@@ -130,27 +133,70 @@ function DetailTab(): JSX.Element {
   const result = useApp((s) => s.result)!
   const excludeKetChuyen = useApp((s) => s.excludeKetChuyen)
   const query = useApp((s) => s.detailQuery)
+  const profilerMonth = useApp((s) => s.profilerMonth)
+  const profilerTier = useApp((s) => s.profilerTier)
 
   const rowsAll = useMemo(() => applyMainFilter(result.diffRows, { excludeKetChuyen }), [result, excludeKetChuyen])
   const rows = useMemo(() => {
     const q = query.trim().toUpperCase()
-    const base = [...rowsAll].sort((a, b) => {
+    let base = rowsAll
+
+    // Lọc theo Tháng / Cutoff 31/12 từ Profiler
+    if (profilerMonth !== null) {
+      if (profilerMonth === 13) {
+        base = base.filter((r) => {
+          const { month, day } = extractMonthAndDay(r.dateISO, r.dateDisplay)
+          return month === 12 && day === 31
+        })
+      } else {
+        base = base.filter((r) => {
+          const { month } = extractMonthAndDay(r.dateISO, r.dateDisplay)
+          return month === profilerMonth
+        })
+      }
+    }
+
+    // Lọc theo Tầng giá trị (Tier) từ Profiler
+    if (profilerTier !== null) {
+      base = base.filter((r) => {
+        let rawAmt = 0n
+        try {
+          const amtAfter = moneyFromJSON(r.amountAfter).raw
+          const amtBefore = moneyFromJSON(r.amountBefore).raw
+          const diffAmt = moneyFromJSON(r.difference).raw
+          const absAfter = amtAfter < 0n ? -amtAfter : amtAfter
+          const absBefore = amtBefore < 0n ? -amtBefore : amtBefore
+          const absDiff = diffAmt < 0n ? -diffAmt : diffAmt
+          rawAmt = absAfter > absBefore ? absAfter : absBefore
+          if (rawAmt === 0n) rawAmt = absDiff
+        } catch {
+          rawAmt = 0n
+        }
+
+        if (profilerTier === 'LOW') return rawAmt < TIER_THRESHOLDS.LOW_MAX
+        if (profilerTier === 'MEDIUM') return rawAmt >= TIER_THRESHOLDS.LOW_MAX && rawAmt < TIER_THRESHOLDS.MED_MAX
+        if (profilerTier === 'HIGH') return rawAmt >= TIER_THRESHOLDS.MED_MAX && rawAmt < TIER_THRESHOLDS.HIGH_MAX
+        if (profilerTier === 'KEY_ITEM') return rawAmt >= TIER_THRESHOLDS.HIGH_MAX
+        return true
+      })
+    }
+
+    const sorted = [...base].sort((a, b) => {
       if (a.note !== b.note) return a.note < b.note ? -1 : 1
       const da = a.dateISO ?? '9999'
       const db = b.dateISO ?? '9999'
       if (da !== db) return da < db ? -1 : 1
       return a.stt - b.stt
     })
-    if (q === '') return base
-    return base.filter(
+    if (q === '') return sorted
+    return sorted.filter(
       (r) =>
         r.voucher.toUpperCase().includes(q) ||
         r.description.includes(q) ||
         r.debit.includes(q) ||
         r.credit.includes(q),
     )
-  }, [rowsAll, query])
-
+  }, [rowsAll, query, profilerMonth, profilerTier])
   const columns: VirtualColumn<DiffRow>[] = [
     { key: 'stt', label: 'STT', width: 50, align: 'center', render: (r) => r.stt },
     {
@@ -498,13 +544,21 @@ const TABS: { key: TabKey; label: string; icon: JSX.Element }[] = [
 ]
 
 export function ResultsPage(): JSX.Element {
+  const result = useApp((s) => s.result)!
   const tab = useApp((s) => s.tab)
   const setTab = useApp((s) => s.setTab)
+  const [_error, setError] = useState<string | null>(null)
+  const [_running, setRunning] = useState(false)
   const excludeKetChuyen = useApp((s) => s.excludeKetChuyen)
   const toggle = useApp((s) => s.toggleExcludeKetChuyen)
-  const setError = useApp((s) => s.setError)
-  const setRunning = useApp((s) => s.setRunning)
-  const result = useApp((s) => s.result)!
+  const profilerMonth = useApp((s) => s.profilerMonth)
+  const profilerTier = useApp((s) => s.profilerTier)
+  const profilerOpen = useApp((s) => s.profilerOpen)
+
+  const profileSummary = useMemo(() => {
+    if (!result) return null
+    return profileDiffRows(result.diffRows)
+  }, [result])
 
   async function exportXlsx(): Promise<void> {
     if (typeof window.auditsoft === 'undefined') {
@@ -576,6 +630,26 @@ export function ResultsPage(): JSX.Element {
           </button>
         </div>
       </div>
+      {/* ── Visual Data Profiler & Risk Analyzer (Power Query Style) ── */}
+      {profileSummary && (
+        <AuditDataProfilerBar
+          summary={profileSummary}
+          selectedMonth={profilerMonth}
+          selectedTier={profilerTier}
+          onSelectMonth={(m) => {
+            useApp.getState().setProfilerMonth(m)
+            if (tab !== 'detail') setTab('detail')
+          }}
+          onSelectTier={(t) => {
+            useApp.getState().setProfilerTier(t)
+            if (tab !== 'detail') setTab('detail')
+          }}
+          onClearFilters={() => useApp.getState().clearProfilerFilter()}
+          isOpen={profilerOpen}
+          onToggleOpen={() => useApp.getState().setProfilerOpen(!profilerOpen)}
+        />
+      )}
+
 
       {/* ── Modern Navigation Tabs ── */}
       <div className="results-tabs">

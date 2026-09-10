@@ -1,8 +1,10 @@
 import type { ProgressMessage, ReconcileResult, SourceConfig } from '../domain/types'
 import type { AnalysisResult, AuditAnalyzeRequest, AuditExportRequest } from './types/analytics'
-import type { AppUpdateInfo } from './types/update'
+import type { IngestedTaxDeclarations } from './types/taxAnalytics'
+import type { AppUpdateInfo, UpdateProgress } from './types/update'
 
-export type { AnalysisResult, AuditAnalyzeRequest, AuditExportRequest, AppUpdateInfo }
+export type { AnalysisResult, AuditAnalyzeRequest, AuditExportRequest, AppUpdateInfo, UpdateProgress, IngestedTaxDeclarations }
+
 
 export interface PickFileResult {
   canceled: boolean
@@ -80,6 +82,8 @@ export interface AuditBridgeApi {
   /** Auto-Update */
   checkUpdate(customUrl?: string): Promise<AppUpdateInfo>
   openExternalUrl(url: string): Promise<void>
+  downloadAndInstallUpdate(downloadUrl: string): Promise<{ success: boolean; message: string }>
+  onUpdateProgress?(callback: (progress: UpdateProgress) => void): () => void
   consolidateB410(req: { masterTemplatePath: string; sourceFiles: string[]; outputPath?: string }): Promise<{ success: boolean; message: string; outputPath?: string }>
   downloadB410Template(): Promise<{ ok: boolean; outPath: string | null }>
   detectLocalHtkk(customPath?: string): Promise<{
@@ -90,6 +94,13 @@ export interface AuditBridgeApi {
     checkedPaths: string[]
   }>
   readHtkkFile(filePath: string): Promise<string | null>
+  importTaxXmlFiles(filePaths: string[]): Promise<IngestedTaxDeclarations>
+  pickTaxFiles(): Promise<{ canceled: boolean; filePaths: string[] }>
+  /** Database Connector */
+  testDbConnection(config: unknown): Promise<{ success: boolean; message: string; databases?: string[]; serverVersion?: string }>
+  previewDbSample(config: unknown, limit?: number): Promise<unknown[]>
+  fetchDbEntries(config: unknown): Promise<unknown[]>
+  onDbProgress?(callback: (data: { fetched: number }) => void): () => void
 }
 
 export interface GenerateWorkingPapersRequest {
@@ -138,10 +149,14 @@ export const IPC = {
   readWorkbookRows: 'auditsoft/readWorkbookRows',
   checkUpdate: 'auditsoft/checkUpdate',
   openExternalUrl: 'auditsoft/openExternalUrl',
+  downloadAndInstallUpdate: 'auditsoft/downloadAndInstallUpdate',
+  updateProgress: 'auditsoft:updateProgress',
   consolidateB410: 'auditsoft/consolidateB410',
   downloadB410Template: 'auditsoft/downloadB410Template',
   detectLocalHtkk: 'auditsoft/detectLocalHtkk',
   readHtkkFile: 'auditsoft/readHtkkFile',
+  importTaxXmlFiles: 'auditsoft/importTaxXmlFiles',
+  pickTaxFiles: 'auditsoft/pickTaxFiles',
 } as const
 
 /** Channel strings dùng bởi preload (sandbox — không import được module khác). */
@@ -154,6 +169,8 @@ export const AUDIT_CHANNELS = {
   showItemInFolder: IPC.showItemInFolder,
   checkUpdate: IPC.checkUpdate,
   openExternalUrl: IPC.openExternalUrl,
+  downloadAndInstallUpdate: IPC.downloadAndInstallUpdate,
+  updateProgress: IPC.updateProgress,
   consolidateB410: IPC.consolidateB410,
   downloadB410Template: IPC.downloadB410Template,
 } as const
