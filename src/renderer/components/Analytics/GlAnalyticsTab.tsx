@@ -1,17 +1,18 @@
 import { useState } from 'react'
-import type { GlAnalyticsResult } from '../../../domain/analytics/types'
+import type { ExpenseDetailReport, GlAnalyticsResult } from '../../../domain/analytics/types'
 import { moneyToNumber } from '../../../domain/money'
 import { RevenueCogsComboChart } from './charts/RevenueCogsComboChart'
 import { CogsStructureStackedChart } from './charts/CogsStructureStackedChart'
 import { OpexRatioAreaChart } from './charts/OpexRatioAreaChart'
 import { ProfitWaterfallChart } from './charts/ProfitWaterfallChart'
-import { SmartAuditAlerts } from './SmartAuditAlerts'
+import { KqkdYoYChart } from './charts/KqkdYoYChart'
+import { AiAuditAdvisorPanel } from './AiAuditAdvisorPanel'
+import { CogsMatrix12MTable } from './CogsMatrix12MTable'
 
 interface Props {
   data: GlAnalyticsResult
+  filePath?: string
 }
-
-type ChartViewKey = 'combo' | 'cogs_struct' | 'opex' | 'waterfall'
 
 function fmtMoneyNum(v: number): string {
   return Math.round(v).toLocaleString('vi-VN')
@@ -22,10 +23,150 @@ const MONTH_NAMES = [
   'Tháng 05', 'Tháng 06', 'Tháng 07', 'Tháng 08',
   'Tháng 09', 'Tháng 10', 'Tháng 11', 'Tháng 12',
 ]
-export function GlAnalyticsTab({ data }: Props): JSX.Element {
-  const { ebitda, relatedParties, pareto, trend12m, correlations } = data
-  const [activeChartView, setActiveChartView] = useState<ChartViewKey>('combo')
 
+/** Ô đột biến: hover hiện ghi chú kiểm toán ngắn, không dùng ký hiệu cảm thán trong ngoặc */
+function AnomalyCell({ value, note, alignRight }: { value: string; note: string; alignRight?: boolean }): JSX.Element {
+  const [showNote, setShowNote] = useState(false)
+  return (
+    <span
+      style={{ position: 'relative', display: 'inline-block' }}
+      onMouseEnter={() => setShowNote(true)}
+      onMouseLeave={() => setShowNote(false)}
+    >
+      <span
+        style={{
+          color: showNote ? '#b45309' : '#0f172a',
+          background: showNote ? '#fef3c7' : 'transparent',
+          borderBottom: '2px dotted #d97706',
+          padding: '1px 4px',
+          borderRadius: '3px',
+          fontWeight: 700,
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '4px',
+          cursor: 'help',
+          transition: 'all 120ms ease',
+        }}
+      >
+        <span style={{ fontSize: '8px', color: '#d97706', lineHeight: 1 }}>●</span>
+        <span>{value}</span>
+      </span>
+      {showNote && (
+        <span
+          style={{
+            position: 'absolute',
+            bottom: 'calc(100% + 8px)',
+            ...(alignRight ? { right: 0 } : { left: 0 }),
+            width: 'max-content',
+            maxWidth: '250px',
+            whiteSpace: 'normal',
+            background: '#0f172a',
+            color: '#f8fafc',
+            fontSize: '11px',
+            fontWeight: 500,
+            padding: '8px 10px',
+            borderRadius: '6px',
+            textAlign: 'left',
+            lineHeight: 1.5,
+            zIndex: 50,
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
+            pointerEvents: 'none',
+          }}
+        >
+          {note}
+        </span>
+      )}
+    </span>
+  )
+}
+
+const SHORT_MONTHS = ['T01', 'T02', 'T03', 'T04', 'T05', 'T06', 'T07', 'T08', 'T09', 'T10', 'T11', 'T12']
+
+/** Bảng chi tiết chi phí theo TK 4 số × 12 tháng (mẫu giấy G353/G453) */
+function ExpenseDetailTable({ title, subtitle, report }: { title: string; subtitle: string; report: ExpenseDetailReport }): JSX.Element {
+  const grandTotal = report.totals.reduce((s, v) => s + v, 0)
+  const grandRevenue = report.revenue.reduce((s, v) => s + v, 0)
+  const grandRatio = grandRevenue > 0 ? Number(((grandTotal / grandRevenue) * 100).toFixed(1)) : null
+  return (
+    <div
+      style={{
+        background: '#ffffff',
+        border: '1px solid #e2e8f0',
+        borderRadius: '12px',
+        padding: '18px 20px',
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
+      }}
+    >
+      <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', marginBottom: '4px' }}>{title}</div>
+      <div style={{ fontSize: '11.5px', color: '#64748b', marginBottom: '12px' }}>{subtitle}</div>
+      {report.accounts.length === 0 ? (
+        <div style={{ padding: '1.5rem', textAlign: 'center', color: '#64748b', background: '#f8fafc', borderRadius: '8px', fontSize: '13px' }}>
+          Sổ NKC không phát sinh tài khoản Nợ {report.prefix} nào.
+        </div>
+      ) : (
+        <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+          <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, fontSize: '12px', fontFamily: 'monospace' }}>
+            <thead>
+              <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'right', borderBottom: '1px solid #e2e8f0' }}>
+                <th style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 3, padding: '8px 10px', textAlign: 'left', fontWeight: 700, fontFamily: 'system-ui, sans-serif', borderRight: '1px solid #e2e8f0' }}>Tháng</th>
+                {report.accounts.map((acc) => (
+                  <th key={acc} style={{ padding: '8px 8px', fontWeight: 700, minWidth: '110px' }}>TK {acc}</th>
+                ))}
+                <th style={{ padding: '8px 8px', fontWeight: 700, background: '#f8fafc', minWidth: '120px' }}>Tổng CP</th>
+                <th style={{ padding: '8px 8px', fontWeight: 700, background: '#eff6ff', color: '#1d4ed8', minWidth: '130px' }}>Doanh thu</th>
+                <th style={{ padding: '8px 8px', fontWeight: 700, minWidth: '80px' }}>Tỷ lệ</th>
+              </tr>
+            </thead>
+            <tbody style={{ color: '#1e293b' }}>
+              {SHORT_MONTHS.map((mLabel, mIdx) => {
+                const monthTotal = report.months.reduce((s, m) => s + (m[mIdx] ?? 0), 0)
+                const rev = report.revenue[mIdx] ?? 0
+                const ratio = report.ratios[mIdx]
+                return (
+                  <tr key={mLabel} style={{ borderBottom: '1px solid #f1f5f9', textAlign: 'right', background: mIdx % 2 === 0 ? '#ffffff' : '#f8fafc' }}>
+                    <td style={{ position: 'sticky', left: 0, background: mIdx % 2 === 0 ? '#ffffff' : '#f8fafc', zIndex: 2, padding: '7px 10px', textAlign: 'left', fontFamily: 'system-ui, sans-serif', fontWeight: 700, color: '#0284c7', borderRight: '1px solid #e2e8f0' }}>{mLabel}</td>
+                    {report.months.map((col, cIdx) => {
+                      const v = col[mIdx] ?? 0
+                      return (
+                        <td key={cIdx} style={{ padding: '7px 8px' }}>
+                          {v === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : <span style={{ fontWeight: 600, color: '#0f172a' }}>{fmtMoneyNum(v)}</span>}
+                        </td>
+                      )
+                    })}
+                    <td style={{ padding: '7px 8px', fontWeight: 700, color: '#0f172a' }}>{monthTotal === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(monthTotal)}</td>
+                    <td style={{ padding: '7px 8px', background: '#eff6ff', color: '#1d4ed8', fontWeight: 600 }}>{rev === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(rev)}</td>
+                    <td style={{ padding: '7px 8px', fontWeight: 700, color: '#0f172a' }}>{ratio == null ? <span style={{ color: '#94a3b8' }}>-</span> : `${ratio}%`}</td>
+                  </tr>
+                )
+              })}
+              <tr style={{ background: '#f8fafc', fontWeight: 700, textAlign: 'right', color: '#0f172a' }}>
+                <td style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 2, padding: '8px 10px', textAlign: 'left', fontFamily: 'system-ui, sans-serif', borderRight: '1px solid #e2e8f0', borderTop: '2px solid #cbd5e1' }}>Cộng</td>
+                {report.totals.map((t, i) => (
+                  <td key={i} style={{ padding: '8px 8px', borderTop: '2px solid #cbd5e1' }}>{t === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(t)}</td>
+                ))}
+                <td style={{ padding: '8px 8px', borderTop: '2px solid #cbd5e1' }}>{grandTotal === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(grandTotal)}</td>
+                <td style={{ padding: '8px 8px', color: '#1d4ed8', borderTop: '2px solid #cbd5e1' }}>{grandRevenue === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(grandRevenue)}</td>
+                <td style={{ padding: '8px 8px', borderTop: '2px solid #cbd5e1' }}>{grandRatio == null ? <span style={{ color: '#94a3b8' }}>-</span> : `${grandRatio}%`}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function ExpenseDetailSection({ sell, admin }: { sell: ExpenseDetailReport; admin: ExpenseDetailReport }): JSX.Element {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+      <ExpenseDetailTable title="Tỷ lệ Chi phí bán hàng / Doanh thu qua các tháng (TK 641)" subtitle="Chi tiết theo TK 4 số — phục vụ giấy làm việc G353" report={sell} />
+      <ExpenseDetailTable title="Tỷ lệ Chi phí quản lý doanh nghiệp / Doanh thu qua các tháng (TK 642)" subtitle="Chi tiết theo TK 4 số — phục vụ giấy làm việc G453" report={admin} />
+    </div>
+  )
+}
+export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
+  const { ebitda, relatedParties, pareto, trend12m, correlations } = data
+  const [showRelated, setShowRelated] = useState(false)
   const netInterestNum = moneyToNumber(ebitda.netInterest)
   const ebitdaNum = moneyToNumber(ebitda.ebitda)
   const cap30Num = moneyToNumber(ebitda.cap30)
@@ -45,6 +186,9 @@ export function GlAnalyticsTab({ data }: Props): JSX.Element {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', color: '#0f172a' }}>
+      {/* ── AI Audit Advisor (Google Gemini 2.5 VSA 520) ── */}
+      <AiAuditAdvisorPanel data={data} filePath={filePath} />
+
       {/* ── 5 KPI Cards (Clean Enterprise SaaS Standard, Zero Emojis) ── */}
       <div
         style={{
@@ -267,7 +411,7 @@ export function GlAnalyticsTab({ data }: Props): JSX.Element {
           </div>
         </div>
 
-        {/* Panel Bên Liên Quan */}
+        {/* Panel KQKD Năm nay vs Năm trước */}
         <div
           style={{
             background: '#ffffff',
@@ -278,59 +422,89 @@ export function GlAnalyticsTab({ data }: Props): JSX.Element {
           }}
         >
           <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>Nghi Ngờ Giao Dịch Bên Liên Quan (VSA 550)</span>
-            <span
-              style={{
-                fontSize: '11px',
-                background: relatedParties.length > 0 ? '#fffbeb' : '#ecfdf5',
-                color: relatedParties.length > 0 ? '#b45309' : '#047857',
-                border: `1px solid ${relatedParties.length > 0 ? '#fde68a' : '#a7f3d0'}`,
-                padding: '3px 8px',
-                borderRadius: '4px',
-                fontWeight: 600,
-              }}
-            >
-              {relatedParties.length} cảnh báo
-            </span>
+            <span>Kết Quả Kinh Doanh — Năm Nay vs Năm Trước</span>
+            {data.kqkdYoY && (
+              <span
+                style={{
+                  fontSize: '11px',
+                  background: data.kqkdYoY.fromB02 ? '#eff6ff' : '#f8fafc',
+                  color: data.kqkdYoY.fromB02 ? '#1d4ed8' : '#64748b',
+                  border: `1px solid ${data.kqkdYoY.fromB02 ? '#bfdbfe' : '#e2e8f0'}`,
+                  padding: '3px 8px',
+                  borderRadius: '4px',
+                  fontWeight: 600,
+                }}
+              >
+                {data.kqkdYoY.fromB02 ? 'Số B02' : 'Kết từ NKC'}
+              </span>
+            )}
           </div>
-          {relatedParties.length === 0 ? (
-            <div style={{ padding: '2.5rem', textAlign: 'center', color: '#059669', background: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9' }}>
-              Không phát hiện nghiệp vụ cho vay hoặc mượn vốn 0% lãi suất bất thường trên sổ NKC.
+          {relatedParties.length > 0 && (
+            <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '8px', padding: '10px 12px', marginBottom: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#92400e' }}>
+                  Phát hiện {relatedParties.length} dấu hiệu giao dịch bên liên quan (VSA 550)
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setShowRelated((v) => !v)}
+                  style={{ background: '#ffffff', color: '#92400e', border: '1px solid #fde68a', padding: '4px 10px', borderRadius: '5px', fontWeight: 600, cursor: 'pointer', fontSize: '12px' }}
+                >
+                  {showRelated ? 'Thu gọn' : 'Xem chi tiết'}
+                </button>
+              </div>
+              {showRelated && (
+                <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '180px', overflowY: 'auto' }}>
+                  {relatedParties.map((rp) => (
+                    <div key={rp.id} style={{ fontSize: '12px', color: '#451a03', background: '#ffffff', border: '1px solid #fef3c7', borderRadius: '5px', padding: '6px 8px' }}>
+                      <b>{rp.name}</b> — {rp.description} ({fmtMoneyNum(rp.totalAmount ? moneyToNumber(rp.totalAmount) : 0)} đ)
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+          {!data.kqkdYoY || data.kqkdYoY.rows.length === 0 ? (
+            <div style={{ padding: '2rem', textAlign: 'center', color: '#64748b', background: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9', fontSize: '13px' }}>
+              Chưa có dữ liệu kết quả kinh doanh. Nạp file có sheet KQKD/BCTC hoặc Sổ NKC để xem so sánh.
             </div>
           ) : (
-            <div style={{ maxHeight: '280px', overflowY: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12.5px' }}>
-                <thead>
-                  <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'left', borderBottom: '1px solid #e2e8f0' }}>
-                    <th style={{ padding: '8px 10px', fontWeight: 600 }}>Đối tượng</th>
-                    <th style={{ padding: '8px 10px', fontWeight: 600 }}>Loại</th>
-                    <th style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600 }}>Số Tiền</th>
-                    <th style={{ padding: '8px 10px', fontWeight: 600 }}>Cảnh báo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {relatedParties.map((rp) => (
-                    <tr key={rp.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                      <td style={{ padding: '8px 10px' }}>
-                        <b>{rp.name}</b>
-                        {rp.objectCode && <div style={{ fontSize: '11px', color: '#64748b' }}>Mã: {rp.objectCode}</div>}
-                      </td>
-                      <td style={{ padding: '8px 10px', fontSize: '11.5px', color: '#0284c7', fontWeight: 600 }}>
-                        {rp.type === 'ZERO_INTEREST_LENDING' && 'Cho vay 0%'}
-                        {rp.type === 'ZERO_INTEREST_BORROWING' && 'Mượn vốn 0%'}
-                        {rp.type === 'UNRESOLVED_ADVANCE' && 'Tạm ứng lớn'}
-                      </td>
-                      <td style={{ padding: '8px 10px', textAlign: 'right', fontFamily: 'monospace', fontWeight: 600 }}>
-                        {fmtMoneyNum(rp.totalAmount ? moneyToNumber(rp.totalAmount) : 0)}
-                      </td>
-                      <td style={{ padding: '8px 10px', fontSize: '11.5px', color: '#b45309' }}>
-                        {rp.description}
-                      </td>
+            <>
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12.5px' }}>
+                  <thead>
+                    <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'right', borderBottom: '1px solid #e2e8f0' }}>
+                      <th style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 600 }}>Mã số</th>
+                      <th style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 600 }}>Chỉ tiêu</th>
+                      <th style={{ padding: '8px 10px', fontWeight: 600 }}>Năm nay</th>
+                      <th style={{ padding: '8px 10px', fontWeight: 600 }}>Năm trước</th>
+                      <th style={{ padding: '8px 10px', fontWeight: 600 }}>Chênh lệch</th>
+                      <th style={{ padding: '8px 10px', fontWeight: 600 }}>%</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody style={{ fontFamily: 'monospace', color: '#1e293b' }}>
+                    {data.kqkdYoY.rows.map((r) => (
+                      <tr key={r.maSo} style={{ borderBottom: '1px solid #f1f5f9', textAlign: 'right' }}>
+                        <td style={{ padding: '7px 10px', textAlign: 'left', color: '#64748b' }}>{r.maSo}</td>
+                        <td style={{ padding: '7px 10px', textAlign: 'left', fontFamily: 'sans-serif', fontWeight: 500 }}>{r.chiTieu}</td>
+                        <td style={{ padding: '7px 10px', fontWeight: 700, color: '#0f172a' }}>{r.current === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(r.current)}</td>
+                        <td style={{ padding: '7px 10px', fontWeight: 600, color: '#475569' }}>{r.prior == null || r.prior === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(r.prior)}</td>
+                        <td style={{ padding: '7px 10px', fontWeight: 700, color: '#0f172a' }}>{r.diff == null || r.diff === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : `${r.diff > 0 ? '+' : ''}${fmtMoneyNum(r.diff)}`}</td>
+                        <td style={{ padding: '7px 10px' }}>{r.pct == null ? <span style={{ color: '#94a3b8' }}>-</span> : <span style={{ background: '#eff6ff', color: '#1d4ed8', padding: '2px 7px', borderRadius: '4px', fontWeight: 700 }}>{r.pct > 0 ? '+' : ''}{r.pct}%</span>}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {!data.kqkdYoY.rows.some((r) => r.prior != null) && (
+                <div style={{ fontSize: '11.5px', color: '#b45309', marginTop: '10px' }}>
+                  Chưa có số năm trước — nạp file có sheet KQKD/BCTC đủ 2 năm để bật so sánh.
+                </div>
+              )}
+              <div style={{ marginTop: '14px' }}>
+                <KqkdYoYChart rows={data.kqkdYoY.rows} />
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -440,105 +614,25 @@ export function GlAnalyticsTab({ data }: Props): JSX.Element {
         </div>
       </div>
 
-      {/* ── Section 4: Bộ Đồ Thị Tài Chính Tương Quan VSA 520 (Pure SVG SaaS Grade) ── */}
+      {/* ── Section 4: Bộ 4 Đồ Thị Tài Chính Tương Quan VSA 520 (lưới 2x2) ── */}
       {correlations && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {/* Sub-View Switcher Tabs */}
-          <div
-            style={{
-              display: 'inline-flex',
-              background: '#f1f5f9',
-              padding: '3px',
-              borderRadius: '7px',
-              border: '1px solid #e2e8f0',
-              gap: '4px',
-              width: 'fit-content',
-              flexWrap: 'wrap',
-            }}
-          >
-            <button
-              type="button"
-              onClick={() => setActiveChartView('combo')}
-              style={{
-                background: activeChartView === 'combo' ? '#ffffff' : 'transparent',
-                color: activeChartView === 'combo' ? '#0284c7' : '#64748b',
-                border: 'none',
-                padding: '5px 14px',
-                borderRadius: '5px',
-                fontSize: '12px',
-                fontWeight: activeChartView === 'combo' ? 700 : 600,
-                boxShadow: activeChartView === 'combo' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-              }}
-            >
-              Tương Quan Doanh Thu — Giá Vốn &amp; Biên Lãi Gộp
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setActiveChartView('cogs_struct')}
-              style={{
-                background: activeChartView === 'cogs_struct' ? '#ffffff' : 'transparent',
-                color: activeChartView === 'cogs_struct' ? '#0284c7' : '#64748b',
-                border: 'none',
-                padding: '5px 14px',
-                borderRadius: '5px',
-                fontSize: '12px',
-                fontWeight: activeChartView === 'cogs_struct' ? 700 : 600,
-                boxShadow: activeChartView === 'cogs_struct' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-              }}
-            >
-              Bóc Tách Cấu Trúc Giá Vốn (621/622/627)
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setActiveChartView('opex')}
-              style={{
-                background: activeChartView === 'opex' ? '#ffffff' : 'transparent',
-                color: activeChartView === 'opex' ? '#0284c7' : '#64748b',
-                border: 'none',
-                padding: '5px 14px',
-                borderRadius: '5px',
-                fontSize: '12px',
-                fontWeight: activeChartView === 'opex' ? 700 : 600,
-                boxShadow: activeChartView === 'opex' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-              }}
-            >
-              Tỷ Lệ Chi Phí Hoạt Động (OPEX / DT)
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setActiveChartView('waterfall')}
-              style={{
-                background: activeChartView === 'waterfall' ? '#ffffff' : 'transparent',
-                color: activeChartView === 'waterfall' ? '#0284c7' : '#64748b',
-                border: 'none',
-                padding: '5px 14px',
-                borderRadius: '5px',
-                fontSize: '12px',
-                fontWeight: activeChartView === 'waterfall' ? 700 : 600,
-                boxShadow: activeChartView === 'waterfall' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-              }}
-            >
-              Cầu Nối Lợi Nhuận Waterfall
-            </button>
-          </div>
-
-          {/* Active Chart Component */}
-          {activeChartView === 'combo' && <RevenueCogsComboChart report={correlations.grossMargin} />}
-          {activeChartView === 'cogs_struct' && <CogsStructureStackedChart report={correlations.cogsStructure} />}
-          {activeChartView === 'opex' && <OpexRatioAreaChart report={correlations.opexRatios} />}
-          {activeChartView === 'waterfall' && <ProfitWaterfallChart steps={correlations.waterfall} />}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(520px, 1fr))',
+            gap: '18px',
+          }}
+        >
+          <RevenueCogsComboChart report={correlations.grossMargin} />
+          <ProfitWaterfallChart steps={correlations.waterfall} />
+          <CogsStructureStackedChart report={correlations.cogsStructure} />
+          <OpexRatioAreaChart report={correlations.opexRatios} />
         </div>
+      )}
+
+      {/* ── Section 4b: Ma Trận Chi Phí Cấu Thành Giá Vốn 12 Tháng (Trước Kết Chuyển 911) ── */}
+      {correlations?.cogs12mMatrix && (
+        <CogsMatrix12MTable matrix={correlations.cogs12mMatrix} />
       )}
 
       {/* ── Section 5: Ma Trận 12 Tháng Đã Tối Ưu (Sticky Col, Muted Zero '-') ── */}
@@ -601,15 +695,15 @@ export function GlAnalyticsTab({ data }: Props): JSX.Element {
                     key={r.key}
                     style={{
                       padding: '9px 8px',
-                      textAlign: 'right',
-                      minWidth: '135px',
+                      textAlign: 'center',
+                      minWidth: '150px',
                       fontWeight: 700,
                       borderBottom: '1px solid #e2e8f0',
                       borderRight: '1px solid #f1f5f9',
                     }}
                   >
-                    <div style={{ color: '#0f172a', fontFamily: 'system-ui, sans-serif', fontSize: '12px' }}>{r.label}</div>
-                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: 500 }}>({r.accountPattern})</div>
+                    <div style={{ color: '#0f172a', fontFamily: 'system-ui, sans-serif', fontSize: '12px', lineHeight: 1.35 }}>{r.label}</div>
+                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: 500, marginTop: '2px' }}>({r.accountPattern})</div>
                   </th>
                 ))}
                 <th
@@ -675,25 +769,20 @@ export function GlAnalyticsTab({ data }: Props): JSX.Element {
                             textAlign: 'right',
                             borderBottom: '1px solid #f1f5f9',
                             borderRight: '1px solid #f8fafc',
-                            background: isAnomaly ? '#fffbeb' : 'transparent',
+                            background: 'transparent',
                           }}
                         >
                           {valNum === 0 ? (
                             <span style={{ color: '#94a3b8' }}>-</span>
                           ) : isAnomaly ? (
-                            <span
-                              style={{
-                                color: '#b45309',
-                                background: '#fef3c7',
-                                border: '1px solid #fde68a',
-                                padding: '1px 5px',
-                                borderRadius: '4px',
-                                fontWeight: 700,
-                                display: 'inline-block',
-                              }}
-                            >
-                              {fmtMoneyNum(valNum)} (!)
-                            </span>
+                            <AnomalyCell
+                              value={fmtMoneyNum(valNum)}
+                              note={
+                                r.cellNotes?.[monthNum] ??
+                                `Biến động đột biến T${String(monthNum).padStart(2, '0')} — rà soát chứng từ phát sinh lớn / cut-off.`
+                              }
+                              alignRight={mIdx >= 9}
+                            />
                           ) : (
                             <span style={{ fontWeight: 600, color: '#0f172a' }}>
                               {fmtMoneyNum(valNum)}
@@ -748,22 +837,25 @@ export function GlAnalyticsTab({ data }: Props): JSX.Element {
                   CẢ NĂM
                 </td>
 
-                {trend12m.rows.map((r) => (
-                  <td
-                    key={r.key}
-                    style={{
-                      padding: '9px 8px',
-                      textAlign: 'right',
-                      color: '#0f172a',
-                      fontFamily: 'monospace',
-                      borderTop: '2px solid #cbd5e1',
-                      borderRight: '1px solid #f1f5f9',
-                      fontWeight: 700,
-                    }}
-                  >
-                    {fmtMoneyNum(moneyToNumber(r.total))}
-                  </td>
-                ))}
+                {trend12m.rows.map((r) => {
+                  const yearVal = moneyToNumber(r.total)
+                  return (
+                    <td
+                      key={r.key}
+                      style={{
+                        padding: '9px 8px',
+                        textAlign: 'right',
+                        color: '#0f172a',
+                        fontFamily: 'monospace',
+                        borderTop: '2px solid #cbd5e1',
+                        borderRight: '1px solid #f1f5f9',
+                        fontWeight: 700,
+                      }}
+                    >
+                      {yearVal === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(yearVal)}
+                    </td>
+                  )
+                })}
 
                 <td
                   style={{
@@ -784,12 +876,11 @@ export function GlAnalyticsTab({ data }: Props): JSX.Element {
             </tbody>
           </table>
         </div>
-
-        {/* Smart Audit Alerts */}
-        <div style={{ marginTop: '14px' }}>
-          <SmartAuditAlerts notes={trend12m.warningNotes} />
-        </div>
       </div>
+
+      {data.expenseDetail && (
+        <ExpenseDetailSection sell={data.expenseDetail.sell} admin={data.expenseDetail.admin} />
+      )}
     </div>
   )
 }

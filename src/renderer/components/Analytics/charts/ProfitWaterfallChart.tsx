@@ -1,205 +1,182 @@
-import { useState, type MouseEvent } from 'react'
+import { useState } from 'react'
 import type { WaterfallStep } from '../../../../domain/analytics/types'
 import { moneyToNumber } from '../../../../domain/money'
-import { ChartTooltip } from './ChartTooltip'
 
 interface Props {
   steps: WaterfallStep[]
 }
 
 export function ProfitWaterfallChart({ steps }: Props): JSX.Element {
-  const [tooltip, setTooltip] = useState<{
-    x: number
-    y: number
-    title: string
-    subtitle?: string
-    items: Array<{ label: string; value: string; color?: string; isWarning?: boolean }>
-    visible: boolean
-  }>({
-    x: 0,
-    y: 0,
-    title: '',
-    items: [],
-    visible: false,
-  })
+  const [hoverIdx, setHoverIdx] = useState<number | null>(null)
 
-  // Tìm giá trị max cumulative và min cumulative để scale trục Y
-  const allVals = steps.map((s) => moneyToNumber(s.cumulative))
-  const maxVal = Math.max(...allVals, 1000000000)
-  const minVal = Math.min(...allVals, 0)
-  const span = Math.max(maxVal - minVal, 1000000000)
+  if (steps.length === 0) return <div />
 
-  const X_START = 60
-  const X_END = 940
-  const Y_TOP = 25
-  const Y_BOTTOM = 220
-  const Y_HEIGHT = Y_BOTTOM - Y_TOP
-  const BAR_WIDTH = 54
+  const startStep = steps.find((s) => s.type === 'start')
+  const baseRevenue = startStep ? Math.abs(moneyToNumber(startStep.amount)) : 1
 
-  const numSteps = steps.length
-  const getX = (idx: number) => X_START + (idx / (numSteps - 1)) * (X_END - X_START)
-  const getY = (val: number) => Y_BOTTOM - ((val - minVal) / (span * 1.15)) * Y_HEIGHT
-
-  function fmtVndLabel(v: number): string {
-    const absV = Math.abs(v)
-    const sign = v < 0 ? '-' : ''
-    if (absV >= 1000000000) return `${sign}${(absV / 1000000000).toFixed(2).replace('.00', '')} tỷ`
-    if (absV >= 1000000) return `${sign}${(absV / 1000000).toFixed(0)} tr`
-    return `${v.toLocaleString('vi-VN')} đ`
+  function getStepBadge(type: WaterfallStep['type']): { label: string; bg: string; color: string } {
+    switch (type) {
+      case 'start':
+        return { label: 'KHỞI ĐIỂM', bg: '#eff6ff', color: '#1d4ed8' }
+      case 'decrease':
+        return { label: 'GIẢM TRỪ (-)', bg: '#fef2f2', color: '#b91c1c' }
+      case 'increase':
+        return { label: 'BỔ SUNG (+)', bg: '#f0fdf4', color: '#15803d' }
+      case 'subtotal':
+        return { label: 'TRUNG GIAN (=)', bg: '#f8fafc', color: '#0f172a' }
+      case 'total':
+        return { label: 'KẾT QUẢ CHỐT (=)', bg: '#fef3c7', color: '#b45309' }
+    }
   }
 
-  function handleBarHover(e: MouseEvent, idx: number): void {
-    const step = steps[idx]
-    if (!step) return
-
-    const amtNum = moneyToNumber(step.amount)
-    const cumNum = moneyToNumber(step.cumulative)
-
-    setTooltip({
-      x: e.clientX,
-      y: e.clientY,
-      title: step.label,
-      subtitle: `Bước ${idx + 1}/${steps.length}`,
-      items: [
-        { label: 'Số phát sinh', value: `${amtNum > 0 ? '+' : ''}${amtNum.toLocaleString('vi-VN')} đ`, color: amtNum < 0 ? '#ef4444' : '#10b981' },
-        { label: 'Lũy kế sau bước này', value: `${cumNum.toLocaleString('vi-VN')} đ`, color: '#0f172a' },
-      ],
-      visible: true,
-    })
+  function fmtMoney(num: number): string {
+    const abs = Math.abs(num)
+    const sign = num < 0 ? '-' : ''
+    return `${sign}${Math.round(abs).toLocaleString('vi-VN')} đ`
   }
 
   return (
     <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
         <div>
           <div style={{ fontSize: '13.5px', fontWeight: 700, color: '#0f172a' }}>
             Cầu Nối Dòng Chảy Lợi Nhuận (Profit Bridge Waterfall)
           </div>
           <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>
-            Minh họa trực quan các lớp chi phí và doanh thu khấu trừ từ Doanh thu thuần về Lợi nhuận trước thuế
+            Bóc tách từng lớp doanh thu và chi phí khấu trừ từ Doanh thu thuần về Lợi nhuận trước thuế
           </div>
         </div>
-
-        {/* Legend */}
-        <div style={{ display: 'flex', gap: '14px', fontSize: '11px' }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#475569' }}>
-            <span style={{ width: '9px', height: '9px', borderRadius: '2px', background: '#0284c7' }} />
-            Doanh thu khởi điểm
-          </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#475569' }}>
-            <span style={{ width: '9px', height: '9px', borderRadius: '2px', background: '#ef4444' }} />
-            Khoản giảm trừ
-          </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#475569' }}>
-            <span style={{ width: '9px', height: '9px', borderRadius: '2px', background: '#10b981' }} />
-            Khoản bổ sung
-          </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#475569' }}>
-            <span style={{ width: '9px', height: '9px', borderRadius: '2px', background: '#059669' }} />
-            LNTT kết quả
-          </span>
+        <div style={{ fontSize: '11px', color: '#64748b', background: '#f8fafc', padding: '3px 8px', borderRadius: '5px', border: '1px solid #e2e8f0' }}>
+          Tỷ trọng tính trên Doanh thu thuần ({fmtMoney(baseRevenue)})
         </div>
       </div>
 
-      {/* SVG Canvas */}
-      <div style={{ position: 'relative', width: '100%', height: '280px' }}>
-        <svg viewBox="0 0 1000 280" width="100%" height="100%" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
-          {/* Y0 baseline */}
-          <line x1={X_START - 20} y1={getY(0)} x2={X_END + 20} y2={getY(0)} stroke="#cbd5e1" strokeWidth="1.2" />
+      {/* Visual Table Bridge */}
+      <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left' }}>
+          <thead>
+            <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+              <th style={{ padding: '8px 12px', width: '35px', textAlign: 'center' }}>#</th>
+              <th style={{ padding: '8px 12px' }}>Khoản Mục Dòng Chảy</th>
+              <th style={{ padding: '8px 12px', textAlign: 'center', width: '110px' }}>Phân Loại</th>
+              <th style={{ padding: '8px 12px', textAlign: 'right', width: '150px' }}>Số Phát Sinh</th>
+              <th style={{ padding: '8px 16px', width: '220px' }}>Thanh Tác Động Trực Quan</th>
+              <th style={{ padding: '8px 12px', textAlign: 'right', width: '150px' }}>Lũy Kế Sau Bước</th>
+              <th style={{ padding: '8px 12px', textAlign: 'right', width: '85px' }}>% Doanh Thu</th>
+            </tr>
+          </thead>
+          <tbody>
+            {steps.map((step, idx) => {
+              const badge = getStepBadge(step.type)
+              const amtNum = moneyToNumber(step.amount)
+              const cumNum = moneyToNumber(step.cumulative)
+              const isHovered = hoverIdx === idx
 
-          {/* Render Waterfall Bars & Connecting Guides */}
-          {steps.map((step, idx) => {
-            const x = getX(idx) - BAR_WIDTH / 2
-            const currentCum = moneyToNumber(step.cumulative)
-            const prevCum = idx > 0 ? moneyToNumber(steps[idx - 1]!.cumulative) : 0
+              // Tính độ dài thanh trực quan (% trên base revenue, max 100%)
+              const impactPct = baseRevenue > 0 ? Math.min(100, Math.abs(amtNum) / baseRevenue * 100) : 0
+              const isSubtotalOrTotal = step.type === 'subtotal' || step.type === 'total' || step.type === 'start'
+              const cumRatio = baseRevenue > 0 ? (cumNum / baseRevenue) * 100 : 0
 
-            let barTopY: number
-            let barBottomY: number
-            let fillColor: string
+              let rowBg = '#ffffff'
+              if (isHovered) rowBg = '#f1f5f9'
+              else if (step.type === 'total') rowBg = '#fffbeb'
+              else if (step.type === 'subtotal') rowBg = '#f8fafc'
 
-            if (step.type === 'start') {
-              barTopY = getY(currentCum)
-              barBottomY = getY(0)
-              fillColor = '#0284c7'
-            } else if (step.type === 'total') {
-              barTopY = getY(currentCum)
-              barBottomY = getY(0)
-              fillColor = currentCum >= 0 ? '#059669' : '#b91c1c'
-            } else if (step.type === 'subtotal') {
-              barTopY = getY(currentCum)
-              barBottomY = getY(0)
-              fillColor = '#334155'
-            } else if (step.type === 'decrease') {
-              // Giá trị giảm: từ đỉnh prevCum tụt xuống currentCum
-              barTopY = getY(prevCum)
-              barBottomY = getY(currentCum)
-              fillColor = '#ef4444'
-            } else {
-              // Giá trị tăng: từ đáy prevCum vọt lên currentCum
-              barTopY = getY(currentCum)
-              barBottomY = getY(prevCum)
-              fillColor = '#10b981'
-            }
-
-            const barH = Math.max(2, Math.abs(barBottomY - barTopY))
-            const rectY = Math.min(barTopY, barBottomY)
-
-            // Dotted guide line to next step
-            const _nextStep = steps[idx + 1]
-            const guideLineY = getY(currentCum)
-            const guideNextX = idx < numSteps - 1 ? getX(idx + 1) + BAR_WIDTH / 2 : null
-
-            return (
-              <g key={idx} style={{ cursor: 'pointer' }} onMouseEnter={(e) => handleBarHover(e, idx)} onMouseLeave={() => setTooltip((t) => ({ ...t, visible: false }))}>
-                {/* Connecting Guide Line */}
-                {guideNextX && (
-                  <line
-                    x1={x + BAR_WIDTH}
-                    y1={guideLineY}
-                    x2={guideNextX - BAR_WIDTH}
-                    y2={guideLineY}
-                    stroke="#94a3b8"
-                    strokeWidth="1"
-                    strokeDasharray="2 2"
-                    opacity="0.6"
-                  />
-                )}
-
-                {/* Waterfall Bar */}
-                <rect x={x} y={rectY} width={BAR_WIDTH} height={barH} fill={fillColor} rx="3" opacity="0.9" />
-
-                {/* Amount text badge above/below bar */}
-                <text
-                  x={x + BAR_WIDTH / 2}
-                  y={rectY - 6}
-                  textAnchor="middle"
-                  fill="#0f172a"
-                  fontSize="9px"
-                  fontFamily="monospace"
-                  fontWeight="700"
+              return (
+                <tr
+                  key={idx}
+                  onMouseEnter={() => setHoverIdx(idx)}
+                  onMouseLeave={() => setHoverIdx(null)}
+                  style={{
+                    background: rowBg,
+                    borderBottom: '1px solid #f1f5f9',
+                    transition: 'background 120ms ease',
+                    fontWeight: isSubtotalOrTotal ? 700 : 500,
+                  }}
                 >
-                  {fmtVndLabel(moneyToNumber(step.amount))}
-                </text>
-
-                {/* Step Label (X-axis) */}
-                <text
-                  x={x + BAR_WIDTH / 2}
-                  y={Y_BOTTOM + 18}
-                  textAnchor="middle"
-                  fill="#475569"
-                  fontSize="9.5px"
-                  fontWeight="600"
-                  fontFamily="system-ui, sans-serif"
-                >
-                  {step.label.split('(')[0]}
-                </text>
-              </g>
-            )
-          })}
-        </svg>
-
-        <ChartTooltip {...tooltip} />
+                  <td style={{ padding: '8px 12px', textAlign: 'center', color: '#94a3b8', fontSize: '11px' }}>
+                    {idx + 1}
+                  </td>
+                  <td style={{ padding: '8px 12px', color: isSubtotalOrTotal ? '#0f172a' : '#334155' }}>
+                    {step.label}
+                  </td>
+                  <td style={{ padding: '8px 12px', textAlign: 'center' }}>
+                    <span
+                      style={{
+                        background: badge.bg,
+                        color: badge.color,
+                        fontSize: '9.5px',
+                        fontWeight: 700,
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                        border: `1px solid ${badge.color}30`,
+                        letterSpacing: '0.02em',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {badge.label}
+                    </span>
+                  </td>
+                  <td
+                    style={{
+                      padding: '8px 12px',
+                      textAlign: 'right',
+                      fontFamily: 'monospace',
+                      fontWeight: 700,
+                      color: amtNum < 0 ? '#dc2626' : amtNum > 0 ? '#16a34a' : '#475569',
+                    }}
+                  >
+                    {amtNum > 0 && step.type !== 'start' && step.type !== 'total' && step.type !== 'subtotal' ? '+' : ''}
+                    {fmtMoney(amtNum)}
+                  </td>
+                  <td style={{ padding: '8px 16px' }}>
+                    <div style={{ width: '100%', height: '10px', background: '#f1f5f9', borderRadius: '5px', overflow: 'hidden', position: 'relative' }}>
+                      <div
+                        style={{
+                          height: '100%',
+                          width: `${Math.max(2, impactPct)}%`,
+                          background:
+                            step.type === 'decrease'
+                              ? '#ef4444'
+                              : step.type === 'increase'
+                              ? '#10b981'
+                              : step.type === 'total'
+                              ? cumNum >= 0 ? '#059669' : '#dc2626'
+                              : '#0284c7',
+                          borderRadius: '5px',
+                          transition: 'width 200ms ease',
+                        }}
+                      />
+                    </div>
+                  </td>
+                  <td
+                    style={{
+                      padding: '8px 12px',
+                      textAlign: 'right',
+                      fontFamily: 'monospace',
+                      fontWeight: 700,
+                      color: cumNum < 0 ? '#dc2626' : '#0f172a',
+                    }}
+                  >
+                    {fmtMoney(cumNum)}
+                  </td>
+                  <td
+                    style={{
+                      padding: '8px 12px',
+                      textAlign: 'right',
+                      fontFamily: 'monospace',
+                      fontSize: '11px',
+                      color: cumRatio < 0 ? '#dc2626' : '#475569',
+                    }}
+                  >
+                    {cumRatio.toFixed(1)}%
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   )

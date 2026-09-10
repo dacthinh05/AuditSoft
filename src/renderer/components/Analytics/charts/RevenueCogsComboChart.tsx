@@ -45,15 +45,14 @@ export function RevenueCogsComboChart({ report }: Props): JSX.Element {
   const getX = (idx: number) => X_START + (idx / 11) * (X_END - X_START)
   const getY1 = (val: number) => Y_BOTTOM - (val / (maxVal * 1.15)) * Y_HEIGHT
 
-  // Thang đo trục phải Y2: tự động mở rộng theo dữ liệu thực tế
+  // Thang đo trục phải Y2: Cố định dải [-100%, +100%] để các tháng bình thường đọc rõ được dao động
+  // Các tháng ngoại lai cực đoan (như T12: -1162% do dồn giá vốn) được chạm trần đáy kèm nhãn cảnh báo
   const rawPcts = report.points.map((p) => p.grossMarginPct)
   const minRawPct = Math.min(...rawPcts)
   const maxRawPct = Math.max(...rawPcts)
-  // Giữ ít nhất từ -20 đến +60; nếu dữ liệu vượt, mở rộng thêm 10% khoảng
-  const dataPad = Math.max((maxRawPct - minRawPct) * 0.1, 5)
-  const MIN_PCT = Math.min(-20, minRawPct - dataPad)
-  const MAX_PCT = Math.max(60, maxRawPct + dataPad)
-  const isClamped = minRawPct < -20 || maxRawPct > 60
+  const MIN_PCT = -100
+  const MAX_PCT = 100
+  const hasOutlier = minRawPct < -100 || maxRawPct > 100
   const getY2 = (pct: number): number => {
     const clamped = Math.max(MIN_PCT, Math.min(MAX_PCT, pct))
     return Y_BOTTOM - ((clamped - MIN_PCT) / (MAX_PCT - MIN_PCT)) * Y_HEIGHT
@@ -299,9 +298,9 @@ export function RevenueCogsComboChart({ report }: Props): JSX.Element {
         <ChartTooltip {...tooltip} />
       </div>
 
-      {isClamped && (
+      {hasOutlier && (
         <div style={{ marginTop: '8px', background: '#fef9c3', border: '1px solid #fef08a', borderRadius: '6px', padding: '5px 12px', fontSize: '11px', color: '#713f12' }}>
-          <strong>Lưu ý thang đo:</strong> Biên lãi gộp dao động ngoài phạm vi thông thường (−20% – +60%). Thang đo đã được mở rộng tự động theo dữ liệu thực tế ({Math.round(MIN_PCT)}% – {Math.round(MAX_PCT)}%). Con số thực trên tooltip vẫn chính xác.
+          <strong>Lưu ý thang đo:</strong> Trục biên lãi gộp được neo trong dải [−100%, +100%] để giữ rõ biến động các tháng. Tháng có biên âm cực đoan (như T12: {minRawPct.toFixed(1)}%) chạm sàn kèm nhãn chi tiết.
         </div>
       )}
       {report.auditWarning && (
