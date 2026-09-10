@@ -37,6 +37,11 @@ export function standardizeSource(input: {
     const debitRaw = cellAt(row, mapping.debit)
     const creditRaw = cellAt(row, mapping.credit)
     const amountRaw = cellAt(row, mapping.amount)
+    // 4 cột phân tích optional: thiếu mapping hoặc ô trống/lỗi → null, không sinh lỗi
+    const partnerCodeRaw = mapping.partnerCode != null ? pqTrim(coerceCellToString(cellAt(row, mapping.partnerCode))) : ''
+    const partnerNameRaw = mapping.partnerName != null ? pqTrim(coerceCellToString(cellAt(row, mapping.partnerName))) : ''
+    const exchangeRate = mapping.exchangeRate != null ? parseMoney(cellAt(row, mapping.exchangeRate)) : null
+    const foreignAmount = mapping.foreignAmount != null ? parseMoney(cellAt(row, mapping.foreignAmount)) : null
 
     const isEmptyCell = (x: unknown) => coerceCellToString(x).trim() === ''
     const allEmpty =
@@ -76,6 +81,10 @@ export function standardizeSource(input: {
       debit: pqTrim(coerceCellToString(debitRaw)),
       credit: pqTrim(coerceCellToString(creditRaw)),
       amount,
+      partnerCode: partnerCodeRaw !== '' ? partnerCodeRaw : null,
+      partnerName: partnerNameRaw !== '' ? partnerNameRaw : null,
+      exchangeRate,
+      foreignAmount,
       errors,
     })
   }

@@ -20,7 +20,31 @@ import { fillPayrollWorkingPaper } from './fillers/E400_PayrollFiller'
 import { fillEquityWorkingPaper } from './fillers/F100_EquityFiller'
 import { fillRevenueWorkingPaper } from './fillers/G100_RevenueFiller'
 import { fillExpenseWorkingPaper } from './fillers/G200_ExpenseFiller'
+import { normalizeForKey } from '../clean'
 
+/**
+ * Tìm sheet NKC theo tên linh hoạt:
+ * 1. Bắt đầu bằng 'NKC' (ví dụ: 'NKC', 'NKC_TrcDC', 'NKC SAU DC', 'NKC-2025'...)
+ * 2. Tên chứa 'NHAT KY CHUNG' hoặc là 'GL'
+ * 3. Fallback về sheet đầu tiên nếu không khớp tên nào
+ */
+export function findNkcSheet(wb: ExcelJS.Workbook): ExcelJS.Worksheet | undefined {
+  const cleanNames = wb.worksheets.map((ws) => ({
+    ws,
+    clean: normalizeForKey(ws.name).replace(/[\s_\-.]/g, ''),
+  }))
+
+  // Ưu tiên 1: Tên bắt đầu bằng NKC (NKC, NKCTRCDC, NKCSAUDC...)
+  const nkcPrefix = cleanNames.find((x) => x.clean.startsWith('NKC'))
+  if (nkcPrefix) return nkcPrefix.ws
+
+  // Ưu tiên 2: Tên chứa NHATKYCHUNG hoặc là GL
+  const nhatKyChung = cleanNames.find((x) => x.clean.includes('NHATKYCHUNG') || x.clean === 'GL')
+  if (nhatKyChung) return nhatKyChung.ws
+
+  // Fallback: sheet đầu tiên
+  return wb.worksheets[0]
+}
 function cellScalar(val: ExcelJS.CellValue): unknown {
   if (val == null) return null
   if (typeof val === 'object') {
@@ -37,6 +61,28 @@ function findColByKeyword(row: ExcelJS.Row, keywords: string[]): number | null {
     if (keywords.some((k) => txt.includes(k))) return c
   }
   return null
+}
+
+/**
+ * Suy tháng (1-12) từ giá trị ngày khi dòng không có cột tháng.
+ * Nhận DD/MM/YYYY, serial Excel, hoặc Date.
+ */
+function deriveMonthFromDate(dateVal: unknown, dateStr: string): number {
+  if (dateVal instanceof Date && !isNaN(dateVal.getTime())) {
+    const m = dateVal.getMonth() + 1
+    if (m >= 1 && m <= 12) return m
+  }
+  if (typeof dateVal === 'number' && dateVal > 20000 && dateVal < 80000) {
+    const d = new Date(Math.round((dateVal - 25569) * 86400 * 1000))
+    const m = d.getUTCMonth() + 1
+    if (m >= 1 && m <= 12) return m
+  }
+  const m = `${String(dateVal ?? '')} ${dateStr || ''}`.match(/(\d{1,2})[/\-.](\d{1,2})[/\-.](\d{2,4})/)
+  if (m) {
+    const mo = Number(m[2])
+    if (mo >= 1 && mo <= 12) return mo
+  }
+  return 1
 }
 
 /**
@@ -109,11 +155,7 @@ export async function extractAccountingContext(
   }
 
   const nkcTransactions: NkcTransaction[] = []
-  const wsNKC =
-    wbSource.getWorksheet('NKC') ||
-    wbSource.getWorksheet('NhatKyChung') ||
-    wbSource.getWorksheet('GL') ||
-    wbSource.worksheets[0]
+  const wsNKC = findNkcSheet(wbSource)
 
   if (wsNKC) {
     // Tìm hàng tiêu đề động
@@ -127,7 +169,7 @@ export async function extractAccountingContext(
     let colRate = 8
     let colUsd = 9
     let colCust = 10
-    let colMonth = 11
+    let colMonth = 0 // 0 = không có cột tháng → suy từ ngày chứng từ
 
     for (let r = 1; r <= Math.min(5, wsNKC.rowCount); r++) {
       const row = wsNKC.getRow(r)
@@ -162,7 +204,7 @@ export async function extractAccountingContext(
         const exchangeRate = colRate ? Number(cellScalar(row.getCell(colRate).value) || 0) : undefined
         const usdAmount = colUsd ? Number(cellScalar(row.getCell(colUsd).value) || 0) : undefined
         const custId = colCust ? String(cellScalar(row.getCell(colCust).value) || '') : ''
-        const month = colMonth ? Number(cellScalar(row.getCell(colMonth).value) || 1) : 1
+        const rawMonth = colMonth > 0 ? Number(cellScalar(row.getCell(colMonth).value)) : NaN
 
         if (debit || credit || amount > 0) {
           nkcTransactions.push({
@@ -177,11 +219,42 @@ export async function extractAccountingContext(
             exchangeRate: exchangeRate && exchangeRate > 0 ? exchangeRate : undefined,
             usdAmount: usdAmount && usdAmount > 0 ? usdAmount : undefined,
             custId,
-            month: isNaN(month) ? 1 : month,
+            month: !isNaN(rawMonth) && rawMonth >= 1 && rawMonth <= 12 ? rawMonth : deriveMonthFromDate(dateVal, String(dateVal ?? '')),
           })
         }
       }
     })
+  }
+
+  // Không có sheet CDFS (file chỉ có NKC): tổng hợp bảng cân đối phát sinh
+  // từ chính bút toán NKC để các lead schedule vẫn có số tổng.
+  if (cdfsMap.size === 0 && nkcTransactions.length > 0) {
+    const acc = (code: string): CdfsAccountRow => {
+      let row = cdfsMap.get(code)
+      if (!row) {
+        row = { matk: code, tentk: '', sdndk: 0, sdcdk: 0, psno: 0, psco: 0, nock: 0, cock: 0 }
+        cdfsMap.set(code, row)
+      }
+      return row
+    }
+    for (const t of nkcTransactions) {
+      if (t.amount <= 0) continue
+      for (const code of [t.debit, t.credit]) {
+        if (!code) continue
+        acc(code).psno += code === t.debit ? t.amount : 0
+        acc(code).psco += code === t.credit ? t.amount : 0
+        // Roll-up lên TK tổng 3 số để lead schedule (632/641/642...) đọc được
+        if (code.length > 3) {
+          const parent = code.slice(0, 3)
+          acc(parent).psno += code === t.debit ? t.amount : 0
+          acc(parent).psco += code === t.credit ? t.amount : 0
+        }
+      }
+    }
+    for (const row of cdfsMap.values()) {
+      row.nock = row.psno
+      row.cock = row.psco
+    }
   }
 
   return {
@@ -247,6 +320,9 @@ export async function generateAllWorkingPapers(
       const wb = new ExcelJS.Workbook()
       await wb.xlsx.readFile(templatePath)
       const res = runner.fn(wb, ctx)
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true })
+      }
       await wb.xlsx.writeFile(outputPath)
       results.push({ ...res, fileName: matchedFile })
     } catch (err) {

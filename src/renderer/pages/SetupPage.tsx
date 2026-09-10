@@ -10,11 +10,11 @@ import {
   IconArrowRight,
 } from '../components/Icons'
 import { extractDroppedFilePath, isExcelOrCsvPath } from '../lib/fileDrop'
-
+import { detectHeaderAndMapping } from '../../domain/columnMapper'
 import { standardizeSource } from '../../domain/pipeline/standardize'
 import { NkcSpecSection } from '../components/NkcSpecSection'
 
-import { NKC_COLUMN_SPEC as FIELDS, isAfterReady, isBeforeReady } from '../../domain/nkcRequirements'
+import { NKC_COLUMN_SPEC as FIELDS, NKC_OPTIONAL_COLUMN_SPEC, isAfterReady, isBeforeReady } from '../../domain/nkcRequirements'
 
 function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
   const side = useApp((s) => (kind === 'BEFORE' ? s.before : s.after))
@@ -142,8 +142,20 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
 
     void loadFile(path)
   }
-  function handleApplyPaste(dataOnly: unknown[][], hasHeader: boolean, headerRowIndex: number): void {
-    const auto: ColumnMapping = { date: 0, voucher: 1, description: 2, debit: 3, credit: 4, amount: 5 }
+  function handleApplyPaste(dataOnly: unknown[][], hasHeader: boolean, headerRowIndex: number, fullMatrix: unknown[][]): void {
+    const detected = detectHeaderAndMapping(fullMatrix)
+    const auto: ColumnMapping = {
+      date: detected.mapping.date,
+      voucher: detected.mapping.voucher,
+      description: detected.mapping.description,
+      debit: detected.mapping.debit,
+      credit: detected.mapping.credit,
+      amount: detected.mapping.amount,
+      partnerCode: detected.mapping.partnerCode,
+      partnerName: detected.mapping.partnerName,
+      exchangeRate: detected.mapping.exchangeRate,
+      foreignAmount: detected.mapping.foreignAmount,
+    }
     useApp.getState().setCfg(kind, {
       kind,
       filePath: '(clipboard)',
@@ -205,7 +217,6 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
           <div className="loaded-source-panel" style={{ width: '100%' }}>
             <div className="file-summary-bar">
               <div className="file-info-left">
-                <span className="file-badge-icon" aria-hidden="true">{side.pasted ? '📋' : '📊'}</span>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 13.5, color: '#0f172a' }}>
                     {side.pasted
@@ -261,12 +272,16 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
                       sheetName: s.name,
                       headerRow: s.suggestedHeaderRow,
                       mapping: {
-                        date: s.suggestedMapping.date ?? 0,
-                        voucher: s.suggestedMapping.voucher ?? 1,
-                        description: s.suggestedMapping.description ?? 2,
-                        debit: s.suggestedMapping.debit ?? 3,
-                        credit: s.suggestedMapping.credit ?? 4,
-                        amount: s.suggestedMapping.amount ?? 5,
+                        date: s.suggestedMapping.date ?? null,
+                        voucher: s.suggestedMapping.voucher ?? null,
+                        description: s.suggestedMapping.description ?? null,
+                        debit: s.suggestedMapping.debit ?? null,
+                        credit: s.suggestedMapping.credit ?? null,
+                        amount: s.suggestedMapping.amount ?? null,
+                        partnerCode: s.suggestedMapping.partnerCode ?? null,
+                        partnerName: s.suggestedMapping.partnerName ?? null,
+                        exchangeRate: s.suggestedMapping.exchangeRate ?? null,
+                        foreignAmount: s.suggestedMapping.foreignAmount ?? null,
                       },
                     })
                   }}
@@ -354,6 +369,49 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
               )
             })}
           </div>
+
+          {/* ── Optional Analytics Mapping (Khách hàng, Tỷ giá) ── */}
+          <div className="mapping-header-text" style={{ marginTop: 14 }}>
+            <span>Phân tích nâng cao (Tùy chọn — Mã KH, Tên KH, Tỷ giá, Ngoại tệ):</span>
+            <span className="mapping-status-count" style={{ color: '#64748b' }}>
+              Tỷ trọng Pareto KH &amp; Soát tỷ giá
+            </span>
+          </div>
+
+          <div className="mapping-cards-grid">
+            {NKC_OPTIONAL_COLUMN_SPEC.map((f) => {
+              const currentIdx = side.cfg?.mapping[f.key]
+              const isMapped = currentIdx != null
+              return (
+                <div key={f.key} className={`mapping-card ${isMapped ? 'is-mapped' : ''}`}>
+                  <div className="card-top-line">
+                    <span className="field-name">{f.label}</span>
+                    <span className={`status-indicator ${isMapped ? 'ok' : ''}`}>
+                      {isMapped ? '✓' : 'Tùy chọn'}
+                    </span>
+                  </div>
+                  <span className="field-desc">{f.desc}</span>
+                  <select
+                    className="mapping-select styled-select"
+                    value={currentIdx != null ? String(currentIdx) : ''}
+                    onChange={(e) => {
+                      const v = e.target.value === '' ? null : Number(e.target.value)
+                      setMappingPatch(kind, { [f.key]: v })
+                    }}
+                  >
+                    <option value="">-- Không có / Bỏ qua --</option>
+                    {sheet
+                      ? sheet.headerLabels.map((lbl, idx) => (
+                        <option key={idx} value={String(idx)}>
+                          Cột {idx + 1}: {lbl || `(Cột ${idx + 1})`}
+                        </option>
+                      ))
+                      : <option value="">-- Nguồn tự động: 6 cột TT200 --</option>}
+                  </select>
+                </div>
+              )
+            })}
+          </div>
         </div>
       )}
       {/* ── Kiểm tra trước khi đối chiếu (Preflight) ── */}
@@ -366,7 +424,7 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
               disabled={preflighting}
               style={{ background: '#0284c7', color: '#fff', border: 'none', borderRadius: '7px', padding: '6px 12px', fontSize: '12.5px', fontWeight: 700, cursor: 'pointer' }}
             >
-              {preflighting ? 'Đang kiểm tra…' : '🔍 Kiểm tra file trước'}
+              {preflighting ? 'Đang kiểm tra…' : 'Kiểm tra file trước'}
             </button>
             {preflightError && <span style={{ color: '#b91c1c' }}>Lỗi: {preflightError}</span>}
           </div>
@@ -406,8 +464,8 @@ export function SetupPage(): JSX.Element {
   const accountLevel = useApp((s) => s.accountLevel)
   const setAccountLevel = useApp((s) => s.setAccountLevel)
 
-  const beforeReady = Boolean(before.pasted || (before.cfg && FIELDS.every((f) => before.cfg?.mapping[f.key] != null)))
-  const afterReady = Boolean(after.pasted || (after.cfg && FIELDS.every((f) => after.cfg?.mapping[f.key] != null)))
+  const beforeReady = isBeforeReady(before)
+  const afterReady = isAfterReady(after)
   const ready = beforeReady && afterReady
 
   // (Working Paper 12 GLV tam thoi an theo yeu cau)

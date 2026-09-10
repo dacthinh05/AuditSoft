@@ -37,6 +37,14 @@ export const NKC_COLUMN_SPEC: { key: keyof ColumnMapping; label: string; desc: s
   { key: 'amount', label: 'Số tiền phát sinh', desc: 'Giá trị phát sinh (làm tròn nguyên, loại dòng null/0)' },
 ]
 
+/** 4 cột phân tích nâng cao (không bắt buộc: Mã KH, Tên KH, Tỷ giá, Ngoại tệ). */
+export const NKC_OPTIONAL_COLUMN_SPEC: { key: keyof ColumnMapping; label: string; desc: string }[] = [
+  { key: 'partnerCode', label: 'Mã đối tượng / KH', desc: 'Mã khách hàng, nhà cung cấp để phân tích tỷ trọng Pareto' },
+  { key: 'partnerName', label: 'Tên đối tượng / KH', desc: 'Tên khách hàng, đối tác giao dịch' },
+  { key: 'exchangeRate', label: 'Tỷ giá hạch toán', desc: 'Tỷ giá quy đổi ngoại tệ hạch toán sang VNĐ' },
+  { key: 'foreignAmount', label: 'Số tiền ngoại tệ', desc: 'Nguyên tệ phát sinh (USD, EUR...)' },
+]
+
 /** Quy tắc xử lý từng dòng — diễn giải 1-1 từ `standardizeSource` (không định nghĩa song song). */
 export const NKC_ROW_RULES: { title: string; detail: string }[] = [
   { title: 'Dòng trống toàn bộ', detail: 'Bỏ qua, chỉ đếm vào số dòng trống (blankRows).' },

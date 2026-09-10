@@ -10,9 +10,13 @@ export const FIELD_SYNONYMS: Record<MappingRole, readonly string[]> = {
   debit: ['TK NO', 'TAI KHOAN NO', 'NO'],
   credit: ['TK CO', 'TAI KHOAN CO', 'CO'],
   amount: ['SO TIEN', 'SO PHAT SINH', 'SO TIEN PHAT SINH', 'GIA TRI', 'THANH TIEN'],
+  partnerCode: ['MA KH', 'MA DOI TUONG', 'MA KHACH HANG', 'DOI TUONG', 'CUSTOMER CODE', 'VENDOR CODE'],
+  partnerName: ['TEN KH', 'TEN KHACH HANG', 'TEN DOI TUONG', 'CUSTOMER NAME'],
+  exchangeRate: ['TY GIA', 'EXCHANGE RATE'],
+  foreignAmount: ['USD', 'US', 'NGOAI TE', 'NGUYEN TE', 'FOREIGN AMOUNT', 'SO TIEN USD'],
 }
 
-const ROLE_PRIORITY: readonly MappingRole[] = ['date', 'voucher', 'description', 'debit', 'credit', 'amount']
+const ROLE_PRIORITY: readonly MappingRole[] = ['date', 'voucher', 'description', 'debit', 'credit', 'amount', 'partnerCode', 'partnerName', 'exchangeRate', 'foreignAmount']
 
 function scoreCell(label: string, synonyms: readonly string[]): number {
   const n = normalizeForKey(label)
@@ -72,6 +76,10 @@ export function detectHeaderAndMapping(matrix: readonly (readonly unknown[])[]):
           debit: chosen.get('debit')?.col ?? null,
           credit: chosen.get('credit')?.col ?? null,
           amount: chosen.get('amount')?.col ?? null,
+          partnerCode: chosen.get('partnerCode')?.col ?? null,
+          partnerName: chosen.get('partnerName')?.col ?? null,
+          exchangeRate: chosen.get('exchangeRate')?.col ?? null,
+          foreignAmount: chosen.get('foreignAmount')?.col ?? null,
         },
         confidence: matchedRoles / 6,
       }
@@ -81,7 +89,7 @@ export function detectHeaderAndMapping(matrix: readonly (readonly unknown[])[]):
 }
 
 export function emptyMapping(): ColumnMapping {
-  return { date: null, voucher: null, description: null, debit: null, credit: null, amount: null }
+  return { date: null, voucher: null, description: null, debit: null, credit: null, amount: null, partnerCode: null, partnerName: null, exchangeRate: null, foreignAmount: null }
 }
 
 export function isMappingComplete(m: ColumnMapping): boolean {

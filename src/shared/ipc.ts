@@ -1,6 +1,8 @@
 import type { ProgressMessage, ReconcileResult, SourceConfig } from '../domain/types'
 import type { AnalysisResult, AuditAnalyzeRequest, AuditExportRequest } from './types/analytics'
 import type { IngestedTaxDeclarations } from './types/taxAnalytics'
+import type { TaxCrossReconciliationResult } from '../domain/analytics/TaxCrossReconciler'
+import type { VatDeclarationSnapshot } from './types/taxAnalytics'
 import type { AppUpdateInfo, UpdateProgress } from './types/update'
 
 export type { AnalysisResult, AuditAnalyzeRequest, AuditExportRequest, AppUpdateInfo, UpdateProgress, IngestedTaxDeclarations }
@@ -53,6 +55,10 @@ export interface ColumnMappingLike {
   debit: number | null
   credit: number | null
   amount: number | null
+  partnerCode?: number | null
+  partnerName?: number | null
+  exchangeRate?: number | null
+  foreignAmount?: number | null
 }
 
 export interface WorkbookMeta {
@@ -68,6 +74,7 @@ export interface AuditBridgeApi {
   runReconcile(req: ReconcileRunRequest): Promise<ReconcileResult>
   cancelReconcile(): Promise<void>
   exportReport(req: ExportRunRequest): Promise<ExportResultPayload>
+  exportTaxReport(result: TaxCrossReconciliationResult): Promise<ExportResultPayload>
   onProgress(cb: (p: ProgressMessage) => void): () => void
   /** Audit Analytics */
   auditAnalyze(req: AuditAnalyzeRequest): Promise<AnalysisResult>
@@ -96,11 +103,6 @@ export interface AuditBridgeApi {
   readHtkkFile(filePath: string): Promise<string | null>
   importTaxXmlFiles(filePaths: string[]): Promise<IngestedTaxDeclarations>
   pickTaxFiles(): Promise<{ canceled: boolean; filePaths: string[] }>
-  /** Database Connector */
-  testDbConnection(config: unknown): Promise<{ success: boolean; message: string; databases?: string[]; serverVersion?: string }>
-  previewDbSample(config: unknown, limit?: number): Promise<unknown[]>
-  fetchDbEntries(config: unknown): Promise<unknown[]>
-  onDbProgress?(callback: (data: { fetched: number }) => void): () => void
 }
 
 export interface GenerateWorkingPapersRequest {
@@ -117,6 +119,8 @@ export interface GenerateWorkingPapersRequest {
     reviewerName2?: string
     auditFirmName?: string
   }
+  /** Tờ khai GTGT đã nạp ở phân hệ Thuế — main điền vào GLV E300 */
+  taxVatDeclarations?: VatDeclarationSnapshot[]
 }
 
 export interface WorkingPaperGenerationResult {
@@ -139,6 +143,7 @@ export const IPC = {
   runReconcile: 'auditsoft/runReconcile',
   cancelReconcile: 'auditsoft/cancelReconcile',
   exportReport: 'auditsoft/exportReport',
+  exportTaxReport: 'auditsoft/exportTaxReport',
   progress: 'auditsoft:progress',
   auditAnalyze: 'auditsoft/auditAnalyze',
   auditExport: 'auditsoft/auditExport',

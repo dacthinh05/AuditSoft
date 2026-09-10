@@ -71,8 +71,8 @@ export function fromNormalizedEntry(e: NormalizedEntry, fallbackIndex = 0): Jour
     debitAccount: e.debit ?? '',
     creditAccount: e.credit ?? '',
     amount: typeof e.amount?.raw === 'bigint' ? e.amount.raw : BigInt(e.amount?.raw ?? 0),
-    partnerCode: '',
-    partnerName: '',
+    partnerCode: e.partnerCode ?? '',
+    partnerName: e.partnerName ?? '',
     sourceRow: e.rowIndex || fallbackIndex,
   }
 }

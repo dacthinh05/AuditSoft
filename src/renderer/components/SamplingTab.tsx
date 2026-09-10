@@ -327,6 +327,10 @@ export function SamplingTab(): JSX.Element {
         debit: nkcSheet.suggestedMapping.debit ?? 3,
         credit: nkcSheet.suggestedMapping.credit ?? 4,
         amount: nkcSheet.suggestedMapping.amount ?? 5,
+        partnerCode: nkcSheet.suggestedMapping.partnerCode ?? null,
+        partnerName: nkcSheet.suggestedMapping.partnerName ?? null,
+        exchangeRate: nkcSheet.suggestedMapping.exchangeRate ?? null,
+        foreignAmount: nkcSheet.suggestedMapping.foreignAmount ?? null,
       }
 
       const std = standardizeSource({
@@ -491,6 +495,90 @@ export function SamplingTab(): JSX.Element {
     }
 
     void loadWorkbookFile(path)
+  }
+  // Tái dùng NKC Trước (Nguồn ①) đã lập ở Bước 1 — đọc trực tiếp store,
+  // không phụ thuộc kết quả đối chiếu (result).
+  async function reuseBeforeSource(): Promise<void> {
+    const src = useApp.getState().before
+    const srcLabel =
+      src.cfg && (src.cfg.sheetName === '(clipboard)' || src.cfg.filePath === '(clipboard)')
+        ? 'Dán từ Clipboard (Bước 1)'
+        : src.cfg
+          ? `${src.cfg.filePath.split(/[\\/]/).pop()} (${src.cfg.sheetName})`
+          : 'Nguồn 1'
+    setLoading(true)
+    try {
+      // Case 1: dữ liệu dán clipboard — rows đã cắt header, mapping auto 6 cột
+      if (src.pasted && src.pasted.rows.length > 0 && src.cfg) {
+        const std = standardizeSource({
+          rows: src.pasted.rows,
+          firstDataRowIndex: 0,
+          mapping: src.cfg.mapping,
+        })
+        const items: SampleableItem[] = std.entries.map((e, idx) => ({
+          id: `reuse-${idx + 1}`,
+          rowIndex: e.rowIndex,
+          displayDate: e.displayDate,
+          voucher: e.voucher,
+          description: e.description,
+          debit: e.debit,
+          credit: e.credit,
+          amount: e.amount ? Number(e.amount.raw) / Math.pow(10, e.amount.scale) : 0,
+        }))
+        if (items.length === 0) throw new Error('Nguồn 1 chưa có dòng bút toán hợp lệ.')
+        setCustomItems(items)
+        setLoadedBenchmarks(null)
+        setLoadedInfo({
+          name: `Nguồn 1: ${srcLabel}`,
+          rowCount: items.length,
+          totalAmount: items.reduce((s, x) => s + Math.abs(x.amount), 0),
+        })
+        return
+      }
+      // Case 2: file Excel — đọc lại đúng sheet + mapping đã ghép ở Bước 1
+      if (src.cfg && src.cfg.filePath !== '(clipboard)') {
+        if (typeof window.auditsoft === 'undefined') throw new Error('Không kết nối được hệ thống.')
+        const res = await window.auditsoft.readWorkbookRows(src.cfg.filePath, src.cfg.sheetName)
+        const std = standardizeSource({
+          rows: res.rows || [],
+          firstDataRowIndex: Math.max(0, (src.cfg.headerRow ?? 1) - 1),
+          mapping: src.cfg.mapping,
+        })
+        const items: SampleableItem[] = std.entries.map((e, idx) => ({
+          id: `reuse-${idx + 1}`,
+          rowIndex: e.rowIndex,
+          displayDate: e.displayDate,
+          voucher: e.voucher,
+          description: e.description,
+          debit: e.debit,
+          credit: e.credit,
+          amount: e.amount ? Number(e.amount.raw) / Math.pow(10, e.amount.scale) : 0,
+        }))
+        if (items.length === 0) throw new Error('Không đọc được dòng bút toán nào từ Nguồn 1.')
+        setCustomItems(items)
+        setLoadedBenchmarks(null)
+        setLoadedInfo({
+          name: `Nguồn 1: ${srcLabel}`,
+          rowCount: items.length,
+          totalAmount: items.reduce((s, x) => s + Math.abs(x.amount), 0),
+        })
+        return
+      }
+      // Case 3: không có cfg/pasted nhưng đã chạy đối chiếu — giữ hành vi cũ
+      if (result && result.beforeEntries && result.beforeEntries.length > 0) {
+        setLoadedInfo({
+          name: `Nguồn 1: ${srcLabel}`,
+          rowCount: result.beforeEntries.length,
+          totalAmount: Number(result.before.totalAmount.split('|')[1] ?? 0),
+        })
+        return
+      }
+      useApp.getState().setView('setup')
+    } catch (err) {
+      alert(err instanceof Error ? err.message : String(err))
+    } finally {
+      setLoading(false)
+    }
   }
   // Xử lý dán dữ liệu từ Clipboard
   function handleApplyPaste(dataOnly: unknown[][]): void {
@@ -857,19 +945,7 @@ export function SamplingTab(): JSX.Element {
                 <span>Hoặc dùng lại NKC Trước đã lập ở Bước 1 ({sourceLabel}):</span>
                 <button
                   className="btn btn-reuse-step1"
-                  onClick={() => {
-                    if (result && result.beforeEntries) {
-                      setLoadedInfo({
-                        name: isClipboard
-                          ? 'Nguồn 1: Dán từ Clipboard (Bước 1)'
-                          : `Nguồn 1: ${sourceLabel}`,
-                        rowCount: result.beforeEntries.length,
-                        totalAmount: Number(result.before.totalAmount.split('|')[1] ?? 0),
-                      })
-                    } else {
-                      useApp.getState().setView('setup')
-                    }
-                  }}
+                  onClick={() => void reuseBeforeSource()}
                 >
                   Sử dụng Nguồn 1
                 </button>
@@ -1451,7 +1527,9 @@ export function SamplingTab(): JSX.Element {
                 <td className="note-text">
                   {config.includeRiskItems === false && manualRiskItemIds.size === 0
                     ? 'KTV đã tắt tùy chọn quét phần tử đặc biệt'
-                    : 'Cuối kỳ 31/12, tròn số lớn, từ khóa nhạy cảm hoặc KTV chỉ định'}
+                    : (wpResult.steps.riskCount.numericValue === 0
+                      ? wpResult.steps.riskCount.note
+                      : 'Đảo, tháng 12, tròn số ≥50tr, từ khóa nhạy cảm, cutoff hoặc KTV chỉ định')}
                 </td>
               </tr>
               <tr>

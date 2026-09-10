@@ -10,6 +10,14 @@ export interface ColumnMapping {
   debit: number | null
   credit: number | null
   amount: number | null
+  /** Mã đối tượng / Mã KH (optional, metadata phân tích — không tham gia khóa so khớp) */
+  partnerCode?: number | null
+  /** Tên khách hàng / đối tượng (optional) */
+  partnerName?: number | null
+  /** Tỷ giá hạch toán (optional) */
+  exchangeRate?: number | null
+  /** Số tiền ngoại tệ (optional) */
+  foreignAmount?: number | null
 }
 
 export type RowErrorCode = 'LOI_NGAY' | 'LOI_TIEN' | 'THIEU_TK_NO' | 'THIEU_TK_CO'
@@ -36,6 +44,14 @@ export interface NormalizedEntry {
   credit: string
   /** đã Number.Round về nguyên (scale=0); null không xảy ra sau chuẩn hóa */
   amount: Money | null
+  /** Mã đối tượng / Mã KH (null khi file không có cột) */
+  partnerCode: string | null
+  /** Tên khách hàng / đối tượng (null khi file không có cột) */
+  partnerName: string | null
+  /** Tỷ giá hạch toán (null khi trống/lỗi) */
+  exchangeRate: Money | null
+  /** Số tiền ngoại tệ (null khi trống/lỗi) */
+  foreignAmount: Money | null
   errors: RowErrorCode[]
 }
 

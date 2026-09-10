@@ -28,6 +28,10 @@ function guessHeaderRow(matrix: unknown[][]): number {
     debit: ['TK NO', 'TAI KHOAN NO', 'NO'],
     credit: ['TK CO', 'TAI KHOAN CO', 'CO'],
     amount: ['SO TIEN', 'SO PHAT SINH', 'GIA TRI', 'THANH TIEN'],
+    partnerCode: ['MA KH', 'MA DOI TUONG'],
+    partnerName: ['TEN KH', 'TEN KHACH HANG'],
+    exchangeRate: ['TY GIA'],
+    foreignAmount: ['USD', 'US', 'NGOAI TE'],
   }
   const limit = Math.min(matrix.length, 5)
   for (let r = 0; r < limit; r++) {

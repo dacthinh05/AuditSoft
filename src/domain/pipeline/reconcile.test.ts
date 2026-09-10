@@ -14,6 +14,10 @@ function entry(partial: Partial<NormalizedEntry>): NormalizedEntry {
     debit: '',
     credit: '',
     amount: null,
+    partnerCode: null,
+    partnerName: null,
+    exchangeRate: null,
+    foreignAmount: null,
     errors: [],
     ...partial,
   }
