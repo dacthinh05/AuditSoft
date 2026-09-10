@@ -287,6 +287,25 @@ export const DbConnectionModal: React.FC = () => {
           </div>
         </div>
 
+        {/* Target Side Picker */}
+        <div className="px-6 pb-4 flex items-center gap-2 text-xs">
+          <span className="font-semibold text-slate-700 dark:text-slate-300">Nạp dữ liệu vào:</span>
+          <button
+            type="button"
+            onClick={() => setTargetSide('BEFORE')}
+            className={`px-3 py-1.5 font-semibold rounded-lg transition-all ${targetSide === 'BEFORE' ? 'bg-blue-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200'}`}
+          >
+            Nguồn ① — TRƯỚC điều chỉnh
+          </button>
+          <button
+            type="button"
+            onClick={() => setTargetSide('AFTER')}
+            className={`px-3 py-1.5 font-semibold rounded-lg transition-all ${targetSide === 'AFTER' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200'}`}
+          >
+            Nguồn ② — SAU điều chỉnh
+          </button>
+        </div>
+
         {/* Footer */}
         <div className="p-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-900/50">
           <button
