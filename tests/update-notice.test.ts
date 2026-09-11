@@ -19,10 +19,10 @@ describe('Update Notice & Header Badge State Verification', () => {
 
   it('khi có bản cập nhật mới: lưu thông tin update đầy đủ', () => {
     const mockUpdate: AppUpdateInfo = {
-      currentVersion: '1.1.6',
-      latestVersion: '1.1.7',
+      currentVersion: '1.1.7',
+      latestVersion: '1.1.8',
       hasUpdate: true,
-      title: 'AuditSoft v1.1.7 — Tối ưu hóa toàn diện',
+      title: 'AuditSoft v1.1.8 — Tối ưu hóa toàn diện',
       changelog: [
         'Cải tiến thông báo popup cập nhật nổi bật',
         'Nâng cấp tốc độ xuất báo cáo'
@@ -34,7 +34,7 @@ describe('Update Notice & Header Badge State Verification', () => {
     const state = useApp.getState()
 
     expect(state.updateInfo?.hasUpdate).toBe(true)
-    expect(state.updateInfo?.latestVersion).toBe('1.1.7')
+    expect(state.updateInfo?.latestVersion).toBe('1.1.8')
     expect(state.updateNoticeDismissed).toBe(false)
   })
 

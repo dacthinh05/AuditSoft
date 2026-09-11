@@ -3,13 +3,13 @@
 ## Platform: GitHub Releases & Auto-Update Engine
 - **Target Repository:** `https://github.com/dacthinh05/AuditSoft`
 - **Latest Release URL:** `https://github.com/dacthinh05/AuditSoft/releases/latest`
-- **Current Version:** `v1.1.6`
-- **Release Page:** `https://github.com/dacthinh05/AuditSoft/releases/tag/v1.1.6`
+- **Current Version:** `v1.1.7`
+- **Release Page:** `https://github.com/dacthinh05/AuditSoft/releases/tag/v1.1.7`
 
 ## Artifacts
-1. **Windows Installer (Setup):** `AuditSoft-1.1.6-Setup.exe` (~91 MB)
+1. **Windows Installer (Setup):** `AuditSoft-1.1.7-Setup.exe` (~91 MB)
    - NSIS installer, tự động tạo shortcut Desktop & Start Menu, hỗ trợ tự động nâng cấp 1-click.
-2. **Windows Portable:** `AuditSoft-1.1.6-Portable.exe` (~91 MB)
+2. **Windows Portable:** `AuditSoft-1.1.7-Portable.exe` (~91 MB)
    - Bản chạy ngay không cần cài đặt, thích hợp lưu trữ USB khi đi kiểm toán thực địa.
 3. **Auto-Update Manifest:** `version.json`
    - Được đồng bộ tự động lên nhánh `main` của repo `dacthinh05/AuditSoft`.
