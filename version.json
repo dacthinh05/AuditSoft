@@ -1,14 +1,14 @@
 {
-  "version": "1.1.6",
-  "releaseDate": "2026-09-09",
-  "title": "AuditSoft v1.1.6 — Hoàn Thiện Chọn Mẫu Đặc Biệt & Lọc Sạch Bút Toán Kết Chuyển",
+  "version": "1.1.7",
+  "releaseDate": "2026-09-11",
+  "title": "AuditSoft v1.1.7 — Tự Động Chuẩn Kỳ VSA 520 & Tối Ưu Bóc Tách Chi Phí Sản Xuất",
   "changelog": [
-    "Khắc phục triệt để lỗi lọt bút toán kết chuyển (NVK) có chữ 'Kết chuyển' ở cột tài khoản",
-    "Đổi tên Tab 2 thành 'Chọn mẫu đặc biệt', tinh giản icon/emoji theo phong cách doanh nghiệp tối giản",
-    "Bổ sung Checkbox 'Cho phần mềm tự chọn' ngay cạnh tab để KTV linh hoạt quyết định giữa quét máy và chọn thủ công",
-    "Hỗ trợ Sắp xếp nhanh (Quick Sort) ngày tháng theo dòng thời gian chuẩn xác và toàn diện mọi cột ở cả 2 bảng",
-    "Tự động co giãn lấp đầy 100% bề ngang cho cả bảng Mẫu kiểm toán được chọn, hiển thị trọn vẹn cột Tham chiếu KTV"
+    "Tự động chuẩn kỳ giá vốn theo chi phí phát sinh thực tế từng tháng (VSA 520) khi kế toán dồn kết chuyển cuối năm vào 31/12",
+    "Thêm công cụ chuyển đổi linh hoạt giữa 'Chuẩn kỳ VSA 520' và 'Sổ sách (31/12)' trên biểu đồ tương quan Doanh thu - Giá vốn",
+    "Loại trừ 100% việc tính trùng bút toán kết chuyển nội bộ giá thành (154, 62x, 632/155) ở biểu đồ cơ cấu giá vốn",
+    "Tối ưu hóa bảng bóc tách chi phí theo yếu tố và xuất ma trận chi phí Excel nhanh chóng",
+    "Nâng cấp toàn diện hiệu năng và độ ổn định khi xử lý sổ cái và NKC khối lượng lớn"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.6/AuditSoft-1.1.6-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.6/AuditSoft-1.1.6-Portable.exe"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.7/AuditSoft-1.1.7-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.7/AuditSoft-1.1.7-Portable.exe"
 }
