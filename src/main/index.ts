@@ -325,12 +325,16 @@ function registerIpcHandlers(): void {
       throw new Error(`Không tìm thấy thư mục template GLV MAU tại: ${templateDir}`)
     }
 
-    const sanitizedClient = (req.engagement?.clientName || 'DoanhNghiep').replace(/[\\/:*?"<>|]/g, '_').trim()
+    const company = (req.engagement?.companyShortName || req.engagement?.clientName || 'DoanhNghiep').replace(/[\\/:*?"<>|]/g, '_').trim()
+    const roundPart = req.engagement?.auditRound ? `_${req.engagement.auditRound}` : ''
     const year = (req.engagement?.fiscalYearEnd || '2026').slice(-4)
-    const defaultOutDir = req.outputDir || path.resolve(path.dirname(req.sourcePath), `HoSoKiemToan_${sanitizedClient}_${year}`)
+    const defaultOutDir = req.outputDir || path.resolve(path.dirname(req.sourcePath), `HoSoKiemToan_${company}${roundPart}_${year}`)
     const ctx = await extractAccountingContext(req.sourcePath, req.engagement)
     if (req.taxVatDeclarations && req.taxVatDeclarations.length > 0) {
       ctx.vatDeclarations = req.taxVatDeclarations
+    }
+    if (req.taxPitDeclarations && req.taxPitDeclarations.length > 0) {
+      ctx.pitDeclarations = req.taxPitDeclarations
     }
     if (req.interimWpDir) {
       ctx.interimBalances = await buildInterimPeriodBalances(req.interimWpDir, ctx)

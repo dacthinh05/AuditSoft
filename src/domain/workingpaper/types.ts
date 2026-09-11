@@ -2,6 +2,8 @@ import type { VatDeclarationSnapshot, PitDeclarationSnapshot } from '../../share
 
 export interface EngagementInfo {
   clientName: string
+  companyShortName?: string // Tên công ty khi lưu file (e.g. 'LONG RICH')
+  auditRound?: 'D1' | 'D2' | 'FY' | '' // Đợt kiểm toán (D1, D2, FY)
   fiscalYearEnd: string // e.g. '31/12/2026' or '2026-12-31'
   auditPeriod1?: string // e.g. '01/01 - 30/06/2026'
   auditPeriod2?: string // e.g. '01/07 - 31/12/2026'

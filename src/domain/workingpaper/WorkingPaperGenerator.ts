@@ -49,6 +49,29 @@ export function findNkcSheet(wb: ExcelJS.Workbook): ExcelJS.Worksheet | undefine
   // Fallback: sheet đầu tiên
   return wb.worksheets[0]
 }
+/**
+ * Tìm sheet CDFS theo tên linh hoạt:
+ * CDFS, CDPS, CDSPS, BCDSPS, CanDoiPhatSinh, TrialBalance, Bang CĐSPS...
+ */
+export function findCdfsSheet(wb: ExcelJS.Workbook): ExcelJS.Worksheet | undefined {
+  const cleanNames = wb.worksheets.map((ws) => ({
+    ws,
+    clean: normalizeForKey(ws.name).replace(/[\s_\-.]/g, ''),
+  }))
+
+  const match = cleanNames.find((x) =>
+    x.clean.includes('CDFS') ||
+    x.clean.includes('CDPS') ||
+    x.clean.includes('CDSPS') ||
+    x.clean.includes('BCDSPS') ||
+    x.clean.includes('CANDOIPHATSINH') ||
+    x.clean.includes('TRIALBALANCE') ||
+    x.clean.includes('CANDOI') ||
+    x.clean.includes('BANGCD'),
+  )
+  return match?.ws
+}
+
 function cellScalar(val: ExcelJS.CellValue): unknown {
   if (val == null) return null
   if (typeof val === 'object') {
@@ -100,13 +123,7 @@ export async function extractAccountingContext(
   await wbSource.xlsx.readFile(sourceWorkbookPath)
 
   const cdfsMap = new Map<string, CdfsAccountRow>()
-  const wsCDFS =
-    wbSource.getWorksheet('CDFS') ||
-    wbSource.getWorksheet('CDPS') ||
-    wbSource.getWorksheet('CDSPS') ||
-    wbSource.getWorksheet('CanDoiPhatSinh') ||
-    wbSource.getWorksheet('TrialBalance')
-
+  const wsCDFS = findCdfsSheet(wbSource)
   if (wsCDFS) {
     // Tìm header row và map cột động (tối đa 6 hàng đầu)
     let headerRowIdx = 3
@@ -281,7 +298,7 @@ export interface WorkingPaperFillSummary {
 /**
  * Tự động điền 12 mẫu Giấy làm việc kiểm toán
  */
-function generateOutputFileName(code: string, fallback: string, ctx: WorkingPaperFillContext): string {
+export function generateOutputFileName(code: string, fallback: string, ctx: WorkingPaperFillContext): string {
   const shortNames: Record<string, string> = {
     'A - B - H': 'Master',
     'Leadsheet': 'Leadsheet',
@@ -300,17 +317,21 @@ function generateOutputFileName(code: string, fallback: string, ctx: WorkingPape
     'G200': 'Chi phi',
   }
   
-  // Mẫu: D500 - HTK - D1 2026 - Thinh.xlsx
-  // Nếu code không nằm trong map thì dùng code làm short name
+  // Mẫu chuẩn: D100 - Tien - LONG RICH D1 2026 - Thinh.xlsx
   const name = shortNames[code] || code
   
   const yearMatch = ctx.engagement.fiscalYearEnd.match(/\d{4}/)
   const year = yearMatch ? yearMatch[0] : ''
   
-  // Lấy tên khách hàng nguyên bản (ví dụ "Công ty D1" -> "Công ty D1") 
-  // Tuy nhiên nếu người dùng ghi là "D1" thì nó sẽ là "D1"
-  const clientClean = ctx.engagement.clientName.trim()
-  const clientYear = year ? `${clientClean} ${year}` : clientClean
+  // Tên công ty khi lưu file: ưu tiên companyShortName, fallback về clientName
+  const company = (ctx.engagement.companyShortName?.trim() || ctx.engagement.clientName.trim())
+  
+  // Đợt kiểm toán (D1 / D2 / Cả năm)
+  const round = (ctx.engagement.auditRound === 'D1' || ctx.engagement.auditRound === 'D2') ? ctx.engagement.auditRound : ''
+  
+  // Ghép định danh: [Tên công ty] [Đợt] [Năm]
+  const middleParts = [company, round, year].filter(Boolean)
+  const middle = middleParts.join(' ')
   
   // Lấy tên người thực hiện (từ cuối cùng)
   const auditorParts = ctx.engagement.auditorName.trim().split(/\s+/)
@@ -318,15 +339,14 @@ function generateOutputFileName(code: string, fallback: string, ctx: WorkingPape
   
   const ext = path.extname(fallback) || '.xlsx'
   
-  // Nếu là Leadsheet hoặc ABH thì format hơi khác chút cho đẹp, nhưng theo form thì vẫn giữ format chung
   if (code.startsWith('A - B - H')) {
-    return `A - B - H - Master - ${clientYear} - ${auditorShort}${ext}`
+    return `A - B - H - Master - ${middle} - ${auditorShort}${ext}`
   }
   if (code === 'Leadsheet') {
-    return `Leadsheet - ${clientYear} - ${auditorShort}${ext}`
+    return `Leadsheet - ${middle} - ${auditorShort}${ext}`
   }
 
-  return `${code} - ${name} - ${clientYear} - ${auditorShort}${ext}`
+  return `${code} - ${name} - ${middle} - ${auditorShort}${ext}`
 }
 
 export async function generateAllWorkingPapers(

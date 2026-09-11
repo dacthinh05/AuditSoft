@@ -26,8 +26,9 @@ export function WorkingPaperPage(): JSX.Element {
   const [auditPeriod2, setAuditPeriod2] = useState<string>(engagement.auditPeriod2 || '01/07 - 31/12/2026')
   const [auditorName, setAuditorName] = useState<string>(engagement.auditorName || 'Đắc Thịnh')
   const [auditFirmName, setAuditFirmName] = useState<string>(engagement.auditFirmName || 'Công ty TNHH Kiểm toán BẮC ĐẨU')
+  const [companyShortName, setCompanyShortName] = useState<string>(engagement.companyShortName || '')
+  const [auditRound, setAuditRound] = useState<'D1' | 'D2' | 'FY'>(engagement.auditRound || 'D2')
   const [outputDir, setOutputDir] = useState<string>(engagement.outputDir || '')
-
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const genResult = useApp((s) => s.workingPaperGenResult)
@@ -45,6 +46,8 @@ export function WorkingPaperPage(): JSX.Element {
     if (engagement.auditPeriod2) setAuditPeriod2(engagement.auditPeriod2)
     if (engagement.auditorName) setAuditorName(engagement.auditorName)
     if (engagement.auditFirmName) setAuditFirmName(engagement.auditFirmName)
+    if (engagement.companyShortName !== undefined) setCompanyShortName(engagement.companyShortName)
+    if (engagement.auditRound) setAuditRound(engagement.auditRound as never)
     if (engagement.outputDir) setOutputDir(engagement.outputDir)
   }, [engagement])
 
@@ -76,10 +79,45 @@ export function WorkingPaperPage(): JSX.Element {
   function handleLoadPath(filePath: string): void {
     setSourcePath(filePath)
     const baseName = filePath.split(/[/\\]/).pop() ?? ''
-    let yr = ''
-    if (baseName.includes('2026')) yr = '2026'
-    else if (baseName.includes('2025')) yr = '2025'
-    else if (baseName.includes('2024')) yr = '2024'
+    
+    // 1. Tách năm
+    const yrMatch = baseName.match(/\b(20\d{2})\b/)
+    const yr = yrMatch ? yrMatch[0] : (baseName.includes('2026') ? '2026' : baseName.includes('2025') ? '2025' : '')
+
+    // 2. Tách đợt kiểm toán (D1 hoặc D2)
+    let detectedRound: 'D1' | 'D2' | 'FY' = 'D2'
+    if (/\b(D1|Dot\s*1|Interim)\b/i.test(baseName)) {
+      detectedRound = 'D1'
+    } else if (/\b(D2|Dot\s*2|Final)\b/i.test(baseName)) {
+      detectedRound = 'D2'
+    }
+
+    // 3. Tách tên công ty rút gọn (chuỗi đứng trước năm hoặc trước dấu '-' hoặc trước D1/D2)
+    // Ví dụ: "LONG RICH 2025 - D2 - sau dc.xlsx" -> "LONG RICH"
+    let detectedCompany = ''
+    if (yr) {
+      const beforeYear = baseName.split(yr)[0]?.trim() || ''
+      detectedCompany = beforeYear.replace(/[-_]+$/, '').trim()
+    }
+    if (!detectedCompany) {
+      const beforeDash = baseName.split('-')[0]?.trim() || ''
+      detectedCompany = beforeDash
+    }
+    if (/^(mau|nkc|so cai|data|test)$/i.test(detectedCompany)) {
+      detectedCompany = ''
+    }
+
+    if (detectedCompany) {
+      setCompanyShortName(detectedCompany)
+    }
+    setAuditRound(detectedRound)
+
+    const patch: Record<string, unknown> = {
+      auditRound: detectedRound,
+    }
+    if (detectedCompany) {
+      patch.companyShortName = detectedCompany
+    }
 
     if (yr) {
       const newFiscal = `31/12/${yr}`
@@ -88,12 +126,11 @@ export function WorkingPaperPage(): JSX.Element {
       setFiscalYearEnd(newFiscal)
       setAuditPeriod1(newP1)
       setAuditPeriod2(newP2)
-      setEngagement({
-        fiscalYearEnd: newFiscal,
-        auditPeriod1: newP1,
-        auditPeriod2: newP2,
-      })
+      patch.fiscalYearEnd = newFiscal
+      patch.auditPeriod1 = newP1
+      patch.auditPeriod2 = newP2
     }
+    setEngagement(patch as never)
   }
 
   function handleFiscalYearChange(val: string): void {
@@ -211,12 +248,16 @@ export function WorkingPaperPage(): JSX.Element {
         outputDir: outputDir.trim() || undefined,
         engagement: {
           clientName: clientName.trim() || 'Doanh Nghiệp Kiểm Toán',
+          companyShortName: companyShortName.trim() || undefined,
+          auditRound: auditRound || 'D2',
           fiscalYearEnd: fiscalYearEnd.trim() || '31/12/2026',
           auditPeriod1: auditPeriod1.trim() || '01/01 - 30/06/2026',
           auditPeriod2: auditPeriod2.trim() || '01/07 - 31/12/2026',
           auditorName: auditorName.trim() || 'Đắc Thịnh',
           auditFirmName: auditFirmName.trim() || 'Công ty TNHH Kiểm toán BẮC ĐẨU',
         },
+        taxVatDeclarations: useApp.getState().taxData?.vatDeclarations,
+        taxPitDeclarations: useApp.getState().taxData?.pitDeclarations,
         adjustingEntries: ajes,
       })
       setGenResult(res)
@@ -462,23 +503,134 @@ export function WorkingPaperPage(): JSX.Element {
               Tự động điền vào tiêu đề tất cả 12 file phần hành
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-              <div style={{ gridColumn: '1 / -1' }}>
-                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#475569', marginBottom: 4 }}>
-                  Tên Khách hàng / Doanh nghiệp:
-                </label>
-                <input
-                  type="text"
-                  className="input-text"
-                  value={clientName}
-                  onChange={(e) => {
-                    setClientName(e.target.value)
-                    setEngagement({ clientName: e.target.value })
-                  }}
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
-                  placeholder="Công ty TNHH ABC"
-                />
-              </div>
+            {/* Preview Strings */}
+            {(() => {
+              const previewCompany = companyShortName.trim() || clientName.trim() || 'DoanhNghiep'
+              const previewRound = (auditRound === 'D1' || auditRound === 'D2') ? auditRound : ''
+              const previewYear = fiscalYearEnd.match(/\d{4}/)?.[0] || '2026'
+              const previewMiddle = [previewCompany, previewRound, previewYear].filter(Boolean).join(' ')
+              const auditorParts = auditorName.trim().split(/\s+/)
+              const previewAuditor = auditorParts[auditorParts.length - 1] || 'KTV'
+              const previewFileName = `D100 - Tien - ${previewMiddle} - ${previewAuditor}.xlsx`
+              const previewFolder = `HoSoKiemToan_${previewCompany.replace(/[\\/:*?"<>|]/g, '_')}${previewRound ? '_' + previewRound : ''}_${previewYear}`
+
+              return (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  <div style={{ gridColumn: '1 / -1' }}>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#475569', marginBottom: 4 }}>
+                      Tên Khách hàng / Doanh nghiệp (Pháp lý đầy đủ in trên GLV):
+                    </label>
+                    <input
+                      type="text"
+                      className="input-text"
+                      value={clientName}
+                      onChange={(e) => {
+                        setClientName(e.target.value)
+                        setEngagement({ clientName: e.target.value })
+                      }}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
+                      placeholder="Công ty TNHH ABC"
+                    />
+                  </div>
+
+                  {/* Hàng mới: Tên công ty khi lưu file + Chọn đợt kiểm toán */}
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#1d4ed8', marginBottom: 4 }}>
+                      🏷️ Tên công ty khi lưu file:
+                    </label>
+                    <input
+                      type="text"
+                      className="input-text"
+                      value={companyShortName}
+                      onChange={(e) => {
+                        setCompanyShortName(e.target.value)
+                        setEngagement({ companyShortName: e.target.value })
+                      }}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1.5px solid #93c5fd', background: '#f8faff', fontSize: 13, fontWeight: 700, color: '#1e3a8a' }}
+                      placeholder="Ví dụ: LONG RICH"
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#1d4ed8', marginBottom: 4 }}>
+                      🎯 Chọn đợt kiểm toán:
+                    </label>
+                    <div style={{ display: 'flex', background: '#f1f5f9', padding: '2px', borderRadius: '6px', border: '1px solid #cbd5e1', height: '37px', boxSizing: 'border-box' }}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAuditRound('D1')
+                          setEngagement({ auditRound: 'D1' })
+                        }}
+                        style={{
+                          flex: 1,
+                          background: auditRound === 'D1' ? '#ffffff' : 'transparent',
+                          color: auditRound === 'D1' ? '#1d4ed8' : '#64748b',
+                          fontWeight: auditRound === 'D1' ? 700 : 500,
+                          boxShadow: auditRound === 'D1' ? '0 1px 2px rgba(0,0,0,0.08)' : 'none',
+                          border: 'none',
+                          borderRadius: '4px',
+                          fontSize: '12px',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        D1 (Đợt 1)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAuditRound('D2')
+                          setEngagement({ auditRound: 'D2' })
+                        }}
+                        style={{
+                          flex: 1,
+                          background: auditRound === 'D2' ? '#ffffff' : 'transparent',
+                          color: auditRound === 'D2' ? '#1d4ed8' : '#64748b',
+                          fontWeight: auditRound === 'D2' ? 700 : 500,
+                          boxShadow: auditRound === 'D2' ? '0 1px 2px rgba(0,0,0,0.08)' : 'none',
+                          border: 'none',
+                          borderRadius: '4px',
+                          fontSize: '12px',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        D2 (Đợt 2)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAuditRound('FY')
+                          setEngagement({ auditRound: 'FY' })
+                        }}
+                        style={{
+                          flex: 1,
+                          background: auditRound === 'FY' ? '#ffffff' : 'transparent',
+                          color: auditRound === 'FY' ? '#1d4ed8' : '#64748b',
+                          fontWeight: auditRound === 'FY' ? 700 : 500,
+                          boxShadow: auditRound === 'FY' ? '0 1px 2px rgba(0,0,0,0.08)' : 'none',
+                          border: 'none',
+                          borderRadius: '4px',
+                          fontSize: '12px',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Cả năm
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Thanh Live Preview thời gian thực */}
+                  <div style={{ gridColumn: '1 / -1', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 6, padding: '7px 12px', display: 'flex', alignItems: 'center', gap: 6, fontSize: '11.5px', color: '#1e40af' }}>
+                    <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>👁️ Xem trước tên file lưu:</span>
+                    <span style={{ fontFamily: 'Consolas, monospace', fontWeight: 700, color: '#1d4ed8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {previewFileName}
+                    </span>
+                  </div>
+                </div>
+              )
+            })()}
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 12 }}>
 
               <div>
                 <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#475569', marginBottom: 4 }}>
@@ -574,7 +726,12 @@ export function WorkingPaperPage(): JSX.Element {
                   value={outputDir}
                   onChange={(e) => setOutputDir(e.target.value)}
                   style={{ flex: 1, padding: '7px 10px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 12 }}
-                  placeholder="Tự tạo thư mục HoSoKiemToan_[TênCty]_[Năm]"
+                  placeholder={(() => {
+                    const previewCompany = (companyShortName.trim() || clientName.trim() || 'DoanhNghiep').replace(/[\\/:*?"<>|]/g, '_')
+                    const previewRound = (auditRound === 'D1' || auditRound === 'D2') ? `_${auditRound}` : ''
+                    const previewYear = fiscalYearEnd.match(/\d{4}/)?.[0] || '2026'
+                    return `Tự tạo thư mục HoSoKiemToan_${previewCompany}${previewRound}_${previewYear}`
+                  })()}
                 />
                 <button
                   type="button"

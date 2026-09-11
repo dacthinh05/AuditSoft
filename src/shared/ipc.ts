@@ -129,6 +129,8 @@ export interface GenerateWorkingPapersRequest {
   outputDir?: string
   engagement: {
     clientName: string
+    companyShortName?: string
+    auditRound?: 'D1' | 'D2' | 'FY' | ''
     fiscalYearEnd: string
     auditPeriod1?: string
     auditPeriod2?: string

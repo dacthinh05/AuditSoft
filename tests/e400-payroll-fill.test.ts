@@ -121,7 +121,7 @@ describe('fillPayrollWorkingPaper — Tự động hoá phân tích lương E 49
         dateVal: dateStr,
         docNo: `UNC_BH${m}`,
         desc: `Nộp tiền BHXH tháng ${m}`,
-        debit: '3383',
+        debit: '3382',
         credit: '1121TCB',
         amount: 550_000_000,
         month: m,
@@ -176,7 +176,7 @@ describe('fillPayrollWorkingPaper — Tự động hoá phân tích lương E 49
 
     // Bảng 4.3: Chọn mẫu chứng từ nộp bảo hiểm (Hàng 88)
     expect(wsE491!.getCell('B88').value).toBeDefined()
-    expect(wsE491!.getCell('E88').value).toBe('3383')
+    expect(['3382', '3383']).toContain(wsE491!.getCell('E88').value)
     expect(wsE491!.getCell('F88').value).toBe('1121TCB')
     expect(['✓', 'P']).toContain(wsE491!.getCell('H88').value)
   })

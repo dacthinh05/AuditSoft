@@ -2,6 +2,8 @@ import type { StateCreator } from 'zustand'
 
 export interface EngagementProfile {
   clientName: string
+  companyShortName?: string // Tên công ty khi lưu file (e.g. 'LONG RICH')
+  auditRound?: 'D1' | 'D2' | 'FY' | '' // Đợt kiểm toán (D1, D2, FY)
   fiscalYearEnd: string
   auditPeriod1: string
   auditPeriod2: string
@@ -27,6 +29,8 @@ export const createEngagementSlice: StateCreator<EngagementSlice, [], [], Engage
 ) => ({
   engagement: {
     clientName: 'Công ty Cổ phần May Mặc Gia Công Test',
+    companyShortName: '',
+    auditRound: 'D2',
     fiscalYearEnd: '31/12/2026',
     auditPeriod1: '01/01 - 30/06/2026',
     auditPeriod2: '01/07 - 31/12/2026',
