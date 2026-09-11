@@ -8,8 +8,8 @@
 
 | Phiên bản | Định dạng | Mô tả | Liên kết |
 | :--- | :--- | :--- | :--- |
-| **Bản Cài Đặt (Setup v1.1.8)** | `.exe` (Cài đặt) | Tự động tạo shortcut Desktop, hỗ trợ tự động nâng cấp 1-click | [**Tải AuditSoft-1.1.8-Setup.exe**](https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.8/AuditSoft-1.1.8-Setup.exe) |
-| **Bản Chạy Ngay (Portable v1.1.8)** | `.exe` (Portable) | Chạy trực tiếp không cần cài đặt, tiện lưu USB mang đi làm việc thực địa | [**Tải AuditSoft-1.1.8-Portable.exe**](https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.8/AuditSoft-1.1.8-Portable.exe) |
+| **Bản Cài Đặt (Setup v1.1.9)** | `.exe` (Cài đặt) | Tự động tạo shortcut Desktop, hỗ trợ tự động nâng cấp 1-click | [**Tải AuditSoft-1.1.9-Setup.exe**](https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.9/AuditSoft-1.1.9-Setup.exe) |
+| **Bản Chạy Ngay (Portable v1.1.9)** | `.exe` (Portable) | Chạy trực tiếp không cần cài đặt, tiện lưu USB mang đi làm việc thực địa | [**Tải AuditSoft-1.1.9-Portable.exe**](https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.9/AuditSoft-1.1.9-Portable.exe) |
 
 *Xem tất cả các bản phát hành tại trang [**GitHub Releases**](https://github.com/dacthinh05/AuditSoft/releases).*
 
