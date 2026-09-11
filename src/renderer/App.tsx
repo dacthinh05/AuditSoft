@@ -133,14 +133,14 @@ export default function App(): JSX.Element {
 
           <button
             type="button"
-            className={`btn-license-header ${trialStatus.isLicensed ? 'licensed' : trialStatus.isExpired ? 'trial expired' : ''}`}
+            className={`btn-license-header ${trialStatus.isLicensed ? 'licensed' : trialStatus.isExpired ? 'trial expired' : 'trial'}`}
             onClick={() => setLicenseModalOpen(true)}
             title={
               trialStatus.isLicensed
                 ? 'Bản quyền vĩnh viễn đã kích hoạt thành công.'
                 : trialStatus.isExpired
-                  ? `Đã dùng hết ${trialStatus.maxExports} lượt xuất thử miễn phí. Bấm vào đây để mở khóa bản quyền.`
-                  : `Bạn còn ${trialStatus.remainingExports}/${trialStatus.maxExports} lượt xuất thử miễn phí. Bấm để xem thông tin bản quyền.`
+                  ? 'Đã hết thời gian 30 ngày dùng thử miễn phí. Bấm vào đây để mở khóa bản quyền.'
+                  : `Bạn đang trong thời gian dùng thử 30 ngày (còn ${trialStatus.trialDaysLeft} ngày). Bấm để xem thông tin bản quyền.`
             }
           >
             <span className="author-tag">{trialStatus.isLicensed ? '✓ Bản quyền:' : 'Dùng thử:'}</span>
@@ -148,8 +148,8 @@ export default function App(): JSX.Element {
               {trialStatus.isLicensed
                 ? 'Thịnh Lynx VIP'
                 : trialStatus.isExpired
-                  ? 'Hết lượt dùng thử'
-                  : `Còn ${trialStatus.remainingExports}/${trialStatus.maxExports} lượt`}
+                  ? 'Hết hạn dùng thử'
+                  : `Còn ${trialStatus.trialDaysLeft} ngày`}
             </strong>
           </button>
           {running ? (

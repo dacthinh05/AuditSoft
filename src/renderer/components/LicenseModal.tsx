@@ -145,8 +145,8 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
                 {licenseState.isLicensed
                   ? 'Bản quyền vĩnh viễn đã kích hoạt'
                   : trialInfo.isExpired
-                    ? `Đã hết ${trialInfo.maxExports} lượt xuất thử miễn phí — Vui lòng kích hoạt bản quyền`
-                    : `Bản dùng thử: Còn ${trialInfo.remainingExports}/${trialInfo.maxExports} lượt xuất báo cáo`}
+                    ? 'Đã hết 30 ngày dùng thử miễn phí — Vui lòng kích hoạt bản quyền'
+                    : `Bản dùng thử: Còn ${trialInfo.trialDaysLeft} ngày trải nghiệm đầy đủ tính năng`}
               </div>
             </div>
           </div>
@@ -172,7 +172,7 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
           >
             <span>Kích hoạt & Thanh toán</span>
             {trialInfo.isExpired && !licenseState.isLicensed && (
-              <span className="tab-badge-highlight" style={{ background: '#ef4444' }}>Hết lượt</span>
+              <span className="tab-badge-highlight" style={{ background: '#ef4444' }}>Hết hạn</span>
             )}
           </button>
         </div>
@@ -231,9 +231,9 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
                 <div className="benefit-item-card">
                   <div className="benefit-item-icon">4</div>
                   <div className="benefit-item-content">
-                    <div className="benefit-item-title">Xuất file Excel không giới hạn số lượt</div>
+                    <div className="benefit-item-title">Xuất file Excel không giới hạn</div>
                     <div className="benefit-item-desc">
-                      Bỏ giới hạn 20 lượt dùng thử, cho phép xử lý và xuất báo cáo không hạn chế số lần sử dụng.
+                      Mở khóa toàn quyền trọn đời, xử lý và xuất các bộ báo cáo kiểm toán không giới hạn thời gian.
                     </div>
                   </div>
                 </div>
@@ -302,11 +302,11 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
             <div className="compact-activation-panel">
               {trialInfo.isExpired ? (
                 <div className="trial-expired-compact-bar">
-                  <span>Bạn đã dùng hết {trialInfo.maxExports} lượt xuất thử miễn phí. Hãy quét mã QR bên dưới hoặc nhập mã bản quyền để mở khóa vĩnh viễn.</span>
+                  <span>Bạn đã hết 30 ngày dùng thử miễn phí. Hãy quét mã QR bên dưới hoặc nhập mã bản quyền để mở khóa vĩnh viễn.</span>
                 </div>
               ) : (
                 <div style={{ padding: '8px 12px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '8px', marginBottom: '12px', fontSize: '12.5px', color: '#166534', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span>Chế độ dùng thử: Còn <strong>{trialInfo.remainingExports}/{trialInfo.maxExports}</strong> lượt xuất Excel.</span>
+                  <span>Chế độ dùng thử 30 ngày: Còn <strong>{trialInfo.trialDaysLeft} ngày</strong> trải nghiệm miễn phí toàn bộ tính năng.</span>
                 </div>
               )}
               {/* Machine ID Row */}

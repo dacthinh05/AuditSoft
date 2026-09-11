@@ -6,11 +6,13 @@ import {
   getTrialExportStatus,
   useTrialExport,
   resetTrialExports,
+  setTrialStartTimeForTest,
   removeLicense,
   saveLicense,
   saveLicenseSync,
   getLicenseStatus,
   MAX_TRIAL_EXPORTS,
+  TRIAL_DURATION_DAYS,
   MASTER_PUBLIC_KEY_BASE64,
   parseLicenseToken,
 } from '../src/shared/license'
@@ -105,23 +107,23 @@ describe('License System — Asymmetric Cryptography (Ed25519 Machine-Locked)', 
     expect(expiredRes.message).toContain('hết hạn')
   })
 
-  it('quản lý lượt dùng thử miễn phí chính xác (Trial counter)', () => {
+  it('quản lý thời gian dùng thử 30 ngày miễn phí chính xác (30-day trial)', () => {
     const initial = getTrialExportStatus()
     expect(initial.isLicensed).toBe(false)
-    expect(initial.remainingExports).toBe(MAX_TRIAL_EXPORTS)
+    expect(initial.isTrial).toBe(true)
+    expect(initial.trialDaysLeft).toBe(TRIAL_DURATION_DAYS)
+    expect(initial.isExpired).toBe(false)
 
     const use1 = useTrialExport()
     expect(use1.allowed).toBe(true)
-    expect(use1.remainingExports).toBe(MAX_TRIAL_EXPORTS - 1)
+    expect(use1.trialDaysLeft).toBe(TRIAL_DURATION_DAYS)
 
-    // Dùng hết số lượt thử
-    for (let i = 0; i < MAX_TRIAL_EXPORTS - 1; i++) {
-      useTrialExport()
-    }
-
+    // Giả lập hết hạn sau 31 ngày dùng thử
+    setTrialStartTimeForTest(Date.now() - 31 * 24 * 60 * 60 * 1000)
     const exhausted = getTrialExportStatus()
-    expect(exhausted.remainingExports).toBe(0)
+    expect(exhausted.trialDaysLeft).toBe(0)
     expect(exhausted.isExpired).toBe(true)
+    expect(exhausted.isTrial).toBe(false)
 
     const blocked = useTrialExport()
     expect(blocked.allowed).toBe(false)

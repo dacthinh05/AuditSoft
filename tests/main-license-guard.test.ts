@@ -4,6 +4,7 @@ import {
   syncLicenseInMain,
   loadLicenseGuard,
   resetLicenseGuardForTest,
+  setTrialStartedAtForTest,
 } from '../src/main/mainLicenseGuard'
 import { MAX_TRIAL_EXPORTS, getMachineId } from '../src/shared/license'
 import { generateSecureLicenseKey } from '../scripts/keygen'
@@ -17,31 +18,25 @@ describe('Main Process License Guard — Defense-in-Depth', () => {
     resetLicenseGuardForTest()
   })
 
-  it('cho phép xuất file trong giới hạn MAX_TRIAL_EXPORTS khi chưa kích hoạt', () => {
-    for (let i = 0; i < MAX_TRIAL_EXPORTS; i++) {
+  it('cho phép xuất file trong thời gian 30 ngày dùng thử khi chưa kích hoạt', () => {
+    for (let i = 0; i < 5; i++) {
       expect(() => assertCanExport('Test Export')).not.toThrow()
     }
     const guard = loadLicenseGuard()
-    expect(guard.trialExportsUsed).toBe(MAX_TRIAL_EXPORTS)
+    expect(guard.trialExportsUsed).toBe(5)
   })
 
-  it('chặn đứng và ném lỗi khi vượt quá số lượt dùng thử MAX_TRIAL_EXPORTS', () => {
-    for (let i = 0; i < MAX_TRIAL_EXPORTS; i++) {
-      assertCanExport('Test Export')
-    }
-
+  it('chặn đứng và ném lỗi khi hết thời gian 30 ngày dùng thử', () => {
+    setTrialStartedAtForTest(Date.now() - 31 * 24 * 60 * 60 * 1000)
     expect(() => assertCanExport('Tạo Giấy làm việc')).toThrow(
-      /Đã sử dụng hết 20\/20 lượt xuất dùng thử miễn phí/,
+      /Đã hết thời gian 30 ngày dùng thử miễn phí/,
     )
   })
 
-  it('mở khóa không giới hạn khi đồng bộ key bản quyền Ed25519 hợp lệ', () => {
-    // 1. Dùng hết lượt dùng thử
-    for (let i = 0; i < MAX_TRIAL_EXPORTS; i++) {
-      assertCanExport('Test Export')
-    }
+  it('mở khóa không giới hạn khi đồng bộ key bản quyền Ed25519 hợp lệ kể cả khi đã hết hạn dùng thử', () => {
+    // 1. Giả lập hết hạn 30 ngày dùng thử
+    setTrialStartedAtForTest(Date.now() - 31 * 24 * 60 * 60 * 1000)
     expect(() => assertCanExport('Test Export')).toThrow()
-
     // 2. Kích hoạt key hợp lệ
     const machineId = getMachineId()
     const validKey = generateSecureLicenseKey(machineId, 'Test Auditor')

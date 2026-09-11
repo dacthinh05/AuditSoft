@@ -14,8 +14,9 @@ const STORAGE_KEY_MACHINE_ID = 'auditsoft_machine_id'
 const STORAGE_KEY_LICENSE = 'auditsoft_license_token'
 const STORAGE_KEY_VERIFIED_HASH = 'auditsoft_verified_hash'
 const STORAGE_KEY_TRIAL_EXPORTS = 'auditsoft_trial_export_count'
+const STORAGE_KEY_TRIAL_START = 'auditsoft_trial_start_time'
 export const MAX_TRIAL_EXPORTS = 20
-
+export const TRIAL_DURATION_DAYS = 30
 /** Bộ nhớ đệm chữ ký số đã được xác thực an toàn qua WebCrypto hoặc NodeCrypto */
 const verifiedSignatureMemoryCache = new Set<string>()
 export type LicensePlan = 'LIFETIME' | 'PRO' | 'ENTERPRISE' | 'ANNUAL' | 'TRIAL'
@@ -37,6 +38,8 @@ export interface LicenseStatus {
   expiresAt?: string | null
   plan?: LicensePlan
   isExpired?: boolean
+  isTrial?: boolean
+  trialDaysLeft?: number
 }
 
 export interface TrialExportStatus {
@@ -45,6 +48,8 @@ export interface TrialExportStatus {
   remainingExports: number
   isExpired: boolean
   isLicensed: boolean
+  trialDaysLeft: number
+  isTrial: boolean
 }
 
 export interface VerificationResult {
@@ -424,11 +429,16 @@ export function getLicenseStatus(): LicenseStatus {
     }
 
     if (!raw) {
+      const trial = getTrialExportStatus()
       return {
         isLicensed: false,
         machineId,
         licenseKey: null,
         activatedAt: null,
+        isTrial: trial.isTrial,
+        trialDaysLeft: trial.trialDaysLeft,
+        plan: 'TRIAL',
+        isExpired: trial.isExpired,
       }
     }
     const data = JSON.parse(raw) as {
@@ -463,11 +473,16 @@ export function getLicenseStatus(): LicenseStatus {
     }
 
     if (!verifyRes.valid || !verifyRes.payload) {
+      const trial = getTrialExportStatus()
       return {
         isLicensed: false,
         machineId,
         licenseKey: null,
         activatedAt: null,
+        isTrial: trial.isTrial,
+        trialDaysLeft: trial.trialDaysLeft,
+        plan: 'TRIAL',
+        isExpired: trial.isExpired,
       }
     }
 
@@ -557,38 +572,88 @@ export function removeLicense(): void {
 }
 
 /**
- * Lấy thông tin số lượt xuất Excel dùng thử miễn phí
+ * Lấy thời điểm bắt đầu dùng thử (Timestamp ms)
+ */
+export function getTrialStartTime(): number {
+  const raw = readStorage(STORAGE_KEY_TRIAL_START)
+  if (raw) {
+    const t = parseInt(raw, 10)
+    if (!Number.isNaN(t) && t > 0) return t
+  }
+  const now = Date.now()
+  writeStorage(STORAGE_KEY_TRIAL_START, String(now))
+  return now
+}
+
+/**
+ * Đặt mốc thời gian dùng thử (Dành cho Unit Testing)
+ */
+export function setTrialStartTimeForTest(timestamp: number): void {
+  writeStorage(STORAGE_KEY_TRIAL_START, String(timestamp))
+}
+
+/**
+ * Lấy thông tin trạng thái dùng thử 30 ngày miễn phí
  */
 export function getTrialExportStatus(): TrialExportStatus {
-  const lic = getLicenseStatus()
-  if (lic.isLicensed) {
-    return {
-      usedExports: 0,
-      maxExports: MAX_TRIAL_EXPORTS,
-      remainingExports: 999999,
-      isExpired: false,
-      isLicensed: true,
+  const raw = readStorage(STORAGE_KEY_LICENSE)
+  if (raw) {
+    try {
+      const data = JSON.parse(raw) as { licenseKey?: string }
+      if (data.licenseKey) {
+        const machineId = getMachineId()
+        const verifyRes = verifyLicense(machineId, data.licenseKey)
+        if (verifyRes.valid && verifyRes.payload) {
+          const nowSec = Math.floor(Date.now() / 1000)
+          const isExpired = verifyRes.payload.exp > 0 && verifyRes.payload.exp < nowSec
+          if (!isExpired) {
+            return {
+              usedExports: 0,
+              maxExports: MAX_TRIAL_EXPORTS,
+              remainingExports: 999999,
+              isExpired: false,
+              isLicensed: true,
+              trialDaysLeft: 0,
+              isTrial: false,
+            }
+          }
+        }
+      }
+    } catch {
+      // ignore parse error
     }
   }
 
   try {
-    const raw = readStorage(STORAGE_KEY_TRIAL_EXPORTS)
-    const count = raw ? parseInt(raw, 10) || 0 : 0
-    const remaining = Math.max(0, MAX_TRIAL_EXPORTS - count)
+    const startTime = getTrialStartTime()
+    const now = Date.now()
+    const diffMs = Math.max(0, now - startTime)
+    const daysPassed = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+    const trialDaysLeft = Math.max(0, TRIAL_DURATION_DAYS - daysPassed)
+    const isExpired = trialDaysLeft <= 0
+
+    const rawExports = readStorage(STORAGE_KEY_TRIAL_EXPORTS)
+    const count = rawExports ? parseInt(rawExports, 10) || 0 : 0
+    const remaining = isExpired ? 0 : 999999
+
     return {
       usedExports: count,
       maxExports: MAX_TRIAL_EXPORTS,
       remainingExports: remaining,
-      isExpired: remaining <= 0,
+      isExpired,
       isLicensed: false,
+      trialDaysLeft,
+      isTrial: !isExpired,
     }
   } catch {
     return {
       usedExports: 0,
       maxExports: MAX_TRIAL_EXPORTS,
-      remainingExports: MAX_TRIAL_EXPORTS,
+      remainingExports: 999999,
       isExpired: false,
       isLicensed: false,
+      trialDaysLeft: TRIAL_DURATION_DAYS,
+      isTrial: true,
     }
   }
 }
@@ -596,39 +661,41 @@ export function getTrialExportStatus(): TrialExportStatus {
 /**
  * Kiểm tra và tăng số lượt xuất Excel dùng thử
  */
-export function useTrialExport(): { allowed: boolean; remainingExports: number; message: string } {
-  const lic = getLicenseStatus()
-  if (lic.isLicensed) {
+export function useTrialExport(): { allowed: boolean; remainingExports: number; message: string; trialDaysLeft?: number } {
+  const trial = getTrialExportStatus()
+  if (trial.isLicensed) {
     return {
       allowed: true,
       remainingExports: 999999,
       message: 'Bản quyền đã kích hoạt thành công — Không giới hạn lượt xuất báo cáo.',
+      trialDaysLeft: 0,
     }
   }
 
-  const current = getTrialExportStatus()
-  if (current.remainingExports <= 0) {
+  if (trial.isExpired) {
     return {
       allowed: false,
       remainingExports: 0,
-      message: `Bạn đã dùng hết ${MAX_TRIAL_EXPORTS} lượt xuất thử miễn phí. Hãy kích hoạt bản quyền để tiếp tục xuất file.`,
+      message: `Đã hết thời gian ${TRIAL_DURATION_DAYS} ngày dùng thử miễn phí. Hãy kích hoạt bản quyền để tiếp tục xuất file.`,
+      trialDaysLeft: 0,
     }
   }
 
-  const newCount = current.usedExports + 1
+  const newCount = trial.usedExports + 1
   writeStorage(STORAGE_KEY_TRIAL_EXPORTS, String(newCount))
-  const remaining = Math.max(0, MAX_TRIAL_EXPORTS - newCount)
 
   return {
     allowed: true,
-    remainingExports: remaining,
-    message: `Bạn vừa dùng lượt xuất ${newCount}/${MAX_TRIAL_EXPORTS}. Còn lại ${remaining} lượt miễn phí.`,
+    remainingExports: 999999,
+    message: `Bạn đang trong thời gian dùng thử 30 ngày (còn ${trial.trialDaysLeft} ngày miễn phí).`,
+    trialDaysLeft: trial.trialDaysLeft,
   }
 }
 
 /**
- * Reset số lượt xuất dùng thử (Dành cho test/phát triển)
+ * Reset số lượt xuất và thời gian dùng thử (Dành cho test/phát triển)
  */
 export function resetTrialExports(): void {
   deleteStorage(STORAGE_KEY_TRIAL_EXPORTS)
+  deleteStorage(STORAGE_KEY_TRIAL_START)
 }

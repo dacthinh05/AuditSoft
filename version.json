@@ -1,14 +1,13 @@
 {
-  "version": "1.1.8",
+  "version": "1.1.9",
   "releaseDate": "2026-09-11",
-  "title": "AuditSoft v1.1.8 — Tự Động Thông Báo Bản Mới, Tabular Grounding AI & Drilldown Ma Trận 12M",
+  "title": "AuditSoft v1.1.9 — Kích Hoạt Dùng Thử 30 Ngày Toàn Diện Cho Người Dùng Mới",
   "changelog": [
-    "Tự động hiển thị popup thông báo cập nhật bản mới khi vừa mở ứng dụng, hỗ trợ 'Cập nhật ngay' hoặc 'Để sau'",
-    "Trợ lý AI Gemini 2.5: Đọc dữ liệu Tabular Grounding chuẩn VSA 520, bổ sung đối chiếu YoY B02, ma trận 12M và rủi ro thuế B4",
-    "Drilldown chi tiết bút toán phát sinh: Click vào bất kỳ ô nào trên Ma trận 12 tháng để xem danh sách chứng từ cấu thành (VirtualTable 60fps)",
-    "Xuất Excel 2 Sheet dạng Pivot: Sheet 1 tổng hợp cơ cấu theo cặp TK đối ứng + Top bút toán lớn; Sheet 2 sổ chi tiết có AutoFilter",
-    "Khắc phục triệt để lỗi lệch cột dòng CỘNG CẢ NĂM và chống xuống hàng header trên bảng đối chiếu thuế GTGT E380 & TNCN E381"
+    "Kích hoạt chính sách dùng thử miễn phí 30 ngày cho tất cả người dùng mới, mở khóa toàn bộ tính năng kiểm toán",
+    "Hiển thị số ngày dùng thử trực quan trên thanh tiêu đề và thông báo chi tiết trong bảng bản quyền",
+    "Bảo vệ kép tiến trình xuất dữ liệu từ Main Process và Renderer khi hết hạn dùng thử",
+    "Tối ưu hóa hiệu năng và đồng bộ cấu hình phiên bản v1.1.9"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.8/AuditSoft-1.1.8-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.8/AuditSoft-1.1.8-Portable.exe"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.9/AuditSoft-1.1.9-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.9/AuditSoft-1.1.9-Portable.exe"
 }

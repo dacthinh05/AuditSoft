@@ -13,6 +13,7 @@ interface LicenseGuardData {
   trialExportsUsed: number
   machineId: string
   updatedAt: string
+  trialStartedAt?: number
 }
 
 let cachedGuardData: LicenseGuardData | null = null
@@ -40,6 +41,7 @@ export function loadLicenseGuard(): LicenseGuardData {
         trialExportsUsed: typeof parsed.trialExportsUsed === 'number' ? parsed.trialExportsUsed : 0,
         machineId: parsed.machineId ?? getMachineId(),
         updatedAt: parsed.updatedAt ?? new Date().toISOString(),
+        trialStartedAt: typeof parsed.trialStartedAt === 'number' ? parsed.trialStartedAt : Date.now(),
       }
       return cachedGuardData
     }
@@ -52,6 +54,7 @@ export function loadLicenseGuard(): LicenseGuardData {
     trialExportsUsed: 0,
     machineId: getMachineId(),
     updatedAt: new Date().toISOString(),
+    trialStartedAt: Date.now(),
   }
   return cachedGuardData
 }
@@ -85,7 +88,7 @@ export function syncLicenseInMain(licenseKey: string, machineId: string): boolea
 
 /**
  * Chốt chặn an ninh Main Process:
- * Ngăn chặn hoàn toàn việc gọi IPC xuất file khi chưa kích hoạt và đã hết 20 lượt dùng thử
+ * Ngăn chặn hoàn toàn việc gọi IPC xuất file khi chưa kích hoạt và đã hết thời gian dùng thử 30 ngày
  */
 export function assertCanExport(actionName = 'xuất dữ liệu'): void {
   const guard = loadLicenseGuard()
@@ -99,10 +102,12 @@ export function assertCanExport(actionName = 'xuất dữ liệu'): void {
     }
   }
 
-  // 2. Chế độ dùng thử: kiểm tra số lượt đã dùng
-  if (guard.trialExportsUsed >= MAX_TRIAL_EXPORTS) {
+  // 2. Chế độ dùng thử: kiểm tra thời hạn 30 ngày
+  const trialStart = typeof guard.trialStartedAt === 'number' ? guard.trialStartedAt : Date.now()
+  const TRIAL_DURATION_MS = 30 * 24 * 60 * 60 * 1000
+  if (Date.now() - trialStart >= TRIAL_DURATION_MS) {
     throw new Error(
-      `Đã sử dụng hết ${MAX_TRIAL_EXPORTS}/${MAX_TRIAL_EXPORTS} lượt xuất dùng thử miễn phí. Vui lòng kích hoạt bản quyền AuditSoft để tiếp tục ${actionName}.`,
+      `Đã hết thời gian 30 ngày dùng thử miễn phí. Vui lòng kích hoạt bản quyền AuditSoft để tiếp tục ${actionName}.`,
     )
   }
 
@@ -111,6 +116,14 @@ export function assertCanExport(actionName = 'xuất dữ liệu'): void {
   saveLicenseGuard(guard)
 }
 
+/**
+ * Đặt mốc thời gian bắt đầu dùng thử (Dành cho Unit Testing)
+ */
+export function setTrialStartedAtForTest(timestamp: number): void {
+  const guard = loadLicenseGuard()
+  guard.trialStartedAt = timestamp
+  saveLicenseGuard(guard)
+}
 /**
  * Reset dữ liệu bảo vệ (Dành cho Unit Testing)
  */
