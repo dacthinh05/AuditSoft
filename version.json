@@ -1,0 +1,14 @@
+{
+  "version": "1.1.7",
+  "releaseDate": "2026-09-11",
+  "title": "AuditSoft v1.1.7 — Tự Động Chuẩn Kỳ VSA 520 & Tối Ưu Bóc Tách Chi Phí Sản Xuất",
+  "changelog": [
+    "Tự động chuẩn kỳ giá vốn theo chi phí phát sinh thực tế từng tháng (VSA 520) khi kế toán dồn kết chuyển cuối năm vào 31/12",
+    "Thêm công cụ chuyển đổi linh hoạt giữa 'Chuẩn kỳ VSA 520' và 'Sổ sách (31/12)' trên biểu đồ tương quan Doanh thu - Giá vốn",
+    "Loại trừ 100% việc tính trùng bút toán kết chuyển nội bộ giá thành (154, 62x, 632/155) ở biểu đồ cơ cấu giá vốn",
+    "Tối ưu hóa bảng bóc tách chi phí theo yếu tố và xuất ma trận chi phí Excel nhanh chóng",
+    "Nâng cấp toàn diện hiệu năng và độ ổn định khi xử lý sổ cái và NKC khối lượng lớn"
+  ],
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.7/AuditSoft-1.1.7-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.7/AuditSoft-1.1.7-Portable.exe"
+}
