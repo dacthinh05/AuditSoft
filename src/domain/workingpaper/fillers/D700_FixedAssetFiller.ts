@@ -1,7 +1,7 @@
 import type ExcelJS from 'exceljs'
 import type { OpenXmlPackageEditor } from '../openxml/OpenXmlPackageEditor'
 import type { WorkingPaperFillContext, SectionFillResult } from '../types'
-import { extract12MonthExpenseMatrix } from '../counterpartExtractor'
+import { extract12MonthExpenseMatrix, extractCounterpartStats } from '../counterpartExtractor'
 import {
   fillAddSheet,
   findWorksheetFuzzy,
@@ -53,34 +53,138 @@ export function fillFixedAssetWorkingPaper(
       updatedSheets.push(d710Sheet)
     }
 
-    // 3. D 790 Mua sắm tăng giảm TSCĐ
+    // 3. D 790 Mua sắm tăng giảm TSCĐ (Bóc tách đối ứng động 211 & 214)
     const d790Sheet = editor.hasSheet('D 790') ? 'D 790' : editor.hasSheet('D790') ? 'D790' : null
     if (d790Sheet) {
-      let psNo331 = 0
-      let psNo112 = 0
-      let psCo214 = 0
-      let psCo811 = 0
-      for (const t of ctx.nkcTransactions) {
-        if (t.debit.startsWith('211')) {
-          if (t.credit.startsWith('331')) psNo331 += t.amount
-          else psNo112 += t.amount
-        }
-        if (t.credit.startsWith('211')) {
-          if (t.debit.startsWith('214')) psCo214 += t.amount
-          else psCo811 += t.amount
+      // 3.1 Bóc tách đối ứng TK 211 (Hàng 15-16)
+      const cp211 = extractCounterpartStats(ctx.nkcTransactions, '211', false)
+
+      // Vế NỢ 211:
+      if (cp211.debitItems.length === 0) {
+        editor.updateCell(d790Sheet, 'A15', { text: '' })
+        editor.updateCell(d790Sheet, 'B15', { text: 'Không phát sinh' })
+        editor.updateCell(d790Sheet, 'C15', { number: 0 })
+        editor.updateCell(d790Sheet, 'D15', { number: 0 })
+        editor.updateCell(d790Sheet, 'A16', { text: '' })
+        editor.updateCell(d790Sheet, 'B16', { text: '' })
+        editor.updateCell(d790Sheet, 'C16', { number: 0 })
+        editor.updateCell(d790Sheet, 'D16', { number: 0 })
+        editor.updateCell(d790Sheet, 'D17', { number: 0 })
+      } else {
+        for (let i = 0; i < 2; i++) {
+          const r = 15 + i
+          const item = cp211.debitItems[i]
+          if (item) {
+            editor.updateCell(d790Sheet, `A${r}`, { text: item.ref })
+            editor.updateCell(d790Sheet, `B${r}`, { text: item.account })
+            editor.updateCell(d790Sheet, `C${r}`, { number: item.amount })
+          } else {
+            editor.updateCell(d790Sheet, `A${r}`, { text: '' })
+            editor.updateCell(d790Sheet, `B${r}`, { text: '' })
+            editor.updateCell(d790Sheet, `C${r}`, { number: 0 })
+            editor.updateCell(d790Sheet, `D${r}`, { number: 0 })
+          }
         }
       }
 
-      editor.updateCell(d790Sheet, 'B15', { text: '331/241' })
-      editor.updateCell(d790Sheet, 'C15', { number: psNo331 })
-      editor.updateCell(d790Sheet, 'B16', { text: '112/111' })
-      editor.updateCell(d790Sheet, 'C16', { number: psNo112 })
-      editor.updateCell(d790Sheet, 'F15', { text: '214' })
-      editor.updateCell(d790Sheet, 'G15', { number: psCo214 })
-      editor.updateCell(d790Sheet, 'F16', { text: '811/Khác' })
-      editor.updateCell(d790Sheet, 'G16', { number: psCo811 })
-      itemsCount += 8
+      // Vế CÓ 211:
+      if (cp211.creditItems.length === 0) {
+        editor.updateCell(d790Sheet, 'E15', { text: '' })
+        editor.updateCell(d790Sheet, 'F15', { text: 'Không phát sinh' })
+        editor.updateCell(d790Sheet, 'G15', { number: 0 })
+        editor.updateCell(d790Sheet, 'H15', { number: 0 })
+        editor.updateCell(d790Sheet, 'E16', { text: '' })
+        editor.updateCell(d790Sheet, 'F16', { text: '' })
+        editor.updateCell(d790Sheet, 'G16', { number: 0 })
+        editor.updateCell(d790Sheet, 'H16', { number: 0 })
+        editor.updateCell(d790Sheet, 'H17', { number: 0 })
+      } else {
+        for (let i = 0; i < 2; i++) {
+          const r = 15 + i
+          const item = cp211.creditItems[i]
+          if (item) {
+            editor.updateCell(d790Sheet, `E${r}`, { text: item.ref })
+            editor.updateCell(d790Sheet, `F${r}`, { text: item.account })
+            editor.updateCell(d790Sheet, `G${r}`, { number: item.amount })
+          } else {
+            editor.updateCell(d790Sheet, `E${r}`, { text: '' })
+            editor.updateCell(d790Sheet, `F${r}`, { text: '' })
+            editor.updateCell(d790Sheet, `G${r}`, { number: 0 })
+            editor.updateCell(d790Sheet, `H${r}`, { number: 0 })
+          }
+        }
+      }
 
+      // 3.2 Bóc tách đối ứng TK 214 (Hàng 23-25)
+      const cp214 = extractCounterpartStats(ctx.nkcTransactions, '214', false)
+
+      // Vế NỢ 214:
+      if (cp214.debitItems.length === 0) {
+        editor.updateCell(d790Sheet, 'A23', { text: '' })
+        editor.updateCell(d790Sheet, 'B23', { text: 'Không phát sinh' })
+        editor.updateCell(d790Sheet, 'C23', { number: 0 })
+        editor.updateCell(d790Sheet, 'D23', { number: 0 })
+        for (let i = 1; i < 3; i++) {
+          const r = 23 + i
+          editor.updateCell(d790Sheet, `A${r}`, { text: '' })
+          editor.updateCell(d790Sheet, `B${r}`, { text: '' })
+          editor.updateCell(d790Sheet, `C${r}`, { number: 0 })
+          editor.updateCell(d790Sheet, `D${r}`, { number: 0 })
+        }
+        editor.updateCell(d790Sheet, 'D26', { number: 0 })
+      } else {
+        for (let i = 0; i < 3; i++) {
+          const r = 23 + i
+          const item = cp214.debitItems[i]
+          if (item) {
+            editor.updateCell(d790Sheet, `A${r}`, { text: item.ref })
+            editor.updateCell(d790Sheet, `B${r}`, { text: item.account })
+            editor.updateCell(d790Sheet, `C${r}`, { number: item.amount })
+          } else {
+            editor.updateCell(d790Sheet, `A${r}`, { text: '' })
+            editor.updateCell(d790Sheet, `B${r}`, { text: '' })
+            editor.updateCell(d790Sheet, `C${r}`, { number: 0 })
+            editor.updateCell(d790Sheet, `D${r}`, { number: 0 })
+          }
+        }
+      }
+
+      // Vế CÓ 214:
+      if (cp214.creditItems.length === 0) {
+        editor.updateCell(d790Sheet, 'E23', { text: '' })
+        editor.updateCell(d790Sheet, 'F23', { text: 'Không phát sinh' })
+        editor.updateCell(d790Sheet, 'G23', { number: 0 })
+        editor.updateCell(d790Sheet, 'H23', { number: 0 })
+        for (let i = 1; i < 3; i++) {
+          const r = 23 + i
+          editor.updateCell(d790Sheet, `E${r}`, { text: '' })
+          editor.updateCell(d790Sheet, `F${r}`, { text: '' })
+          editor.updateCell(d790Sheet, `G${r}`, { number: 0 })
+          editor.updateCell(d790Sheet, `H${r}`, { number: 0 })
+        }
+        editor.updateCell(d790Sheet, 'H26', { number: 0 })
+      } else {
+        for (let i = 0; i < 3; i++) {
+          const r = 23 + i
+          const item = cp214.creditItems[i]
+          if (item) {
+            editor.updateCell(d790Sheet, `E${r}`, { text: item.ref })
+            editor.updateCell(d790Sheet, `F${r}`, { text: item.account })
+            editor.updateCell(d790Sheet, `G${r}`, { number: item.amount })
+          } else {
+            editor.updateCell(d790Sheet, `E${r}`, { text: '' })
+            editor.updateCell(d790Sheet, `F${r}`, { text: '' })
+            editor.updateCell(d790Sheet, `G${r}`, { number: 0 })
+            editor.updateCell(d790Sheet, `H${r}`, { number: 0 })
+          }
+        }
+      }
+
+      // 3.3 Nhận xét và kết luận kiểm toán chuẩn mực VACPA
+      editor.updateCell(d790Sheet, 'B59', {
+        text: 'Hạch toán phát sinh tăng, giảm TSCĐ và trích khấu hao trong kỳ phù hợp, không phát hiện đối ứng bất thường.',
+      })
+      itemsCount += 16
       const faAdditions = ctx.nkcTransactions
         .filter((t) => t.debit.startsWith('211') || t.debit.startsWith('241'))
         .sort((a, b) => b.amount - a.amount)
@@ -229,31 +333,128 @@ export function fillFixedAssetWorkingPaper(
   const wsD790 = findWorksheetFuzzy(wb, ['D 790', 'D790'])
   if (wsD790) {
     // Bảng 1 (Hàng 15-16): Cơ cấu đối ứng TK 211
-    let psNo331 = 0
-    let psNo112 = 0
-    let psCo214 = 0
-    let psCo811 = 0
-    for (const t of ctx.nkcTransactions) {
-      if (t.debit.startsWith('211')) {
-        if (t.credit.startsWith('331')) psNo331 += t.amount
-        else psNo112 += t.amount
-      }
-      if (t.credit.startsWith('211')) {
-        if (t.debit.startsWith('214')) psCo214 += t.amount
-        else psCo811 += t.amount
+    const cp211 = extractCounterpartStats(ctx.nkcTransactions, '211', false)
+    if (cp211.debitItems.length === 0) {
+      wsD790.getCell('A15').value = null
+      styleCellText(wsD790.getCell('B15'), 'Không phát sinh')
+      styleCellAmount(wsD790.getCell('C15'), 0)
+      wsD790.getCell('D15').value = 0
+      wsD790.getCell('A16').value = null
+      wsD790.getCell('B16').value = null
+      styleCellAmount(wsD790.getCell('C16'), 0)
+      wsD790.getCell('D16').value = 0
+      wsD790.getCell('D17').value = 0
+    } else {
+      for (let i = 0; i < 2; i++) {
+        const r = 15 + i
+        const dItem = cp211.debitItems[i]
+        if (dItem) {
+          styleCellCode(wsD790.getCell(`A${r}`), dItem.ref)
+          styleCellCode(wsD790.getCell(`B${r}`), dItem.account)
+          styleCellAmount(wsD790.getCell(`C${r}`), dItem.amount)
+        } else {
+          wsD790.getCell(`A${r}`).value = null
+          wsD790.getCell(`B${r}`).value = null
+          styleCellAmount(wsD790.getCell(`C${r}`), 0)
+          wsD790.getCell(`D${r}`).value = 0
+        }
       }
     }
 
-    // Điền đối ứng TK 211 (giữ nguyên công thức tỷ lệ cột D/H và SUM hàng 17)
-    styleCellCode(wsD790.getCell('B15'), '331/241')
-    styleCellAmount(wsD790.getCell('C15'), psNo331)
-    styleCellCode(wsD790.getCell('B16'), '112/111')
-    styleCellAmount(wsD790.getCell('C16'), psNo112)
-    styleCellCode(wsD790.getCell('F15'), '214')
-    styleCellAmount(wsD790.getCell('G15'), psCo214)
-    styleCellCode(wsD790.getCell('F16'), '811/Khác')
-    styleCellAmount(wsD790.getCell('G16'), psCo811)
-    itemsCount += 8
+    if (cp211.creditItems.length === 0) {
+      wsD790.getCell('E15').value = null
+      styleCellText(wsD790.getCell('F15'), 'Không phát sinh')
+      styleCellAmount(wsD790.getCell('G15'), 0)
+      wsD790.getCell('H15').value = 0
+      wsD790.getCell('E16').value = null
+      wsD790.getCell('F16').value = null
+      styleCellAmount(wsD790.getCell('G16'), 0)
+      wsD790.getCell('H16').value = 0
+      wsD790.getCell('H17').value = 0
+    } else {
+      for (let i = 0; i < 2; i++) {
+        const r = 15 + i
+        const cItem = cp211.creditItems[i]
+        if (cItem) {
+          styleCellCode(wsD790.getCell(`E${r}`), cItem.ref)
+          styleCellCode(wsD790.getCell(`F${r}`), cItem.account)
+          styleCellAmount(wsD790.getCell(`G${r}`), cItem.amount)
+        } else {
+          wsD790.getCell(`E${r}`).value = null
+          wsD790.getCell(`F${r}`).value = null
+          styleCellAmount(wsD790.getCell(`G${r}`), 0)
+          wsD790.getCell(`H${r}`).value = 0
+        }
+      }
+    }
+
+    // Bảng 1.2 (Hàng 23-25): Cơ cấu đối ứng TK 214
+    const cp214 = extractCounterpartStats(ctx.nkcTransactions, '214', false)
+    if (cp214.debitItems.length === 0) {
+      wsD790.getCell('A23').value = null
+      styleCellText(wsD790.getCell('B23'), 'Không phát sinh')
+      styleCellAmount(wsD790.getCell('C23'), 0)
+      wsD790.getCell('D23').value = 0
+      for (let i = 1; i < 3; i++) {
+        const r = 23 + i
+        wsD790.getCell(`A${r}`).value = null
+        wsD790.getCell(`B${r}`).value = null
+        styleCellAmount(wsD790.getCell(`C${r}`), 0)
+        wsD790.getCell(`D${r}`).value = 0
+      }
+      wsD790.getCell('D26').value = 0
+    } else {
+      for (let i = 0; i < 3; i++) {
+        const r = 23 + i
+        const dItem = cp214.debitItems[i]
+        if (dItem) {
+          styleCellCode(wsD790.getCell(`A${r}`), dItem.ref)
+          styleCellCode(wsD790.getCell(`B${r}`), dItem.account)
+          styleCellAmount(wsD790.getCell(`C${r}`), dItem.amount)
+        } else {
+          wsD790.getCell(`A${r}`).value = null
+          wsD790.getCell(`B${r}`).value = null
+          styleCellAmount(wsD790.getCell(`C${r}`), 0)
+          wsD790.getCell(`D${r}`).value = 0
+        }
+      }
+    }
+
+    if (cp214.creditItems.length === 0) {
+      wsD790.getCell('E23').value = null
+      styleCellText(wsD790.getCell('F23'), 'Không phát sinh')
+      styleCellAmount(wsD790.getCell('G23'), 0)
+      wsD790.getCell('H23').value = 0
+      for (let i = 1; i < 3; i++) {
+        const r = 23 + i
+        wsD790.getCell(`E${r}`).value = null
+        wsD790.getCell(`F${r}`).value = null
+        styleCellAmount(wsD790.getCell(`G${r}`), 0)
+        wsD790.getCell(`H${r}`).value = 0
+      }
+      wsD790.getCell('H26').value = 0
+    } else {
+      for (let i = 0; i < 3; i++) {
+        const r = 23 + i
+        const cItem = cp214.creditItems[i]
+        if (cItem) {
+          styleCellCode(wsD790.getCell(`E${r}`), cItem.ref)
+          styleCellCode(wsD790.getCell(`F${r}`), cItem.account)
+          styleCellAmount(wsD790.getCell(`G${r}`), cItem.amount)
+        } else {
+          wsD790.getCell(`E${r}`).value = null
+          wsD790.getCell(`F${r}`).value = null
+          styleCellAmount(wsD790.getCell(`G${r}`), 0)
+          wsD790.getCell(`H${r}`).value = 0
+        }
+      }
+    }
+
+    styleCellText(
+      wsD790.getCell('B59'),
+      'Hạch toán phát sinh tăng, giảm TSCĐ và trích khấu hao trong kỳ phù hợp, không phát hiện đối ứng bất thường.',
+    )
+    itemsCount += 16
 
     // Bảng 2 (Hàng 38-44): Mẫu kiểm tra phát sinh tăng TSCĐ (tối đa 7 dòng, không đè hàng 45 =SUM(F38:F44))
     const faAdditions = ctx.nkcTransactions

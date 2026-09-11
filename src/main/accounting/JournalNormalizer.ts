@@ -5,6 +5,8 @@ import type { DataQualityReport, JournalEntry, RowIssueCode } from '../../shared
 import { isBlankRow, type MatrixRow } from '../excel/WorkbookReader'
 import { normalizeAccount } from './AccountClassifier'
 
+import { resolveEntryPartner } from '../../domain/analytics/PartnerExtractor'
+
 export interface JournalColumnMapping {
   postingDate: number | null
   documentNumber: number | null
@@ -144,8 +146,15 @@ export function normalizeJournal(input: NormalizeJournalInput): { entries: Journ
       amount,
       foreignAmount: foreign,
       exchangeRate: fxRate,
-      objectCode: str(get(mapping.objectCode)) || null,
-      customerName: str(get(mapping.customerName)) || null,
+      ...(() => {
+        const rawObj = str(get(mapping.objectCode)) || null
+        const rawCust = str(get(mapping.customerName)) || null
+        const resolved = resolveEntryPartner(debit.code, credit.code, rawObj, rawCust, str(get(mapping.description)))
+        return {
+          objectCode: resolved.partnerCode,
+          customerName: resolved.partnerName,
+        }
+      })(),
       month,
       issues,
     })

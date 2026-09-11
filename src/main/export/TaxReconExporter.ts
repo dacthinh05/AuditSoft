@@ -37,15 +37,15 @@ export function buildTaxReconWorkbook(res: TaxCrossReconciliationResult): ExcelJ
   wb.created = new Date()
 
   // Sheet 1: GTGT đối chiếu + dòng luân chuyển [22]/[43]
-  const ws1 = wb.addWorksheet('01_GTGT_DoiChieu', {
+  const ws1 = wb.addWorksheet('E380_GTGT', {
     views: [{ state: 'frozen', ySplit: 1 }],
   })
   ws1.columns = [
     { header: 'Kỳ khai', key: 'period', width: 15 },
     { header: 'VAT đầu vào [25]', key: 'taxIn25', width: 18 },
     { header: 'VAT đầu ra [35]', key: 'taxOut35', width: 18 },
-    { header: 'Đ/c Giảm [37]', key: 'adjDec37', width: 16 },
     { header: 'Đ/c Tăng [38]', key: 'adjInc38', width: 16 },
+    { header: 'Đ/c Giảm [37]', key: 'adjDec37', width: 16 },
     { header: 'Xin hoàn [42]', key: 'ref42', width: 16 },
     { header: 'Phải nộp [40]', key: 'pay40', width: 16 },
     { header: 'Số dư khấu trừ [43]', key: 'bal43', width: 20 },
@@ -107,50 +107,50 @@ export function buildTaxReconWorkbook(res: TaxCrossReconciliationResult): ExcelJ
   styleHeader(ws1)
   ws1.autoFilter = { from: { row: 1, column: 1 }, to: { row: 1, column: ws1.columns.length } }
 
-  // Sheet 2: TNCN đối chiếu lương Có 334 và thuế khấu trừ Có 3335
-  const ws2 = wb.addWorksheet('02_TNCN_Luong334', {
+  // Sheet 2: TNCN đối chiếu số liệu kế toán và tờ khai thuế TNCN (Mẫu E381)
+  const ws2 = wb.addWorksheet('E381_TNCN', {
     views: [{ state: 'frozen', ySplit: 1 }],
   })
   ws2.columns = [
-    { header: 'Kỳ khai', key: 'period', width: 14 },
-    { header: 'Số LĐ [16]', key: 'emp', width: 12 },
-    { header: 'Tổng TNCT [21]', key: 'income', width: 20 },
-    { header: 'Quỹ lương sổ NKC (Có 334)', key: 'payroll', width: 24 },
-    { header: 'Chênh lệch lương', key: 'diffPay', width: 20 },
-    { header: 'Thuế đã khấu trừ [29]', key: 'withheld', width: 20 },
-    { header: 'Thuế khấu trừ sổ (Có 3335)', key: 'glWithheld', width: 24 },
-    { header: 'Chênh lệch thuế TNCN', key: 'diffTax', width: 20 },
+    { header: 'T (Kỳ khai)', key: 'period', width: 16 },
+    { header: 'Thuế TNCN khấu trừ - cá nhân cư trú', key: 'resident', width: 26 },
+    { header: 'Thuế TNCN khấu trừ - cá nhân không cư trú', key: 'nonResident', width: 26 },
+    { header: 'Tổng thuế TNCN đã khấu trừ (1)', key: 'totalWithheld', width: 24 },
+    { header: 'Thuế TNCN đã khấu trừ (2) [Có 3335]', key: 'glWithheld', width: 25 },
+    { header: 'Chênh lệch (1)-(2)', key: 'diffWithheld', width: 20 },
+    { header: 'Đã nộp (Nợ 3335)', key: 'glPaid', width: 20 },
+    { header: 'Còn phải nộp', key: 'remaining', width: 20 },
     { header: 'Ghi chú kiểm toán', key: 'note', width: 50 },
   ]
   for (const r of res.pitRows) {
     const row = ws2.addRow({
       period: r.periodLabel,
-      emp: big(r.employeeCount),
-      income: big(r.taxableIncome),
-      payroll: big(r.glPayrollExpense),
-      diffPay: big(r.payrollDiff),
-      withheld: big(r.withheldTax),
-      glWithheld: big(r.glPitWithheld),
-      diffTax: big(r.pitWithheldDiff),
+      resident: r.isOpening ? '' : big(r.residentWithheld),
+      nonResident: r.isOpening ? '' : big(r.nonResidentWithheld),
+      totalWithheld: r.isOpening ? '' : big(r.totalTaxWithheld),
+      glWithheld: r.isOpening ? '' : big(r.glWithheld3335),
+      diffWithheld: r.isOpening ? '' : big(r.diffWithheld),
+      glPaid: r.isOpening ? '' : big(r.glPaid3335),
+      remaining: big(r.closingRemainingPayable),
       note: r.auditNote,
     })
-    moneyCells(row, ['income', 'payroll', 'diffPay', 'withheld', 'glWithheld', 'diffTax'])
+    moneyCells(row, ['resident', 'nonResident', 'totalWithheld', 'glWithheld', 'diffWithheld', 'glPaid', 'remaining'])
     row.height = 22
   }
   const t2 = ws2.addRow({
-    period: 'TỔNG CỘNG CẢ NĂM',
-    emp: '',
-    income: big(res.pitSummary.totalTaxableIncome),
-    payroll: big(res.pitSummary.totalGlPayroll),
-    diffPay: big(res.pitSummary.totalPayrollDiff),
-    withheld: big(res.pitSummary.totalWithheldTax),
+    period: 'TỔNG CỘNG (TC)',
+    resident: big(res.pitSummary.totalResidentWithheld),
+    nonResident: big(res.pitSummary.totalNonResidentWithheld),
+    totalWithheld: big(res.pitSummary.totalWithheldTax),
     glWithheld: big(res.pitSummary.totalGlPitWithheld),
-    diffTax: big(res.pitSummary.totalPitWithheldDiff),
+    diffWithheld: big(res.pitSummary.totalPitWithheldDiff),
+    glPaid: big(res.pitSummary.totalGlPaid3335),
+    remaining: big(res.pitSummary.closingRemainingPayable),
     note: res.pitSummary.hasDiscrepancy ? 'Có chênh lệch đối chiếu' : 'Khớp đúng hoàn toàn',
   })
   t2.font = { bold: true, size: 11 }
   t2.height = 24
-  moneyCells(t2, ['income', 'payroll', 'diffPay', 'withheld', 'glWithheld', 'diffTax'])
+  moneyCells(t2, ['resident', 'nonResident', 'totalWithheld', 'glWithheld', 'diffWithheld', 'glPaid', 'remaining'])
   styleHeader(ws2)
   ws2.autoFilter = { from: { row: 1, column: 1 }, to: { row: 1, column: ws2.columns.length } }
 

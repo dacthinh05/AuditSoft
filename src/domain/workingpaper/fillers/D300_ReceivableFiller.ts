@@ -34,46 +34,96 @@ export function fillReceivableWorkingPaper(
     // 2. Sheet D 310 — Lead schedule
     const d310Sheet = editor.hasSheet('D 310') ? 'D 310' : editor.hasSheet('D310') ? 'D310' : null
     if (d310Sheet) {
-      const acc131 = ctx.cdfsAccounts.get('131') || ctx.cdfsAccounts.get('1311') || ctx.cdfsAccounts.get('1312')
-      if (acc131) {
-        const sum131NoCK = Array.from(ctx.cdfsAccounts.values())
-          .filter((a) => a.matk.startsWith('131'))
-          .reduce((s, a) => s + (a.nock || 0), 0)
-        const sum131CoCK = Array.from(ctx.cdfsAccounts.values())
-          .filter((a) => a.matk.startsWith('131'))
-          .reduce((s, a) => s + (a.cock || 0), 0)
-        const sum131NoDK = Array.from(ctx.cdfsAccounts.values())
-          .filter((a) => a.matk.startsWith('131'))
-          .reduce((s, a) => s + (a.sdndk || 0), 0)
-        const sum131CoDK = Array.from(ctx.cdfsAccounts.values())
-          .filter((a) => a.matk.startsWith('131'))
-          .reduce((s, a) => s + (a.sdcdk || 0), 0)
+      // 1. Tính số dư TK 131 (Phải thu KH & Người mua trả tiền trước)
+      const acc131List = Array.from(ctx.cdfsAccounts.values()).filter((a) => a.matk.startsWith('131'))
+      let sum131NoCK = 0
+      let sum131CoCK = 0
+      let sum131NoDK = 0
+      let sum131CoDK = 0
 
-        // Tính AJE điều chỉnh Nợ/Có 131 nếu có
-        let adjNo131 = 0
-        let netAdj131 = 0
-        let netAdj2293 = 0
-        if (ctx.adjustingEntries && ctx.adjustingEntries.length > 0) {
-          for (const aje of ctx.adjustingEntries) {
-            if (aje.tkNo.startsWith('131')) netAdj131 += aje.soTien
-            if (aje.tkCo.startsWith('131')) netAdj131 -= aje.soTien
-            if (aje.tkNo.startsWith('2293') || aje.tkNo.startsWith('139')) netAdj2293 -= aje.soTien
-            if (aje.tkCo.startsWith('2293') || aje.tkCo.startsWith('139')) netAdj2293 += aje.soTien
-          }
+      if (acc131List.length > 0) {
+        const children131 = acc131List.filter((a) => a.matk.length > 3)
+        const targets131 = children131.length > 0 ? children131 : acc131List
+        sum131NoCK = targets131.reduce((s, a) => s + (a.nock || 0), 0)
+        sum131CoCK = targets131.reduce((s, a) => s + (a.cock || 0), 0)
+        sum131NoDK = targets131.reduce((s, a) => s + (a.sdndk || 0), 0)
+        sum131CoDK = targets131.reduce((s, a) => s + (a.sdcdk || 0), 0)
+      } else {
+        // Fallback từ NKC nếu không có sheet CDFS
+        let totalNo = 0
+        let totalCo = 0
+        for (const t of ctx.nkcTransactions) {
+          if (t.debit.startsWith('131')) totalNo += t.amount
+          if (t.credit.startsWith('131')) totalCo += t.amount
         }
-
-        editor.setLeadRowValues(d310Sheet, 12, { ck: sum131NoCK, dk: sum131NoDK, adj: netAdj131, colAdj: 5 })
-        editor.updateCell(d310Sheet, 'F12', { number: sum131NoCK + netAdj131 })
-
-        editor.setLeadRowValues(d310Sheet, 14, { ck: sum131CoCK, dk: sum131CoDK })
-
-        const acc2293 = ctx.cdfsAccounts.get('2293') || ctx.cdfsAccounts.get('139')
-        const ck2293 = acc2293?.cock ?? 0
-        const dk2293 = acc2293?.sdcdk ?? 0
-        editor.setLeadRowValues(d310Sheet, 16, { ck: ck2293, dk: dk2293, adj: netAdj2293, colAdj: 5 })
-        editor.updateCell(d310Sheet, 'F16', { number: ck2293 + netAdj2293 })
-        itemsCount += 6
+        if (totalNo >= totalCo) {
+          sum131NoCK = totalNo - totalCo
+        } else {
+          sum131CoCK = totalCo - totalNo
+        }
+        sum131NoDK = sum131NoCK
+        sum131CoDK = sum131CoCK
       }
+
+      // 2. Tính AJE điều chỉnh Nợ/Có 131 nếu có
+      let netAdj131 = 0
+      let netAdj2293 = 0
+      if (ctx.adjustingEntries && ctx.adjustingEntries.length > 0) {
+        for (const aje of ctx.adjustingEntries) {
+          if (aje.tkNo.startsWith('131')) netAdj131 += aje.soTien
+          if (aje.tkCo.startsWith('131')) netAdj131 -= aje.soTien
+          if (aje.tkNo.startsWith('2293') || aje.tkNo.startsWith('139')) netAdj2293 -= aje.soTien
+          if (aje.tkCo.startsWith('2293') || aje.tkCo.startsWith('139')) netAdj2293 += aje.soTien
+        }
+      }
+
+      // Điền Dòng 12: Phải thu khách hàng (Dư Nợ 131)
+      const dk131No = sum131NoDK || sum131NoCK
+      editor.setLeadRowValues(d310Sheet, 12, { ck: sum131NoCK, dk: dk131No, adj: netAdj131, colAdj: 5 })
+      editor.updateCell(d310Sheet, 'F12', { number: sum131NoCK + netAdj131 })
+
+      // Điền Dòng 14: Người mua trả tiền trước (Dư Có 131)
+      const dk131Co = sum131CoDK || sum131CoCK
+      editor.setLeadRowValues(d310Sheet, 14, { ck: sum131CoCK, dk: dk131Co })
+      editor.updateCell(d310Sheet, 'F14', { number: sum131CoCK })
+      editor.updateCell(d310Sheet, 'E14', { number: 0 })
+
+      // Điền Dòng 16: Dự phòng nợ phải thu khó đòi (TK 2293 / 139)
+      const acc2293List = Array.from(ctx.cdfsAccounts.values()).filter((a) => a.matk.startsWith('2293') || a.matk.startsWith('139'))
+      const ck2293 = acc2293List.reduce((s, a) => s + (a.cock || a.nock || 0), 0)
+      const dk2293 = acc2293List.reduce((s, a) => s + (a.sdcdk || a.sdndk || 0), 0) || ck2293
+      editor.setLeadRowValues(d310Sheet, 16, { ck: ck2293, dk: dk2293, adj: netAdj2293, colAdj: 5 })
+      editor.updateCell(d310Sheet, 'F16', { number: ck2293 + netAdj2293 })
+      editor.updateCell(d310Sheet, 'E16', { number: netAdj2293 })
+
+      // Điền Dòng 20: Doanh thu thuần (TK 511 - 521) để tính vòng quay nợ phải thu (Dòng 21 & 22)
+      let revCK = 0
+      const acc511List = Array.from(ctx.cdfsAccounts.values()).filter((a) => a.matk.startsWith('511'))
+      const acc521List = Array.from(ctx.cdfsAccounts.values()).filter((a) => a.matk.startsWith('521'))
+      if (acc511List.length > 0) {
+        const children511 = acc511List.filter((a) => a.matk.length > 3)
+        const targets511 = children511.length > 0 ? children511 : acc511List
+        const sum511Psco = targets511.reduce((s, a) => s + (a.psco || 0), 0)
+        const children521 = acc521List.filter((a) => a.matk.length > 3)
+        const targets521 = children521.length > 0 ? children521 : acc521List
+        const sum521Psno = targets521.reduce((s, a) => s + (a.psno || 0), 0)
+        revCK = Math.max(0, sum511Psco - sum521Psno)
+      } else {
+        let psco511 = 0
+        let psno521 = 0
+        for (const t of ctx.nkcTransactions) {
+          if (t.credit.startsWith('511')) psco511 += t.amount
+          if (t.debit.startsWith('521')) psno521 += t.amount
+        }
+        revCK = Math.max(0, psco511 - psno521)
+      }
+      const revDK = revCK
+
+      editor.updateCell(d310Sheet, 'D20', { number: revCK })
+      editor.updateCell(d310Sheet, 'F20', { number: revCK })
+      editor.updateCell(d310Sheet, 'G20', { number: revDK })
+
+      itemsCount += 12
       updatedSheets.push(d310Sheet)
     }
 
@@ -245,28 +295,80 @@ export function fillReceivableWorkingPaper(
   // 2. D 310 Lead schedule
   const wsD310 = findWorksheetFuzzy(wb, ['D 310', 'D310'])
   if (wsD310) {
-    const acc131 = ctx.cdfsAccounts.get('131') || ctx.cdfsAccounts.get('1311') || ctx.cdfsAccounts.get('1312')
-    if (acc131) {
-      const sum131NoCK = Array.from(ctx.cdfsAccounts.values())
-        .filter((a) => a.matk.startsWith('131'))
-        .reduce((s, a) => s + (a.nock || 0), 0)
-      const sum131CoCK = Array.from(ctx.cdfsAccounts.values())
-        .filter((a) => a.matk.startsWith('131'))
-        .reduce((s, a) => s + (a.cock || 0), 0)
-      const sum131NoDK = Array.from(ctx.cdfsAccounts.values())
-        .filter((a) => a.matk.startsWith('131'))
-        .reduce((s, a) => s + (a.sdndk || 0), 0)
-      const sum131CoDK = Array.from(ctx.cdfsAccounts.values())
-        .filter((a) => a.matk.startsWith('131'))
-        .reduce((s, a) => s + (a.sdcdk || 0), 0)
+    const acc131List = Array.from(ctx.cdfsAccounts.values()).filter((a) => a.matk.startsWith('131'))
+    let sum131NoCK = 0
+    let sum131CoCK = 0
+    let sum131NoDK = 0
+    let sum131CoDK = 0
 
-      setLeadRowValues(wsD310, 12, { ck: sum131NoCK, dk: sum131NoDK })
-      setLeadRowValues(wsD310, 14, { ck: sum131CoCK, dk: sum131CoDK })
-
-      const acc2293 = ctx.cdfsAccounts.get('2293') || ctx.cdfsAccounts.get('139')
-      setLeadRowValues(wsD310, 16, { ck: acc2293?.cock ?? 0, dk: acc2293?.sdcdk ?? 0 })
-      itemsCount += 3
+    if (acc131List.length > 0) {
+      const children131 = acc131List.filter((a) => a.matk.length > 3)
+      const targets131 = children131.length > 0 ? children131 : acc131List
+      sum131NoCK = targets131.reduce((s, a) => s + (a.nock || 0), 0)
+      sum131CoCK = targets131.reduce((s, a) => s + (a.cock || 0), 0)
+      sum131NoDK = targets131.reduce((s, a) => s + (a.sdndk || 0), 0)
+      sum131CoDK = targets131.reduce((s, a) => s + (a.sdcdk || 0), 0)
+    } else {
+      let totalNo = 0
+      let totalCo = 0
+      for (const t of ctx.nkcTransactions) {
+        if (t.debit.startsWith('131')) totalNo += t.amount
+        if (t.credit.startsWith('131')) totalCo += t.amount
+      }
+      if (totalNo >= totalCo) {
+        sum131NoCK = totalNo - totalCo
+      } else {
+        sum131CoCK = totalCo - totalNo
+      }
+      sum131NoDK = sum131NoCK
+      sum131CoDK = sum131CoCK
     }
+
+    const dk131No = sum131NoDK || sum131NoCK
+    setLeadRowValues(wsD310, 12, { ck: sum131NoCK, dk: dk131No })
+    const r12 = wsD310.getRow(12)
+    r12.getCell(6).value = sum131NoCK // F12
+
+    const dk131Co = sum131CoDK || sum131CoCK
+    setLeadRowValues(wsD310, 14, { ck: sum131CoCK, dk: dk131Co })
+    const r14 = wsD310.getRow(14)
+    r14.getCell(6).value = sum131CoCK // F14
+    r14.getCell(5).value = 0          // E14
+
+    const acc2293List = Array.from(ctx.cdfsAccounts.values()).filter((a) => a.matk.startsWith('2293') || a.matk.startsWith('139'))
+    const ck2293 = acc2293List.reduce((s, a) => s + (a.cock || a.nock || 0), 0)
+    const dk2293 = acc2293List.reduce((s, a) => s + (a.sdcdk || a.sdndk || 0), 0) || ck2293
+    setLeadRowValues(wsD310, 16, { ck: ck2293, dk: dk2293 })
+    const r16 = wsD310.getRow(16)
+    r16.getCell(6).value = ck2293     // F16
+
+    // Doanh thu thuần (Row 20)
+    let revCK = 0
+    const acc511List = Array.from(ctx.cdfsAccounts.values()).filter((a) => a.matk.startsWith('511'))
+    const acc521List = Array.from(ctx.cdfsAccounts.values()).filter((a) => a.matk.startsWith('521'))
+    if (acc511List.length > 0) {
+      const children511 = acc511List.filter((a) => a.matk.length > 3)
+      const targets511 = children511.length > 0 ? children511 : acc511List
+      const sum511Psco = targets511.reduce((s, a) => s + (a.psco || 0), 0)
+      const children521 = acc521List.filter((a) => a.matk.length > 3)
+      const targets521 = children521.length > 0 ? children521 : acc521List
+      const sum521Psno = targets521.reduce((s, a) => s + (a.psno || 0), 0)
+      revCK = Math.max(0, sum511Psco - sum521Psno)
+    } else {
+      let psco511 = 0
+      let psno521 = 0
+      for (const t of ctx.nkcTransactions) {
+        if (t.credit.startsWith('511')) psco511 += t.amount
+        if (t.debit.startsWith('521')) psno521 += t.amount
+      }
+      revCK = Math.max(0, psco511 - psno521)
+    }
+    const r20 = wsD310.getRow(20)
+    r20.getCell(4).value = revCK // D20
+    r20.getCell(6).value = revCK // F20
+    r20.getCell(7).value = revCK // G20
+
+    itemsCount += 12
     updatedSheets.push(wsD310.name)
   }
 

@@ -179,16 +179,16 @@ export function TaxAnalyticsTab({
               <thead>
                 {/* Tầng 1: Phân nhóm 2 Khối lớn */}
                 <tr style={{ background: '#f8fafc', color: '#334155', textAlign: 'center', borderBottom: '1px solid #cbd5e1' }}>
-                  <th rowSpan={2} style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 4, padding: '10px 12px', textAlign: 'left', fontWeight: 700, borderRight: '1px solid #e2e8f0', width: '110px' }}>
+                  <th rowSpan={2} style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 4, padding: '10px 12px', textAlign: 'left', fontWeight: 700, borderRight: '1px solid #e2e8f0', minWidth: '140px', width: '140px', whiteSpace: 'nowrap' }}>
                     Kỳ Kê Khai
                   </th>
-                  <th colSpan={7} style={{ background: '#f0fdfa', color: '#0f766e', fontWeight: 800, padding: '8px 12px', borderRight: '2px solid #99f6e4', letterSpacing: '0.04em' }}>
+                  <th colSpan={7} style={{ background: '#f0fdfa', color: '#0f766e', fontWeight: 800, padding: '8px 12px', borderRight: '2px solid #99f6e4', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
                     KÊ KHAI THUẾ GTGT (TỜ KHAI 01/GTGT)
                   </th>
-                  <th colSpan={5} style={{ background: '#eff6ff', color: '#1d4ed8', fontWeight: 800, padding: '8px 12px', borderRight: '2px solid #bfdbfe', letterSpacing: '0.04em' }}>
+                  <th colSpan={5} style={{ background: '#eff6ff', color: '#1d4ed8', fontWeight: 800, padding: '8px 12px', borderRight: '2px solid #bfdbfe', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
                     SỔ KẾ TOÁN (SỔ NHẬT KÝ CHUNG)
                   </th>
-                  <th rowSpan={2} style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 700, minWidth: '220px' }}>
+                  <th rowSpan={2} style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 700, minWidth: '240px', whiteSpace: 'nowrap' }}>
                     Ghi Chú Kiểm Toán VSA 520
                   </th>
                 </tr>
@@ -196,20 +196,20 @@ export function TaxAnalyticsTab({
                 {/* Tầng 2: Các cột chi tiết */}
                 <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'right', borderBottom: '1px solid #cbd5e1', fontSize: '12px' }}>
                   {/* Khối Thuế */}
-                  <th style={{ padding: '8px 10px', fontWeight: 600 }}>VAT Đầu Vào [25]</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 600 }}>VAT Đầu Ra [35]</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 600 }}>Đ/c Giảm [37]</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 600 }}>Đ/c Tăng [38]</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 600 }}>Xin Hoàn [42]</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 600 }}>Phải Nộp [40]</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 700, color: '#0f766e', background: '#f0fdfa', borderRight: '2px solid #99f6e4' }}>Số Dư [43]</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, whiteSpace: 'nowrap' }}>VAT Đầu Vào [25]</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, whiteSpace: 'nowrap' }}>VAT Đầu Ra [35]</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, whiteSpace: 'nowrap' }}>Đ/c Tăng [38]</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, whiteSpace: 'nowrap' }}>Đ/c Giảm [37]</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, whiteSpace: 'nowrap' }}>Xin Hoàn [42]</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, whiteSpace: 'nowrap' }}>Phải Nộp [40]</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 700, color: '#0f766e', background: '#f0fdfa', borderRight: '2px solid #99f6e4', whiteSpace: 'nowrap' }}>Số Dư [43]</th>
 
                   {/* Khối Sổ Sách */}
-                  <th style={{ padding: '8px 10px', fontWeight: 600, background: '#eff6ff', color: '#1e40af' }}>PS Nợ 133*</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 600 }}>CL Đầu Vào</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 600, background: '#eff6ff', color: '#1e40af' }}>PS Có 33311</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 600 }}>CL Đầu Ra</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 600, borderRight: '2px solid #bfdbfe' }}>Đã Nộp (Nợ 33311)</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, background: '#eff6ff', color: '#1e40af', whiteSpace: 'nowrap' }}>PS Nợ 133*</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, whiteSpace: 'nowrap' }}>CL Đầu Vào</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, background: '#eff6ff', color: '#1e40af', whiteSpace: 'nowrap' }}>PS Có 33311</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, whiteSpace: 'nowrap' }}>CL Đầu Ra</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, borderRight: '2px solid #bfdbfe', whiteSpace: 'nowrap' }}>Đã Nộp (Nợ 33311)</th>
                 </tr>
               </thead>
 
@@ -222,42 +222,55 @@ export function TaxAnalyticsTab({
                   return (
                     <tr key={r.periodKey} style={{ borderBottom: '1px solid #f1f5f9', textAlign: 'right', background: hasRowDiff ? '#fffbfb' : '#ffffff' }}>
                       {/* Kỳ Khai */}
-                      <td style={{ position: 'sticky', left: 0, background: '#ffffff', zIndex: 2, padding: '9px 12px', textAlign: 'left', borderRight: '1px solid #e2e8f0', boxShadow: '2px 0 5px rgba(0, 0, 0, 0.02)' }}>
-                        <b style={{ color: '#0f172a', fontSize: '13.5px' }}>{r.periodLabel}</b>
-                        <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>{r.declarationType}</div>
+                      <td style={{ position: 'sticky', left: 0, background: '#ffffff', zIndex: 2, padding: '8px 12px', textAlign: 'left', borderRight: '1px solid #e2e8f0', boxShadow: '2px 0 5px rgba(0, 0, 0, 0.02)', whiteSpace: 'nowrap' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <b style={{ color: '#0f172a', fontSize: '13px' }}>{r.periodLabel}</b>
+                          <span style={{ fontSize: '10px', color: '#0369a1', background: '#e0f2fe', padding: '1px 5px', borderRadius: '4px', fontWeight: 600 }}>{r.declarationType}</span>
+                        </div>
                       </td>
 
                       {/* Khối Thuế */}
-                      <td style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500 }}>{fmtMoneyCell(r.taxInputVat25)}</td>
-                      <td style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500 }}>{fmtMoneyCell(r.taxOutputVat35)}</td>
-                      <td style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500 }}>{fmtMoneyCell(r.adjustDecrease37)}</td>
-                      <td style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500 }}>{fmtMoneyCell(r.adjustIncrease38)}</td>
-                      <td style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500 }}>{fmtMoneyCell(r.refund42)}</td>
-                      <td style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500 }}>{fmtMoneyCell(r.taxPayable40)}</td>
-                      <td style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 700, background: '#f0fdfa', color: '#0f766e', borderRight: '2px solid #99f6e4' }}>
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500, whiteSpace: 'nowrap' }}>{fmtMoneyCell(r.taxInputVat25)}</td>
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500, whiteSpace: 'nowrap' }}>{fmtMoneyCell(r.taxOutputVat35)}</td>
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500, whiteSpace: 'nowrap' }}>{fmtMoneyCell(r.adjustIncrease38)}</td>
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500, whiteSpace: 'nowrap' }}>{fmtMoneyCell(r.adjustDecrease37)}</td>
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500, whiteSpace: 'nowrap' }}>{fmtMoneyCell(r.refund42)}</td>
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500, whiteSpace: 'nowrap' }}>{fmtMoneyCell(r.taxPayable40)}</td>
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 700, background: '#f0fdfa', color: '#0f766e', borderRight: '2px solid #99f6e4', whiteSpace: 'nowrap' }}>
                         {fmtMoneyCell(r.closingBalance43)}
                       </td>
 
                       {/* Khối Sổ Sách */}
-                      <td style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', background: '#eff6ff', color: '#1e40af', fontWeight: 600 }}>
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', background: '#eff6ff', color: '#1e40af', fontWeight: 600, whiteSpace: 'nowrap' }}>
                         {hasGlData ? fmtBigInt(r.glInputVat133) : <span style={{ color: '#94a3b8' }}>-</span>}
                       </td>
-                      <td style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 700, color: inDiff !== 0n ? '#b91c1c' : '#059669' }}>
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 700, color: inDiff !== 0n ? '#b91c1c' : '#059669', whiteSpace: 'nowrap' }}>
                         {inDiff !== 0n ? `${inDiff > 0n ? '+' : ''}${fmtBigInt(inDiff)}` : '-'}
                       </td>
-                      <td style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', background: '#eff6ff', color: '#1e40af', fontWeight: 600 }}>
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', background: '#eff6ff', color: '#1e40af', fontWeight: 600, whiteSpace: 'nowrap' }}>
                         {hasGlData ? fmtBigInt(r.glOutputVat33311) : <span style={{ color: '#94a3b8' }}>-</span>}
                       </td>
-                      <td style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 700, color: outDiff !== 0n ? '#b91c1c' : '#059669' }}>
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 700, color: outDiff !== 0n ? '#b91c1c' : '#059669', whiteSpace: 'nowrap' }}>
                         {outDiff !== 0n ? `${outDiff > 0n ? '+' : ''}${fmtBigInt(outDiff)}` : '-'}
                       </td>
-                      <td style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', borderRight: '2px solid #bfdbfe' }}>
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', borderRight: '2px solid #bfdbfe', whiteSpace: 'nowrap' }}>
                         {hasGlData ? fmtMoneyCell(r.glPaidVat33311) : <span style={{ color: '#94a3b8' }}>-</span>}
                       </td>
 
                       {/* Ghi chú */}
-                      <td style={{ padding: '9px 14px', textAlign: 'left', fontSize: '12px', color: hasRowDiff ? '#b45309' : '#475569', lineHeight: 1.4 }}>
-                        {r.auditNote}
+                      <td style={{ padding: '8px 12px', textAlign: 'left', fontSize: '11.5px', color: hasRowDiff ? '#b45309' : '#475569', lineHeight: 1.45 }}>
+                        {r.auditNote ? (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                            {r.auditNote.split('; ').map((note, nIdx) => (
+                              <div key={nIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '4px' }}>
+                                <span style={{ color: '#d97706', fontSize: '10px', marginTop: '2px' }}>•</span>
+                                <span>{note}</span>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <span style={{ color: '#059669', fontWeight: 500 }}>✓ Khớp đúng</span>
+                        )}
                       </td>
                     </tr>
                   )
@@ -265,31 +278,33 @@ export function TaxAnalyticsTab({
 
                 {/* Dòng TỔNG CỘNG CẢ NĂM */}
                 <tr style={{ background: '#f8fafc', fontWeight: 700, textAlign: 'right', borderTop: '2px solid #0f172a', color: '#0f172a' }}>
-                  <td style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 2, padding: '10px 12px', textAlign: 'left', borderRight: '1px solid #e2e8f0', letterSpacing: '0.04em' }}>
+                  <td style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 2, padding: '10px 12px', textAlign: 'left', borderRight: '1px solid #e2e8f0', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
                     CỘNG CẢ NĂM
                   </td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtMoneyCell(reconResult.vatSummary.totalTaxInputVat)}</td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtMoneyCell(reconResult.vatSummary.totalTaxOutputVat)}</td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtMoneyCell(reconResult.vatSummary.totalAdjustDecrease37)}</td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtMoneyCell(reconResult.vatSummary.totalAdjustIncrease38)}</td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtMoneyCell(reconResult.vatSummary.totalRefund42)}</td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtMoneyCell(reconResult.vatSummary.totalTaxPayable40)}</td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 800, background: '#f0fdfa', color: '#0f766e', borderRight: '2px solid #99f6e4' }}>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', whiteSpace: 'nowrap' }}>{fmtMoneyCell(reconResult.vatSummary.totalTaxInputVat)}</td>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', whiteSpace: 'nowrap' }}>{fmtMoneyCell(reconResult.vatSummary.totalTaxOutputVat)}</td>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', whiteSpace: 'nowrap' }}>{fmtMoneyCell(reconResult.vatSummary.totalAdjustIncrease38)}</td>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', whiteSpace: 'nowrap' }}>{fmtMoneyCell(reconResult.vatSummary.totalAdjustDecrease37)}</td>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', whiteSpace: 'nowrap' }}>{fmtMoneyCell(reconResult.vatSummary.totalRefund42)}</td>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', whiteSpace: 'nowrap' }}>{fmtMoneyCell(reconResult.vatSummary.totalTaxPayable40)}</td>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 800, background: '#f0fdfa', color: '#0f766e', borderRight: '2px solid #99f6e4', whiteSpace: 'nowrap' }}>
                     {reconResult.vatRows.length > 0 ? fmtMoneyCell(reconResult.vatRows[reconResult.vatRows.length - 1]!.closingBalance43) : '-'}
                   </td>
 
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', background: '#eff6ff', color: '#1e40af' }}>{hasGlData ? fmtBigInt(reconResult.vatSummary.totalGlInputVat) : '-'}</td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', color: reconResult.vatSummary.totalInputVatDiff !== 0n ? '#b91c1c' : '#059669' }}>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', background: '#eff6ff', color: '#1e40af', whiteSpace: 'nowrap' }}>{hasGlData ? fmtBigInt(reconResult.vatSummary.totalGlInputVat) : '-'}</td>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', color: reconResult.vatSummary.totalInputVatDiff !== 0n ? '#b91c1c' : '#059669', whiteSpace: 'nowrap' }}>
                     {reconResult.vatSummary.totalInputVatDiff !== 0n ? fmtBigInt(reconResult.vatSummary.totalInputVatDiff) : '-'}
                   </td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', background: '#eff6ff', color: '#1e40af' }}>{hasGlData ? fmtBigInt(reconResult.vatSummary.totalGlOutputVat) : '-'}</td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', color: reconResult.vatSummary.totalOutputVatDiff !== 0n ? '#b91c1c' : '#059669' }}>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', background: '#eff6ff', color: '#1e40af', whiteSpace: 'nowrap' }}>{hasGlData ? fmtBigInt(reconResult.vatSummary.totalGlOutputVat) : '-'}</td>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', color: reconResult.vatSummary.totalOutputVatDiff !== 0n ? '#b91c1c' : '#059669', whiteSpace: 'nowrap' }}>
                     {reconResult.vatSummary.totalOutputVatDiff !== 0n ? fmtBigInt(reconResult.vatSummary.totalOutputVatDiff) : '-'}
                   </td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', borderRight: '2px solid #bfdbfe' }}>{hasGlData ? fmtMoneyCell(reconResult.vatSummary.totalGlPaidVat33311) : '-'}</td>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', borderRight: '2px solid #bfdbfe', whiteSpace: 'nowrap' }}>{hasGlData ? fmtMoneyCell(reconResult.vatSummary.totalGlPaidVat33311) : '-'}</td>
 
-                  <td style={{ padding: '10px 14px', textAlign: 'left', fontSize: '12.5px' }}>
-                    {reconResult.vatSummary.hasDiscrepancy ? 'Có chênh lệch giữa Tờ khai và Sổ kế toán' : 'Khớp đúng hoàn toàn'}
+                  <td style={{ padding: '10px 14px', textAlign: 'left', fontSize: '12px', whiteSpace: 'nowrap' }}>
+                    <span style={{ fontWeight: 600, color: reconResult.vatSummary.hasDiscrepancy ? '#b91c1c' : '#047857' }}>
+                      {reconResult.vatSummary.hasDiscrepancy ? '⚠️ Có chênh lệch Tờ khai & Sổ' : '✓ Khớp đúng hoàn toàn'}
+                    </span>
                   </td>
                 </tr>
               </tbody>
@@ -298,7 +313,7 @@ export function TaxAnalyticsTab({
         </div>
       )}
 
-      {/* Bảng 2: Thống Kê Thuế TNCN & Đối Chiếu Lương */}
+      {/* Bảng 2: Đối Chiếu Thuế TNCN Theo Mẫu E381 */}
       {reconResult && reconResult.pitRows.length > 0 && (
         <div
           style={{
@@ -310,101 +325,151 @@ export function TaxAnalyticsTab({
           }}
         >
           <div style={{ fontSize: '14.5px', fontWeight: 700, color: '#0f172a', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>Bảng Thống Kê Thuế TNCN & Đối Chiếu Chi Phí Tiền Lương (TK 334)</span>
-            <span
-              style={{
-                fontSize: '11px',
-                padding: '3px 8px',
-                borderRadius: '4px',
-                fontWeight: 600,
-                background: reconResult.pitSummary.hasDiscrepancy ? '#fef2f2' : '#ecfdf5',
-                color: reconResult.pitSummary.hasDiscrepancy ? '#b91c1c' : '#047857',
-                border: `1px solid ${reconResult.pitSummary.hasDiscrepancy ? '#fecaca' : '#a7f3d0'}`,
-              }}
-            >
-              {reconResult.pitSummary.hasDiscrepancy ? 'Có chênh lệch chi phí lương' : 'Khớp chi phí lương'}
+            <div>
+              <span>B.2. Phát Sinh: Đối Chiếu Kê Khai Thuế TNCN &amp; Sổ Sách (Mẫu E381)</span>
+              <div style={{ fontSize: '11.5px', color: '#64748b', marginTop: '2px', fontWeight: 400 }}>
+                Đối chiếu số liệu thuế TNCN khấu trừ trên Tờ khai 05/KK-TNCN trực tiếp với Sổ kế toán TK 3335
+              </div>
+            </div>
+            <span style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <button
+                type="button"
+                onClick={() => {
+                  if (window.auditsoft?.exportTaxReport && reconResult) {
+                    void window.auditsoft.exportTaxReport(reconResult).then((res) => {
+                      if (res.ok && res.outPath) window.auditsoft.openPath(res.outPath)
+                    })
+                  }
+                }}
+                style={{ fontSize: '12px', fontWeight: 700, padding: '5px 12px', borderRadius: '6px', border: '1px solid #7c3aed', background: '#7c3aed', color: '#fff', cursor: 'pointer' }}
+              >
+                Xuất Excel Mẫu E381
+              </button>
+              <span
+                style={{
+                  fontSize: '11px',
+                  padding: '3px 8px',
+                  borderRadius: '4px',
+                  fontWeight: 600,
+                  background: reconResult.pitSummary.hasDiscrepancy ? '#fef2f2' : '#ecfdf5',
+                  color: reconResult.pitSummary.hasDiscrepancy ? '#b91c1c' : '#047857',
+                  border: `1px solid ${reconResult.pitSummary.hasDiscrepancy ? '#fecaca' : '#a7f3d0'}`,
+                }}
+              >
+                {reconResult.pitSummary.hasDiscrepancy ? 'Có chênh lệch thuế TNCN' : 'Khớp hoàn toàn thuế TNCN'}
+              </span>
             </span>
           </div>
 
-          <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+          <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: '8px', maxHeight: '520px' }}>
             <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, fontSize: '13px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
               <thead>
-                <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'right', borderBottom: '1px solid #e2e8f0', fontSize: '12px' }}>
-                  <th style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 3, padding: '10px 12px', textAlign: 'left', fontWeight: 700, borderRight: '1px solid #e2e8f0' }}>Kỳ Khai Thuế</th>
-                  <th style={{ padding: '10px 10px', textAlign: 'center', fontWeight: 700 }}>Số LĐ [16]</th>
-                  <th style={{ padding: '10px 10px', fontWeight: 700, background: '#f0fdfa', color: '#0f766e' }}>Tổng TNCT [21]</th>
-                  <th style={{ padding: '10px 10px', background: '#eff6ff', color: '#1d4ed8', fontWeight: 700 }}>Quỹ Lương Sổ (Có 334)</th>
-                  <th style={{ padding: '10px 10px', fontWeight: 700 }}>CL Quỹ Lương</th>
-                  <th style={{ padding: '10px 10px', fontWeight: 700, background: '#fdf4ff', color: '#7c3aed' }}>Thuế Đã Khấu Trừ [29]</th>
-                  <th style={{ padding: '10px 10px', background: '#eff6ff', color: '#1d4ed8', fontWeight: 700 }}>Thuế Khấu Trừ Sổ (Có 3335)</th>
-                  <th style={{ padding: '10px 10px', fontWeight: 700 }}>CL Thuế TNCN</th>
-                  <th style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 700, minWidth: '220px' }}>Ghi Chú Kiểm Toán</th>
+                {/* Tầng 1: Phân nhóm 2 Khối */}
+                <tr style={{ background: '#f8fafc', color: '#334155', textAlign: 'center', borderBottom: '1px solid #cbd5e1' }}>
+                  <th rowSpan={2} style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 4, padding: '10px 12px', textAlign: 'left', fontWeight: 700, borderRight: '1px solid #e2e8f0', minWidth: '135px', width: '135px', whiteSpace: 'nowrap' }}>
+                    T (Tháng/Kỳ)
+                  </th>
+                  <th colSpan={3} style={{ background: '#fdf4ff', color: '#7c3aed', fontWeight: 800, padding: '8px 12px', borderRight: '2px solid #e9d5ff', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
+                    TỜ KHAI (05/KK-TNCN)
+                  </th>
+                  <th colSpan={1} style={{ background: '#eff6ff', color: '#1d4ed8', fontWeight: 800, padding: '8px 12px', borderRight: '2px solid #bfdbfe', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
+                    SỔ SÁCH
+                  </th>
+                  <th rowSpan={2} style={{ padding: '8px 10px', fontWeight: 700, borderRight: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                    Chênh Lệch (1)-(2)
+                  </th>
+                  <th rowSpan={2} style={{ padding: '8px 10px', fontWeight: 700, background: '#eff6ff', color: '#1e40af', borderRight: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                    Đã Nộp (Nợ 3335)
+                  </th>
+                  <th rowSpan={2} style={{ padding: '8px 10px', fontWeight: 800, color: '#0f766e', background: '#f0fdfa', borderRight: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                    Còn Phải Nộp
+                  </th>
+                  <th rowSpan={2} style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 700, minWidth: '220px' }}>
+                    Ghi Chú Kiểm Toán
+                  </th>
+                </tr>
+
+                {/* Tầng 2: Các cột chi tiết */}
+                <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'right', borderBottom: '1px solid #cbd5e1', fontSize: '12px' }}>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, whiteSpace: 'nowrap' }}>Cá nhân cư trú</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, whiteSpace: 'nowrap' }}>Cá nhân không cư trú</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 700, background: '#fdf4ff', color: '#7c3aed', borderRight: '2px solid #e9d5ff', whiteSpace: 'nowrap' }}>Tổng khấu trừ (1)</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 600, background: '#eff6ff', color: '#1e40af', borderRight: '2px solid #bfdbfe', whiteSpace: 'nowrap' }}>Thuế khấu trừ (2) [Có 3335]</th>
                 </tr>
               </thead>
               <tbody style={{ color: '#1e293b' }}>
                 {reconResult.pitRows.map((p) => {
                   const isDiff = p.status === 'DISCREPANCY'
                   return (
-                    <tr key={p.periodKey} style={{ borderBottom: '1px solid #f1f5f9', textAlign: 'right' }}>
-                      <td style={{ position: 'sticky', left: 0, background: '#ffffff', zIndex: 2, padding: '9px 12px', textAlign: 'left', borderRight: '1px solid #e2e8f0', boxShadow: '2px 0 5px rgba(0, 0, 0, 0.02)' }}>
-                        <b style={{ color: '#0f172a', fontSize: '13.5px' }}>{p.periodLabel}</b>
+                    <tr key={p.periodKey} style={{ borderBottom: '1px solid #f1f5f9', textAlign: 'right', background: isDiff ? '#fffbfb' : '#ffffff' }}>
+                      <td style={{ position: 'sticky', left: 0, background: '#ffffff', zIndex: 2, padding: '8px 12px', textAlign: 'left', borderRight: '1px solid #e2e8f0', boxShadow: '2px 0 5px rgba(0, 0, 0, 0.02)', whiteSpace: 'nowrap' }}>
+                        <b style={{ color: '#0f172a', fontSize: '13px' }}>{p.periodLabel}</b>
                       </td>
-                      <td style={{ padding: '9px 10px', textAlign: 'center', fontWeight: 700, color: '#0f172a', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtBigInt(p.employeeCount)}</td>
-                      <td style={{ padding: '9px 10px', fontWeight: 700, color: '#0f172a', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtMoneyCell(p.taxableIncome)}</td>
-                      <td style={{ padding: '9px 10px', background: '#eff6ff', color: '#1d4ed8', fontWeight: 600, fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>
-                        {hasGlData ? fmtBigInt(p.glPayrollExpense) : <span style={{ color: '#94a3b8' }}>-</span>}
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500, whiteSpace: 'nowrap' }}>
+                        {p.isOpening ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyCell(p.residentWithheld)}
                       </td>
-                      <td
-                        style={{
-                          padding: '9px 10px',
-                          fontWeight: 700,
-                          color: p.payrollDiff !== 0n ? '#b91c1c' : '#047857',
-                          fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace'
-                        }}
-                      >
-                        {p.payrollDiff !== 0n ? `${p.payrollDiff > 0n ? '+' : ''}${fmtBigInt(p.payrollDiff)}` : '-'}
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 500, whiteSpace: 'nowrap' }}>
+                        {p.isOpening ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyCell(p.nonResidentWithheld)}
                       </td>
-                      <td style={{ padding: '9px 10px', fontWeight: 700, color: '#0f172a', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtMoneyCell(p.withheldTax)}</td>
-                      <td style={{ padding: '9px 10px', background: '#eff6ff', color: '#1d4ed8', fontWeight: 600, fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>
-                        {hasGlData ? fmtBigInt(p.glPitWithheld) : <span style={{ color: '#94a3b8' }}>-</span>}
+                      <td style={{ padding: '8px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', fontWeight: 700, background: '#fdf4ff', color: '#7c3aed', borderRight: '2px solid #e9d5ff', whiteSpace: 'nowrap' }}>
+                        {p.isOpening ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyCell(p.totalTaxWithheld)}
+                      </td>
+                      <td style={{ padding: '8px 10px', background: '#eff6ff', color: '#1e40af', fontWeight: 600, fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', borderRight: '2px solid #bfdbfe', whiteSpace: 'nowrap' }}>
+                        {hasGlData && !p.isOpening ? fmtBigInt(p.glWithheld3335) : <span style={{ color: '#94a3b8' }}>-</span>}
                       </td>
                       <td
                         style={{
-                          padding: '9px 10px',
+                          padding: '8px 10px',
                           fontWeight: 700,
-                          color: p.pitWithheldDiff !== 0n ? '#b91c1c' : '#047857',
-                          fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace'
+                          color: p.diffWithheld !== 0n ? '#b91c1c' : '#047857',
+                          fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace',
+                          borderRight: '1px solid #e2e8f0',
+                          whiteSpace: 'nowrap',
                         }}
                       >
-                        {p.pitWithheldDiff !== 0n ? `${p.pitWithheldDiff > 0n ? '+' : ''}${fmtBigInt(p.pitWithheldDiff)}` : '-'}
+                        {p.isOpening ? '-' : (p.diffWithheld !== 0n ? `${p.diffWithheld > 0n ? '+' : ''}${fmtBigInt(p.diffWithheld)}` : '-')}
                       </td>
-                      <td style={{ padding: '9px 14px', textAlign: 'left', fontSize: '12px', color: isDiff ? '#b45309' : '#475569', lineHeight: 1.4 }}>
+                      <td style={{ padding: '8px 10px', background: '#eff6ff', color: '#1e40af', fontWeight: 600, fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', borderRight: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                        {hasGlData && !p.isOpening ? fmtBigInt(p.glPaid3335) : <span style={{ color: '#94a3b8' }}>-</span>}
+                      </td>
+                      <td style={{ padding: '8px 10px', fontWeight: 700, color: '#0f766e', background: '#f0fdfa', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', borderRight: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                        {hasGlData ? fmtBigInt(p.closingRemainingPayable) : <span style={{ color: '#94a3b8' }}>-</span>}
+                      </td>
+                      <td style={{ padding: '8px 14px', textAlign: 'left', fontSize: '11.5px', color: isDiff ? '#b45309' : '#475569', lineHeight: 1.45 }}>
                         {p.auditNote}
                       </td>
                     </tr>
                   )
                 })}
                 <tr style={{ background: '#f8fafc', fontWeight: 700, textAlign: 'right', borderTop: '2px solid #0f172a', color: '#0f172a' }}>
-                  <td style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 2, padding: '10px 12px', textAlign: 'left', borderRight: '1px solid #e2e8f0', letterSpacing: '0.04em' }}>
-                    CỘNG CẢ NĂM
+                  <td style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 2, padding: '10px 12px', textAlign: 'left', borderRight: '1px solid #e2e8f0', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
+                    TỔNG CỘNG (TC)
                   </td>
-                  <td style={{ padding: '10px 10px', textAlign: 'center' }}>-</td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtMoneyCell(reconResult.pitSummary.totalTaxableIncome)}</td>
-                  <td style={{ padding: '10px 10px', background: '#eff6ff', color: '#1d4ed8', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>
-                    {hasGlData ? fmtBigInt(reconResult.pitSummary.totalGlPayroll) : '-'}
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', whiteSpace: 'nowrap' }}>
+                    {fmtMoneyCell(reconResult.pitSummary.totalResidentWithheld)}
                   </td>
-                  <td style={{ padding: '10px 10px', color: reconResult.pitSummary.totalPayrollDiff !== 0n ? '#b91c1c' : '#047857', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>
-                    {reconResult.pitSummary.totalPayrollDiff !== 0n ? `${reconResult.pitSummary.totalPayrollDiff > 0n ? '+' : ''}${fmtBigInt(reconResult.pitSummary.totalPayrollDiff)}` : '-'}
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', whiteSpace: 'nowrap' }}>
+                    {fmtMoneyCell(reconResult.pitSummary.totalNonResidentWithheld)}
                   </td>
-                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtMoneyCell(reconResult.pitSummary.totalWithheldTax)}</td>
-                  <td style={{ padding: '10px 10px', background: '#eff6ff', color: '#1d4ed8', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>
+                  <td style={{ padding: '10px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', background: '#fdf4ff', color: '#7c3aed', borderRight: '2px solid #e9d5ff', whiteSpace: 'nowrap' }}>
+                    {fmtMoneyCell(reconResult.pitSummary.totalWithheldTax)}
+                  </td>
+                  <td style={{ padding: '10px 10px', background: '#eff6ff', color: '#1e40af', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', borderRight: '2px solid #bfdbfe', whiteSpace: 'nowrap' }}>
                     {hasGlData ? fmtBigInt(reconResult.pitSummary.totalGlPitWithheld) : '-'}
                   </td>
-                  <td style={{ padding: '10px 10px', color: reconResult.pitSummary.totalPitWithheldDiff !== 0n ? '#b91c1c' : '#047857', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>
+                  <td style={{ padding: '10px 10px', color: reconResult.pitSummary.totalPitWithheldDiff !== 0n ? '#b91c1c' : '#047857', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', borderRight: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
                     {reconResult.pitSummary.totalPitWithheldDiff !== 0n ? `${reconResult.pitSummary.totalPitWithheldDiff > 0n ? '+' : ''}${fmtBigInt(reconResult.pitSummary.totalPitWithheldDiff)}` : '-'}
                   </td>
-                  <td style={{ padding: '10px 14px', textAlign: 'left', fontSize: '12.5px' }}>
-                    {reconResult.pitSummary.hasDiscrepancy ? 'Có chênh lệch đối chiếu' : 'Khớp đúng hoàn toàn'}
+                  <td style={{ padding: '10px 10px', background: '#eff6ff', color: '#1e40af', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', borderRight: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                    {hasGlData ? fmtBigInt(reconResult.pitSummary.totalGlPaid3335) : '-'}
+                  </td>
+                  <td style={{ padding: '10px 10px', color: '#0f766e', background: '#f0fdfa', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace', borderRight: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                    {hasGlData ? fmtBigInt(reconResult.pitSummary.closingRemainingPayable) : '-'}
+                  </td>
+                  <td style={{ padding: '10px 14px', textAlign: 'left', fontSize: '12px', whiteSpace: 'nowrap' }}>
+                    <span style={{ fontWeight: 600, color: reconResult.pitSummary.hasDiscrepancy ? '#b91c1c' : '#047857' }}>
+                      {reconResult.pitSummary.hasDiscrepancy ? '⚠️ Có chênh lệch đối chiếu' : '✓ Khớp đúng hoàn toàn'}
+                    </span>
                   </td>
                 </tr>
               </tbody>

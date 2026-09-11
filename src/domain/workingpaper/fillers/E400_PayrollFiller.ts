@@ -233,20 +233,31 @@ export function fillPayrollWorkingPaper(
         itemsCount += 2
       }
 
-      const topInsPayments = insPaymentEntries.sort((a, b) => b.amount - a.amount).slice(0, 10)
-      for (let i = 0; i < topInsPayments.length; i++) {
-        const item = topInsPayments[i]
-        if (!item) continue
-        const r = 88 + i
-        editor.fillSampleRow(e491Sheet, r, {
-          date: item.dateVal,
-          docNo: item.docNo,
-          desc: item.desc,
-          debit: item.debit,
-          credit: item.credit,
-          amount: item.amount,
-        })
-        editor.updateCell(e491Sheet, `G${r}`, { text: 'P' })
+      // Bảng 4.3 (Hàng 88-91): Kiểm tra nộp KPCĐ (TK 3382). Chỉ điền tối đa 4 dòng trống, tuyệt đối không đè hàng 93 (Nhận xét) và 97 (Kết luận)
+      const kpcdEntries = ctx.nkcTransactions.filter(
+        (t) => t.debit.startsWith('338') && (t.credit.startsWith('111') || t.credit.startsWith('112')),
+      ).sort((a, b) => b.amount - a.amount).slice(0, 4)
+
+      if (kpcdEntries.length > 0) {
+        for (let i = 0; i < kpcdEntries.length; i++) {
+          const item = kpcdEntries[i]
+          if (!item) continue
+          const r = 88 + i
+          editor.fillSampleRow(e491Sheet, r, {
+            colOffset: 2,
+            date: item.dateVal,
+            docNo: item.docNo,
+            desc: item.desc,
+            debit: item.debit,
+            credit: item.credit,
+            amount: item.amount,
+          })
+          editor.updateCell(e491Sheet, `H${r}`, { text: 'P' })
+          itemsCount++
+        }
+      } else {
+        // Không phát sinh nộp KPCĐ -> Giữ nguyên template ghi 'Không tham gia' tại hàng 89
+        editor.updateCell(e491Sheet, 'B89', { text: 'Không tham gia / Không phát sinh trích nộp KPCĐ trong kỳ' })
         itemsCount++
       }
       updatedSheets.push(e491Sheet)
@@ -293,6 +304,99 @@ export function fillPayrollWorkingPaper(
     updatedSheets.push(wsE410.name)
   }
 
+  // 2.1 Sheet E 441 — Bút toán điều chỉnh kiểm toán Tiền lương & BHXH (ExcelJS branch)
+  const wsE441 = findWorksheetFuzzy(wb, ['E 441', 'E441'])
+  if (wsE441) {
+    const payAjes = (ctx.adjustingEntries || []).filter(
+      (a) =>
+        a.glvRef === 'E441' ||
+        a.tkNo.startsWith('334') ||
+        a.tkCo.startsWith('334') ||
+        a.tkNo.startsWith('335') ||
+        a.tkCo.startsWith('335') ||
+        a.tkNo.startsWith('338') ||
+        a.tkCo.startsWith('338'),
+    )
+    const count = Math.min(payAjes.length, 12)
+    for (let i = 0; i < count; i++) {
+      const aje = payAjes[i]
+      if (!aje) continue
+      const r = 14 + i
+      const row = wsE441.getRow(r)
+      const amt = Math.abs(aje.soTien || 0)
+      const tkNo = aje.tkNo.trim()
+      const tkCo = aje.tkCo.trim()
+
+      styleCellCode(row.getCell(1), String(i + 1))
+      styleCellCode(row.getCell(2), aje.glvRef || `AJE.${i + 1}`)
+      styleCellText(row.getCell(3), aje.noiDung)
+      styleCellCode(row.getCell(4), tkNo)
+      styleCellCode(row.getCell(5), tkCo)
+      styleCellAmount(row.getCell(6), amt)
+
+      // CĐKT
+      let cdktName = aje.chiTieuCdkt || 'Phải trả người lao động'
+      let tsTang: number | null = null
+      let tsGiam: number | null = null
+      let nvTang: number | null = null
+      let nvGiam: number | null = null
+
+      const isDebitAsset = tkNo.startsWith('1') || tkNo.startsWith('2')
+      const isCreditAsset = tkCo.startsWith('1') || tkCo.startsWith('2')
+      const isDebitLiab = tkNo.startsWith('3') || tkNo.startsWith('4')
+      const isCreditLiab = tkCo.startsWith('3') || tkCo.startsWith('4')
+
+      if (isDebitAsset) {
+        tsTang = amt
+        cdktName = tkNo.startsWith('131') ? 'Phải thu khách hàng' : tkNo.startsWith('11') ? 'Tiền và tương đương tiền' : cdktName
+      } else if (isCreditAsset) {
+        tsGiam = amt
+        cdktName = tkCo.startsWith('131') ? 'Phải thu khách hàng' : tkCo.startsWith('11') ? 'Tiền và tương đương tiền' : cdktName
+      } else if (isCreditLiab) {
+        nvTang = amt
+        cdktName = tkCo.startsWith('334') ? 'Phải trả người lao động' : tkCo.startsWith('338') ? 'Phải trả, phải nộp khác' : tkCo.startsWith('335') ? 'Chi phí phải trả' : cdktName
+      } else if (isDebitLiab) {
+        nvGiam = amt
+        cdktName = tkNo.startsWith('334') ? 'Phải trả người lao động' : tkNo.startsWith('338') ? 'Phải trả, phải nộp khác' : tkNo.startsWith('335') ? 'Chi phí phải trả' : cdktName
+      }
+
+      styleCellText(row.getCell(7), cdktName)
+      if (tsTang !== null) styleCellAmount(row.getCell(8), tsTang)
+      else row.getCell(8).value = null
+      if (tsGiam !== null) styleCellAmount(row.getCell(9), tsGiam)
+      else row.getCell(9).value = null
+      if (nvTang !== null) styleCellAmount(row.getCell(10), nvTang)
+      else row.getCell(10).value = null
+      if (nvGiam !== null) styleCellAmount(row.getCell(11), nvGiam)
+      else row.getCell(11).value = null
+
+      // KQKD
+      const isDebitExpense = tkNo.startsWith('6') || tkNo.startsWith('8')
+      const isCreditExpense = tkCo.startsWith('6') || tkCo.startsWith('8')
+      if (isDebitExpense || isCreditExpense) {
+        let kqkdName = aje.chiTieuKqkd || 'Chi phí quản lý doanh nghiệp'
+        if (tkNo.startsWith('641') || tkCo.startsWith('641')) kqkdName = 'Chi phí bán hàng'
+        else if (tkNo.startsWith('622') || tkCo.startsWith('622')) kqkdName = 'Chi phí nhân công trực tiếp'
+        else if (tkNo.startsWith('627') || tkCo.startsWith('627')) kqkdName = 'Chi phí sản xuất chung'
+
+        styleCellText(row.getCell(12), kqkdName)
+        if (isDebitExpense) {
+          styleCellAmount(row.getCell(13), amt)
+          row.getCell(14).value = null
+        } else {
+          styleCellAmount(row.getCell(14), amt)
+          row.getCell(13).value = null
+        }
+      } else {
+        row.getCell(12).value = null
+        row.getCell(13).value = null
+        row.getCell(14).value = null
+      }
+      itemsCount += 8
+    }
+    updatedSheets.push(wsE441.name)
+  }
+
   // 3. E 490 Đối chiếu phân tích chi phí lương & đối ứng Nợ/Có TK 3341
   const wsE490 = findWorksheetFuzzy(wb, ['E 490', 'E490'])
   if (wsE490) {
@@ -302,11 +406,9 @@ export function fillPayrollWorkingPaper(
     let no334_co333 = 0
     let no334_co338 = 0
     let no334_coKhac = 0
-
     let co334_no622 = 0
     let co334_no641 = 0
     let co334_no642 = 0
-
     // Bảng 2: Phân tích chi phí lương 12 tháng theo 622, 627, 641, 642
     const m622 = new Array(12).fill(0)
     const m627 = new Array(12).fill(0)
@@ -488,25 +590,29 @@ export function fillPayrollWorkingPaper(
       itemsCount += 2
     }
 
-    // Điền Bảng 4.3 (Hàng 88+): Chọn mẫu các chứng từ chi nộp bảo hiểm lớn nhất
-    const topInsPayments = insPaymentEntries
-      .sort((a, b) => b.amount - a.amount)
-      .slice(0, 10)
+    // Điền Bảng 4.3 (Hàng 88-91): Kiểm tra nộp KPCĐ (TK 3382). Chỉ điền tối đa 4 dòng trống, tuyệt đối không đè hàng 93 (Nhận xét) và 97 (Kết luận)
+    const kpcdEntries = ctx.nkcTransactions.filter(
+      (t) => t.debit.startsWith('338') && (t.credit.startsWith('111') || t.credit.startsWith('112')),
+    ).sort((a, b) => b.amount - a.amount).slice(0, 4)
 
-    let rSample = 88
-    for (const item of topInsPayments) {
-      const row = wsE491.getRow(rSample)
-      styleCellDate(row.getCell(2), item.dateVal)
-      styleCellCode(row.getCell(3), item.docNo)
-      styleCellText(row.getCell(4), item.desc)
-      styleCellCode(row.getCell(5), item.debit)
-      styleCellCode(row.getCell(6), item.credit)
-      styleCellAmount(row.getCell(7), item.amount)
-      styleCellCode(row.getCell(8), 'P')
-      rSample++
-      itemsCount += 7
+    if (kpcdEntries.length > 0) {
+      let rSample = 88
+      for (const item of kpcdEntries) {
+        const row = wsE491.getRow(rSample)
+        styleCellDate(row.getCell(2), item.dateVal)
+        styleCellCode(row.getCell(3), item.docNo)
+        styleCellText(row.getCell(4), item.desc)
+        styleCellCode(row.getCell(5), item.debit)
+        styleCellCode(row.getCell(6), item.credit)
+        styleCellAmount(row.getCell(7), item.amount)
+        styleCellCode(row.getCell(8), 'P')
+        rSample++
+        itemsCount += 7
+      }
+    } else {
+      styleCellText(wsE491.getCell('B89'), 'Không tham gia / Không phát sinh trích nộp KPCĐ trong kỳ')
+      itemsCount++
     }
-
     updatedSheets.push(wsE491.name)
   }
 

@@ -2,12 +2,12 @@ import { coerceCellToString } from '../clean'
 import { parseMoney, roundToIntegerHalfEven, type Money } from '../money'
 import { parseDateCell } from '../parseDate'
 import type { ColumnMapping, DroppedLine, NormalizedEntry, RowErrorCode, StandardizeResult } from '../types'
+import { resolveEntryPartner } from '../analytics/PartnerExtractor'
 
 function cellAt(row: readonly unknown[], idx: number | null): unknown {
   if (idx == null || idx < 0 || idx >= row.length) return null
-  return row[idx] ?? null
+  return row[idx]
 }
-
 /** Text.Trim của M: cắt đầu/cuối (giữ khoảng trắng bên trong — tái hiện y hệt). */
 export function pqTrim(s: string): string {
   return s.replace(/^[\s\u00A0\u2007\u202F]+|[\s\u00A0\u2007\u202F]+$/g, '')
@@ -81,8 +81,19 @@ export function standardizeSource(input: {
       debit: pqTrim(coerceCellToString(debitRaw)),
       credit: pqTrim(coerceCellToString(creditRaw)),
       amount,
-      partnerCode: partnerCodeRaw !== '' ? partnerCodeRaw : null,
-      partnerName: partnerNameRaw !== '' ? partnerNameRaw : null,
+      ...(() => {
+        const resolved = resolveEntryPartner(
+          pqTrim(coerceCellToString(debitRaw)),
+          pqTrim(coerceCellToString(creditRaw)),
+          partnerCodeRaw !== '' ? partnerCodeRaw : null,
+          partnerNameRaw !== '' ? partnerNameRaw : null,
+          descRaw,
+        )
+        return {
+          partnerCode: resolved.partnerCode,
+          partnerName: resolved.partnerName,
+        }
+      })(),
       exchangeRate,
       foreignAmount,
       errors,

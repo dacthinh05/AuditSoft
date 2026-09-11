@@ -39,14 +39,31 @@ export interface VatReconRow {
 export interface PitReconRow {
   periodKey: string
   periodLabel: string
-  employeeCount: bigint    // [16]
-  taxableIncome: bigint    // [21]
-  withheldTax: bigint      // [29]
-  // Sổ kế toán: Có 334 (Chi phí lương) và Có 3335 (Thuế TNCN khấu trừ)
-  glPayrollExpense: bigint // Phát sinh Có TK 334
-  payrollDiff: bigint      // [21] - Có 334
-  glPitWithheld: bigint    // Phát sinh Có TK 3335 (Nợ 334 / Có 3335)
-  pitWithheldDiff: bigint  // [29] - Có 3335
+  monthNum?: number
+  isOpening?: boolean
+
+  // Khối 1: Tờ khai thuế TNCN
+  residentWithheld: bigint    // Thuế TNCN đã khấu trừ - cá nhân cư trú
+  nonResidentWithheld: bigint // Thuế TNCN đã khấu trừ - cá nhân không cư trú
+  totalTaxWithheld: bigint    // Tổng thuế TNCN đã khấu trừ (1)
+
+  // Khối 2: Sổ sách kế toán
+  glWithheld3335: bigint      // Thuế TNCN đã khấu trừ (2) (Ghi Có TK 3335)
+  diffWithheld: bigint        // Chênh lệch (1) - (2)
+
+  // Khối 3: Nghĩa vụ & Thanh toán
+  glPaid3335: bigint          // Đã nộp (Ghi Nợ TK 3335)
+  closingRemainingPayable: bigint // Còn phải nộp cuối kỳ
+
+  // Các trường giữ lại cho tương thích ngược
+  employeeCount: bigint       // [16]
+  taxableIncome: bigint       // [21]
+  withheldTax: bigint         // alias of totalTaxWithheld
+  glPayrollExpense: bigint    // Có 334
+  payrollDiff: bigint
+  glPitWithheld: bigint       // alias of glWithheld3335
+  pitWithheldDiff: bigint     // alias of diffWithheld
+
   status: 'MATCHED' | 'DISCREPANCY'
   auditNote: string
 }
@@ -72,12 +89,16 @@ export interface TaxCrossReconciliationResult {
   }
   pitRows: PitReconRow[]
   pitSummary: {
-    totalTaxableIncome: bigint
-    totalGlPayroll: bigint
-    totalPayrollDiff: bigint
+    totalResidentWithheld: bigint
+    totalNonResidentWithheld: bigint
     totalWithheldTax: bigint
     totalGlPitWithheld: bigint
     totalPitWithheldDiff: bigint
+    totalGlPaid3335: bigint
+    closingRemainingPayable: bigint
+    totalTaxableIncome: bigint
+    totalGlPayroll: bigint
+    totalPayrollDiff: bigint
     finalizationIncome?: bigint
     finalizationDiff?: bigint
     hasDiscrepancy: boolean
@@ -109,6 +130,9 @@ export class TaxCrossReconciler {
 
     const glPitWithheldByMonth = new Map<number, bigint>()
     const glPitWithheldByQuarter = new Map<number, bigint>()
+
+    const glPaidPitByMonth = new Map<number, bigint>()
+    const glPaidPitByQuarter = new Map<number, bigint>()
 
     const addAmt = (map: Map<number, bigint>, key: number, amt: bigint) => {
       map.set(key, (map.get(key) || 0n) + amt)
@@ -162,8 +186,14 @@ export class TaxCrossReconciler {
         addAmt(glPitWithheldByMonth, m, e.amount.raw)
         addAmt(glPitWithheldByQuarter, q, e.amount.raw)
       }
-    }
 
+      // 7. Thuế TNCN đã nộp vào NSNN: Ghi NỢ TK 3335
+      // (Bút toán Nợ 3335 / Có 111, 112)
+      if (e.debitAccount.startsWith('3335')) {
+        addAmt(glPaidPitByMonth, m, e.amount.raw)
+        addAmt(glPaidPitByQuarter, q, e.amount.raw)
+      }
+    }
     // Hàm trợ giúp giải quyết số liệu sổ sách đúng theo Tháng hoặc Quý của tờ khai
     const resolvePeriodGl = (
       mapMonth: Map<number, bigint>,
@@ -319,59 +349,98 @@ export class TaxCrossReconciler {
     const pitRows: PitReconRow[] = []
     let totalTaxableIncome = 0n
     let totalGlPayroll = 0n
+    let totalResidentWithheld = 0n
+    let totalNonResidentWithheld = 0n
     let totalWithheldTax = 0n
     let totalGlPitWithheld = 0n
+    let totalGlPaid3335 = 0n
+
+    let runningPayable = 0n
+
+    // Dòng Đầu kỳ (Đk) nếu có số dư đầu kỳ hoặc có dữ liệu tờ khai
+    if (pitDeclarations.length > 0 || glPitWithheldByMonth.size > 0 || glPaidPitByMonth.size > 0) {
+      pitRows.push({
+        periodKey: 'OPENING',
+        periodLabel: 'Đk',
+        isOpening: true,
+        residentWithheld: 0n,
+        nonResidentWithheld: 0n,
+        totalTaxWithheld: 0n,
+        glWithheld3335: 0n,
+        diffWithheld: 0n,
+        glPaid3335: 0n,
+        closingRemainingPayable: runningPayable,
+        employeeCount: 0n,
+        taxableIncome: 0n,
+        withheldTax: 0n,
+        glPayrollExpense: 0n,
+        payrollDiff: 0n,
+        glPitWithheld: 0n,
+        pitWithheldDiff: 0n,
+        status: 'MATCHED',
+        auditNote: 'Số dư thuế TNCN đầu kỳ chuyển sang.',
+      })
+    }
 
     const sortedPitKeys = Array.from(pitByPeriod.keys()).sort()
     for (const key of sortedPitKeys) {
       const p = pitByPeriod.get(key)!
 
-      // Thu nhập chịu thuế trên tờ khai 05
       const taxable = p.ct21_tongThuNhapChiuThue
-      // Chi phí lương trên sổ kế toán: Phát sinh CÓ TK 334
       const glPayroll = resolvePeriodGl(glPayrollByMonth, glPayrollByQuarter, p.period)
       const payrollDiff = taxable - glPayroll
 
-      // Thuế TNCN đã khấu trừ trên tờ khai 05
-      const withheld = p.ct29_tongThueTncnDaKhauTru
-      // Thuế TNCN đã khấu trừ trên sổ kế toán: Phát sinh CÓ TK 3335
+      // Thuế TNCN cư trú và không cư trú
+      const resident = p.ct28_thueKhauTruCuTru != null ? p.ct28_thueKhauTruCuTru : p.ct29_tongThueTncnDaKhauTru
+      const nonResident = p.ct29_thueKhauTruKhongCuTru != null ? p.ct29_thueKhauTruKhongCuTru : 0n
+      const totalTax = resident + nonResident
+
+      // Thuế TNCN khấu trừ trên sổ: Có 3335
       const glWithheld = resolvePeriodGl(glPitWithheldByMonth, glPitWithheldByQuarter, p.period)
-      const pitWithheldDiff = withheld - glWithheld
+      const diffWithheld = totalTax - glWithheld
+
+      // Thuế TNCN đã nộp vào NSNN: Nợ 3335
+      const glPaid = resolvePeriodGl(glPaidPitByMonth, glPaidPitByQuarter, p.period)
+
+      // Lũy kế còn phải nộp: Dư trước + Khấu trừ Có 3335 - Đã nộp Nợ 3335
+      runningPayable = runningPayable + glWithheld - glPaid
 
       totalTaxableIncome += taxable
       totalGlPayroll += glPayroll
-      totalWithheldTax += withheld
+      totalResidentWithheld += resident
+      totalNonResidentWithheld += nonResident
+      totalWithheldTax += totalTax
       totalGlPitWithheld += glWithheld
+      totalGlPaid3335 += glPaid
 
       let status: 'MATCHED' | 'DISCREPANCY' = 'MATCHED'
       const noteParts: string[] = []
 
-      if (payrollDiff !== 0n || pitWithheldDiff !== 0n) {
+      if (diffWithheld !== 0n) {
         status = 'DISCREPANCY'
-        if (payrollDiff !== 0n) {
-          if (glPayroll > taxable) {
-            noteParts.push(`Lương sổ NKC lớn hơn TNCT tờ khai (${(glPayroll - taxable).toLocaleString('vi-VN')} đ) — kiểm tra phụ cấp/thu nhập miễn thuế.`)
-          } else {
-            noteParts.push(`TNCT tờ khai lớn hơn lương sổ NKC (${(taxable - glPayroll).toLocaleString('vi-VN')} đ) — kiểm tra thu nhập chi trả ngoài lương.`)
-          }
-        }
-        if (pitWithheldDiff !== 0n) {
-          noteParts.push(`Thuế TNCN khấu trừ lệch: Tờ khai [29] ${withheld.toLocaleString('vi-VN')} đ vs Sổ Có 3335 ${glWithheld.toLocaleString('vi-VN')} đ.`)
-        }
+        noteParts.push(`Lệch thuế TNCN khấu trừ: Tờ khai ${totalTax.toLocaleString('vi-VN')} đ vs Sổ Có 3335 ${glWithheld.toLocaleString('vi-VN')} đ (CL: ${diffWithheld > 0n ? '+' : ''}${diffWithheld.toLocaleString('vi-VN')} đ).`)
       }
 
-      const auditNote = noteParts.length > 0 ? noteParts.join(' ') : 'Khớp đúng cả quỹ lương và số thuế TNCN khấu trừ.'
+      const auditNote = noteParts.length > 0 ? noteParts.join(' ') : 'Khớp đúng số thuế TNCN khấu trừ.'
 
       pitRows.push({
         periodKey: key,
         periodLabel: p.period.value,
+        monthNum: p.period.month,
+        residentWithheld: resident,
+        nonResidentWithheld: nonResident,
+        totalTaxWithheld: totalTax,
+        glWithheld3335: glWithheld,
+        diffWithheld,
+        glPaid3335: glPaid,
+        closingRemainingPayable: runningPayable,
         employeeCount: p.ct16_tongSoNguoiLaoDong,
         taxableIncome: taxable,
-        withheldTax: withheld,
+        withheldTax: totalTax,
         glPayrollExpense: glPayroll,
         payrollDiff,
         glPitWithheld: glWithheld,
-        pitWithheldDiff,
+        pitWithheldDiff: diffWithheld,
         status,
         auditNote,
       })
@@ -382,6 +451,7 @@ export class TaxCrossReconciler {
       finalizationDiff = finalizationPit.ct21_tongThuNhapChiuThue - totalTaxableIncome
     }
 
+    const totalPitWithheldDiff = totalWithheldTax - totalGlPitWithheld
     return {
       vatRows,
       vatSummary: {
@@ -406,15 +476,19 @@ export class TaxCrossReconciler {
       },
       pitRows,
       pitSummary: {
+        totalResidentWithheld,
+        totalNonResidentWithheld,
+        totalWithheldTax,
+        totalGlPitWithheld,
+        totalPitWithheldDiff,
+        totalGlPaid3335,
+        closingRemainingPayable: runningPayable,
         totalTaxableIncome,
         totalGlPayroll,
         totalPayrollDiff: totalTaxableIncome - totalGlPayroll,
-        totalWithheldTax,
-        totalGlPitWithheld,
-        totalPitWithheldDiff: totalWithheldTax - totalGlPitWithheld,
         finalizationIncome: finalizationPit?.ct21_tongThuNhapChiuThue,
         finalizationDiff,
-        hasDiscrepancy: totalTaxableIncome !== totalGlPayroll || totalWithheldTax !== totalGlPitWithheld,
+        hasDiscrepancy: totalPitWithheldDiff !== 0n,
       },
     }
   }

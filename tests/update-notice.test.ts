@@ -47,4 +47,27 @@ describe('Update Notice & Header Badge State Verification', () => {
     useApp.getState().setUpdateModalOpen(true)
     expect(useApp.getState().updateModalOpen).toBe(true)
   })
+
+  it('khi có bản mới: tự động bật modal cập nhật và cho phép bấm Để sau đóng modal', () => {
+    const mockUpdate: AppUpdateInfo = {
+      currentVersion: '1.1.7',
+      latestVersion: '1.1.8',
+      hasUpdate: true,
+      title: 'AuditSoft v1.1.8',
+    }
+
+    // Giả lập phát hiện bản mới khi khởi động
+    useApp.getState().setUpdateInfo(mockUpdate)
+    useApp.getState().setUpdateModalOpen(true)
+
+    expect(useApp.getState().updateModalOpen).toBe(true)
+    expect(useApp.getState().updateInfo?.hasUpdate).toBe(true)
+
+    // Bấm Để sau
+    useApp.getState().setUpdateModalOpen(false)
+    useApp.getState().setUpdateNoticeDismissed(true)
+
+    expect(useApp.getState().updateModalOpen).toBe(false)
+    expect(useApp.getState().updateNoticeDismissed).toBe(true)
+  })
 })

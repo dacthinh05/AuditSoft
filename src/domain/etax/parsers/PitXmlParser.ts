@@ -77,13 +77,32 @@ export class PitXmlParser {
       this.findTag(xmlContent, ['ct24'])
     const rawCt26 = this.findTag(xmlContent, ['ct26', 'ct27_tongThuNhapChiuThueKhauTru', 'ct26_tongTNCTKhauTru']) ||
       this.findTag(xmlContent, ['ct27'])
+    const rawCt27 = this.findTag(xmlContent, ['ct27', 'ct27_tongThueTncnDaKhauTru', 'ct27_tongThueKhauTru'])
+    const rawCt28 = this.findTag(xmlContent, ['ct28', 'ct28_thueKhauTruCuTru', 'ct28_cuTru'])
     const rawCt29 = this.findTag(xmlContent, ['ct29', 'ct31_tongThueTncnDaKhauTru', 'ct34_tongThueKhauTru', 'ct29_tongThueKhauTru']) ||
       this.findTag(xmlContent, ['ct31'])
+    const rawCt30 = this.findTag(xmlContent, ['ct30', 'ct30_khongCuTru', 'ct29_khongCuTru'])
 
     const ct16_tongSoNguoiLaoDong = parseMoneyToBigInt(rawCt16)
     const ct21_tongThuNhapChiuThue = parseMoneyToBigInt(rawCt21)
     const ct26_tongThuNhapChiuThueKhauTru = parseMoneyToBigInt(rawCt26)
-    const ct29_tongThueTncnDaKhauTru = parseMoneyToBigInt(rawCt29)
+    
+    let ct29_tongThueTncnDaKhauTru = parseMoneyToBigInt(rawCt29)
+    let ct28_thueKhauTruCuTru: bigint = 0n
+    let ct29_thueKhauTruKhongCuTru: bigint = 0n
+
+    if (rawCt27) {
+      ct29_tongThueTncnDaKhauTru = parseMoneyToBigInt(rawCt27)
+      ct28_thueKhauTruCuTru = rawCt28 ? parseMoneyToBigInt(rawCt28) : ct29_tongThueTncnDaKhauTru
+      ct29_thueKhauTruKhongCuTru = rawCt29 ? parseMoneyToBigInt(rawCt29) : 0n
+    } else {
+      if (rawCt28) ct28_thueKhauTruCuTru = parseMoneyToBigInt(rawCt28)
+      if (rawCt30) ct29_thueKhauTruKhongCuTru = parseMoneyToBigInt(rawCt30)
+      if (!rawCt28 && !rawCt30) {
+        ct28_thueKhauTruCuTru = ct29_tongThueTncnDaKhauTru
+        ct29_thueKhauTruKhongCuTru = 0n
+      }
+    }
 
     let ct31_qtt_tongThueDaKhauTruTrongNam: bigint | undefined
     let ct40_qtt_tongThuePhaiNopTrongNam: bigint | undefined
@@ -116,6 +135,8 @@ export class PitXmlParser {
       ct21_tongThuNhapChiuThue,
       ct26_tongThuNhapChiuThueKhauTru,
       ct29_tongThueTncnDaKhauTru,
+      ct28_thueKhauTruCuTru,
+      ct29_thueKhauTruKhongCuTru,
       ct31_qtt_tongThueDaKhauTruTrongNam,
       ct40_qtt_tongThuePhaiNopTrongNam,
       ct41_qtt_tongThueNopThua,

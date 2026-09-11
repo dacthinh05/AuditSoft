@@ -170,6 +170,46 @@ export function fillTaxWorkingPaper(
       updatedSheets.push(e380Sheet)
     }
 
+    // 4. E 381 Đối chiếu kê khai thuế TNCN & Sổ sách TK 3335
+    const e381Sheet = editor.hasSheet('E 381') ? 'E 381' : editor.hasSheet('E381') ? 'E381' : null
+    if (e381Sheet) {
+      const pitWithheldMonthly = new Array(12).fill(0)
+      const pitPaidMonthly = new Array(12).fill(0)
+      for (const t of ctx.nkcTransactions) {
+        const mIdx = Math.max(0, Math.min(11, t.month - 1))
+        if (t.credit.startsWith('3335')) pitWithheldMonthly[mIdx] += t.amount
+        if (t.debit.startsWith('3335')) pitPaidMonthly[mIdx] += t.amount
+      }
+
+      const pitDeclarations = ctx.pitDeclarations ?? []
+      const pitByMonth = new Map<number, { resident: number; nonResident: number }>()
+      for (const p of pitDeclarations) {
+        if (p.isFinalization) continue
+        const m = p.period.month ?? (p.period.quarter ? p.period.quarter * 3 : 0)
+        if (m < 1 || m > 12) continue
+        const cur = pitByMonth.get(m) ?? { resident: 0, nonResident: 0 }
+        const res = Number(p.ct28_thueKhauTruCuTru ?? p.ct29_tongThueTncnDaKhauTru ?? 0n)
+        const nonRes = Number(p.ct29_thueKhauTruKhongCuTru ?? 0n)
+        cur.resident += res
+        cur.nonResident += nonRes
+        pitByMonth.set(m, cur)
+      }
+
+      for (let m = 0; m < 12; m++) {
+        const rowNum = 21 + m
+        editor.updateCell(e381Sheet, `E${rowNum}`, { number: pitWithheldMonthly[m] ?? 0 })
+        editor.updateCell(e381Sheet, `G${rowNum}`, { number: pitPaidMonthly[m] ?? 0 })
+        itemsCount += 2
+
+        if (pitByMonth.has(m + 1)) {
+          const d = pitByMonth.get(m + 1)!
+          editor.updateCell(e381Sheet, `B${rowNum}`, { number: d.resident })
+          editor.updateCell(e381Sheet, `C${rowNum}`, { number: d.nonResident })
+          itemsCount += 2
+        }
+      }
+      updatedSheets.push(e381Sheet)
+    }
     return {
       fileName,
       success: true,
@@ -308,6 +348,47 @@ export function fillTaxWorkingPaper(
     updatedSheets.push(wsE380.name)
   }
 
+  // 4. E 381 Đối chiếu kê khai thuế TNCN (ExcelJS)
+  const wsE381 = findWorksheetFuzzy(target, ['E 381', 'E381', 'TNCN'])
+  if (wsE381) {
+    const pitWithheldMonthly = new Array(12).fill(0)
+    const pitPaidMonthly = new Array(12).fill(0)
+    for (const t of ctx.nkcTransactions) {
+      const mIdx = Math.max(0, Math.min(11, t.month - 1))
+      if (t.credit.startsWith('3335')) pitWithheldMonthly[mIdx] += t.amount
+      if (t.debit.startsWith('3335')) pitPaidMonthly[mIdx] += t.amount
+    }
+
+    const pitDeclarations = ctx.pitDeclarations ?? []
+    const pitByMonth = new Map<number, { resident: number; nonResident: number }>()
+    for (const p of pitDeclarations) {
+      if (p.isFinalization) continue
+      const m = p.period.month ?? (p.period.quarter ? p.period.quarter * 3 : 0)
+      if (m < 1 || m > 12) continue
+      const cur = pitByMonth.get(m) ?? { resident: 0, nonResident: 0 }
+      const res = Number(p.ct28_thueKhauTruCuTru ?? p.ct29_tongThueTncnDaKhauTru ?? 0n)
+      const nonRes = Number(p.ct29_thueKhauTruKhongCuTru ?? 0n)
+      cur.resident += res
+      cur.nonResident += nonRes
+      pitByMonth.set(m, cur)
+    }
+
+    for (let m = 0; m < 12; m++) {
+      const rowNum = 21 + m
+      const row = wsE381.getRow(rowNum)
+      row.getCell(5).value = pitWithheldMonthly[m] ?? 0 // E: Có 3335
+      row.getCell(7).value = pitPaidMonthly[m] ?? 0     // G: Nợ 3335
+      itemsCount += 2
+
+      if (pitByMonth.has(m + 1)) {
+        const d = pitByMonth.get(m + 1)!
+        row.getCell(2).value = d.resident    // B: Cư trú
+        row.getCell(3).value = d.nonResident // C: Không cư trú
+        itemsCount += 2
+      }
+    }
+    updatedSheets.push(wsE381.name)
+  }
   return {
     fileName,
     success: true,

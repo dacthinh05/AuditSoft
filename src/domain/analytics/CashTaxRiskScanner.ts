@@ -6,6 +6,7 @@ import type {
   CashTaxRiskResult,
   CashThresholdMode,
 } from './types'
+import { extractPartnerCodeFromAccount } from './PartnerExtractor'
 
 export interface ScanOptions {
   mode?: CashThresholdMode
@@ -158,7 +159,8 @@ export class CashTaxRiskScanner {
         const isExpenseDebit = CASH_EXPENSE_DEBIT_PREFIXES.some((p) => e.debitAccount.startsWith(p))
         if (!isExpenseDebit) continue
 
-        const partnerDirect = cleanStr(e.customerName || e.objectCode)
+        const extractedFromAcc = extractPartnerCodeFromAccount(e.debitAccount) || extractPartnerCodeFromAccount(e.creditAccount)
+        const partnerDirect = cleanStr(e.customerName || e.objectCode || extractedFromAcc)
         const partnerIdent = partnerDirect || extractVendorFromDesc(e.description)
         const dateNormalized = cleanStr(e.postingDate) || 'UNKNOWN_DATE'
 

@@ -112,11 +112,18 @@ describe('TaxCrossReconciler', () => {
     ]
 
     const result = TaxCrossReconciler.reconcile(entries, [], pitList)
-    expect(result.pitRows.length).toBe(1)
-    expect(result.pitRows[0].status).toBe('MATCHED')
-    expect(result.pitRows[0].payrollDiff).toBe(0n)
-    expect(result.pitRows[0].glPitWithheld).toBe(35000000n)
-    expect(result.pitRows[0].pitWithheldDiff).toBe(0n)
+    expect(result.pitRows.length).toBe(2)
+    // Dòng 0 là Đầu kỳ (Đk)
+    expect(result.pitRows[0].isOpening).toBe(true)
+    expect(result.pitRows[0].periodLabel).toBe('Đk')
+
+    // Dòng 1 là Quý 1/2025
+    const q1 = result.pitRows[1]!
+    expect(q1.status).toBe('MATCHED')
+    expect(q1.residentWithheld).toBe(35000000n)
+    expect(q1.glWithheld3335).toBe(35000000n)
+    expect(q1.diffWithheld).toBe(0n)
+    expect(q1.closingRemainingPayable).toBe(35000000n)
   })
 
   it('khớp chính xác tờ khai thuế theo Tháng với phát sinh sổ NKC theo Tháng', () => {

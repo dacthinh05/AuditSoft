@@ -1,14 +1,14 @@
 {
-  "version": "1.1.7",
+  "version": "1.1.8",
   "releaseDate": "2026-09-11",
-  "title": "AuditSoft v1.1.7 — Tự Động Chuẩn Kỳ VSA 520 & Tối Ưu Bóc Tách Chi Phí Sản Xuất",
+  "title": "AuditSoft v1.1.8 — Tự Động Thông Báo Bản Mới, Tabular Grounding AI & Drilldown Ma Trận 12M",
   "changelog": [
-    "Tự động chuẩn kỳ giá vốn theo chi phí phát sinh thực tế từng tháng (VSA 520) khi kế toán dồn kết chuyển cuối năm vào 31/12",
-    "Thêm công cụ chuyển đổi linh hoạt giữa 'Chuẩn kỳ VSA 520' và 'Sổ sách (31/12)' trên biểu đồ tương quan Doanh thu - Giá vốn",
-    "Loại trừ 100% việc tính trùng bút toán kết chuyển nội bộ giá thành (154, 62x, 632/155) ở biểu đồ cơ cấu giá vốn",
-    "Tối ưu hóa bảng bóc tách chi phí theo yếu tố và xuất ma trận chi phí Excel nhanh chóng",
-    "Nâng cấp toàn diện hiệu năng và độ ổn định khi xử lý sổ cái và NKC khối lượng lớn"
+    "Tự động hiển thị popup thông báo cập nhật bản mới khi vừa mở ứng dụng, hỗ trợ 'Cập nhật ngay' hoặc 'Để sau'",
+    "Trợ lý AI Gemini 2.5: Đọc dữ liệu Tabular Grounding chuẩn VSA 520, bổ sung đối chiếu YoY B02, ma trận 12M và rủi ro thuế B4",
+    "Drilldown chi tiết bút toán phát sinh: Click vào bất kỳ ô nào trên Ma trận 12 tháng để xem danh sách chứng từ cấu thành (VirtualTable 60fps)",
+    "Xuất Excel 2 Sheet dạng Pivot: Sheet 1 tổng hợp cơ cấu theo cặp TK đối ứng + Top bút toán lớn; Sheet 2 sổ chi tiết có AutoFilter",
+    "Khắc phục triệt để lỗi lệch cột dòng CỘNG CẢ NĂM và chống xuống hàng header trên bảng đối chiếu thuế GTGT E380 & TNCN E381"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.7/AuditSoft-1.1.7-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.7/AuditSoft-1.1.7-Portable.exe"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.8/AuditSoft-1.1.8-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.8/AuditSoft-1.1.8-Portable.exe"
 }

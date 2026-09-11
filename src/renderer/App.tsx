@@ -55,13 +55,22 @@ export default function App(): JSX.Element {
     return () => window.removeEventListener('auditsoft:navigate-home', handleHome)
   }, [setView])
 
-  // Tự động kiểm tra cập nhật khi khởi chạy ứng dụng (delay 2s)
+  // Tự động kiểm tra cập nhật khi khởi chạy ứng dụng (delay 1.5s) và tự động mở popup nếu có bản mới
   useEffect(() => {
-    const timer = setTimeout(() => {
-      void checkAppUpdate()
-    }, 2000)
+    const timer = setTimeout(async () => {
+      const info = await checkAppUpdate()
+      if (info?.hasUpdate) {
+        const isDismissed =
+          typeof sessionStorage !== 'undefined'
+            ? sessionStorage.getItem('auditsoft_update_auto_dismissed')
+            : null
+        if (!isDismissed) {
+          setUpdateModalOpen(true)
+        }
+      }
+    }, 1500)
     return () => clearTimeout(timer)
-  }, [checkAppUpdate])
+  }, [checkAppUpdate, setUpdateModalOpen])
   return (
     <div className="app-container">
       {/* ── Enterprise Topbar ── */}

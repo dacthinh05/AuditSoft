@@ -82,4 +82,80 @@ describe('E300 fillTaxWorkingPaper với tờ khai GTGT ([37]/[38]/[40]/[42])', 
     expect(Number(r12.getCell(4).value)).toBe(500_000)
     expect(Number(r12.getCell(7).value)).toBe(8_000_000)
   })
+
+  it('điền số liệu khấu trừ thuế TNCN và nộp thuế vào sheet E 381 chuẩn Mẫu Ảnh 3', async () => {
+    const templatePath = path.resolve('GLV MAU', 'E300 - Thue - Mau 2024 - Thinh.xlsx')
+    if (!fs.existsSync(templatePath)) return
+
+    const wb = new ExcelJS.Workbook()
+    await wb.xlsx.readFile(templatePath)
+
+    const ctx: WorkingPaperFillContext = {
+      engagement: ENGAGEMENT,
+      cdfsAccounts: new Map(),
+      nkcTransactions: [
+        // Tháng 3: trích thuế TNCN 81.3tr
+        {
+          rowNum: 1,
+          dateStr: '2025-03-31',
+          dateVal: null,
+          docNo: 'PKT01',
+          desc: 'Khấu trừ thuế TNCN tháng 3',
+          debit: '334',
+          credit: '3335',
+          amount: 81_300_000,
+          month: 3,
+        },
+        // Tháng 4: nộp thuế TNCN 81.3tr
+        {
+          rowNum: 2,
+          dateStr: '2025-04-15',
+          dateVal: null,
+          docNo: 'UNC01',
+          desc: 'Nộp thuế TNCN vào NSNN',
+          debit: '3335',
+          credit: '112',
+          amount: 81_300_000,
+          month: 4,
+        },
+      ],
+      pitDeclarations: [
+        {
+          taxpayerId: '0101234567',
+          taxpayerName: 'CTY TEST',
+          formCode: '05/KK-TNCN',
+          period: {
+            type: 'QUARTER' as TaxPeriodType,
+            value: 'Quý 1/2025',
+            normalizedKey: '2025-Q1',
+            year: 2025,
+            quarter: 1,
+          },
+          declarationType: 'ORIGINAL',
+          isFinalization: false,
+          ct16_tongSoNguoiLaoDong: 50n,
+          ct21_tongThuNhapChiuThue: 1_000_000_000n,
+          ct26_tongThuNhapChiuThueKhauTru: 300_000_000n,
+          ct29_tongThueTncnDaKhauTru: 81_300_000n,
+          ct28_thueKhauTruCuTru: 81_300_000n,
+          ct29_thueKhauTruKhongCuTru: 0n,
+        },
+      ],
+    }
+
+    const res = fillTaxWorkingPaper(wb, ctx)
+    expect(res.success).toBe(true)
+    expect(res.sheetsUpdated).toContain('E 381')
+
+    const ws = wb.getWorksheet('E 381')!
+    // Quý 1 rơi vào tháng 3 -> dòng 23 (20 + 3)
+    const r3 = ws.getRow(23)
+    expect(Number(r3.getCell(2).value)).toBe(81_300_000) // B: Cư trú
+    expect(Number(r3.getCell(3).value)).toBe(0)          // C: Không cư trú
+    expect(Number(r3.getCell(5).value)).toBe(81_300_000) // E: Có 3335
+
+    // Tháng 4 -> dòng 24 (20 + 4): Nợ 3335 (Đã nộp) = 81.3tr
+    const r4 = ws.getRow(24)
+    expect(Number(r4.getCell(7).value)).toBe(81_300_000) // G: Đã nộp
+  })
 })

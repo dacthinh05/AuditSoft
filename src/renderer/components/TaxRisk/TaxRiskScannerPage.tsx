@@ -2,7 +2,7 @@ import { useMemo, useState, useEffect } from 'react'
 import { useApp } from '../../state/store'
 import { dtoToEntries } from '../Analytics/analyticsMappers'
 import { CashTaxRiskScanner } from '../../../domain/analytics/CashTaxRiskScanner'
-import type { CashThresholdMode, TaxRiskCategory } from '../../../domain/analytics/types'
+import type { TaxRiskCategory } from '../../../domain/analytics/types'
 import { exportTaxRiskExcel } from './exportTaxRiskExcel'
 import { IconSearch } from '../Icons'
 import { ModuleGateBanner } from '../ModuleGateBanner'
@@ -17,8 +17,6 @@ export function TaxRiskScannerPage(): JSX.Element {
   const glSnapshot = useApp((s) => s.glSnapshot)
   const setGlSnapshot = useApp((s) => s.setGlSnapshot)
 
-  const [thresholdMode, setThresholdMode] = useState<CashThresholdMode>('5M')
-  const [customThreshold, setCustomThreshold] = useState<number>(10_000_000)
   const [filterTab, setFilterTab] = useState<'ALL' | 'CASH' | 'SPLIT' | 'PENALTY' | 'NO_INVOICE'>('ALL')
   const [searchQuery, setSearchQuery] = useState('')
   const [isExporting, setIsExporting] = useState(false)
@@ -70,13 +68,12 @@ export function TaxRiskScannerPage(): JSX.Element {
     return dtoToEntries(glSnapshot.journals)
   }, [glSnapshot])
 
-  // Chạy engine phân tích rủi ro thuế toàn diện
+  // Chạy engine phân tích rủi ro thuế toàn diện — Cố định mặc định ngưỡng 5 triệu (NĐ 181/2025)
   const scanResult = useMemo(() => {
     return CashTaxRiskScanner.scan(entries, {
-      mode: thresholdMode,
-      customThreshold,
+      mode: '5M',
     })
-  }, [entries, thresholdMode, customThreshold])
+  }, [entries])
 
   // Lọc danh sách theo chuyên đề tab và ô tìm kiếm
   const filteredItems = useMemo(() => {
@@ -242,116 +239,6 @@ export function TaxRiskScannerPage(): JSX.Element {
           {error}
         </div>
       )}
-
-      {/* ── 2. Thanh Chuyển Đổi Ngưỡng Quét Tiền Mặt (Threshold Switcher) ── */}
-      <div
-        style={{
-          background: '#ffffff',
-          border: '1px solid #e2e8f0',
-          borderRadius: '10px',
-          padding: '12px 16px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '12px',
-          boxShadow: '0 1px 2px rgba(0,0,0,0.02)',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>Ngưỡng chi tiền mặt (NĐ 181):</span>
-
-          <div
-            style={{
-              display: 'inline-flex',
-              background: '#f1f5f9',
-              padding: '3px',
-              borderRadius: '7px',
-              border: '1px solid #e2e8f0',
-              gap: '4px',
-            }}
-          >
-            <button
-              type="button"
-              onClick={() => setThresholdMode('5M')}
-              style={{
-                background: thresholdMode === '5M' ? '#ffffff' : 'transparent',
-                color: thresholdMode === '5M' ? '#b45309' : '#64748b',
-                border: 'none',
-                padding: '5px 12px',
-                borderRadius: '5px',
-                fontSize: '12px',
-                fontWeight: thresholdMode === '5M' ? 700 : 600,
-                boxShadow: thresholdMode === '5M' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                cursor: 'pointer',
-              }}
-            >
-              Chi tiền mặt &gt;= 5 triệu (NĐ 181/2025)
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setThresholdMode('20M')}
-              style={{
-                background: thresholdMode === '20M' ? '#ffffff' : 'transparent',
-                color: thresholdMode === '20M' ? '#b45309' : '#64748b',
-                border: 'none',
-                padding: '5px 12px',
-                borderRadius: '5px',
-                fontSize: '12px',
-                fontWeight: thresholdMode === '20M' ? 700 : 600,
-                boxShadow: thresholdMode === '20M' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                cursor: 'pointer',
-              }}
-            >
-              Ngưỡng cũ 20 triệu (NĐ 209)
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setThresholdMode('CUSTOM')}
-              style={{
-                background: thresholdMode === 'CUSTOM' ? '#ffffff' : 'transparent',
-                color: thresholdMode === 'CUSTOM' ? '#b45309' : '#64748b',
-                border: 'none',
-                padding: '5px 12px',
-                borderRadius: '5px',
-                fontSize: '12px',
-                fontWeight: thresholdMode === 'CUSTOM' ? 700 : 600,
-                boxShadow: thresholdMode === 'CUSTOM' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                cursor: 'pointer',
-              }}
-            >
-              Tùy chỉnh
-            </button>
-          </div>
-
-          {thresholdMode === 'CUSTOM' && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <input
-                type="number"
-                step="1000000"
-                min="100000"
-                value={customThreshold}
-                onChange={(e) => setCustomThreshold(Number(e.target.value) || 0)}
-                style={{
-                  padding: '4px 8px',
-                  borderRadius: '5px',
-                  border: '1px solid #cbd5e1',
-                  fontSize: '12px',
-                  fontFamily: 'monospace',
-                  width: '130px',
-                }}
-              />
-              <span style={{ fontSize: '12px', color: '#64748b' }}>đ</span>
-            </div>
-          )}
-        </div>
-
-        <div style={{ fontSize: '11.5px', color: '#64748b' }}>
-          Đang áp dụng ngưỡng: <b style={{ color: '#0f172a' }}>{scanResult.thresholdUsed.toLocaleString('vi-VN')} đ</b>
-        </div>
-      </div>
 
       {/* ── 3. Bộ 4 Thẻ KPI Tóm Tắt Rủi Ro Thuế & B4 ── */}
       <div

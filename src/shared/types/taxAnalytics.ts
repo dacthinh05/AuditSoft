@@ -49,6 +49,8 @@ export interface PitDeclarationSnapshot {
   ct21_tongThuNhapChiuThue: bigint
   ct26_tongThuNhapChiuThueKhauTru: bigint
   ct29_tongThueTncnDaKhauTru: bigint
+  ct28_thueKhauTruCuTru?: bigint
+  ct29_thueKhauTruKhongCuTru?: bigint
 
   // Chỉ tiêu bổ sung tờ khai Quyết toán năm 05/QTT-TNCN
   ct31_qtt_tongThueDaKhauTruTrongNam?: bigint

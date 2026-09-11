@@ -11,7 +11,8 @@ import { CogsMatrix12MTable } from './CogsMatrix12MTable'
 import { ExpenseByNatureTable } from './ExpenseByNatureTable'
 import { AuditRiskAlertPanel } from './AuditRiskAlertPanel'
 import { Vsa520RatiosBar } from './Vsa520RatiosBar'
-
+import { MatrixDrilldownModal } from './MatrixDrilldownModal'
+import { useApp } from '../../state/store'
 interface Props {
   data: GlAnalyticsResult
   filePath?: string
@@ -27,14 +28,25 @@ const MONTH_NAMES = [
   'Tháng 09', 'Tháng 10', 'Tháng 11', 'Tháng 12',
 ]
 
-/** Ô đột biến: hover hiện ghi chú kiểm toán ngắn, không dùng ký hiệu cảm thán trong ngoặc */
-function AnomalyCell({ value, note, alignRight }: { value: string; note: string; alignRight?: boolean }): JSX.Element {
+/** Ô đột biến: hover hiện ghi chú kiểm toán ngắn, click mở modal soi chi tiết */
+function AnomalyCell({
+  value,
+  note,
+  alignRight,
+  onClick,
+}: {
+  value: string
+  note: string
+  alignRight?: boolean
+  onClick?: () => void
+}): JSX.Element {
   const [showNote, setShowNote] = useState(false)
   return (
     <span
-      style={{ position: 'relative', display: 'inline-block' }}
+      style={{ position: 'relative', display: 'inline-block', cursor: 'pointer' }}
       onMouseEnter={() => setShowNote(true)}
       onMouseLeave={() => setShowNote(false)}
+      onClick={onClick}
     >
       <span
         style={{
@@ -47,7 +59,7 @@ function AnomalyCell({ value, note, alignRight }: { value: string; note: string;
           display: 'inline-flex',
           alignItems: 'center',
           gap: '4px',
-          cursor: 'help',
+          cursor: 'pointer',
           transition: 'all 120ms ease',
         }}
       >
@@ -77,6 +89,9 @@ function AnomalyCell({ value, note, alignRight }: { value: string; note: string;
           }}
         >
           {note}
+          <div style={{ marginTop: '5px', fontSize: '10px', color: '#93c5fd', borderTop: '1px dashed #334155', paddingTop: '4px' }}>
+            👉 Bấm để xem chi tiết các bút toán
+          </div>
         </span>
       )}
     </span>
@@ -173,6 +188,20 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
   const ebitdaNum = moneyToNumber(ebitda.ebitda)
   const cap30Num = moneyToNumber(ebitda.cap30)
   const disallowedNum = moneyToNumber(ebitda.disallowedInterest)
+  const glSnapshot = useApp((s) => s.glSnapshot)
+  const companyName = filePath
+    ? filePath.split(/[/\\]/).pop()?.replace(/\.(xlsx|xlsm|xls|csv)$/i, '').replace(/[-_]/g, ' ')
+    : 'Doanh nghiệp kiểm toán'
+  const fiscalYear = filePath?.match(/(20\d{2})/)?.[1] || `${new Date().getFullYear()}`
+
+  const [activeDrilldown, setActiveDrilldown] = useState<{
+    columnKey: string
+    columnLabel: string
+    accountPattern: string
+    month: number
+    monthName: string
+    anomalyNote?: string
+  } | null>(null)
   const opProfitNum = moneyToNumber(ebitda.operatingProfit)
   const deprNum = moneyToNumber(ebitda.depreciation)
   const fExpNum = moneyToNumber(ebitda.interestExpense)
@@ -193,12 +222,12 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
 
       {/* ── Bảng Cảnh Báo Cờ Đỏ Trọng Yếu (Executive Audit Red Flags Panel) ── */}
       <AuditRiskAlertPanel data={data} filePath={filePath} />
-      {/* ── 5 KPI Cards (Clean Enterprise SaaS Standard, Zero Emojis) ── */}
+      {/* ── 4 KPI Cards NĐ 132 / Bên Liên Quan (Clean Enterprise SaaS Standard, 4 Columns) ── */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
-          gap: '14px',
+          gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
+          gap: '12px',
         }}
       >
         {/* Card 1: Lãi vay thuần */}
@@ -308,28 +337,6 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
           </div>
           <div style={{ fontSize: '11.5px', color: '#64748b', marginTop: '4px' }}>
             Vay/Mượn tiền không phát sinh lãi
-          </div>
-        </div>
-
-        {/* Card 5: Top 5 Khách hàng */}
-        <div
-          style={{
-            background: '#ffffff',
-            padding: '16px',
-            border: '1px solid #e2e8f0',
-            borderTop: '3px solid #8b5cf6',
-            borderRadius: '10px',
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
-          }}
-        >
-          <div style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', fontWeight: 700, letterSpacing: '0.04em' }}>
-            Tập trung Top 5 Khách hàng
-          </div>
-          <div style={{ fontSize: '20px', fontWeight: 700, color: '#0f172a', marginTop: '4px', fontFamily: 'monospace' }}>
-            {pareto.customerConcentrationRatio5}% DT
-          </div>
-          <div style={{ fontSize: '11.5px', color: pareto.customerRiskWarning ? '#b45309' : '#64748b', marginTop: '4px' }}>
-            {pareto.customerRiskWarning ? '[!] Mức độ tập trung cao' : 'Phân bổ an toàn'}
           </div>
         </div>
       </div>
@@ -510,49 +517,65 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
               </span>
             )}
           </div>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12.5px' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', tableLayout: 'fixed' }}>
             <thead>
               <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'left', borderBottom: '1px solid #e2e8f0' }}>
-                <th style={{ padding: '7px 10px', fontWeight: 600 }}>Khoản Mục</th>
-                <th style={{ padding: '7px 10px', fontWeight: 600 }}>Căn Cứ</th>
-                <th style={{ padding: '7px 10px', textAlign: 'right', fontWeight: 600 }}>Số Tiền (VNĐ)</th>
+                <th style={{ width: '42%', padding: '8px 12px', fontWeight: 600 }}>Khoản Mục</th>
+                <th style={{ width: '26%', padding: '8px 12px', fontWeight: 600 }}>Căn Cứ</th>
+                <th style={{ width: '32%', padding: '8px 12px', textAlign: 'right', fontWeight: 600 }}>Số Tiền (VNĐ)</th>
               </tr>
             </thead>
-            <tbody style={{ fontFamily: 'monospace', color: '#1e293b' }}>
+            <tbody style={{ color: '#0f172a' }}>
               <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Lợi nhuận thuần từ HĐKD</td>
-                <td style={{ padding: '7px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>Mã số 30 (KQKD)</td>
-                <td style={{ padding: '7px 10px', textAlign: 'right' }}>{fmtMoneyNum(opProfitNum)}</td>
+                <td style={{ padding: '8px 12px' }}>Lợi nhuận thuần từ HĐKD</td>
+                <td style={{ padding: '8px 12px', color: '#64748b', fontSize: '12px' }}>Mã số 30 (KQKD)</td>
+                <td style={{ padding: '8px 12px', textAlign: 'right', fontFamily: 'Consolas, "Roboto Mono", monospace', fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>
+                  {fmtMoneyNum(opProfitNum)}
+                </td>
               </tr>
               <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Khấu hao tài sản cố định</td>
-                <td style={{ padding: '7px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>Có TK 214</td>
-                <td style={{ padding: '7px 10px', textAlign: 'right' }}>{fmtMoneyNum(deprNum)}</td>
+                <td style={{ padding: '8px 12px' }}>Khấu hao tài sản cố định</td>
+                <td style={{ padding: '8px 12px', color: '#64748b', fontSize: '12px' }}>Có TK 214</td>
+                <td style={{ padding: '8px 12px', textAlign: 'right', fontFamily: 'Consolas, "Roboto Mono", monospace', fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>
+                  {fmtMoneyNum(deprNum)}
+                </td>
               </tr>
               <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Chi phí lãi vay phát sinh</td>
-                <td style={{ padding: '7px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>Nợ TK 635</td>
-                <td style={{ padding: '7px 10px', textAlign: 'right' }}>{fmtMoneyNum(fExpNum)}</td>
+                <td style={{ padding: '8px 12px' }}>Chi phí lãi vay phát sinh</td>
+                <td style={{ padding: '8px 12px', color: '#64748b', fontSize: '12px' }}>Nợ TK 635</td>
+                <td style={{ padding: '8px 12px', textAlign: 'right', fontFamily: 'Consolas, "Roboto Mono", monospace', fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>
+                  {fmtMoneyNum(fExpNum)}
+                </td>
               </tr>
               <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Lãi tiền gửi, cho vay</td>
-                <td style={{ padding: '7px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>Có TK 515</td>
-                <td style={{ padding: '7px 10px', textAlign: 'right' }}>({fmtMoneyNum(fIncNum)})</td>
+                <td style={{ padding: '8px 12px' }}>Lãi tiền gửi, cho vay</td>
+                <td style={{ padding: '8px 12px', color: '#64748b', fontSize: '12px' }}>Có TK 515</td>
+                <td style={{ padding: '8px 12px', textAlign: 'right', fontFamily: 'Consolas, "Roboto Mono", monospace', fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>
+                  ({fmtMoneyNum(fIncNum)})
+                </td>
               </tr>
-              <tr style={{ borderBottom: '1px solid #e2e8f0', background: '#eff6ff', fontWeight: 700 }}>
-                <td style={{ padding: '7px 10px', color: '#1d4ed8', fontFamily: 'sans-serif' }}>EBITDA Kỳ Này</td>
-                <td style={{ padding: '7px 10px', color: '#1d4ed8', fontFamily: 'sans-serif' }}>NĐ 132/2020</td>
-                <td style={{ padding: '7px 10px', textAlign: 'right', color: '#1d4ed8' }}>{fmtMoneyNum(ebitdaNum)}</td>
+              <tr style={{ borderBottom: '1px solid #bfdbfe', background: '#eff6ff', fontWeight: 700 }}>
+                <td style={{ padding: '8px 12px', color: '#1d4ed8' }}>EBITDA Kỳ Này</td>
+                <td style={{ padding: '8px 12px', color: '#1d4ed8', fontSize: '12px' }}>NĐ 132/2020</td>
+                <td style={{ padding: '8px 12px', textAlign: 'right', color: '#1d4ed8', fontFamily: 'Consolas, "Roboto Mono", monospace', fontVariantNumeric: 'tabular-nums', fontWeight: 700, fontSize: '13.5px' }}>
+                  {fmtMoneyNum(ebitdaNum)}
+                </td>
               </tr>
               <tr style={{ borderBottom: '1px solid #f1f5f9', fontWeight: 600 }}>
-                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Mức trần lãi vay được trừ (30%)</td>
-                <td style={{ padding: '7px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>30% × EBITDA</td>
-                <td style={{ padding: '7px 10px', textAlign: 'right' }}>{fmtMoneyNum(cap30Num)}</td>
+                <td style={{ padding: '8px 12px' }}>Mức trần lãi vay được trừ (30%)</td>
+                <td style={{ padding: '8px 12px', color: '#64748b', fontSize: '12px' }}>30% × EBITDA</td>
+                <td style={{ padding: '8px 12px', textAlign: 'right', fontFamily: 'Consolas, "Roboto Mono", monospace', fontVariantNumeric: 'tabular-nums', fontWeight: 700, color: '#334155' }}>
+                  {fmtMoneyNum(cap30Num)}
+                </td>
               </tr>
-              <tr style={{ background: ebitda.isOverCap ? '#fef2f2' : 'transparent', fontWeight: 700, color: ebitda.isOverCap ? '#b91c1c' : '#047857' }}>
-                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Lãi vay vượt trần (Chỉ tiêu B4)</td>
-                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Chi phí không được trừ</td>
-                <td style={{ padding: '7px 10px', textAlign: 'right' }}>{fmtMoneyNum(disallowedNum)}</td>
+              <tr style={{ background: ebitda.isOverCap ? '#fef2f2' : '#f0fdf4', fontWeight: 700, color: ebitda.isOverCap ? '#b91c1c' : '#15803d' }}>
+                <td style={{ padding: '8px 12px' }}>Lãi vay vượt trần (Chỉ tiêu B4)</td>
+                <td style={{ padding: '8px 12px', fontSize: '12px' }}>
+                  {ebitda.isOverCap ? 'Chi phí không được trừ' : 'An toàn trong trần'}
+                </td>
+                <td style={{ padding: '8px 12px', textAlign: 'right', fontFamily: 'Consolas, "Roboto Mono", monospace', fontVariantNumeric: 'tabular-nums', fontWeight: 700, fontSize: '13.5px' }}>
+                  {fmtMoneyNum(disallowedNum)}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -944,9 +967,49 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
                                 `Biến động đột biến T${String(monthNum).padStart(2, '0')} — rà soát chứng từ phát sinh lớn / cut-off.`
                               }
                               alignRight={mIdx >= 9}
+                              onClick={() =>
+                                setActiveDrilldown({
+                                  columnKey: r.key,
+                                  columnLabel: r.label,
+                                  accountPattern: r.accountPattern,
+                                  month: monthNum,
+                                  monthName,
+                                  anomalyNote:
+                                    r.cellNotes?.[monthNum] ??
+                                    `Biến động đột biến T${String(monthNum).padStart(2, '0')} — rà soát chứng từ phát sinh lớn / cut-off.`,
+                                })
+                              }
                             />
                           ) : (
-                            <span style={{ fontWeight: 600, color: '#0f172a' }}>
+                            <span
+                              onClick={() =>
+                                setActiveDrilldown({
+                                  columnKey: r.key,
+                                  columnLabel: r.label,
+                                  accountPattern: r.accountPattern,
+                                  month: monthNum,
+                                  monthName,
+                                })
+                              }
+                              style={{
+                                fontWeight: 600,
+                                color: '#0f172a',
+                                cursor: 'pointer',
+                                padding: '2px 5px',
+                                borderRadius: '4px',
+                                display: 'inline-block',
+                                transition: 'all 120ms ease',
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.background = '#eff6ff'
+                                e.currentTarget.style.color = '#1d4ed8'
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.background = 'transparent'
+                                e.currentTarget.style.color = '#0f172a'
+                              }}
+                              title="Bấm để xem chi tiết các bút toán phát sinh"
+                            >
                               {fmtMoneyNum(valNum)}
                             </span>
                           )}
@@ -1039,6 +1102,23 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
 
       {data.expenseDetail && (
         <ExpenseDetailSection sell={data.expenseDetail.sell} admin={data.expenseDetail.admin} />
+      )}
+
+      {/* ── Modal Chi Tiết Bút Toán Phát Sinh (Drilldown) ── */}
+      {activeDrilldown && (
+        <MatrixDrilldownModal
+          isOpen={true}
+          onClose={() => setActiveDrilldown(null)}
+          columnKey={activeDrilldown.columnKey}
+          columnLabel={activeDrilldown.columnLabel}
+          accountPattern={activeDrilldown.accountPattern}
+          month={activeDrilldown.month}
+          monthName={activeDrilldown.monthName}
+          anomalyNote={activeDrilldown.anomalyNote}
+          journals={glSnapshot?.journals || []}
+          companyName={companyName}
+          fiscalYear={fiscalYear}
+        />
       )}
     </div>
   )

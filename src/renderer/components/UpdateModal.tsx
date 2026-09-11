@@ -5,10 +5,10 @@ import type { UpdateProgress } from '../../shared/types/update'
 export function UpdateModal(): JSX.Element | null {
   const updateModalOpen = useApp((s) => s.updateModalOpen)
   const setUpdateModalOpen = useApp((s) => s.setUpdateModalOpen)
+  const setUpdateNoticeDismissed = useApp((s) => s.setUpdateNoticeDismissed)
   const updateInfo = useApp((s) => s.updateInfo)
   const isCheckingUpdate = useApp((s) => s.isCheckingUpdate)
   const checkAppUpdate = useApp((s) => s.checkAppUpdate)
-
   const [checking, setChecking] = useState(false)
   const [downloading, setDownloading] = useState(false)
   const [downloadProgress, setDownloadProgress] = useState<UpdateProgress | null>(null)
@@ -47,8 +47,16 @@ export function UpdateModal(): JSX.Element | null {
       setDownloadError(err instanceof Error ? err.message : String(err))
     }
   }
-  if (!updateModalOpen) return null
 
+  const handleDismissLater = () => {
+    setUpdateModalOpen(false)
+    setUpdateNoticeDismissed(true)
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('auditsoft_update_auto_dismissed', 'true')
+    }
+  }
+
+  if (!updateModalOpen) return null
   const handleManualCheck = async () => {
     setChecking(true)
     await checkAppUpdate()
@@ -83,7 +91,7 @@ export function UpdateModal(): JSX.Element | null {
         justifyContent: 'center',
         zIndex: 9999,
       }}
-      onClick={() => setUpdateModalOpen(false)}
+      onClick={handleDismissLater}
     >
       <div
         className="modal-box update-modal-box"
@@ -148,8 +156,7 @@ export function UpdateModal(): JSX.Element | null {
               justifyContent: 'center',
               transition: 'background 120ms ease, color 120ms ease',
             }}
-            onClick={() => setUpdateModalOpen(false)}
-            title="Đóng (ESC)"
+            onClick={handleDismissLater}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = '#f1f5f9'
               e.currentTarget.style.color = '#0f172a'
@@ -277,33 +284,61 @@ export function UpdateModal(): JSX.Element | null {
                   </div>
                 </div>
               ) : (
-                /* Nút Tự Động Cài Đặt Ngay (1-Click) */
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingTop: 4 }}>
-                  <button
-                    type="button"
-                    style={{
-                      width: '100%',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 8,
-                      padding: '11px 18px',
-                      fontSize: 14,
-                      fontWeight: 700,
-                      background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
-                      color: '#ffffff',
-                      borderRadius: 9,
-                      border: 'none',
-                      cursor: 'pointer',
-                      boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
-                      transition: 'transform 120ms ease, box-shadow 120ms ease',
-                    }}
-                    onClick={handleAutoInstall}
-                  >
-                    <IconDownloadCloud size={17} />
-                    <span>TỰ ĐỘNG CÀI ĐẶT NGAY (1-CLICK)</span>
-                  </button>
+                /* Nhóm Nút Hành Động: Để Sau & Cập Nhật Ngay */
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                    <button
+                      type="button"
+                      style={{
+                        flex: '0 0 115px',
+                        padding: '11px 16px',
+                        fontSize: 13.5,
+                        fontWeight: 600,
+                        background: '#f1f5f9',
+                        color: '#475569',
+                        borderRadius: 9,
+                        border: '1px solid #cbd5e1',
+                        cursor: 'pointer',
+                        transition: 'all 120ms ease',
+                      }}
+                      onClick={handleDismissLater}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#e2e8f0'
+                        e.currentTarget.style.color = '#1e293b'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#f1f5f9'
+                        e.currentTarget.style.color = '#475569'
+                      }}
+                    >
+                      Để sau
+                    </button>
 
+                    <button
+                      type="button"
+                      style={{
+                        flex: 1,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 8,
+                        padding: '11px 18px',
+                        fontSize: 13.5,
+                        fontWeight: 700,
+                        background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+                        color: '#ffffff',
+                        borderRadius: 9,
+                        border: 'none',
+                        cursor: 'pointer',
+                        boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
+                        transition: 'transform 120ms ease, box-shadow 120ms ease',
+                      }}
+                      onClick={handleAutoInstall}
+                    >
+                      <IconDownloadCloud size={17} />
+                      <span>CẬP NHẬT NGAY</span>
+                    </button>
+                  </div>
                   {/* Nút phụ: Mở trình duyệt tải thủ công */}
                   <div style={{ display: 'flex', gap: 8, marginTop: 2 }}>
                     {updateInfo?.downloadUrl && (

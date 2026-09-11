@@ -162,6 +162,8 @@ export function fillExpenseWorkingPaper(
       editor.fillAddSheet(ctx.engagement)
       updatedSheets.push('ADD')
     }
+
+    // 1. G210 Lead schedule Giá vốn hàng bán (632)
     const g210Sheet = editor.hasSheet('G210') ? 'G210' : editor.hasSheet('G 210') ? 'G 210' : null
     if (g210Sheet) {
       const acc632 = ctx.cdfsAccounts.get('632')
@@ -172,6 +174,82 @@ export function fillExpenseWorkingPaper(
       itemsCount++
       updatedSheets.push(g210Sheet)
     }
+
+    // 2. G310 Lead schedule Chi phí bán hàng (641)
+    const g310Sheet = editor.hasSheet('G310') ? 'G310' : editor.hasSheet('G 310') ? 'G 310' : null
+    if (g310Sheet) {
+      const acc641 = ctx.cdfsAccounts.get('641') || ctx.cdfsAccounts.get('6411')
+      if (acc641) {
+        editor.setLeadRowValues(g310Sheet, 12, { ck: acc641.psno, dk: acc641.psno })
+        itemsCount++
+      }
+      updatedSheets.push(g310Sheet)
+    }
+
+    // 3. G410 Lead schedule Chi phí quản lý doanh nghiệp (642)
+    const g410Sheet = editor.hasSheet('G410') ? 'G410' : editor.hasSheet('G 410') ? 'G 410' : null
+    if (g410Sheet) {
+      const acc642 = ctx.cdfsAccounts.get('642') || ctx.cdfsAccounts.get('6421')
+      if (acc642) {
+        editor.setLeadRowValues(g410Sheet, 13, { ck: acc642.psno, dk: acc642.psno })
+        itemsCount++
+      }
+      updatedSheets.push(g410Sheet)
+    }
+
+    // 4. G490 Chọn mẫu chi phí QLDN (642)
+    const g490Sheet = editor.hasSheet('G490') ? 'G490' : editor.hasSheet('G 490') ? 'G 490' : null
+    if (g490Sheet) {
+      const gnaSamples = ctx.nkcTransactions
+        .filter((t) => t.debit.startsWith('642'))
+        .sort((a, b) => b.amount - a.amount)
+        .slice(0, 18)
+
+      for (let i = 0; i < gnaSamples.length; i++) {
+        const item = gnaSamples[i]
+        if (!item) continue
+        const r = 40 + i
+        editor.fillSampleRow(g490Sheet, r, {
+          colOffset: 2,
+          date: item.dateVal,
+          docNo: item.docNo,
+          desc: item.desc,
+          debit: item.debit,
+          credit: item.credit,
+          amount: item.amount,
+        })
+        editor.updateCell(g490Sheet, `I${r}`, { text: 'P' })
+        itemsCount++
+      }
+      updatedSheets.push(g490Sheet)
+    }
+
+    // 5. G291.2 Chọn mẫu phát sinh mua hàng
+    const g291Sheet = editor.hasSheet('G291.2') ? 'G291.2' : editor.hasSheet('G291') ? 'G291' : null
+    if (g291Sheet) {
+      const purchaseSamples = ctx.nkcTransactions
+        .filter((t) => (t.debit.startsWith('152') || t.debit.startsWith('611')) && t.credit.startsWith('331'))
+        .sort((a, b) => b.amount - a.amount)
+        .slice(0, 15)
+
+      for (let i = 0; i < purchaseSamples.length; i++) {
+        const item = purchaseSamples[i]
+        if (!item) continue
+        const r = 14 + i
+        editor.fillSampleRow(g291Sheet, r, {
+          date: item.dateVal,
+          docNo: item.docNo,
+          desc: item.desc,
+          debit: item.debit,
+          credit: item.credit,
+          amount: item.amount,
+        })
+        editor.updateCell(g291Sheet, `I${r}`, { text: 'P' })
+        itemsCount++
+      }
+      updatedSheets.push(g291Sheet)
+    }
+
     return {
       fileName,
       success: true,

@@ -26,15 +26,26 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   private handleReset = (): void => {
+    // Nếu lỗi do Vite chunk cũ (sau khi app được re-build trong khi cửa sổ Electron đang mở)
+    const msg = this.state.error?.message || ''
+    if (msg.includes('Failed to fetch dynamically imported module') || msg.includes('Importing a module script failed')) {
+      window.location.reload()
+      return
+    }
     this.setState({ hasError: false, error: null })
   }
 
   private handleGoHome = (): void => {
+    const msg = this.state.error?.message || ''
+    if (msg.includes('Failed to fetch dynamically imported module') || msg.includes('Importing a module script failed')) {
+      window.location.hash = ''
+      window.location.reload()
+      return
+    }
     this.setState({ hasError: false, error: null })
     window.location.hash = ''
     window.dispatchEvent(new CustomEvent('auditsoft:navigate-home'))
   }
-
   public override render(): ReactNode {
     if (this.state.hasError) {
       return (
@@ -80,7 +91,13 @@ export class ErrorBoundary extends Component<Props, State> {
               margin: '0 0 20px',
             }}
           >
-            {this.state.error?.message || 'Không thể hiển thị nội dung giao diện. Dữ liệu của bạn vẫn an toàn.'}
+            {(() => {
+              const msg = this.state.error?.message || ''
+              if (msg.includes('Failed to fetch dynamically imported module') || msg.includes('Importing a module script failed')) {
+                return 'Ứng dụng vừa được cập nhật mã nguồn mới trong khi cửa sổ đang mở. Vui lòng bấm "Tải lại ứng dụng (F5)" hoặc khởi động lại app để nạp phiên bản mới nhất.'
+              }
+              return msg || 'Không thể hiển thị nội dung giao diện. Dữ liệu của bạn vẫn an toàn.'
+            })()}
           </p>
 
           <div style={{ display: 'flex', gap: '10px' }}>
@@ -98,7 +115,13 @@ export class ErrorBoundary extends Component<Props, State> {
                 cursor: 'pointer',
               }}
             >
-              Thử lại phân hệ
+              {(() => {
+                const msg = this.state.error?.message || ''
+                if (msg.includes('Failed to fetch dynamically imported module') || msg.includes('Importing a module script failed')) {
+                  return 'Tải lại ứng dụng (Reload)'
+                }
+                return 'Thử lại phân hệ'
+              })()}
             </button>
 
             <button

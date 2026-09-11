@@ -29,10 +29,10 @@ export function Vsa520RatiosBar({ data }: Props): JSX.Element {
   const opexRatioPct = totalRev > 0 ? Number(((totalOpex / totalRev) * 100).toFixed(1)) : 0
   const isOpexWarning = opexRatioPct > 12
 
-  // 4. Mức độ tập trung khách hàng Top 1 (Pareto)
+  // 4. Mức độ tập trung khách hàng (Pareto Top 1 & Top 5)
   const custTop1Pct = pareto.customerConcentrationRatio1
-  const isCustWarning = custTop1Pct > 30
-
+  const custTop5Pct = pareto.customerConcentrationRatio5
+  const isCustWarning = custTop1Pct > 30 || pareto.customerRiskWarning
   const ratios = [
     {
       label: 'Biên Lợi Nhuận Gộp',
@@ -58,8 +58,8 @@ export function Vsa520RatiosBar({ data }: Props): JSX.Element {
     {
       label: 'Tập Trung Nguồn Thu (Top 1)',
       value: `${custTop1Pct}% DT`,
-      bench: 'Chuẩn ≤ 30%',
-      eval: isCustWarning ? 'Phụ thuộc 1 KH lớn' : 'Phân bổ an toàn',
+      bench: `Top 5: ${custTop5Pct}% DT`,
+      eval: isCustWarning ? (custTop1Pct > 30 ? 'Phụ thuộc 1 KH lớn' : 'Mức độ tập trung cao') : 'Phân bổ an toàn',
       status: isCustWarning ? 'WARNING' : 'SAFE',
     },
   ]
@@ -68,7 +68,7 @@ export function Vsa520RatiosBar({ data }: Props): JSX.Element {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+        gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
         gap: '12px',
       }}
     >

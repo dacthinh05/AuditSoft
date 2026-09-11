@@ -26,6 +26,7 @@ import { LocalXmlIngestionEngine } from '../domain/etax/ingestion/LocalXmlIngest
 import { testGeminiConnection, generateGeminiAuditReview, type FinancialMetricsPayload } from './services/GeminiService'
 import { verifyLicense } from '../shared/license'
 import { buildInterimPeriodBalances } from '../domain/workingpaper/InterimPeriodReconciler'
+import { assertCanExport, syncLicenseInMain } from './mainLicenseGuard'
 let mainWindow: BrowserWindow | null = null
 let activeReconcileWorker: Worker | null = null
 let activeExportWorker: Worker | null = null
@@ -172,6 +173,7 @@ function registerIpcHandlers(): void {
   })
 
   ipcMain.handle(IPC.auditExport, async (_e, rawReq: unknown) => {
+    assertCanExport('Xuất Báo cáo Audit Analytics')
     const req = auditExportSchema.parse(rawReq)
     const win = mainWindow ?? undefined
     const suggested = req.suggestedName?.trim() || `Audit-Analytics-${req.fiscalYear ?? new Date().getFullYear()}.xlsx`
@@ -195,6 +197,7 @@ function registerIpcHandlers(): void {
 
   ipcMain.handle(IPC.exportReport, async (_e, rawReq: unknown) => {
     const parsed = exportRequestSchema.parse(rawReq)
+    assertCanExport('Xuất Báo cáo Đối chiếu NKC')
     const win = mainWindow ?? undefined
     const suggested = typeof parsed.suggestedName === 'string' && parsed.suggestedName.trim() !== '' ? parsed.suggestedName : 'DoiChieu-NKC.xlsx'
     const save = await dialog.showSaveDialog(win as BrowserWindow, {
@@ -265,6 +268,7 @@ function registerIpcHandlers(): void {
   })
 
   ipcMain.handle(IPC.exportExpenseByNature, async (_e, rawReq: unknown) => {
+    assertCanExport('Xuất Ma Trận Chi Phí Theo Yếu Tố')
     const req = rawReq as {
       report: ExpenseByNatureReport
       clientName?: string
@@ -316,6 +320,7 @@ function registerIpcHandlers(): void {
 
   ipcMain.handle(IPC.generateWorkingPapers, async (_e, rawReq: unknown) => {
     const req = rawReq as GenerateWorkingPapersRequest
+    assertCanExport('Tạo Giấy làm việc kiểm toán')
     if (!req || !req.sourcePath) throw new Error('Vui lòng chọn file dữ liệu kế toán nguồn')
     if (!req.engagement) throw new Error('Thiếu thông tin hợp đồng kiểm toán (engagement)')
     if (!req.engagement.clientName?.trim()) throw new Error('Vui lòng nhập tên khách hàng kiểm toán')
@@ -373,6 +378,7 @@ function registerIpcHandlers(): void {
     if (!req || !Array.isArray(req.sourceFiles) || req.sourceFiles.length === 0) {
       throw new Error('Vui lòng chọn ít nhất 1 file B410 để tổng hợp.')
     }
+    assertCanExport('Tổng hợp B410 Master')
     const template = resolveB410TemplatePath(req.masterTemplatePath)
 
     // Xác định thư mục lưu file: lưu ngay thư mục chứa file nguồn của người dùng
@@ -457,7 +463,11 @@ function registerIpcHandlers(): void {
 
   // ── Bản quyền bảo mật Ed25519 (Chạy Node.js Crypto phía Main Process 100% chính xác) ──
   ipcMain.handle(IPC.verifyLicenseKey, async (_e, licenseKey: string, machineId: string) => {
-    return verifyLicense(machineId, licenseKey)
+    const res = verifyLicense(machineId, licenseKey)
+    if (res.valid) {
+      syncLicenseInMain(licenseKey, machineId)
+    }
+    return res
   })
 }
 

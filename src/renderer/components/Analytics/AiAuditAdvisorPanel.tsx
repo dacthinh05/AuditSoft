@@ -23,6 +23,54 @@ function renderFormattedText(text: string): React.ReactNode {
   })
 }
 
+function renderMarkdownTable(block: string): React.ReactNode {
+  const lines = block
+    .trim()
+    .split('\n')
+    .map((l) => l.trim())
+    .filter((l) => l.startsWith('|'))
+  if (lines.length < 2) return null
+
+  const firstLine = lines[0]
+  if (!firstLine) return null
+  const headerCells = firstLine
+    .split('|')
+    .slice(1, -1)
+    .map((c) => c.trim())
+
+  const dataRows = lines
+    .slice(2)
+    .map((line) =>
+      line
+        .split('|')
+        .slice(1, -1)
+        .map((c) => c.trim())
+    )
+
+  return (
+    <div className="ai-table-responsive-wrapper">
+      <table className="ai-markdown-table">
+        <thead>
+          <tr>
+            {headerCells.map((h, i) => (
+              <th key={i}>{renderFormattedText(h)}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {dataRows.map((row, rIdx) => (
+            <tr key={rIdx}>
+              {row.map((cell, cIdx) => (
+                <td key={cIdx}>{renderFormattedText(cell)}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 export function AiAuditAdvisorPanel({ data, filePath }: Props): JSX.Element {
   const apiKey = useApp((s) => s.apiKey)
   const selectedModel = useApp((s) => s.selectedModel)
@@ -32,10 +80,10 @@ export function AiAuditAdvisorPanel({ data, filePath }: Props): JSX.Element {
   const setCachedReview = useApp((s) => s.setCachedReview)
   const setAiConfigModalOpen = useApp((s) => s.setAiConfigModalOpen)
 
-  const [copied, setCopied] = useState(false)
+  const [copiedSection, setCopiedSection] = useState<string | null>(null)
+  const [contextNote, setContextNote] = useState('')
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const [isExpanded, setIsExpanded] = useState(true)
-
   const handleRunAnalysis = async () => {
     if (!apiKey) {
       setAiConfigModalOpen(true)
@@ -70,9 +118,97 @@ export function AiAuditAdvisorPanel({ data, filePath }: Props): JSX.Element {
         ? filePath.split(/[/\\]/).pop()?.replace(/\.(xlsx|xlsm|xls|csv)$/i, '').replace(/[-_]/g, ' ')
         : 'DOANH_NGHIEP_KIEM_TOAN_A'
 
+      // 2. Bảng 12 Tháng: Doanh thu, Giá vốn 632 và CPSX thực tế
+      const cogsMatrixRows = correlations?.cogs12mMatrix?.rows
+      const monthlyBreakdown =
+        cogsMatrixRows && cogsMatrixRows.length > 0
+          ? cogsMatrixRows.map((r) => {
+              const revNum = moneyToNumber(r.revenue511)
+              const cogsNum = moneyToNumber(r.totalCogs632)
+              const margin = revNum > 0 ? Number((((revNum - cogsNum) / revNum) * 100).toFixed(1)) : 0
+              return {
+                month: r.month,
+                revenue: revNum,
+                cogs632: cogsNum,
+                grossMarginPct: margin,
+                productionCost: moneyToNumber(r.totalProductionCost),
+                prodCostToRevPct: r.prodCostToRevenuePct,
+                isLumpSumYearEnd: r.isLumpSumYearEnd,
+                isAnomaly: correlations?.grossMargin.anomalousMonths?.includes(r.month),
+                auditNote: r.auditFlag || undefined,
+              }
+            })
+          : revRow
+            ? revRow.months.map((mVal, idx) => {
+                const mNum = idx + 1
+                const revNum = moneyToNumber(mVal)
+                const cogsNum = cogsRow?.months[idx] ? moneyToNumber(cogsRow.months[idx]) : 0
+                const margin = revNum > 0 ? Number((((revNum - cogsNum) / revNum) * 100).toFixed(1)) : 0
+                return {
+                  month: mNum,
+                  revenue: revNum,
+                  cogs632: cogsNum,
+                  grossMarginPct: margin,
+                  isAnomaly: correlations?.grossMargin.anomalousMonths?.includes(mNum),
+                }
+              })
+            : undefined
+
+      // 3. Số liệu KQKD So Sánh YoY (B02)
+      const kqkdYoY = data.kqkdYoY?.rows?.map((r) => ({
+        chiTieu: r.chiTieu,
+        current: r.current,
+        prior: r.prior,
+        diff: r.diff,
+        pct: r.pct,
+      }))
+
+      // 4. Số liệu Rủi ro thuế & Điều chỉnh B4
+      const cashTaxRisk = data.cashTaxRisk
+        ? {
+            totalCashOverThreshold: data.cashTaxRisk.totalRiskNumber,
+            countCashOverThreshold: data.cashTaxRisk.singleItems?.length || 0,
+            thresholdUsed: data.cashTaxRisk.thresholdUsed,
+            penalty811Amount: data.cashTaxRisk.penaltyRiskNumber,
+            noInvoiceAmount: data.cashTaxRisk.noInvoiceRiskNumber,
+            estimatedB4Amount: data.cashTaxRisk.estimatedB4Number,
+            estimatedTaxIncrease: data.cashTaxRisk.estimatedTaxPayableNumber,
+            auditWarnings: [
+              ...(data.cashTaxRisk.singleItems?.length ? [`Phát hiện ${data.cashTaxRisk.singleItems.length} khoản chi tiền mặt vượt ngưỡng.`] : []),
+              ...(data.cashTaxRisk.splitClusters?.length ? [`Phát hiện ${data.cashTaxRisk.splitClusters.length} cụm phiếu chi chia nhỏ cùng ngày.`] : []),
+            ],
+          }
+        : undefined
+
+      // 5. Giao dịch Bên liên quan
+      const relatedParties = data.relatedParties?.map((rp) => ({
+        name: rp.partyName || rp.name || 'Bên liên quan',
+        relationship: rp.relationshipType,
+        amount: rp.totalAmount ? moneyToNumber(rp.totalAmount) : 0,
+        accounts: rp.accounts,
+        riskType: rp.riskLevel ? `Rủi ro ${rp.riskLevel}` : rp.description,
+        auditWarning: rp.auditWarning,
+      }))
+
+      // 6. Rủi ro tập trung Pareto
+      const paretoSummary = data.pareto
+        ? {
+            topCustomerName: data.pareto.topCustomers?.[0]?.name,
+            topCustomerPct: data.pareto.customerConcentrationRatio1,
+            top5CustomersPct: data.pareto.customerConcentrationRatio5,
+            customerRiskWarning: data.pareto.customerRiskWarning,
+            topSupplierName: data.pareto.topSuppliers?.[0]?.name,
+            topSupplierPct: data.pareto.topSuppliers?.[0]?.percentage,
+            top5SuppliersPct: data.pareto.supplierConcentrationRatio5,
+            supplierRiskWarning: data.pareto.supplierRiskWarning,
+          }
+        : undefined
+
       const payload = {
         clientName: clientFromPath || 'DOANH_NGHIEP_KIEM_TOAN_A',
         fiscalYear: yearFromPath || `${new Date().getFullYear()}`,
+        businessType: correlations?.cogs12mMatrix?.businessType,
+        auditorContextNote: contextNote.trim() || undefined,
         ebitda: ebitda
           ? {
               revenue: totalRevenue,
@@ -97,6 +233,8 @@ export function AiAuditAdvisorPanel({ data, filePath }: Props): JSX.Element {
               anomalousMonths: correlations?.grossMargin.anomalousMonths || [],
             }
           : undefined,
+        monthlyBreakdown,
+        kqkdYoY,
         opex: expense
           ? {
               sellingExpense: expense.sell.totals.reduce((s, v) => s + v, 0),
@@ -116,9 +254,13 @@ export function AiAuditAdvisorPanel({ data, filePath }: Props): JSX.Element {
               summaryWarnings: correlations.cogs12mMatrix.summaryWarnings,
             }
           : undefined,
+        cashTaxRisk,
+        relatedParties,
+        pareto: paretoSummary,
         topRisks: [
           ...(correlations?.grossMargin.auditWarning ? [correlations.grossMargin.auditWarning] : []),
           ...(correlations?.cogs12mMatrix?.summaryWarnings || []),
+          ...(data.pareto?.customerRiskWarning ? [data.pareto.customerRiskWarning] : []),
           ...(data.pareto?.supplierRiskWarning ? [data.pareto.supplierRiskWarning] : []),
           ...(data.relatedParties && data.relatedParties.length > 0 ? [`Phát hiện ${data.relatedParties.length} bên liên quan có giao dịch trọng yếu.`] : []),
           ...(trend?.warningNotes ? trend.warningNotes : []),
@@ -142,16 +284,33 @@ export function AiAuditAdvisorPanel({ data, filePath }: Props): JSX.Element {
     }
   }
 
-  const handleCopy = async () => {
+  const handleCopySection = async (sectionKey: 'ALL' | 'I' | 'II' | 'III' | 'IV') => {
     if (!cachedReview) return
     try {
-      await navigator.clipboard.writeText(cachedReview)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      if (sectionKey === 'ALL') {
+        await navigator.clipboard.writeText(cachedReview)
+        setCopiedSection('ALL')
+        setTimeout(() => setCopiedSection(null), 2000)
+        return
+      }
+
+      const regex = new RegExp(`(###\\s+${sectionKey}\\.[\\s\\S]*?)(?=(?:###\\s+[I|V|X]+\\.)|$)`, 'i')
+      const match = cachedReview.match(regex)
+      if (match && match[1]) {
+        await navigator.clipboard.writeText(match[1].trim())
+        setCopiedSection(sectionKey)
+        setTimeout(() => setCopiedSection(null), 2000)
+      } else {
+        await navigator.clipboard.writeText(cachedReview)
+        setCopiedSection(sectionKey)
+        setTimeout(() => setCopiedSection(null), 2000)
+      }
     } catch {
       // ignore
     }
   }
+
+  const handleCopy = () => handleCopySection('ALL')
 
   return (
     <div className="ai-advisor-container">
@@ -267,14 +426,47 @@ export function AiAuditAdvisorPanel({ data, filePath }: Props): JSX.Element {
                   <span>Phân tích lại với Gemini 2.5</span>
                 </button>
 
-                <button
-                  type="button"
-                  className={`btn-ai-copy-review ${copied ? 'copied' : ''}`}
-                  onClick={handleCopy}
-                >
-                  {copied ? <IconCheck size={14} /> : <IconClipboard size={14} />}
-                  <span>{copied ? 'Đã sao chép vào Clipboard!' : 'Sao chép nhận xét'}</span>
-                </button>
+                <div className="ai-segment-copy-group">
+                  <button
+                    type="button"
+                    className={`btn-ai-segment-copy ${copiedSection === 'ALL' ? 'copied' : ''}`}
+                    onClick={() => handleCopySection('ALL')}
+                    title="Sao chép toàn bộ bản thảo nhận xét"
+                  >
+                    {copiedSection === 'ALL' ? <IconCheck size={13} /> : <IconClipboard size={13} />}
+                    <span>{copiedSection === 'ALL' ? 'Đã sao chép!' : 'Copy Toàn Bộ'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className={`btn-ai-segment-copy ${copiedSection === 'I' ? 'copied' : ''}`}
+                    onClick={() => handleCopySection('I')}
+                    title="Sao chép Phần I: Đánh giá Tổng quan BCTC (dán vào A710)"
+                  >
+                    {copiedSection === 'I' ? <IconCheck size={13} /> : <IconClipboard size={13} />}
+                    <span>{copiedSection === 'I' ? 'Đã copy A710!' : 'Copy A710 (Tổng quan)'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className={`btn-ai-segment-copy ${copiedSection === 'II' ? 'copied' : ''}`}
+                    onClick={() => handleCopySection('II')}
+                    title="Sao chép Phần II: Phân tích Ma trận Giá vốn & Cut-off (dán vào G353)"
+                  >
+                    {copiedSection === 'II' ? <IconCheck size={13} /> : <IconClipboard size={13} />}
+                    <span>{copiedSection === 'II' ? 'Đã copy G353!' : 'Copy G353 (Giá vốn)'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className={`btn-ai-segment-copy ${copiedSection === 'III' ? 'copied' : ''}`}
+                    onClick={() => handleCopySection('III')}
+                    title="Sao chép Phần III: Chi phí hoạt động & Rủi ro Thuế B4 (dán vào E300)"
+                  >
+                    {copiedSection === 'III' ? <IconCheck size={13} /> : <IconClipboard size={13} />}
+                    <span>{copiedSection === 'III' ? 'Đã copy E300!' : 'Copy E300 (Thuế B4)'}</span>
+                  </button>
+                </div>
               </div>
 
               <div className="ai-review-content-card">
@@ -285,6 +477,9 @@ export function AiAuditAdvisorPanel({ data, filePath }: Props): JSX.Element {
                 <div className="ai-review-markdown-body">
                   {cachedReview.split('\n\n').map((paragraph, idx) => {
                     const trimmed = paragraph.trim()
+                    if (trimmed.startsWith('|') && trimmed.includes('\n|')) {
+                      return <div key={idx}>{renderMarkdownTable(trimmed)}</div>
+                    }
                     if (trimmed.startsWith('### ')) {
                       return (
                         <h4 key={idx} className="ai-section-heading">
@@ -323,7 +518,7 @@ export function AiAuditAdvisorPanel({ data, filePath }: Props): JSX.Element {
                   })}
                 </div>
                 <div className="ai-review-foot-hint">
-                  <IconLightbulb size={13} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /><strong>Gợi ý:</strong> Bấm <em>&ldquo;Sao chép nhận xét&rdquo;</em> ở trên để dán trực tiếp vào Giấy làm việc A710, G353 hoặc Biên bản họp kiểm toán với Ban Giám đốc.
+                  <IconLightbulb size={13} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /><strong>Gợi ý:</strong> Sử dụng các nút <em>&ldquo;Copy A710&rdquo;</em>, <em>&ldquo;Copy G353&rdquo;</em> hoặc <em>&ldquo;Copy E300&rdquo;</em> ở trên để dán trực tiếp vào từng Giấy làm việc tương ứng.
                 </div>
               </div>
             </>
@@ -336,13 +531,28 @@ export function AiAuditAdvisorPanel({ data, filePath }: Props): JSX.Element {
                 </div>
                 <h4 className="hero-title">Sẵn sàng lập Bản thảo Nhận xét Kiểm toán Độc lập</h4>
                 <p className="hero-desc">
-                  Chỉ trong 3 giây, Gemini 2.5 sẽ tự động đọc toàn bộ chỉ số EBITDA, biến động doanh thu 12 tháng, ma trận chi phí giá vốn (bóc tách CPSX thực tế vs 632) và đưa ra nhận xét phản biện chuẩn mực VSA 520.
+                  Chỉ trong 3 giây, Gemini 2.5 sẽ tự động đối chiếu toàn bộ chỉ số EBITDA, ma trận 12 tháng (Doanh thu - Giá vốn 632 vs CPSX thực tế), so sánh YoY B02 và rủi ro thuế B4 để đưa ra nhận xét phản biện sắc bén chuẩn VSA 520.
                 </p>
                 <div className="hero-tags">
                   <span className="hero-tag">EBITDA &amp; NĐ 132</span>
-                  <span className="hero-tag">Xu hướng 12 Tháng</span>
-                  <span className="hero-tag">Ma Trận Giá Vốn &amp; CPSX</span>
-                  <span className="hero-tag">Rủi ro Cutoff &amp; Phù hợp</span>
+                  <span className="hero-tag">Ma Trận 12M CPSX</span>
+                  <span className="hero-tag">So Sánh YoY B02</span>
+                  <span className="hero-tag">Rủi Ro Thuế B4</span>
+                  <span className="hero-tag">Bên Liên Quan &amp; Pareto</span>
+                </div>
+
+                <div className="ai-context-note-box">
+                  <label htmlFor="ai-context-note" className="ai-context-note-label">
+                    Ghi chú bối cảnh kiểm toán (tùy chọn):
+                  </label>
+                  <input
+                    id="ai-context-note"
+                    type="text"
+                    className="ai-context-note-input"
+                    placeholder="Ví dụ: Doanh nghiệp mở thêm phân xưởng Q3, chi phí sắt thép NVL tăng mạnh..."
+                    value={contextNote}
+                    onChange={(e) => setContextNote(e.target.value)}
+                  />
                 </div>
               </div>
               <div className="hero-right">

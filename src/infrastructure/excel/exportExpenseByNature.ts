@@ -347,9 +347,15 @@ export function buildExpenseByNatureWorkbook(
       label: '(-) Tồn kho thành phẩm cuối năm (TK 155 CK)',
       value: -recon.finishedClosing155,
     },
+    ...(recon.internalUsageFrom155 > 0
+      ? [{ label: '(-) Xuất thành phẩm/dở dang dùng nội bộ', value: -recon.internalUsageFrom155 }]
+      : []),
+    ...(recon.costReductions > 0
+      ? [{ label: '(-) Giảm chi phí / luân chuyển công trình', value: -recon.costReductions }]
+      : []),
     {
       label: 'TỔNG CỘNG CHI PHÍ SXKD TRONG KỲ (Luân chuyển)',
-      value: { formula: `SUM(${rAmtL}8:${rAmtL}12)` },
+      value: recon.calculatedTotalOperatingCost,
       isBold: true,
       bg: 'FFF1F5F9',
     },

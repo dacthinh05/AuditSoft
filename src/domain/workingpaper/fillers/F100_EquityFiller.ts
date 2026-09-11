@@ -48,8 +48,29 @@ export function fillEquityWorkingPaper(
       const dk4212 = acc4212?.sdcdk ? acc4212.sdcdk : -(acc4212?.sdndk ?? 0)
       editor.setLeadRowValues(f110Sheet, 14, { ck: ck4212, dk: dk4212, colDk: 8 })
       itemsCount++
-
       updatedSheets.push(f110Sheet)
+    }
+
+    // 3. F 190 Kiểm tra tăng giảm vốn góp
+    const f190Sheet = editor.hasSheet('F 190') ? 'F 190' : editor.hasSheet('F190') ? 'F190' : null
+    if (f190Sheet) {
+      const capTxns = ctx.nkcTransactions.filter((t) => t.debit.startsWith('411') || t.credit.startsWith('411'))
+      if (capTxns.length > 0) {
+        let r = 22
+        for (const item of capTxns.slice(0, 10)) {
+          editor.updateCell(f190Sheet, `B${r}`, { date: item.dateVal })
+          editor.updateCell(f190Sheet, `C${r}`, { text: item.docNo })
+          editor.updateCell(f190Sheet, `D${r}`, { text: item.desc })
+          editor.updateCell(f190Sheet, `H${r}`, { number: item.amount })
+          editor.updateCell(f190Sheet, `I${r}`, { text: 'P' })
+          r++
+          itemsCount += 5
+        }
+      } else {
+        editor.updateCell(f190Sheet, 'C22', { text: 'Trong kỳ không phát sinh tăng/giảm vốn điều lệ' })
+        itemsCount++
+      }
+      updatedSheets.push(f190Sheet)
     }
 
     return {

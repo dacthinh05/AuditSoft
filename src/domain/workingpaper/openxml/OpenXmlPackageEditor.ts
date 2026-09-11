@@ -541,8 +541,9 @@ export class OpenXmlPackageEditor {
       tkCo: string
       soTien: number
       chiTieuCdkt?: string
+      chiTieuKqkd?: string
     }>,
-    defaultBsName = 'Tài sản',
+    defaultBsName = 'Phải trả người lao động',
   ): number {
     let filled = 0
     const count = Math.min(entries.length, maxRows)
@@ -550,18 +551,106 @@ export class OpenXmlPackageEditor {
       const aje = entries[i]
       if (!aje) continue
       const r = startRow + i
-      const isDebitAsset =
-        aje.tkNo.startsWith('1') || aje.tkNo.startsWith('2')
-      const impactVal = isDebitAsset ? aje.soTien : -aje.soTien
+      const amt = Math.abs(aje.soTien || 0)
+      const tkNo = aje.tkNo.trim()
+      const tkCo = aje.tkCo.trim()
 
       this.updateCell(sheetName, `A${r}`, { text: String(i + 1) })
       this.updateCell(sheetName, `B${r}`, { text: aje.glvRef || `AJE.${i + 1}` })
       this.updateCell(sheetName, `C${r}`, { text: aje.noiDung })
-      this.updateCell(sheetName, `D${r}`, { text: aje.tkNo })
-      this.updateCell(sheetName, `E${r}`, { text: aje.tkCo })
-      this.updateCell(sheetName, `F${r}`, { number: aje.soTien })
-      this.updateCell(sheetName, `G${r}`, { text: aje.chiTieuCdkt || defaultBsName })
-      this.updateCell(sheetName, `H${r}`, { number: impactVal })
+      this.updateCell(sheetName, `D${r}`, { text: tkNo })
+      this.updateCell(sheetName, `E${r}`, { text: tkCo })
+      this.updateCell(sheetName, `F${r}`, { number: amt })
+
+      // ── PHÂN BỔ ẢNH HƯỞNG CĐKT (Cột G: Chỉ tiêu, Cột H: TS Tăng, I: TS Giảm, J: NV Tăng, K: NV Giảm) ──
+      let cdktName = aje.chiTieuCdkt || defaultBsName
+      let tsTang: number | null = null
+      let tsGiam: number | null = null
+      let nvTang: number | null = null
+      let nvGiam: number | null = null
+
+      const isDebitAsset = tkNo.startsWith('1') || tkNo.startsWith('2')
+      const isCreditAsset = tkCo.startsWith('1') || tkCo.startsWith('2')
+      const isDebitLiab = tkNo.startsWith('3') || tkNo.startsWith('4')
+      const isCreditLiab = tkCo.startsWith('3') || tkCo.startsWith('4')
+
+      if (isDebitAsset) {
+        tsTang = amt
+        cdktName = tkNo.startsWith('131') ? 'Phải thu khách hàng' : tkNo.startsWith('11') ? 'Tiền và tương đương tiền' : cdktName
+      } else if (isCreditAsset) {
+        tsGiam = amt
+        cdktName = tkCo.startsWith('131') ? 'Phải thu khách hàng' : tkCo.startsWith('11') ? 'Tiền và tương đương tiền' : cdktName
+      } else if (isCreditLiab) {
+        nvTang = amt
+        cdktName = tkCo.startsWith('334')
+          ? 'Phải trả người lao động'
+          : tkCo.startsWith('338')
+          ? 'Phải trả, phải nộp khác'
+          : tkCo.startsWith('335')
+          ? 'Chi phí phải trả'
+          : tkCo.startsWith('331')
+          ? 'Phải trả người bán'
+          : tkCo.startsWith('333')
+          ? 'Thuế và các khoản phải nộp'
+          : cdktName
+      } else if (isDebitLiab) {
+        nvGiam = amt
+        cdktName = tkNo.startsWith('334')
+          ? 'Phải trả người lao động'
+          : tkNo.startsWith('338')
+          ? 'Phải trả, phải nộp khác'
+          : tkNo.startsWith('335')
+          ? 'Chi phí phải trả'
+          : tkNo.startsWith('331')
+          ? 'Phải trả người bán'
+          : tkNo.startsWith('333')
+          ? 'Thuế và các khoản phải nộp'
+          : cdktName
+      }
+
+      this.updateCell(sheetName, `G${r}`, { text: cdktName })
+      if (tsTang !== null) this.updateCell(sheetName, `H${r}`, { number: tsTang })
+      else this.updateCell(sheetName, `H${r}`, { text: '' })
+
+      if (tsGiam !== null) this.updateCell(sheetName, `I${r}`, { number: tsGiam })
+      else this.updateCell(sheetName, `I${r}`, { text: '' })
+
+      if (nvTang !== null) this.updateCell(sheetName, `J${r}`, { number: nvTang })
+      else this.updateCell(sheetName, `J${r}`, { text: '' })
+
+      if (nvGiam !== null) this.updateCell(sheetName, `K${r}`, { number: nvGiam })
+      else this.updateCell(sheetName, `K${r}`, { text: '' })
+
+      // ── PHÂN BỔ ẢNH HƯỞNG KQKD (Cột L: Chỉ tiêu, Cột M: Tăng, Cột N: Giảm) ──
+      const isDebitExpense = tkNo.startsWith('6') || tkNo.startsWith('8')
+      const isCreditExpense = tkCo.startsWith('6') || tkCo.startsWith('8')
+      const isCreditRev = tkCo.startsWith('5') || tkCo.startsWith('7')
+      const isDebitRev = tkNo.startsWith('5') || tkNo.startsWith('7')
+
+      if (isDebitExpense || isCreditExpense || isCreditRev || isDebitRev) {
+        let kqkdName = aje.chiTieuKqkd || 'Chi phí quản lý doanh nghiệp'
+        if (tkNo.startsWith('641') || tkCo.startsWith('641')) kqkdName = 'Chi phí bán hàng'
+        else if (tkNo.startsWith('632') || tkCo.startsWith('632') || tkNo.startsWith('62') || tkCo.startsWith('62')) kqkdName = 'Giá vốn hàng bán'
+        else if (tkNo.startsWith('635') || tkCo.startsWith('635')) kqkdName = 'Chi phí tài chính'
+        else if (tkNo.startsWith('511') || tkCo.startsWith('511')) kqkdName = 'Doanh thu bán hàng'
+        else if (tkNo.startsWith('515') || tkCo.startsWith('515')) kqkdName = 'Doanh thu tài chính'
+
+        this.updateCell(sheetName, `L${r}`, { text: kqkdName })
+        if (isDebitExpense || isDebitRev) {
+          // Ghi Nợ chi phí -> Chi phí Tăng (Cột M)
+          this.updateCell(sheetName, `M${r}`, { number: amt })
+          this.updateCell(sheetName, `N${r}`, { text: '' })
+        } else {
+          // Ghi Có chi phí / Có doanh thu -> Chi phí Giảm (Cột N)
+          this.updateCell(sheetName, `N${r}`, { number: amt })
+          this.updateCell(sheetName, `M${r}`, { text: '' })
+        }
+      } else {
+        this.updateCell(sheetName, `L${r}`, { text: '' })
+        this.updateCell(sheetName, `M${r}`, { text: '' })
+        this.updateCell(sheetName, `N${r}`, { text: '' })
+      }
+
       filled++
     }
     return filled

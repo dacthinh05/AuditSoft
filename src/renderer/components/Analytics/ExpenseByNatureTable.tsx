@@ -145,20 +145,15 @@ export function ExpenseByNatureTable({ report }: Props): JSX.Element {
           <table className="nature-table">
             <thead>
               <tr className="th-group-row">
-                <th rowSpan={2} className="th-sticky-col">Kỳ Kế Toán</th>
-                <th colSpan={5} style={{ background: '#f0fdf4', color: '#166534' }}>
-                  5 YẾU TỐ CHI PHÍ ĐẦU VÀO PHÁT SINH TRONG KỲ
-                </th>
-                <th rowSpan={2} className="th-subtotal" title="Tổng 5 yếu tố chi phí phát sinh trong tháng">
-                  TỔNG YẾU TỐ
-                </th>
-              </tr>
-              <tr className="th-sub-row">
+                <th className="th-sticky-col">Kỳ Kế Toán</th>
                 <th title="Chi phí Nguyên liệu, vật liệu (621, 6272, 6412, 6422, đối ứng 152)">Nguyên Vật Liệu</th>
                 <th title="Chi phí Nhân công & Trích theo lương (622, 6271, 6411, 6421, 334, 338)">Nhân Công</th>
                 <th title="Chi phí Khấu hao TSCĐ (6274, 6414, 6424, đối ứng 214)">Khấu Hao</th>
                 <th title="Chi phí Dịch vụ mua ngoài (6277, 6417, 6427)">Dịch Vụ Ngoài</th>
                 <th title="Chi phí khác bằng tiền (6278, 6418, 6428)">Khác Bằng Tiền</th>
+                <th className="th-subtotal" title="Tổng chi phí phát sinh trong tháng">
+                  TỔNG CHI PHÍ
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -252,6 +247,18 @@ export function ExpenseByNatureTable({ report }: Props): JSX.Element {
                   <td className="recon-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tồn kho thành phẩm cuối năm (TK 155 CK)</td>
                   <td className="recon-num">{recon.finishedClosing155 > 0 ? `(${fmtMoney(recon.finishedClosing155)})` : '(-)'}</td>
                 </tr>
+                {recon.internalUsageFrom155 > 0 && (
+                  <tr>
+                    <td className="recon-label">Trừ: Xuất kho thành phẩm/dở dang dùng nội bộ (Có 155/154 $\rightarrow$ 641, 642)</td>
+                    <td className="recon-num">({fmtMoney(recon.internalUsageFrom155)})</td>
+                  </tr>
+                )}
+                {recon.costReductions > 0 && (
+                  <tr>
+                    <td className="recon-label">Trừ: Các khoản giảm chi phí / luân chuyển công trình nội bộ</td>
+                    <td className="recon-num">({fmtMoney(recon.costReductions)})</td>
+                  </tr>
+                )}
                 {/* Tổng chi phí SXKD tính toán */}
                 <tr className="recon-row-total">
                   <td className="recon-label bold">Tổng cộng chi phí sản xuất kinh doanh trong kỳ</td>

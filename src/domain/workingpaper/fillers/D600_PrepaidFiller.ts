@@ -1,7 +1,7 @@
 import type ExcelJS from 'exceljs'
 import type { OpenXmlPackageEditor } from '../openxml/OpenXmlPackageEditor'
 import type { WorkingPaperFillContext, SectionFillResult } from '../types'
-import { extract12MonthExpenseMatrix } from '../counterpartExtractor'
+import { extract12MonthExpenseMatrix, extractCounterpartStats } from '../counterpartExtractor'
 import {
   fillAddSheet,
   findWorksheetFuzzy,
@@ -48,44 +48,77 @@ export function fillPrepaidWorkingPaper(
       updatedSheets.push(d610Sheet)
     }
 
-    // 3. D 690 Chi tiết phát sinh chi phí trả trước (242)
+    // 3. D 690 Chi tiết phát sinh chi phí trả trước (TK 242)
     const d690Sheet = editor.hasSheet('D 690') ? 'D 690' : editor.hasSheet('D690') ? 'D690' : null
     if (d690Sheet) {
-      let psNo112 = 0
-      let psNo331 = 0
-      let psNoKhac = 0
-      let psCo627 = 0
-      let psCo641 = 0
-      let psCo642 = 0
+      const cp242 = extractCounterpartStats(ctx.nkcTransactions, '242', false)
 
-      for (const t of ctx.nkcTransactions) {
-        if (t.debit.startsWith('242')) {
-          if (t.credit.startsWith('112') || t.credit.startsWith('111')) psNo112 += t.amount
-          else if (t.credit.startsWith('331')) psNo331 += t.amount
-          else psNoKhac += t.amount
+      // Vế NỢ 242 (Hàng 15-17):
+      if (cp242.debitItems.length === 0) {
+        editor.updateCell(d690Sheet, 'A15', { text: '' })
+        editor.updateCell(d690Sheet, 'B15', { text: 'Không phát sinh' })
+        editor.updateCell(d690Sheet, 'C15', { number: 0 })
+        editor.updateCell(d690Sheet, 'D15', { number: 0 })
+        for (let i = 1; i < 3; i++) {
+          const r = 15 + i
+          editor.updateCell(d690Sheet, `A${r}`, { text: '' })
+          editor.updateCell(d690Sheet, `B${r}`, { text: '' })
+          editor.updateCell(d690Sheet, `C${r}`, { number: 0 })
+          editor.updateCell(d690Sheet, `D${r}`, { number: 0 })
         }
-        if (t.credit.startsWith('242')) {
-          if (t.debit.startsWith('627')) psCo627 += t.amount
-          else if (t.debit.startsWith('641')) psCo641 += t.amount
-          else if (t.debit.startsWith('642')) psCo642 += t.amount
+        editor.updateCell(d690Sheet, 'D19', { number: 0 })
+      } else {
+        for (let i = 0; i < 3; i++) {
+          const r = 15 + i
+          const item = cp242.debitItems[i]
+          if (item) {
+            editor.updateCell(d690Sheet, `A${r}`, { text: item.ref })
+            editor.updateCell(d690Sheet, `B${r}`, { text: item.account })
+            editor.updateCell(d690Sheet, `C${r}`, { number: item.amount })
+          } else {
+            editor.updateCell(d690Sheet, `A${r}`, { text: '' })
+            editor.updateCell(d690Sheet, `B${r}`, { text: '' })
+            editor.updateCell(d690Sheet, `C${r}`, { number: 0 })
+            editor.updateCell(d690Sheet, `D${r}`, { number: 0 })
+          }
         }
       }
 
-      editor.updateCell(d690Sheet, 'B15', { text: '112/111' })
-      editor.updateCell(d690Sheet, 'C15', { number: psNo112 })
-      editor.updateCell(d690Sheet, 'B16', { text: '331' })
-      editor.updateCell(d690Sheet, 'C16', { number: psNo331 })
-      editor.updateCell(d690Sheet, 'B17', { text: 'Khác' })
-      editor.updateCell(d690Sheet, 'C17', { number: psNoKhac })
+      // Vế CÓ 242 (Hàng 15-17):
+      if (cp242.creditItems.length === 0) {
+        editor.updateCell(d690Sheet, 'E15', { text: '' })
+        editor.updateCell(d690Sheet, 'F15', { text: 'Không phát sinh' })
+        editor.updateCell(d690Sheet, 'G15', { number: 0 })
+        editor.updateCell(d690Sheet, 'H15', { number: 0 })
+        for (let i = 1; i < 3; i++) {
+          const r = 15 + i
+          editor.updateCell(d690Sheet, `E${r}`, { text: '' })
+          editor.updateCell(d690Sheet, `F${r}`, { text: '' })
+          editor.updateCell(d690Sheet, `G${r}`, { number: 0 })
+          editor.updateCell(d690Sheet, `H${r}`, { number: 0 })
+        }
+        editor.updateCell(d690Sheet, 'H19', { number: 0 })
+      } else {
+        for (let i = 0; i < 3; i++) {
+          const r = 15 + i
+          const item = cp242.creditItems[i]
+          if (item) {
+            editor.updateCell(d690Sheet, `E${r}`, { text: item.ref })
+            editor.updateCell(d690Sheet, `F${r}`, { text: item.account })
+            editor.updateCell(d690Sheet, `G${r}`, { number: item.amount })
+          } else {
+            editor.updateCell(d690Sheet, `E${r}`, { text: '' })
+            editor.updateCell(d690Sheet, `F${r}`, { text: '' })
+            editor.updateCell(d690Sheet, `G${r}`, { number: 0 })
+            editor.updateCell(d690Sheet, `H${r}`, { number: 0 })
+          }
+        }
+      }
 
-      editor.updateCell(d690Sheet, 'F15', { text: '627' })
-      editor.updateCell(d690Sheet, 'G15', { number: psCo627 })
-      editor.updateCell(d690Sheet, 'F16', { text: '641' })
-      editor.updateCell(d690Sheet, 'G16', { number: psCo641 })
-      editor.updateCell(d690Sheet, 'F17', { text: '642' })
-      editor.updateCell(d690Sheet, 'G17', { number: psCo642 })
+      editor.updateCell(d690Sheet, 'B23', {
+        text: 'Chi phí trả trước được phân bổ đều đặn và hợp lý vào chi phí sản xuất kinh doanh (TK 627, 642).',
+      })
       itemsCount += 12
-
       const increase242 = ctx.nkcTransactions
         .filter((t) => t.debit.startsWith('242'))
         .sort((a, b) => b.amount - a.amount)
@@ -207,43 +240,74 @@ export function fillPrepaidWorkingPaper(
   // 3. D 690 Chi tiết phát sinh chi phí trả trước (242)
   const wsD690 = findWorksheetFuzzy(wb, ['D 690', 'D690'])
   if (wsD690) {
-    // Bảng 1 (Hàng 15-17): Cơ cấu đối ứng Nợ/Có TK 242
-    let psNo112 = 0
-    let psNo331 = 0
-    let psNoKhac = 0
-    let psCo627 = 0
-    let psCo641 = 0
-    let psCo642 = 0
-
-    for (const t of ctx.nkcTransactions) {
-      if (t.debit.startsWith('242')) {
-        if (t.credit.startsWith('112') || t.credit.startsWith('111')) psNo112 += t.amount
-        else if (t.credit.startsWith('331')) psNo331 += t.amount
-        else psNoKhac += t.amount
+    const cp242 = extractCounterpartStats(ctx.nkcTransactions, '242', false)
+    // Vế NỢ 242 (Hàng 15-17):
+    if (cp242.debitItems.length === 0) {
+      wsD690.getCell('A15').value = null
+      styleCellText(wsD690.getCell('B15'), 'Không phát sinh')
+      styleCellAmount(wsD690.getCell('C15'), 0)
+      wsD690.getCell('D15').value = 0
+      for (let i = 1; i < 3; i++) {
+        const r = 15 + i
+        wsD690.getCell(`A${r}`).value = null
+        wsD690.getCell(`B${r}`).value = null
+        styleCellAmount(wsD690.getCell(`C${r}`), 0)
+        wsD690.getCell(`D${r}`).value = 0
       }
-      if (t.credit.startsWith('242')) {
-        if (t.debit.startsWith('627')) psCo627 += t.amount
-        else if (t.debit.startsWith('641')) psCo641 += t.amount
-        else if (t.debit.startsWith('642')) psCo642 += t.amount
+      wsD690.getCell('D19').value = 0
+    } else {
+      for (let i = 0; i < 3; i++) {
+        const r = 15 + i
+        const dItem = cp242.debitItems[i]
+        if (dItem) {
+          styleCellCode(wsD690.getCell(`A${r}`), dItem.ref)
+          styleCellCode(wsD690.getCell(`B${r}`), dItem.account)
+          styleCellAmount(wsD690.getCell(`C${r}`), dItem.amount)
+        } else {
+          wsD690.getCell(`A${r}`).value = null
+          wsD690.getCell(`B${r}`).value = null
+          styleCellAmount(wsD690.getCell(`C${r}`), 0)
+          wsD690.getCell(`D${r}`).value = 0
+        }
       }
     }
 
-    // Điền bảng 1: Chỉ điền cột B/C (Nợ) và F/G (Có), giữ nguyên công thức tỷ lệ cột D/H và SUM hàng 19
-    styleCellCode(wsD690.getCell('B15'), '112/111')
-    styleCellAmount(wsD690.getCell('C15'), psNo112)
-    styleCellCode(wsD690.getCell('B16'), '331')
-    styleCellAmount(wsD690.getCell('C16'), psNo331)
-    styleCellCode(wsD690.getCell('B17'), 'Khác')
-    styleCellAmount(wsD690.getCell('C17'), psNoKhac)
-
-    styleCellCode(wsD690.getCell('F15'), '627')
-    styleCellAmount(wsD690.getCell('G15'), psCo627)
-    styleCellCode(wsD690.getCell('F16'), '641')
-    styleCellAmount(wsD690.getCell('G16'), psCo641)
-    styleCellCode(wsD690.getCell('F17'), '642')
-    styleCellAmount(wsD690.getCell('G17'), psCo642)
+    // Vế CÓ 242 (Hàng 15-17):
+    if (cp242.creditItems.length === 0) {
+      wsD690.getCell('E15').value = null
+      styleCellText(wsD690.getCell('F15'), 'Không phát sinh')
+      styleCellAmount(wsD690.getCell('G15'), 0)
+      wsD690.getCell('H15').value = 0
+      for (let i = 1; i < 3; i++) {
+        const r = 15 + i
+        wsD690.getCell(`E${r}`).value = null
+        wsD690.getCell(`F${r}`).value = null
+        styleCellAmount(wsD690.getCell(`G${r}`), 0)
+        wsD690.getCell(`H${r}`).value = 0
+      }
+      wsD690.getCell('H19').value = 0
+    } else {
+      for (let i = 0; i < 3; i++) {
+        const r = 15 + i
+        const cItem = cp242.creditItems[i]
+        if (cItem) {
+          styleCellCode(wsD690.getCell(`E${r}`), cItem.ref)
+          styleCellCode(wsD690.getCell(`F${r}`), cItem.account)
+          styleCellAmount(wsD690.getCell(`G${r}`), cItem.amount)
+        } else {
+          wsD690.getCell(`E${r}`).value = null
+          wsD690.getCell(`F${r}`).value = null
+          styleCellAmount(wsD690.getCell(`G${r}`), 0)
+          wsD690.getCell(`H${r}`).value = 0
+        }
+      }
+    }
     itemsCount += 12
-
+    styleCellText(
+      wsD690.getCell('B23'),
+      'Chi phí trả trước được phân bổ đều đặn và hợp lý vào chi phí sản xuất kinh doanh (TK 627, 642).',
+    )
+    itemsCount++
     // Bảng 2 (Hàng 32-40): Mẫu kiểm tra phát sinh tăng TK 242 (tối đa 9 dòng, không đè hàng 41 =SUM(F32:F40))
     const increase242 = ctx.nkcTransactions
       .filter((t) => t.debit.startsWith('242'))

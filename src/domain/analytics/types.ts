@@ -369,6 +369,8 @@ export interface ExpenseByNatureBctcRecon {
   finishedClosing155: number
   deltaWip154: number
   deltaFinished155: number
+  internalUsageFrom155: number
+  costReductions: number
 
   calculatedTotalOperatingCost: number
 

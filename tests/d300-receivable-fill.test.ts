@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import path from 'path'
 import fs from 'fs'
+import ExcelJS from 'exceljs'
 import { extractAccountingContext, generateAllWorkingPapers } from '../src/domain/workingpaper/WorkingPaperGenerator'
 import { OpenXmlPackageEditor } from '../src/domain/workingpaper/openxml/OpenXmlPackageEditor'
 
@@ -40,16 +41,27 @@ describe('D300 Working Paper Full 6 Sheets Automation', () => {
     const outFilePath = path.join(outputDir, d300Res!.fileName)
     expect(fs.existsSync(outFilePath)).toBe(true)
     const editor = OpenXmlPackageEditor.load(outFilePath)
-
-    // 1. Kiểm tra D 341
+    // 1. Kiểm tra D 310 có đầy đủ số liệu và doanh thu dòng 20
+    expect(editor.hasSheet('D 310')).toBe(true)
+    const checkWb = new ExcelJS.Workbook()
+    await checkWb.xlsx.readFile(outFilePath)
+    const wsCheck = checkWb.getWorksheet('D 310')!
+    const valD12 = Number(wsCheck.getCell('D12').value)
+    const valF12 = Number(wsCheck.getCell('F12').value)
+    const valG12 = Number(wsCheck.getCell('G12').value)
+    const valF20 = Number(wsCheck.getCell('F20').value)
+    expect(valD12).toBeGreaterThan(0)
+    expect(valF12).toBeGreaterThan(0)
+    expect(valG12).toBeGreaterThan(0)
+    expect(valF20).toBeGreaterThan(0)
+    // 2. Kiểm tra D 341
     expect(editor.hasSheet('D 341')).toBe(true)
 
-    // 2. Kiểm tra D 390
+    // 3. Kiểm tra D 390
     expect(editor.hasSheet('D 390')).toBe(true)
 
-    // 3. Kiểm tra D 352
+    // 4. Kiểm tra D 352
     expect(editor.hasSheet('D 352')).toBe(true)
-
     // Cleanup
     fs.rmSync(outputDir, { recursive: true, force: true })
   })
