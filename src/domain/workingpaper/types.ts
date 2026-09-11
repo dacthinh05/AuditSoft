@@ -1,4 +1,4 @@
-import type { VatDeclarationSnapshot } from '../../shared/types/taxAnalytics'
+import type { VatDeclarationSnapshot, PitDeclarationSnapshot } from '../../shared/types/taxAnalytics'
 
 export interface EngagementInfo {
   clientName: string
@@ -54,6 +54,7 @@ export interface WorkingPaperFillContext {
   cdfsAccounts: Map<string, CdfsAccountRow>
   nkcTransactions: NkcTransaction[]
   vatDeclarations?: VatDeclarationSnapshot[]
+  pitDeclarations?: PitDeclarationSnapshot[]
   adjustingEntries?: AdjustingEntry[]
   interimBalances?: unknown
   materiality?: {

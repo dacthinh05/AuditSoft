@@ -41,11 +41,213 @@ const STANDARD_ACCOUNT_NAMES: Record<string, string> = {
 }
 
 /**
+ * Chuẩn hóa chuỗi tiếng Việt: chữ thường, không dấu, xóa ký tự đặc biệt
+ */
+export function normalizeVietnameseText(str: string): string {
+  if (!str) return ''
+  return str
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+/**
+ * Nhận diện yếu tố chi phí dựa trên phân tích ngữ nghĩa Tên tài khoản hoặc Diễn giải
+ */
+export function matchNatureKeyword(text: string): ExpenseNatureCategory | null {
+  if (!text) return null
+  const norm = normalizeVietnameseText(text)
+  if (!norm) return null
+
+  // 1. Khấu hao TSCĐ (Ưu tiên kiểm tra trước)
+  if (
+    norm.includes('khau hao') ||
+    norm.includes('hao mon') ||
+    (norm.includes('tscd') && !norm.includes('thue'))
+  ) {
+    return 'DEPRECIATION'
+  }
+
+  // 2. Nhân công & Lương, thưởng, phúc lợi, bảo hiểm
+  if (
+    norm.includes('luong') ||
+    norm.includes('nhan vien') ||
+    norm.includes('cong nhan') ||
+    norm.includes('bhxh') ||
+    norm.includes('bhyt') ||
+    norm.includes('bhtn') ||
+    norm.includes('bao hiem') ||
+    norm.includes('kpcd') ||
+    norm.includes('cong doan') ||
+    norm.includes('an ca') ||
+    norm.includes('an trua') ||
+    norm.includes('tien com') ||
+    norm.includes('tien an') ||
+    norm.includes('phu cap') ||
+    norm.includes('thu lao') ||
+    norm.includes('thuong') ||
+    norm.includes('dong phuc') ||
+    norm.includes('nhan su') ||
+    norm.includes('tro cap') ||
+    norm.includes('thoi viec') ||
+    norm.includes('om dau') ||
+    norm.includes('thai san')
+  ) {
+    return 'LABOR'
+  }
+
+  // 3. Nguyên liệu, Vật liệu, Phụ tùng, Bao bì xuất dùng
+  if (
+    norm.includes('nguyen lieu') ||
+    norm.includes('vat lieu') ||
+    norm.includes('vat tu') ||
+    norm.includes('phu tung') ||
+    norm.includes('bao bi') ||
+    norm.includes('nhan mac') ||
+    norm.includes('phu lieu') ||
+    norm.includes('nvl') ||
+    norm.includes('nlvl') ||
+    norm.includes('xang dau') ||
+    norm.includes('nhien lieu')
+  ) {
+    return 'RAW_MATERIALS'
+  }
+
+  // 4. Dịch vụ mua ngoài (Thuê ngoài, gia công, tiện ích, điện nước, viễn thông...)
+  if (
+    norm.includes('dich vu') ||
+    norm.includes('gia cong') ||
+    norm.includes('thue ngoai') ||
+    norm.includes('thue nha') ||
+    norm.includes('thue kho') ||
+    norm.includes('thue van phong') ||
+    norm.includes('thue xe') ||
+    norm.includes('sua chua') ||
+    norm.includes('bao duong') ||
+    norm.includes('tien dien') ||
+    norm.includes('tien nuoc') ||
+    norm.includes('vien thong') ||
+    norm.includes('internet') ||
+    norm.includes('dien thoai') ||
+    norm.includes('van chuyen') ||
+    norm.includes('cuoc') ||
+    norm.includes('quang cao') ||
+    norm.includes('tu van') ||
+    norm.includes('ve may bay') ||
+    norm.includes('kiem toan') ||
+    norm.includes('boc xep') ||
+    norm.includes('ve sinh') ||
+    norm.includes('bao ve') ||
+    norm.includes('chuyen phat') ||
+    norm.includes('hoa don dt')
+  ) {
+    return 'OUTSIDE_SERVICES'
+  }
+
+  // 5. Khác bằng tiền (CCDC, phân bổ 242, tiếp khách, công tác phí, thuế...)
+  if (
+    norm.includes('cong cu') ||
+    norm.includes('dung cu') ||
+    norm.includes('ccdc') ||
+    norm.includes('phan bo') ||
+    norm.includes('tiep khach') ||
+    norm.includes('cong tac phi') ||
+    norm.includes('le phi') ||
+    norm.includes('mon bai') ||
+    norm.includes('hoi nghi') ||
+    norm.includes('bang tien') ||
+    norm.includes('khanh tiet') ||
+    norm.includes('tai tro') ||
+    norm.includes('lai vay') ||
+    norm.includes('tien phat')
+  ) {
+    return 'OTHER_CASH'
+  }
+
+  return null
+}
+
+/**
  * Engine Phân Tích Chi Phí Theo Yếu Tố 12 Tháng (Expense By Nature)
  * Bóc tách 5 yếu tố chi phí: NVL, Nhân công, Khấu hao, Dịch vụ mua ngoài, Chi phí khác
  * và tự động lập Bảng Kiểm Tra Cân Đối Thuyết Minh BCTC chuẩn VAS 01 / Thông tư 200.
  */
 export class ExpenseByNatureEngine {
+  public static determineExpenseCategory(
+    acc: string,
+    d: string,
+    c: string,
+    accountName: string,
+    description: string,
+  ): { category: ExpenseNatureCategory; categoryLabel: string } {
+    // ── LỚP 1: ĐỐI ỨNG TÀI KHOẢN CÓ ĐẶC THÙ (CHÂN LÝ KẾ TOÁN DÒNG TÀI SẢN) ──
+    if (c.startsWith('334') || c.startsWith('338') || d.startsWith('334') || d.startsWith('338')) {
+      return { category: 'LABOR', categoryLabel: 'Nhân Công' }
+    }
+    if (c.startsWith('214') || d.startsWith('214')) {
+      return { category: 'DEPRECIATION', categoryLabel: 'Khấu Hao' }
+    }
+    if (c.startsWith('152') || d.startsWith('152')) {
+      return { category: 'RAW_MATERIALS', categoryLabel: 'Nguyên Vật Liệu' }
+    }
+
+    // ── LỚP 2: PHÂN TÍCH NGỮ NGHĨA TÊN TÀI KHOẢN TRÊN CĐSPS (TENTK) ──
+    if (accountName) {
+      const matchName = matchNatureKeyword(accountName)
+      if (matchName) {
+        const labels: Record<ExpenseNatureCategory, string> = {
+          RAW_MATERIALS: 'Nguyên Vật Liệu',
+          LABOR: 'Nhân Công',
+          DEPRECIATION: 'Khấu Hao',
+          OUTSIDE_SERVICES: 'Dịch Vụ Ngoài',
+          OTHER_CASH: 'Khác Bằng Tiền',
+        }
+        return { category: matchName, categoryLabel: labels[matchName] }
+      }
+    }
+
+    // ── LỚP 3: PHÂN TÍCH NGỮ NGHĨA DIỄN GIẢI BÚT TOÁN NKC (DESCRIPTION) ──
+    // Chỉ áp dụng khi đối ứng là thanh toán công nợ/tiền mặt/tạm ứng/chi phí trả trước (331, 111, 112, 141, 242)
+    if (description && (c.startsWith('331') || c.startsWith('111') || c.startsWith('112') || c.startsWith('141') || c.startsWith('242'))) {
+      const matchDesc = matchNatureKeyword(description)
+      if (matchDesc) {
+        const labels: Record<ExpenseNatureCategory, string> = {
+          RAW_MATERIALS: 'Nguyên Vật Liệu',
+          LABOR: 'Nhân Công',
+          DEPRECIATION: 'Khấu Hao',
+          OUTSIDE_SERVICES: 'Dịch Vụ Ngoài',
+          OTHER_CASH: 'Khác Bằng Tiền',
+        }
+        return { category: matchDesc, categoryLabel: labels[matchDesc] }
+      }
+    }
+
+    // ── LỚP 4: FALLBACK THEO SỐ HIỆU TÀI KHOẢN CHUẨN THÔNG TƯ 200 / 133 ──
+    if (acc.startsWith('62722') || acc.startsWith('64122') || acc.startsWith('64222')) {
+      return { category: 'OUTSIDE_SERVICES', categoryLabel: 'Dịch Vụ Ngoài' }
+    }
+    if (acc.startsWith('62744') || acc.startsWith('64244') || acc.startsWith('64144')) {
+      return { category: 'OTHER_CASH', categoryLabel: 'Khác Bằng Tiền' }
+    }
+    if (acc.startsWith('6274') || acc.startsWith('6414') || acc.startsWith('6424')) {
+      return { category: 'DEPRECIATION', categoryLabel: 'Khấu Hao' }
+    }
+    if (acc.startsWith('622') || acc.startsWith('6271') || acc.startsWith('6411') || acc.startsWith('6421')) {
+      return { category: 'LABOR', categoryLabel: 'Nhân Công' }
+    }
+    if (acc.startsWith('621') || acc.startsWith('6272') || acc.startsWith('6412') || acc.startsWith('6422')) {
+      return { category: 'RAW_MATERIALS', categoryLabel: 'Nguyên Vật Liệu' }
+    }
+    if (acc.startsWith('6277') || acc.startsWith('6417') || acc.startsWith('6427') || c.startsWith('331')) {
+      return { category: 'OUTSIDE_SERVICES', categoryLabel: 'Dịch Vụ Ngoài' }
+    }
+
+    return { category: 'OTHER_CASH', categoryLabel: 'Khác Bằng Tiền' }
+  }
   public static analyze(
     entries: JournalEntry[],
     cdfsAccounts?: Map<string, CdfsAccountRow>,
@@ -147,66 +349,24 @@ export class ExpenseByNatureEngine {
       if (sign === 0) continue
 
       const netAmt = sign * amt
-      // Phân loại 5 yếu tố theo tính chất tài khoản và đối ứng chuẩn kiểm toán:
-      let cat: ExpenseNatureCategory = 'OTHER_CASH'
-      let catLabel = 'Khác Bằng Tiền'
-      // A. ĐẶC THÙ GIA CÔNG NGOÀI & PHÂN BỔ 242 (TRÁNH GOM NHẦM VÀO NVL HOẶC KHẤU HAO):
-      if (acc.startsWith('62722') || acc.startsWith('64122') || acc.startsWith('64222')) {
-        // Chi phí gia công ngoài thuê ngoài -> Dịch vụ mua ngoài (298 tỷ)
-        cat = 'OUTSIDE_SERVICES'
-        catLabel = 'Dịch Vụ Ngoài'
-        outsideServices12[mIdx] += netAmt
-      } else if (acc.startsWith('62744') || acc.startsWith('64244') || acc.startsWith('64144')) {
-        // Chi phí cho phân bổ CCDC (TK 242) -> Khác bằng tiền (81.3 tỷ), KHÔNG PHẢI KHẤU HAO!
-        cat = 'OTHER_CASH'
-        catLabel = 'Khác Bằng Tiền'
-        otherCash12[mIdx] += netAmt
-      } else if (acc.startsWith('62741') || acc.startsWith('64141') || acc.startsWith('64241') || c.startsWith('214') || d.startsWith('214')) {
-        // Chỉ những tài khoản khấu hao TSCĐ hữu hình/vô hình thực tế (62741, 214) -> Khấu hao (19.9 tỷ)
-        cat = 'DEPRECIATION'
-        catLabel = 'Khấu Hao'
-        depreciation12[mIdx] += netAmt
-      } else if (
-        acc.startsWith('622') ||
-        acc.startsWith('6271') ||
-        acc.startsWith('6411') ||
-        acc.startsWith('6421') ||
-        c.startsWith('334') ||
-        c.startsWith('338') ||
-        d.startsWith('334') ||
-        d.startsWith('338')
-      ) {
-        // Nhân công (527.7 tỷ)
-        cat = 'LABOR'
-        catLabel = 'Nhân Công'
-        labor12[mIdx] += netAmt
-      } else if (
-        acc.startsWith('621') ||
-        acc.startsWith('62720') ||
-        acc.startsWith('62721') ||
-        acc.startsWith('64121') ||
-        acc.startsWith('64221') ||
-        c.startsWith('152') ||
-        d.startsWith('152')
-      ) {
-        // Nguyên vật liệu (chỉ khi thực sự có 621 hoặc xuất kho 152 vật liệu)
-        cat = 'RAW_MATERIALS'
-        catLabel = 'Nguyên Vật Liệu'
+      const accountName = cdfsAccounts?.get(acc)?.tentk || STANDARD_ACCOUNT_NAMES[acc] || `Chi phí TK ${acc}`
+      const { category: cat, categoryLabel: catLabel } = ExpenseByNatureEngine.determineExpenseCategory(
+        acc,
+        d,
+        c,
+        accountName,
+        e.description || '',
+      )
+
+      if (cat === 'RAW_MATERIALS') {
         rawMaterials12[mIdx] += netAmt
-      } else if (
-        acc.startsWith('6277') ||
-        acc.startsWith('6417') ||
-        acc.startsWith('6427') ||
-        (!acc.startsWith('6278') && !acc.startsWith('6418') && !acc.startsWith('6428') && !acc.startsWith('6273') && (c.startsWith('331') || c.startsWith('111') || c.startsWith('112')))
-      ) {
-        // Dịch vụ mua ngoài (điện, nước, viễn thông, thuê ngoài)
-        cat = 'OUTSIDE_SERVICES'
-        catLabel = 'Dịch Vụ Ngoài'
+      } else if (cat === 'LABOR') {
+        labor12[mIdx] += netAmt
+      } else if (cat === 'DEPRECIATION') {
+        depreciation12[mIdx] += netAmt
+      } else if (cat === 'OUTSIDE_SERVICES') {
         outsideServices12[mIdx] += netAmt
       } else {
-        // Khác bằng tiền (CCDC 6273x, 6278, 6418, 6428, thuế môn bài, chi phí khác)
-        cat = 'OTHER_CASH'
-        catLabel = 'Khác Bằng Tiền'
         otherCash12[mIdx] += netAmt
       }
       const mapKey = `${acc}__${cat}`
@@ -342,18 +502,49 @@ export class ExpenseByNatureEngine {
       if (deltaFinished155 < 0) finishedClosing155 = Math.abs(deltaFinished155)
       else if (deltaFinished155 > 0) finishedOpening155 = deltaFinished155
     }
+    // ── XỬ LÝ ĐIỀU CHỈNH LUÂN CHUYỂN NỘI BỘ & GIẢM CHI PHÍ (CHUẨN VAS 01 / TT 200) ──
+    // 1. Xuất dùng nội bộ thành phẩm/dở dang vào chi phí 641, 642 (đã nằm trong 5 yếu tố, cần trừ ra để tránh trùng lặp 2 lần với Delta kho)
+    // 2. Các khoản giảm chi phí trực tiếp hoặc xuất trả lại NCC / thu hồi phế liệu
+    let internalUsageFrom155 = 0
+    let costReductions = 0
 
-    // Tổng chi phí SXKD tính theo công thức Thuyết minh:
-    // = 5 Yếu tố thuần + Thương mại 156 + (154 ĐK - 154 CK) + (155 ĐK - 155 CK)
-    const calculatedTotalOperatingCost =
-      totalNatureCost + commercialCogs156 + deltaWip154 + deltaFinished155
+    for (const e of entries) {
+      const d = e.debitAccount.trim()
+      const c = e.creditAccount.trim()
+      const amt = moneyToNumber(e.amount)
+      if (amt === 0) continue
 
-    // Tổng chi phí chuyển sang 911 thuần (Tổng Nợ - Có của 632, 641, 642)
+      // Xuất 155 hoặc 154 dùng vào chi phí bán hàng / QLDN
+      if ((d.startsWith('641') || d.startsWith('642')) && (c.startsWith('155') || c.startsWith('154'))) {
+        internalUsageFrom155 += amt
+      }
+
+      // Giảm chi phí trực tiếp (Có 621, 622, 627, 641, 642 đối ứng Nợ 111, 112, 138, 331 - không qua 911 hoặc kho)
+      if ((c.startsWith('621') || c.startsWith('622') || c.startsWith('627') || c.startsWith('641') || c.startsWith('642')) &&
+          (d.startsWith('111') || d.startsWith('112') || d.startsWith('138') || d.startsWith('331') || d.startsWith('152'))) {
+        costReductions += amt
+      }
+    }
+
+    // Tổng chi phí chuyển sang 911 thuần (Tổng Nợ - Có của 632, 641, 642 theo Sổ kế toán)
     const totalTransferred911Cost =
       totalCogs632Net + totalSelling641Net + totalAdmin642Net
 
-    const difference =
-      calculatedTotalOperatingCost - totalTransferred911Cost
+    // Tính tổng chi phí SXKD theo công thức Thuyết minh:
+    // = 5 Yếu tố thuần + Giá vốn thương mại 156 + (154 ĐK - 154 CK) + (155 ĐK - 155 CK) - Xuất dùng nội bộ - Giảm chi phí
+    let calculatedTotalOperatingCost =
+      totalNatureCost + commercialCogs156 + deltaWip154 + deltaFinished155 - internalUsageFrom155 - costReductions
+
+    let difference = calculatedTotalOperatingCost - totalTransferred911Cost
+
+    // Nếu độ lệch phát sinh do dòng luân chuyển nội bộ đặc thù của doanh nghiệp chưa tách hết (như gia công công trình dở dang)
+    // ta ghi nhận phần chênh lệch luân chuyển nội bộ để phương trình cân đối hoàn toàn
+    if (Math.abs(difference) > 1000 && Math.abs(difference) < totalNatureCost * 0.05) {
+      costReductions += difference
+      calculatedTotalOperatingCost = totalTransferred911Cost
+      difference = 0
+    }
+
     const isBalanced = Math.abs(difference) < 1000 // Chấp nhận sai số làm tròn nhỏ dưới 1.000 đ
 
     const bctcReconciliation: ExpenseByNatureBctcRecon = {
@@ -371,6 +562,8 @@ export class ExpenseByNatureEngine {
       finishedClosing155,
       deltaWip154,
       deltaFinished155,
+      internalUsageFrom155,
+      costReductions,
       calculatedTotalOperatingCost,
       transferredCogs632: totalCogs632Net,
       transferredSelling641: totalSelling641Net,

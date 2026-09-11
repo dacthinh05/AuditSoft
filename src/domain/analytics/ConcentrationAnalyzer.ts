@@ -7,7 +7,7 @@ import {
 } from '../money'
 import type { JournalEntry } from '../../shared/types/analytics'
 import type { ParetoItem, ParetoReport } from './types'
-
+import { extractPartnerCodeFromAccount } from './PartnerExtractor'
 interface GroupAccumulator {
   objectCode: string | null
   name: string
@@ -23,15 +23,16 @@ export class ConcentrationAnalyzer {
     let totalPurchases = MONEY_ZERO
 
     for (const e of entries) {
-      // 1. Doanh thu: Có 511
+      // 1. Doanh thu: Có 511 đối ứng Nợ 131...
       if (e.creditAccount.startsWith('511')) {
         totalRevenue = addMoney(totalRevenue, e.amount)
-        const key = (e.objectCode || e.customerName || 'KH_LE').trim().toUpperCase()
+        const extractedCode = e.objectCode || extractPartnerCodeFromAccount(e.debitAccount)
+        const key = (extractedCode || e.customerName || 'KH_LE').trim().toUpperCase()
         let c = customerMap.get(key)
         if (!c) {
           c = {
-            objectCode: e.objectCode,
-            name: e.customerName || e.objectCode || 'Khách hàng vãng lai / Bán lẻ',
+            objectCode: extractedCode || null,
+            name: e.customerName || (extractedCode ? `Khách hàng ${extractedCode}` : 'Khách hàng vãng lai / Bán lẻ'),
             amount: MONEY_ZERO,
           }
           customerMap.set(key, c)
@@ -53,12 +54,13 @@ export class ConcentrationAnalyzer {
 
       if (isPurchaseDebit && isPaymentOrPayableCredit) {
         totalPurchases = addMoney(totalPurchases, e.amount)
-        const key = (e.objectCode || e.customerName || 'NCC_LE').trim().toUpperCase()
+        const extractedCode = e.objectCode || extractPartnerCodeFromAccount(e.creditAccount) || extractPartnerCodeFromAccount(e.debitAccount)
+        const key = (extractedCode || e.customerName || 'NCC_LE').trim().toUpperCase()
         let s = supplierMap.get(key)
         if (!s) {
           s = {
-            objectCode: e.objectCode,
-            name: e.customerName || e.objectCode || 'Nhà cung cấp khác',
+            objectCode: extractedCode || null,
+            name: e.customerName || (extractedCode ? `NCC ${extractedCode}` : 'Nhà cung cấp khác'),
             amount: MONEY_ZERO,
           }
           supplierMap.set(key, s)
@@ -67,7 +69,6 @@ export class ConcentrationAnalyzer {
       }
     }
 
-    // Xây dựng bảng Pareto Khách Hàng
     const sortedCustomers = Array.from(customerMap.values()).sort((a, b) =>
       cmpMoney(b.amount, a.amount),
     )

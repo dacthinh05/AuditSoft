@@ -118,4 +118,82 @@ describe('ExpenseByNatureEngine — Bóc tách Chi phí Yếu tố & Cân đối
     expect(recon.difference).toBe(0)
     expect(recon.isBalanced).toBe(true)
   })
+
+  describe('Bóc tách ngữ nghĩa theo Tên tài khoản CĐSPS (tentk) và Diễn giải NKC (desc)', () => {
+    it('bóc đúng Nhân công cho tiểu khoản 64281 có tên CĐSPS là "Chi phí ăn trưa, phụ cấp nhân viên"', () => {
+      const entries: JournalEntry[] = [
+        makeEntry({
+          month: 3,
+          debitAccount: '64281',
+          creditAccount: '112',
+          amount: makeMoney(25_000_000n, 0),
+          description: 'Thanh toán tiền ăn ca tháng 3',
+        }),
+      ]
+
+      const cdfsAccounts = new Map<string, CdfsAccountRow>([
+        ['64281', makeCdfs('64281', 'Chi phí ăn trưa, phụ cấp nhân viên', 0, 0)],
+      ])
+
+      const report = ExpenseByNatureEngine.analyze(entries, cdfsAccounts)
+      const rowM3 = report.rows[2]!
+
+      // Phải được phân vào Nhân công (không bị nhầm sang Khác bằng tiền dù là đầu 6428)
+      expect(rowM3.labor).toBe(25_000_000)
+      expect(rowM3.otherCash).toBe(0)
+
+      const item = report.accountBreakdowns.find((a) => a.accountCode === '64281')
+      expect(item).toBeDefined()
+      expect(item?.category).toBe('LABOR')
+      expect(item?.categoryLabel).toBe('Nhân Công')
+    })
+
+    it('bóc đúng Dịch vụ mua ngoài cho tiểu khoản 6422 có tên CĐSPS là "Chi phí gia công in thêu thuê ngoài"', () => {
+      const entries: JournalEntry[] = [
+        makeEntry({
+          month: 5,
+          debitAccount: '6422',
+          creditAccount: '331',
+          amount: makeMoney(40_000_000n, 0),
+          description: 'Gia công thêu logo công ty',
+        }),
+      ]
+
+      const cdfsAccounts = new Map<string, CdfsAccountRow>([
+        ['6422', makeCdfs('6422', 'Chi phí gia công in thêu thuê ngoài', 0, 0)],
+      ])
+
+      const report = ExpenseByNatureEngine.analyze(entries, cdfsAccounts)
+      const rowM5 = report.rows[4]!
+
+      // Phải được phân vào Dịch vụ ngoài (không bị nhầm vào NVL dù đầu 6422 theo TT200 là vật liệu)
+      expect(rowM5.outsideServices).toBe(40_000_000)
+      expect(rowM5.rawMaterials).toBe(0)
+
+      const item = report.accountBreakdowns.find((a) => a.accountCode === '6422')
+      expect(item?.category).toBe('OUTSIDE_SERVICES')
+    })
+
+    it('bóc đúng Dịch vụ mua ngoài khi tên TK chung chung nhưng diễn giải ghi "Sửa chữa máy văn phòng"', () => {
+      const entries: JournalEntry[] = [
+        makeEntry({
+          month: 7,
+          debitAccount: '6423',
+          creditAccount: '111',
+          amount: makeMoney(5_000_000n, 0),
+          description: 'Chi phí sửa chữa máy in văn phòng',
+        }),
+      ]
+
+      const cdfsAccounts = new Map<string, CdfsAccountRow>([
+        ['6423', makeCdfs('6423', 'Chi phí đồ dùng', 0, 0)],
+      ])
+
+      const report = ExpenseByNatureEngine.analyze(entries, cdfsAccounts)
+      const rowM7 = report.rows[6]!
+
+      // Nhờ diễn giải có chữ "sửa chữa" -> xếp vào Dịch vụ ngoài
+      expect(rowM7.outsideServices).toBe(5_000_000)
+    })
+  })
 })

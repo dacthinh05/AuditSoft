@@ -62,8 +62,8 @@ describe('Tax flow [22]/[43] (port TaxRecord)', () => {
       [],
     )
     const wb = buildTaxReconWorkbook(res)
-    expect(wb.worksheets.map((w) => w.name)).toEqual(['01_GTGT_DoiChieu', '02_TNCN_Luong334'])
-    const ws = wb.getWorksheet('01_GTGT_DoiChieu')!
+    expect(wb.worksheets.map((w) => w.name)).toEqual(['E380_GTGT', 'E381_TNCN'])
+    const ws = wb.getWorksheet('E380_GTGT')!
     expect(ws.rowCount).toBeGreaterThanOrEqual(3) // header + 1 dòng + tổng
     expect(ws.getRow(2).getCell('taxIn25').value).toBeDefined()
     expect(MONEY_ZERO.raw).toBe(0n)

@@ -2,7 +2,7 @@ import type { ProgressMessage, ReconcileResult, SourceConfig } from '../domain/t
 import type { AnalysisResult, AuditAnalyzeRequest, AuditExportRequest } from './types/analytics'
 import type { IngestedTaxDeclarations } from './types/taxAnalytics'
 import type { TaxCrossReconciliationResult } from '../domain/analytics/TaxCrossReconciler'
-import type { VatDeclarationSnapshot } from './types/taxAnalytics'
+import type { VatDeclarationSnapshot, PitDeclarationSnapshot } from './types/taxAnalytics'
 import type { AppUpdateInfo, UpdateProgress } from './types/update'
 
 export type { AnalysisResult, AuditAnalyzeRequest, AuditExportRequest, AppUpdateInfo, UpdateProgress, IngestedTaxDeclarations }
@@ -137,9 +137,10 @@ export interface GenerateWorkingPapersRequest {
     reviewerName2?: string
     auditFirmName?: string
   }
-  /** Tờ khai GTGT đã nạp ở phân hệ Thuế — main điền vào GLV E300 */
+  /** Tờ khai GTGT đã nạp ở phân hệ Thuế — main điền vào GLV E300 (Sheet E 380) */
   taxVatDeclarations?: VatDeclarationSnapshot[]
-  /** Đường dẫn thư mục hoặc file ZIP bộ Giấy làm việc Đợt 1 (30/06) để đối chiếu hồi tố */
+  /** Tờ khai TNCN đã nạp ở phân hệ Thuế — main điền vào GLV E300 (Sheet E 381) */
+  taxPitDeclarations?: PitDeclarationSnapshot[]
   interimWpDir?: string
   /** Danh sách các bút toán điều chỉnh kiểm toán (AJE) từ đối chiếu Nguồn 1 vs Nguồn 2 */
   adjustingEntries?: unknown[]
