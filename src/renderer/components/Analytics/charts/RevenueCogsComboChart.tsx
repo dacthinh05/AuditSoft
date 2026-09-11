@@ -103,7 +103,7 @@ export function RevenueCogsComboChart({ report }: Props): JSX.Element {
   }
 
   return (
-    <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
+    <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }}>
       {/* Header & Controls */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
         <div>
@@ -389,27 +389,27 @@ export function RevenueCogsComboChart({ report }: Props): JSX.Element {
 
       <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '11px' }}>
         {isNormalized && viewMode === 'NORMALIZED' && (
-          <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '5px', padding: '5px 8px', color: '#047857', display: 'flex', alignItems: 'center', gap: '6px', lineHeight: 1.35 }}>
+          <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '5px', padding: '4px 8px', color: '#047857', display: 'flex', alignItems: 'center', gap: '6px', lineHeight: 1.25, fontSize: '11px' }}>
             <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>[Chuẩn kỳ VSA 520]</span>
-            <span>Doanh nghiệp kết chuyển dồn toàn bộ giá vốn vào ngày 31/12. Biểu đồ đã chuẩn hóa giá vốn theo chi phí sản xuất thực tế từng tháng để phản ánh đúng tương quan doanh thu - chi phí.</span>
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Chuẩn hóa giá vốn theo chi phí SX thực tế từng tháng (kế toán dồn kết chuyển 31/12).</span>
           </div>
         )}
         {isNormalized && viewMode === 'RAW' && (
-          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '5px', padding: '5px 8px', color: '#b91c1c', display: 'flex', alignItems: 'center', gap: '6px', lineHeight: 1.35 }}>
+          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '5px', padding: '4px 8px', color: '#b91c1c', display: 'flex', alignItems: 'center', gap: '6px', lineHeight: 1.25, fontSize: '11px' }}>
             <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>[Sổ sách 31/12]</span>
-            <span>Kế toán không hạch toán giá vốn theo tháng mà dồn 100% giá vốn cả năm vào ngày 31/12, dẫn đến biên gộp T1–T11 đạt 100% và T12 âm cực đoan ({minRawPct.toFixed(1)}%).</span>
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Kế toán dồn 100% giá vốn vào 31/12 (Biên gộp T1–T11 đạt 100%, T12: {minRawPct.toFixed(1)}%).</span>
           </div>
         )}
         {!isNormalized && hasOutlier && (
-          <div style={{ background: '#fef9c3', border: '1px solid #fef08a', borderRadius: '5px', padding: '4px 8px', color: '#713f12', display: 'flex', alignItems: 'center', gap: '5px', lineHeight: 1.3 }}>
+          <div style={{ background: '#fef9c3', border: '1px solid #fef08a', borderRadius: '5px', padding: '4px 8px', color: '#713f12', display: 'flex', alignItems: 'center', gap: '5px', lineHeight: 1.25, fontSize: '11px' }}>
             <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>[Thang đo]</span>
-            <span>Neo dải [−100%, +100%]. Tháng biên âm cực đoan (T12: {minRawPct.toFixed(1)}%) chạm sàn kèm nhãn chi tiết.</span>
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Neo dải [−100%, +100%]. Tháng biên âm cực đoan (T12: {minRawPct.toFixed(1)}%) chạm sàn kèm nhãn.</span>
           </div>
         )}
         {!isNormalized && report.auditWarning && (
-          <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '5px', padding: '4px 8px', color: '#b45309', display: 'flex', alignItems: 'center', gap: '5px', lineHeight: 1.3 }}>
+          <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '5px', padding: '4px 8px', color: '#b45309', display: 'flex', alignItems: 'center', gap: '5px', lineHeight: 1.25, fontSize: '11px' }}>
             <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>[Kiểm toán]</span>
-            <span>{report.auditWarning}</span>
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{report.auditWarning}</span>
           </div>
         )}
       </div>

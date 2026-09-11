@@ -116,9 +116,11 @@ export function OpexRatioAreaChart({ report }: Props): JSX.Element {
         </div>
       </div>
 
-      {/* SVG Canvas */}
-      <div style={{ position: 'relative', width: '100%', height: '245px' }}>
-        <svg viewBox="0 0 1000 245" width="100%" height="100%" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
+      {/* Chart Body: Area Chart (Trái) + KPI Summary Cards (Phải) */}
+      <div style={{ display: 'flex', gap: '20px', alignItems: 'stretch', flexWrap: 'wrap' }}>
+        {/* Left: SVG Canvas */}
+        <div style={{ flex: '1 1 600px', minWidth: '320px', position: 'relative', height: '245px' }}>
+          <svg viewBox="0 0 1000 245" width="100%" height="100%" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
           <defs>
             <linearGradient id={`${gradientId}-total`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#6366f1" stopOpacity="0.22" />
@@ -204,7 +206,44 @@ export function OpexRatioAreaChart({ report }: Props): JSX.Element {
           })}
         </svg>
 
-        <ChartTooltip {...tooltip} />
+          <ChartTooltip {...tooltip} />
+        </div>
+
+        {/* Right: Cột Thẻ Tóm Tắt KPI Hiệu Năng OPEX Cả Năm */}
+        <div style={{ width: '280px', display: 'flex', flexDirection: 'column', gap: '8px', justifyContent: 'center' }}>
+          {/* Card 1: CP Bán hàng 641 */}
+          <div style={{ background: '#fff1f2', border: '1px solid #fecdd3', borderRadius: '8px', padding: '10px 12px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '11px', color: '#e11d48', fontWeight: 600 }}>Chi phí Bán hàng (641)</span>
+              <span style={{ fontSize: '13px', fontWeight: 800, color: '#be123c', fontFamily: 'monospace' }}>{report.annualPcts.sellingRatioPct}% DT</span>
+            </div>
+            <div style={{ fontSize: '11px', color: '#9f1239', marginTop: '2px', fontFamily: 'monospace' }}>
+              Tổng năm: {moneyToNumber(report.annualTotals.sellingExpense).toLocaleString('vi-VN')} đ
+            </div>
+          </div>
+
+          {/* Card 2: CP QLDN 642 */}
+          <div style={{ background: '#eef2ff', border: '1px solid #c7d2fe', borderRadius: '8px', padding: '10px 12px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '11px', color: '#4f46e5', fontWeight: 600 }}>Chi phí Quản lý (642)</span>
+              <span style={{ fontSize: '13px', fontWeight: 800, color: '#3730a3', fontFamily: 'monospace' }}>{report.annualPcts.adminRatioPct}% DT</span>
+            </div>
+            <div style={{ fontSize: '11px', color: '#312e81', marginTop: '2px', fontFamily: 'monospace' }}>
+              Tổng năm: {moneyToNumber(report.annualTotals.adminExpense).toLocaleString('vi-VN')} đ
+            </div>
+          </div>
+
+          {/* Card 3: Tổng OPEX */}
+          <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '10px 12px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '11px', color: '#334155', fontWeight: 700 }}>Tổng Chi Phí Hoạt Động</span>
+              <span style={{ fontSize: '13px', fontWeight: 800, color: '#0f172a', fontFamily: 'monospace' }}>{report.annualPcts.totalOpexRatioPct}% DT</span>
+            </div>
+            <div style={{ fontSize: '11px', color: '#475569', marginTop: '2px', fontFamily: 'monospace' }}>
+              Tổng năm: {moneyToNumber(report.annualTotals.totalOpex).toLocaleString('vi-VN')} đ
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

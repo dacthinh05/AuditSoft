@@ -403,16 +403,6 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
                           </td>
                           <td style={{ padding: '6px 8px', textAlign: 'left', fontFamily: 'sans-serif', fontWeight: isLoss ? 700 : 500, color: isLoss ? '#991b1b' : '#0f172a' }}>
                             <span>{r.chiTieu}</span>
-                            {isLoss && (
-                              <span style={{ marginLeft: '6px', fontSize: '9.5px', background: '#dc2626', color: '#ffffff', padding: '1px 5px', borderRadius: '3px', fontWeight: 800 }}>
-                                {r.maSo === '60' ? 'LỖ GỘP' : 'LỖ HĐKD'}
-                              </span>
-                            )}
-                            {isAnomaly && !isLoss && (
-                              <span style={{ marginLeft: '6px', fontSize: '9.5px', background: '#f59e0b', color: '#ffffff', padding: '1px 5px', borderRadius: '3px', fontWeight: 700 }} title="Biến động lớn so với cùng kỳ">
-                                BIẾN ĐỘNG
-                              </span>
-                            )}
                           </td>
                           <td style={{ padding: '6px 8px', fontWeight: 700, color: isLoss ? '#b91c1c' : '#0f172a' }}>
                             {r.current === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(r.current)}
@@ -771,21 +761,27 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
         </div>
       )}
 
-      {/* ── Section 6: Bộ 3 Đồ Thị Tài Chính Tương Quan 12 Tháng (Lưới 3 Cột) ── */}
+      {/* ── Section 6: Bộ 3 Đồ Thị Tài Chính Tương Quan 12 Tháng (Mô hình 2 Hàng Chuẩn SaaS) ── */}
       {correlations && (
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
-            gap: '16px',
-          }}
-        >
-          <div id="chart-gross-margin" data-chart-title="Doanh Thu & Biên Lãi Gộp 12 Tháng">
-            <RevenueCogsComboChart report={correlations.grossMargin} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Hàng 1: 2 Đồ thị chu trình Bán hàng & Sản xuất - Giá vốn (Tỷ lệ 50/50, chiều cao đồng bộ) */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(480px, 1fr))',
+              gap: '16px',
+              alignItems: 'stretch',
+            }}
+          >
+            <div id="chart-gross-margin" data-chart-title="Doanh Thu & Biên Lãi Gộp 12 Tháng" style={{ display: 'flex', flexDirection: 'column' }}>
+              <RevenueCogsComboChart report={correlations.grossMargin} />
+            </div>
+            <div id="chart-cogs-structure" data-chart-title="Cơ Cấu Chi Phí Giá Vốn 12 Tháng" style={{ display: 'flex', flexDirection: 'column' }}>
+              <CogsStructureStackedChart report={correlations.cogsStructure} />
+            </div>
           </div>
-          <div id="chart-cogs-structure" data-chart-title="Cơ Cấu Chi Phí Giá Vốn 12 Tháng">
-            <CogsStructureStackedChart report={correlations.cogsStructure} />
-          </div>
+
+          {/* Hàng 2: Đồ thị OPEX trải dài Full-Width cân đối hoàn hảo */}
           <div id="chart-opex-ratio" data-chart-title="Tỷ Trọng Chi Phí Hoạt Động (OPEX / Doanh Thu)">
             <OpexRatioAreaChart report={correlations.opexRatios} />
           </div>

@@ -31,7 +31,7 @@ export function CogsStructureStackedChart({ report }: Props): JSX.Element {
   const X_START = 65
   const X_END = 935
   const Y_TOP = 25
-  const Y_BOTTOM = 210
+  const Y_BOTTOM = 220
   const BAR_HEIGHT = Y_BOTTOM - Y_TOP
   const BAR_WIDTH = 28
 
@@ -70,7 +70,7 @@ export function CogsStructureStackedChart({ report }: Props): JSX.Element {
   }
 
   return (
-    <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
+    <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }}>
       {/* Header & Mode Controls */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
         <div>
@@ -146,8 +146,8 @@ export function CogsStructureStackedChart({ report }: Props): JSX.Element {
       </div>
 
       {/* SVG Canvas */}
-      <div style={{ position: 'relative', width: '100%', height: '245px' }}>
-        <svg viewBox="0 0 1000 245" width="100%" height="100%" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
+      <div style={{ position: 'relative', width: '100%', height: '260px' }}>
+        <svg viewBox="0 0 1000 260" width="100%" height="100%" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
           {/* Y Axis Guide Lines */}
           {[1.0, 0.75, 0.5, 0.25, 0].map((step, idx) => {
             const y = Y_BOTTOM - step * BAR_HEIGHT
@@ -238,6 +238,13 @@ export function CogsStructureStackedChart({ report }: Props): JSX.Element {
         </svg>
 
         <ChartTooltip {...tooltip} />
+      </div>
+
+      <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '11px' }}>
+        <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '5px', padding: '4px 8px', color: '#475569', display: 'flex', alignItems: 'center', gap: '6px', lineHeight: 1.25, fontSize: '11px' }}>
+          <span style={{ fontWeight: 700, whiteSpace: 'nowrap' }}>[Cơ cấu CPSX]</span>
+          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Bóc tách chi phí phát sinh thực tế đầu vào (đã loại trừ kết chuyển nội bộ 154/62x).</span>
+        </div>
       </div>
     </div>
   )
