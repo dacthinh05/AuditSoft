@@ -35,12 +35,20 @@ export function cellNumber(v: ExcelJS.CellValue): number {
 export function formatDateVN(val: unknown): string {
   if (val == null || val === '') return ''
   if (typeof val === 'string') {
-    if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(val)) return val
-    const m = /^(\d{4})-(\d{1,2})-(\d{1,2})/.exec(val)
+    const s = val.trim()
+    if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)) return s
+    const m = /^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/.exec(s)
     if (m && m[1] && m[2] && m[3]) {
       const d = m[3].padStart(2, '0')
       const mo = m[2].padStart(2, '0')
       return `${d}/${mo}/${m[1]}`
+    }
+    const parsed = new Date(s)
+    if (!isNaN(parsed.getTime())) {
+      const d = String(parsed.getDate()).padStart(2, '0')
+      const mo = String(parsed.getMonth() + 1).padStart(2, '0')
+      const y = parsed.getFullYear()
+      return `${d}/${mo}/${y}`
     }
   }
 
@@ -85,6 +93,43 @@ export function styleCellAmount(cell: ExcelJS.Cell, val: number, isBold = false)
   }
 }
 
+/**
+ * Format dòng tổng cộng chuẩn kiểm toán: Viền trên nét đơn, viền dưới gạch chân đôi (double underline)
+ */
+export function styleTotalDoubleUnderline(row: ExcelJS.Row, startCol = 1, endCol = 8): void {
+  for (let c = startCol; c <= endCol; c++) {
+    const cell = row.getCell(c)
+    cell.font = { ...DEFAULT_FONT, bold: true }
+    cell.border = {
+      top: { style: 'thin', color: { argb: 'FF000000' } },
+      bottom: { style: 'double', color: { argb: 'FF000000' } },
+      left: cell.border?.left,
+      right: cell.border?.right,
+    }
+  }
+}
+
+/**
+ * Format ô bút toán điều chỉnh AJE: Nền vàng nhạt cảnh báo (#FFF2CC), viền cam nhạt
+ */
+export function styleAjeAdjustmentCell(cell: ExcelJS.Cell, val: number): void {
+  cell.value = Number(val) || 0
+  cell.numFmt = '#,##0;[Red](#,##0);-'
+  cell.font = { ...DEFAULT_FONT, bold: true, color: { argb: 'FFC00000' } }
+  cell.alignment = { horizontal: 'right', vertical: 'middle' }
+  cell.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFFFF2CC' },
+  }
+  cell.border = {
+    top: { style: 'thin', color: { argb: 'FFF8A153' } },
+    bottom: { style: 'thin', color: { argb: 'FFF8A153' } },
+    left: { style: 'thin', color: { argb: 'FFF8A153' } },
+    right: { style: 'thin', color: { argb: 'FFF8A153' } },
+  }
+}
+
 export function styleCellDate(cell: ExcelJS.Cell, val: unknown): void {
   cell.value = formatDateVN(val)
   cell.numFmt = '@'
@@ -110,10 +155,48 @@ export function styleCellText(cell: ExcelJS.Cell, val: string, isBold = false): 
 }
 
 /**
- * Điền một dòng trong Bảng Lead Schedule (xx110 / xx210 / xx310...)
+ * Tự động tính tổng số dư tài khoản (Rollup) từ CDFS:
+ * - Nếu có tài khoản chính xác và có số dư > 0 -> dùng số dư đó.
+ * - Nếu không có hoặc số dư = 0 -> tự động cộng dồn tất cả tài khoản con bắt đầu bằng prefix (ví dụ 1521, 1522 -> 152).
+ */
+export function getAccountRollup(
+  cdfsMap: Map<string, { matk: string; tentk: string; sdndk?: number; sdcdk?: number; psndk?: number; pscdk?: number; nock?: number; cock?: number }>,
+  prefix: string,
+): { ck: number; dk: number; tentk: string } {
+  const exact = cdfsMap.get(prefix)
+  const exactCK = (exact?.nock || exact?.cock || 0)
+  const exactDK = (exact?.sdndk || exact?.sdcdk || 0)
+
+  // Nếu tài khoản mẹ đã có số dư riêng
+  if (exact && (exactCK !== 0 || exactDK !== 0)) {
+    return { ck: exactCK, dk: exactDK, tentk: exact.tentk }
+  }
+
+  // Nếu không, rollup từ tất cả các tài khoản con bắt đầu bằng prefix
+  let sumCK = 0
+  let sumDK = 0
+  let detectedName = exact?.tentk || ''
+
+  for (const acc of cdfsMap.values()) {
+    if (acc.matk.startsWith(prefix) && acc.matk !== prefix) {
+      sumCK += (acc.nock || acc.cock || 0)
+      sumDK += (acc.sdndk || acc.sdcdk || 0)
+      if (!detectedName) detectedName = acc.tentk
+    }
+  }
+
+  return {
+    ck: sumCK || exactCK,
+    dk: sumDK || exactDK,
+    tentk: detectedName || exact?.tentk || prefix,
+  }
+}
+
+/**
+ * Điền chuẩn xác dòng dữ liệu vào Lead Schedule
  * Đảm bảo:
- * - Điền Số trước KT (C4) và Số đầu kỳ (C7)
- * - Tuyệt đối không ghi đè làm mất công thức SUM hoặc công thức điều chỉnh ở C5 / C6
+ * - Điền Số trước KT (Cột D / 4) và Số đầu kỳ (Cột G / 7 hoặc Cột H / 8)
+ * - Tự động phát hiện nếu ô có công thức thì TUYỆT ĐỐI KHÔNG GHI ĐÈ!
  */
 export function setLeadRowValues(
   ws: ExcelJS.Worksheet,
@@ -135,7 +218,8 @@ export function setLeadRowValues(
   const c1 = row.getCell(options.colTk ?? 1)
   const c2 = row.getCell(options.colTen ?? 2)
   const c4 = row.getCell(options.colCk ?? 4)
-  const c7 = row.getCell(options.colDk ?? 7)
+  const colDkIdx = options.colDk ?? 7
+  const cDk = row.getCell(colDkIdx)
 
   if (options.tk && !(c1.value && typeof c1.value === 'object')) {
     c1.value = options.tk
@@ -148,22 +232,29 @@ export function setLeadRowValues(
     c2.alignment = { horizontal: 'left', vertical: 'middle' }
   }
 
-  // Cột 4: Số trước KT (D)
-  c4.value = Number(options.ck) || 0
-  c4.numFmt = '#,##0'
-  c4.alignment = { horizontal: 'right', vertical: 'middle' }
+  // Cột Số trước KT (thường là Cột 4 - D)
+  // Chỉ ghi nếu ô không phải là công thức SUM / link
+  if (!(c4.value && typeof c4.value === 'object' && 'formula' in c4.value)) {
+    c4.value = Number(options.ck) || 0
+    c4.numFmt = '#,##0'
+    c4.alignment = { horizontal: 'right', vertical: 'middle' }
+  }
 
-  // Cột 7: Số đầu kỳ / Năm trước (G)
-  c7.value = Number(options.dk) || 0
-  c7.numFmt = '#,##0'
-  c7.alignment = { horizontal: 'right', vertical: 'middle' }
-  // Tuyệt đối không can thiệp Cột 5 (Điều chỉnh) hoặc Cột 6 (Sau KT) vì là công thức của template!
+  // Cột Số đầu kỳ / Năm trước (Cột 7 - G hoặc Cột 8 - H)
+  if (!(cDk.value && typeof cDk.value === 'object' && 'formula' in cDk.value)) {
+    cDk.value = Number(options.dk) || 0
+    cDk.numFmt = '#,##0'
+    cDk.alignment = { horizontal: 'right', vertical: 'middle' }
+  }
 }
 
 /**
  * Chuẩn hóa và làm sạch các công thức Shared Formula bị lỗi trong template
  */
 export function normalizeWorkbookSharedFormulas(wb: ExcelJS.Workbook): void {
+  if (!wb || !('worksheets' in wb) || !Array.isArray(wb.worksheets)) {
+    return
+  }
   for (const ws of wb.worksheets) {
     ws.eachRow((row) => {
       row.eachCell((cell) => {
@@ -172,8 +263,8 @@ export function normalizeWorkbookSharedFormulas(wb: ExcelJS.Workbook): void {
           if ('sharedFormula' in val && !('formula' in val)) {
             cell.value = val.result !== undefined ? (val.result as string | number | boolean | Date) : null
           } else if ('formula' in val && typeof val.formula === 'string') {
-            // Neu cong thuc chua link ngoai [N]... hoac #REF! bi dut gay
-            if (val.formula.includes('[') || val.formula.includes('#REF!')) {
+            // Chỉ làm sạch nếu công thức chứa lỗi #REF! bị đứt gãy
+            if (val.formula.includes('#REF!')) {
               cell.value = val.result !== undefined ? (val.result as string | number | boolean | Date) : null
             }
           }
@@ -187,7 +278,7 @@ export function normalizeWorkbookSharedFormulas(wb: ExcelJS.Workbook): void {
  * Điền chuẩn sheet ADD (Thông tin khách hàng & Niên độ kiểm toán)
  * Giữ đúng cấu trúc độ rộng chuỗi cho các công thức MID/RIGHT trong template.
  */
-export function fillAddSheet(ws: ExcelJS.Worksheet, engagement: EngagementInfo): void {
+export function fillAddSheet(ws: ExcelJS.Worksheet, engagement: EngagementInfo, monthlyRevenue12M?: number[]): void {
   const yearStr = engagement.fiscalYearEnd.slice(-4) || '2026'
 
   // J2 / A1: Khách hàng
@@ -211,30 +302,92 @@ export function fillAddSheet(ws: ExcelJS.Worksheet, engagement: EngagementInfo):
 
   // A3: Đợt 1
   const a3Cell = ws.getCell('A3')
-  const a3Val = String(a3Cell.value || '')
-  if (a3Val.includes('01 / 01')) {
-    a3Cell.value = `Đợt 1: 01 / 01 - 30 / 06 / ${yearStr}`
-  } else {
-    a3Cell.value = `Đợt 1:             01/01 - 30/06/${yearStr}`
-  }
+  const rawP1 = engagement.auditPeriod1?.replace(/^Đợt 1:\s*/i, '').trim() || `01/01 - 30/06/${yearStr}`
+  a3Cell.value = `Đợt 1:             ${rawP1}`
 
   // A4: Đợt 2
   const a4Cell = ws.getCell('A4')
-  const a4Val = String(a4Cell.value || '')
-  if (a4Val.includes('01 / 07')) {
-    a4Cell.value = `Đợt 2: 01 / 07 - 31 / 12 / ${yearStr}`
-  } else {
-    a4Cell.value = `Đợt 2:             01/07 - 31/12/${yearStr}`
-  }
+  const rawP2 = engagement.auditPeriod2?.replace(/^Đợt 2:\s*/i, '').trim() || `01/07 - 31/12/${yearStr}`
+  a4Cell.value = `Đợt 2:             ${rawP2}`
 
   // Auditor & Reviewer
+  // Auditor & Reviewer (Chỉ ghi nếu ô không có công thức tham chiếu sẵn)
   if (engagement.auditorName) {
     ws.getCell('G3').value = engagement.auditorName
-    if (ws.getCell('K3').value !== null) ws.getCell('K3').value = engagement.auditorName
+    const k3 = ws.getCell('K3')
+    if (k3.value !== null && !(typeof k3.value === 'object' && 'formula' in k3.value)) {
+      k3.value = engagement.auditorName
+    }
   }
 
   if (engagement.auditFirmName) {
     ws.getCell('F1').value = engagement.auditFirmName
-    if (ws.getCell('G1').value !== null) ws.getCell('G1').value = engagement.auditFirmName
+    const g1 = ws.getCell('G1')
+    if (g1.value !== null && !(typeof g1.value === 'object' && 'formula' in g1.value)) {
+      g1.value = engagement.auditFirmName
+    }
+  }
+
+  // Thống kê Doanh thu 12 tháng (F24:F35) làm nguồn cho công thức =+ADD!F24..F35 trên G353/G453
+  if (monthlyRevenue12M && Array.isArray(monthlyRevenue12M) && monthlyRevenue12M.length >= 12) {
+    for (let m = 0; m < 12; m++) {
+      const row = 24 + m
+      const rev = monthlyRevenue12M[m] ?? 0
+      const cell = ws.getCell(`F${row}`)
+      cell.value = rev
+      cell.numFmt = '#,##0'
+    }
   }
 }
+
+export function findWorksheetFuzzy(wb: any, candidates: string | string[]): any {
+  const list = Array.isArray(candidates) ? candidates : [candidates];
+  const normalize = (s: string) => s.toLowerCase().replace(/[\s_\-.]/g, "");
+  for (const name of list) {
+    const ws = wb.getWorksheet(name);
+    if (ws) return ws;
+  }
+  for (const name of list) {
+    const norm = normalize(name);
+    const matched = wb.worksheets.find((w: any) => normalize(w.name) === norm);
+    if (matched) return matched;
+  }
+  return undefined
+}
+
+/**
+ * Tính tổng số tiền điều chỉnh thuần từ danh sách bút toán điều chỉnh AJE (VSA 500 / VSA 450)
+ * @param entries Danh sách bút toán điều chỉnh
+ * @param accountPrefix Tiền tố tài khoản cần tính (vd: '111', '112', '131', '331'...)
+ * @param normalBalance Chiều số dư thông thường: 'DEBIT' (Tài sản) hoặc 'CREDIT' (Nguồn vốn, Doanh thu)
+ */
+export function computeAccountAdjustment(
+  entries: Array<{ tkNo: string; tkCo: string; soTien: number }> | undefined,
+  accountPrefix: string,
+  normalBalance: 'DEBIT' | 'CREDIT' = 'DEBIT',
+): number {
+  if (!entries || entries.length === 0) return 0
+  let debitAdj = 0
+  let creditAdj = 0
+
+  for (const e of entries) {
+    if (e.tkNo && e.tkNo.startsWith(accountPrefix)) {
+      debitAdj += Math.abs(e.soTien || 0)
+    }
+    if (e.tkCo && e.tkCo.startsWith(accountPrefix)) {
+      creditAdj += Math.abs(e.soTien || 0)
+    }
+  }
+
+  return normalBalance === 'DEBIT' ? debitAdj - creditAdj : creditAdj - debitAdj
+}
+
+/**
+ * Khối chú giải ký hiệu kiểm toán (Tickmarks) chuẩn mực theo Hồ sơ kiểm toán mẫu VACPA
+ */
+export const VACPA_TICKMARKS_LEGEND = [
+  { symbol: '^', desc: 'Đã kiểm tra số cộng số học (Footing / Cross-footing).' },
+  { symbol: '✓', desc: 'Đã kiểm tra đối chiếu với chứng từ gốc hợp lệ (Vouching to source documents).' },
+  { symbol: 'GL', desc: 'Đã khớp đúng với Sổ Cái (Agreed to General Ledger).' },
+  { symbol: 'TB', desc: 'Đã khớp đúng Bảng Cân Đối Số Phát Sinh (Agreed to Trial Balance).' },
+]

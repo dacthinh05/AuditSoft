@@ -72,7 +72,7 @@ export function TaxDropZone({ onFilesSelected, disabled }: Props): JSX.Element {
         boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
       }}
     >
-      <div style={{ fontSize: '2.5rem', color: '#0284c7', marginBottom: '0.5rem' }}>📥</div>
+      <div style={{ fontSize: '12px', fontWeight: 700, color: '#0284c7', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.5rem' }}>Tờ khai XML / ZIP</div>
       <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.35rem' }}>
         Kéo thả nhiều file XML hoặc file ZIP tờ khai thuế vào đây
       </div>

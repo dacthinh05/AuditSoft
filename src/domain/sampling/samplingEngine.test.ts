@@ -24,12 +24,20 @@ describe('VSA 530 & VSA 320 Sampling Engine — Comprehensive Tests', () => {
     expect(getRiskFactor(85)).toBe(1.9)
   })
 
-  it('nhận diện dấu hiệu rủi ro đặc thù (cuối kỳ, tròn số lớn, từ khóa nhạy cảm)', () => {
+  it('nhận diện dấu hiệu rủi ro đặc thù (tháng 12, tròn số lớn, từ khóa nhạy cảm)', () => {
     const ctt = 50_000_000
     // Tròn số 100tr
     expect(hasSpecificRisk(makeItem({ amount: 100_000_000, description: 'Mua hang' }), ctt)).toBe(true)
+    // Tròn 50tr cũng bắt
+    expect(hasSpecificRisk(makeItem({ amount: 150_000_000, description: 'Mua hang' }), ctt)).toBe(true)
+    // Lệch 1 đồng thì thoát
+    expect(hasSpecificRisk(makeItem({ amount: 100_000_001, description: 'Mua hang' }), ctt)).toBe(false)
     // Ngày 31/12
     expect(hasSpecificRisk(makeItem({ amount: 60_000_000, displayDate: '31/12/2025' }), ctt)).toBe(true)
+    // Ngày 15/12 giữa tháng cũng bắt (cutoff tháng 12)
+    expect(hasSpecificRisk(makeItem({ amount: 60_000_000, displayDate: '15/12/2025' }), ctt)).toBe(true)
+    // Format ISO tháng 12
+    expect(hasSpecificRisk(makeItem({ amount: 60_000_000, displayDate: '2025-12-05' }), ctt)).toBe(true)
     // Từ khóa điều chỉnh
     expect(hasSpecificRisk(makeItem({ amount: 70_000_000, description: 'Bút toán ĐIỀU CHỈNH chi phí' }), ctt)).toBe(true)
     // Dưới CTT -> false

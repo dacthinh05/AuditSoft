@@ -25,29 +25,24 @@ export function TimelineRiskChart({
   selectedMonth,
   onSelectMonth,
 }: TimelineRiskChartProps): JSX.Element {
-  // Tìm giá trị lớn nhất để tính chiều cao tương đối
+  // Tìm giá trị lớn nhất trong 12 tháng để tính chiều cao tương đối
   let maxAmount = 1n
   for (const m of monthly) {
     if (m.totalAmount > maxAmount) maxAmount = m.totalAmount
   }
-  if (cutoff.totalAmount31Dec > maxAmount) {
-    maxAmount = cutoff.totalAmount31Dec
-  }
-
-  const chartHeight = 56 // pixels
-
+  const chartHeight = 78 // pixels cao hơn để thoáng và có chỗ hiện số tiền
   return (
     <div className="timeline-risk-chart-card">
       <div className="timeline-chart-header">
         <div className="timeline-title-group">
           <span className="timeline-title">Phân Bổ Dòng Tiền 12 Tháng & Rủi Ro Khóa Sổ</span>
-          <span className="timeline-hint">Nhấp vào tháng để lọc</span>
+          <span className="timeline-hint">Nhấp vào cột để lọc chi tiết</span>
         </div>
         {cutoff.count31Dec > 0 && (
           <div
             className={`cutoff-alert-pill ${selectedMonth === 13 ? 'active' : ''}`}
             onClick={() => onSelectMonth(selectedMonth === 13 ? null : 13)}
-            title="Bấm để lọc các giao dịch ngày 31/12"
+            title="Bấm để lọc các giao dịch rủi ro khóa sổ ngày 31/12"
           >
             <span className="cutoff-dot"></span>
             <span>Cutoff 31/12: <strong>{cutoff.count31Dec}</strong> bút toán ({fmtShortMoney(cutoff.totalAmount31Dec)})</span>
@@ -58,46 +53,41 @@ export function TimelineRiskChart({
       <div className="timeline-bars-container">
         {monthly.map((m) => {
           const isSelected = selectedMonth === m.month
+          const isMonth12 = m.month === 12
+          const isCutoffSelected = selectedMonth === 13
+          const isT12Active = isSelected || (isMonth12 && isCutoffSelected)
           const ratio = maxAmount > 0n ? Number(m.totalAmount) / Number(maxAmount) : 0
-          const barHeightPx = Math.max(m.count > 0 ? 4 : 1, Math.round(ratio * chartHeight))
+          const barHeightPx = Math.max(m.count > 0 ? 6 : 2, Math.round(ratio * (chartHeight - 18)))
           const hasDiff = m.diffCount > 0
+          const hasCutoffAlert = isMonth12 && cutoff.count31Dec > 0
+          // Hiển thị nhãn số tiền nếu cột đáng kể hoặc đang được chọn
+          const showTopValue = m.totalAmount >= 500_000_000n || isT12Active
 
           return (
             <div
               key={m.month}
-              className={`timeline-bar-col ${isSelected ? 'selected' : ''} ${m.count === 0 ? 'empty' : ''}`}
+              className={`timeline-bar-col ${isT12Active ? 'selected' : ''} ${m.count === 0 ? 'empty' : ''} ${hasCutoffAlert ? 'has-cutoff-risk' : ''}`}
               onClick={() => onSelectMonth(isSelected ? null : m.month)}
-              title={`${m.label}: ${m.count.toLocaleString('vi-VN')} dòng · Tổng: ${fmtShortMoney(m.totalAmount)} đ${hasDiff ? ` · Chênh lệch: ${m.diffCount} dòng` : ''}`}
+              title={`${m.label}: ${m.count.toLocaleString('vi-VN')} dòng · Tổng: ${fmtShortMoney(m.totalAmount)} đ${hasDiff ? ` · Chênh lệch: ${m.diffCount} dòng` : ''}${hasCutoffAlert ? ` · (Bao gồm Cutoff 31/12: ${cutoff.count31Dec} dòng / ${fmtShortMoney(cutoff.totalAmount31Dec)})` : ''}`}
             >
               <div className="bar-track" style={{ height: chartHeight }}>
+                {showTopValue && m.count > 0 && (
+                  <span className={`bar-floating-val ${isCutoffSelected ? 'cutoff-val' : ''}`}>
+                    {fmtShortMoney(m.totalAmount)}
+                  </span>
+                )}
                 <div
-                  className={`bar-fill ${hasDiff ? 'has-diff' : ''}`}
+                  className={`bar-fill ${hasDiff ? 'has-diff' : ''} ${isCutoffSelected ? 'cutoff-fill' : ''}`}
                   style={{ height: `${barHeightPx}px` }}
                 />
               </div>
-              <span className="bar-label">{m.label}</span>
+              <span className="bar-label">
+                {m.label}
+                {hasCutoffAlert && <span className="cutoff-badge-sub" title="Chứa bút toán ngày khóa sổ 31/12">·31</span>}
+              </span>
             </div>
           )
         })}
-
-        {/* Cột thứ 13 đặc biệt: 31/12 */}
-        {cutoff.count31Dec > 0 && (
-          <div
-            className={`timeline-bar-col cutoff-col ${selectedMonth === 13 ? 'selected' : ''}`}
-            onClick={() => onSelectMonth(selectedMonth === 13 ? null : 13)}
-            title={`Khóa sổ 31/12: ${cutoff.count31Dec.toLocaleString('vi-VN')} dòng · Tổng: ${fmtShortMoney(cutoff.totalAmount31Dec)} đ`}
-          >
-            <div className="bar-track" style={{ height: chartHeight }}>
-              <div
-                className="bar-fill cutoff-fill"
-                style={{
-                  height: `${Math.max(4, Math.round((Number(cutoff.totalAmount31Dec) / Number(maxAmount)) * chartHeight))}px`,
-                }}
-              />
-            </div>
-            <span className="bar-label cutoff-text">31/12</span>
-          </div>
-        )}
       </div>
     </div>
   )

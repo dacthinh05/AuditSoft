@@ -558,8 +558,10 @@ export function ResultsPage(): JSX.Element {
 
   const profileSummary = useMemo(() => {
     if (!result) return null
-    return profileDiffRows(result.diffRows)
-  }, [result])
+    // Đồng bộ với bộ lọc chính (luôn loại 911 và tùy chọn loại KẾT CHUYỂN) để số liệu trên thanh khớp 100% với bảng bên dưới
+    const filteredRows = applyMainFilter(result.diffRows, { excludeKetChuyen })
+    return profileDiffRows(filteredRows)
+  }, [result, excludeKetChuyen])
 
   async function exportXlsx(): Promise<void> {
     if (typeof window.auditsoft === 'undefined') {
@@ -590,6 +592,83 @@ export function ResultsPage(): JSX.Element {
         setError(null)
       }
       useApp.getState().refreshTrialStatus()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err))
+    } finally {
+      setRunning(false)
+    }
+  }
+
+  async function exportProfiler(): Promise<void> {
+    if (typeof window.auditsoft === 'undefined' || !profileSummary) {
+      setError('Không kết nối được hệ thống hoặc chưa có dữ liệu phân tích.')
+      return
+    }
+
+    try {
+      setRunning(true)
+      const d = new Date()
+      const stamp = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`
+      let filterDesc = ''
+      if (profilerMonth === 13) filterDesc = 'Khóa sổ 31/12'
+      else if (profilerMonth !== null) filterDesc = `Tháng ${profilerMonth}`
+      if (profilerTier) {
+        const tierLabel = profileSummary.tiers.find((t) => t.key === profilerTier)?.label ?? profilerTier
+        filterDesc = filterDesc ? `${filterDesc} - ${tierLabel}` : tierLabel
+      }
+
+      // Lọc các dòng theo profilerMonth và profilerTier
+      let exportRows: DiffRow[] | undefined = undefined
+      if (profilerMonth !== null || profilerTier !== null) {
+        let base = applyMainFilter(result.diffRows, { excludeKetChuyen })
+        if (profilerMonth !== null) {
+          if (profilerMonth === 13) {
+            base = base.filter((r) => {
+              const dm = extractMonthAndDay(r.dateISO)
+              return dm && dm.month === 12 && dm.day === 31
+            })
+          } else {
+            base = base.filter((r) => {
+              const dm = extractMonthAndDay(r.dateISO)
+              return dm && dm.month === profilerMonth
+            })
+          }
+        }
+        if (profilerTier !== null) {
+          base = base.filter((r) => {
+            let rawAmt = 0n
+            try {
+              const amtAfter = moneyFromJSON(r.amountAfter).raw
+              const amtBefore = moneyFromJSON(r.amountBefore).raw
+              const diffAmt = moneyFromJSON(r.difference).raw
+              const absAfter = amtAfter < 0n ? -amtAfter : amtAfter
+              const absBefore = amtBefore < 0n ? -amtBefore : amtBefore
+              const absDiff = diffAmt < 0n ? -diffAmt : diffAmt
+              rawAmt = absAfter > absBefore ? absAfter : absBefore
+              if (rawAmt === 0n) rawAmt = absDiff
+            } catch {
+              rawAmt = 0n
+            }
+            if (profilerTier === 'LOW') return rawAmt < TIER_THRESHOLDS.LOW_MAX
+            if (profilerTier === 'MEDIUM') return rawAmt >= TIER_THRESHOLDS.LOW_MAX && rawAmt < TIER_THRESHOLDS.MED_MAX
+            if (profilerTier === 'HIGH') return rawAmt >= TIER_THRESHOLDS.MED_MAX && rawAmt < TIER_THRESHOLDS.HIGH_MAX
+            if (profilerTier === 'KEY_ITEM') return rawAmt >= TIER_THRESHOLDS.HIGH_MAX
+            return true
+          })
+        }
+        exportRows = base
+      }
+      const res = await window.auditsoft.exportProfilerReport({
+        suggestedName: `BaoCao-PhanTich-RuiRo-Cutoff-${stamp}.xlsx`,
+        summary: profileSummary,
+        filteredRows: exportRows,
+        filterDesc: filterDesc || 'Toàn bộ phát sinh',
+      })
+      if (!res.ok) {
+        setError('Đã hủy xuất file phân tích.')
+      } else {
+        setError(null)
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err))
     } finally {
@@ -628,7 +707,7 @@ export function ResultsPage(): JSX.Element {
             onClick={() => void exportXlsx()}
           >
             <IconFileSpreadsheet size={15} style={{ marginRight: 6, verticalAlign: '-2px' }} />
-            Xuất Báo Cáo Excel (8 sheet)
+            Xuất Báo Cáo Excel (9 sheet)
           </button>
         </div>
       </div>
@@ -649,10 +728,9 @@ export function ResultsPage(): JSX.Element {
           onClearFilters={() => useApp.getState().clearProfilerFilter()}
           isOpen={profilerOpen}
           onToggleOpen={() => useApp.getState().setProfilerOpen(!profilerOpen)}
+          onExportProfiler={() => void exportProfiler()}
         />
       )}
-
-
       {/* ── Modern Navigation Tabs ── */}
       <div className="results-tabs">
         {TABS.map((t) => {

@@ -110,3 +110,42 @@ describe('PitXmlParser', () => {
     expect(result?.ct31_qtt_tongThueDaKhauTruTrongNam).toBe(198000000n)
   })
 })
+
+describe('Phân loại GTGT vs TNCN trong envelope HTKK chung', () => {
+  // File TNCN thật dùng envelope TKhaiThue chung + maTKhai 05/KK-TNCN
+  const tncnInGenericEnvelope = `<?xml version="1.0" encoding="UTF-8"?>
+<HSoThueDTu xmlns="http://kekhaithue.gdt.gov.vn/TKhaiThue">
+  <HSoKhaiThue>
+    <TTinChung>
+      <maTKhai>05/KK-TNCN</maTKhai>
+      <tenTKhai>Tờ khai khấu trừ thuế thu nhập cá nhân</tenTKhai>
+      <kyKKhai>Quý 2/2025</kyKKhai>
+      <soLan>0</soLan>
+      <mst>0314892001</mst>
+      <tenNNT>CÔNG TY TNHH MINH PHÁT</tenNNT>
+    </TTinChung>
+    <CTietTKhaiChinh>
+      <ct16>45</ct16>
+      <ct21>1250000000</ct21>
+      <ct26>420000000</ct26>
+      <ct29>38500000</ct29>
+    </CTietTKhaiChinh>
+  </HSoKhaiThue>
+</HSoThueDTu>`
+
+  it('VAT parser từ chối tờ khai TNCN trong envelope chung', () => {
+    expect(VatXmlParser.parseVatXml(tncnInGenericEnvelope)).toBeNull()
+  })
+
+  it('PIT parser nhận đúng tờ khai TNCN trong envelope chung', () => {
+    const result = PitXmlParser.parsePitXml(tncnInGenericEnvelope)
+    expect(result).not.toBeNull()
+    expect(result?.isFinalization).toBe(false)
+    expect(result?.ct21_tongThuNhapChiuThue).toBe(1250000000n)
+  })
+
+  it('VAT parser từ chối tờ khai TNDN 03/TNDN', () => {
+    const tndnXml = tncnInGenericEnvelope.replace('05/KK-TNCN', '03/TNDN')
+    expect(VatXmlParser.parseVatXml(tndnXml)).toBeNull()
+  })
+})

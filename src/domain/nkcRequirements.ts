@@ -18,11 +18,11 @@ export const MODULE_DATA_REQUIREMENTS: Record<string, DataRequirement> = {
   qtt03: 'NONE',
   analytics: 'BEFORE',
   taxstats: 'BEFORE',
+  taxrisk: 'BEFORE',
   sampling: 'BEFORE',
   workingpaper: 'BEFORE',
   results: 'BOTH',
 }
-
 export function getDataRequirement(view: string): DataRequirement {
   return MODULE_DATA_REQUIREMENTS[view] ?? 'NONE'
 }

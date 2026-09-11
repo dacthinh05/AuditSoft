@@ -5,11 +5,10 @@ import { extractAccountingContext, generateAllWorkingPapers } from '../src/domai
 import type { EngagementInfo } from '../src/domain/workingpaper/types'
 
 describe('Working Paper Auto-Fill Generator', () => {
-  it('extracts accounting context from MAU NKC.xlsx and generates all 12 working papers', async () => {
+  it('extracts accounting context from MAU NKC.xlsx and generates all 15 working papers', async () => {
+    const outputDir = path.resolve(`output_test_glv_${Date.now()}_${process.pid}`)
     const sourceWorkbook = path.resolve('MAU NKC.xlsx')
     const templateDir = path.resolve('GLV MAU')
-    const outputDir = path.resolve('output_test_glv')
-
     const engagement: EngagementInfo = {
       clientName: 'Công ty Cổ phần May Mặc Gia Công Test',
       fiscalYearEnd: '31/12/2026',
@@ -39,8 +38,8 @@ describe('Working Paper Auto-Fill Generator', () => {
         console.error('FAILED FILE:', r.fileName, 'ERROR:', r.error)
       }
     }
-    expect(summary.totalFilesProcessed).toBe(12)
-    expect(summary.successfulFiles).toBe(12)
+    expect(summary.totalFilesProcessed).toBe(15)
+    expect(summary.successfulFiles).toBe(15)
     expect(summary.failedFiles).toBe(0)
 
     // Check files exist on disk

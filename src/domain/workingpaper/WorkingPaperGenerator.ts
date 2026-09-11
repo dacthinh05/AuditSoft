@@ -20,6 +20,10 @@ import { fillPayrollWorkingPaper } from './fillers/E400_PayrollFiller'
 import { fillEquityWorkingPaper } from './fillers/F100_EquityFiller'
 import { fillRevenueWorkingPaper } from './fillers/G100_RevenueFiller'
 import { fillExpenseWorkingPaper } from './fillers/G200_ExpenseFiller'
+import { fillAbhMasterWorkingPaper } from './fillers/ABH_MasterFiller'
+import { fillLeadsheetWorkingPaper } from './fillers/LeadsheetFiller'
+import { fillInvestmentWorkingPaper } from './fillers/D200_InvestmentFiller'
+import { OpenXmlPackageEditor } from './openxml/OpenXmlPackageEditor'
 import { normalizeForKey } from '../clean'
 
 /**
@@ -277,6 +281,54 @@ export interface WorkingPaperFillSummary {
 /**
  * Tự động điền 12 mẫu Giấy làm việc kiểm toán
  */
+function generateOutputFileName(code: string, fallback: string, ctx: WorkingPaperFillContext): string {
+  const shortNames: Record<string, string> = {
+    'A - B - H': 'Master',
+    'Leadsheet': 'Leadsheet',
+    'D100': 'Tien',
+    'D200': 'Dau tu',
+    'D300': 'Phai thu',
+    'D500': 'HTK',
+    'D600': 'Phan bo',
+    'D700': 'Tai san',
+    'E100': 'Vay',
+    'E200': 'Phai tra',
+    'E300': 'Thue',
+    'E400': 'Luong',
+    'F100': 'Von',
+    'G100': 'Doanh thu',
+    'G200': 'Chi phi',
+  }
+  
+  // Mẫu: D500 - HTK - D1 2026 - Thinh.xlsx
+  // Nếu code không nằm trong map thì dùng code làm short name
+  const name = shortNames[code] || code
+  
+  const yearMatch = ctx.engagement.fiscalYearEnd.match(/\d{4}/)
+  const year = yearMatch ? yearMatch[0] : ''
+  
+  // Lấy tên khách hàng nguyên bản (ví dụ "Công ty D1" -> "Công ty D1") 
+  // Tuy nhiên nếu người dùng ghi là "D1" thì nó sẽ là "D1"
+  const clientClean = ctx.engagement.clientName.trim()
+  const clientYear = year ? `${clientClean} ${year}` : clientClean
+  
+  // Lấy tên người thực hiện (từ cuối cùng)
+  const auditorParts = ctx.engagement.auditorName.trim().split(/\s+/)
+  const auditorShort = auditorParts[auditorParts.length - 1] || 'KTV'
+  
+  const ext = path.extname(fallback) || '.xlsx'
+  
+  // Nếu là Leadsheet hoặc ABH thì format hơi khác chút cho đẹp, nhưng theo form thì vẫn giữ format chung
+  if (code.startsWith('A - B - H')) {
+    return `A - B - H - Master - ${clientYear} - ${auditorShort}${ext}`
+  }
+  if (code === 'Leadsheet') {
+    return `Leadsheet - ${clientYear} - ${auditorShort}${ext}`
+  }
+
+  return `${code} - ${name} - ${clientYear} - ${auditorShort}${ext}`
+}
+
 export async function generateAllWorkingPapers(
   templateDir: string,
   outputDir: string,
@@ -290,7 +342,10 @@ export async function generateAllWorkingPapers(
     fallbackName: string
     fn: (wb: ExcelJS.Workbook, ctx: WorkingPaperFillContext) => SectionFillResult
   }[] = [
+    { code: 'A - B - H', fallbackName: 'A - B - H - Mau 2025 - Thinh.xlsx', fn: fillAbhMasterWorkingPaper as never },
+    { code: 'Leadsheet', fallbackName: 'Leadsheet - 2025 - Dac Thinh.xlsx', fn: fillLeadsheetWorkingPaper as never },
     { code: 'D100', fallbackName: 'D100 - Tien - Mau 2024 - Thinh.xlsx', fn: fillCashWorkingPaper },
+    { code: 'D200', fallbackName: 'D200 - Dau tu - ABC 2020.xlsx', fn: fillInvestmentWorkingPaper as never },
     { code: 'D300', fallbackName: 'D300 - Phai thu - Mau 2025 - Thinh.xlsx', fn: fillReceivableWorkingPaper },
     { code: 'D500', fallbackName: 'D500 - HTK - Mau 2024 - Thinh.xlsx', fn: fillInventoryWorkingPaper },
     { code: 'D600', fallbackName: 'D600 - Phan bo - Mau 2024 - Thinh.xlsx', fn: fillPrepaidWorkingPaper },
@@ -300,7 +355,7 @@ export async function generateAllWorkingPapers(
     { code: 'E300', fallbackName: 'E300 - Thue - Mau 2024 - Thinh.xlsx', fn: fillTaxWorkingPaper },
     { code: 'E400', fallbackName: 'E400 - Luong - Mau 2025 - Thinh.xlsx', fn: fillPayrollWorkingPaper },
     { code: 'F100', fallbackName: 'F100 - Von - Mau 2024 - Thinh.xlsx', fn: fillEquityWorkingPaper },
-    { code: 'G100', fallbackName: 'G100 - Doanh thu - Mau 2025- Thinh.xlsx', fn: fillRevenueWorkingPaper },
+    { code: 'G100', fallbackName: 'G100 - Doanh thu - Mau 2025- Thinh.xlsx', fn: fillRevenueWorkingPaper as never },
     { code: 'G200', fallbackName: 'G200 - 300 - 400 -  Mau 2025 - Thinh.xlsx', fn: fillExpenseWorkingPaper },
   ]
 
@@ -311,20 +366,25 @@ export async function generateAllWorkingPapers(
     const matchedFile =
       availableFiles.find((f) => f.startsWith(runner.code) && f.endsWith('.xlsx')) || runner.fallbackName
     const templatePath = path.join(templateDir, matchedFile)
-    const outputPath = path.join(outputDir, matchedFile)
+    
+    const finalFileName = generateOutputFileName(runner.code, runner.fallbackName, ctx)
+    const outputPath = path.join(outputDir, finalFileName)
+    
+    // Override runner fn result filename if it's set there, we just capture and rename later if needed, but 
+    // the runner.fn does not control outputPath.
 
     try {
       if (!fs.existsSync(templatePath)) {
         throw new Error(`Không tìm thấy file mẫu: ${matchedFile}`)
       }
-      const wb = new ExcelJS.Workbook()
-      await wb.xlsx.readFile(templatePath)
-      const res = runner.fn(wb, ctx)
-      if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true })
-      }
-      await wb.xlsx.writeFile(outputPath)
-      results.push({ ...res, fileName: matchedFile })
+      const editor = OpenXmlPackageEditor.load(templatePath)
+      const res = runner.fn(editor as never, ctx)
+      editor.save(outputPath)
+      
+      // Cập nhật lại tên file theo tên mới đã sinh ra
+      res.fileName = finalFileName
+
+      results.push(res)
     } catch (err) {
       results.push({
         fileName: matchedFile,

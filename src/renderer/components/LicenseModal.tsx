@@ -75,13 +75,43 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
     }
   }
 
+  async function handlePasteFromClipboard(): Promise<void> {
+    try {
+      let text = ''
+      if (typeof window.auditsoft?.readClipboardText === 'function') {
+        text = await window.auditsoft.readClipboardText()
+      }
+      if (!text && navigator.clipboard) {
+        text = await navigator.clipboard.readText()
+      }
+      if (text) {
+        const trimmed = text.trim()
+        // Tự động tìm chuỗi ASKEY-xxx.yyy kể cả khi lẫn trong tin nhắn dài
+        const match = trimmed.match(/ASKEY-[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/)
+        if (match) {
+          setInputKey(match[0])
+          setStatusMsg({ type: 'ok', text: 'Đã tự động lấy đúng mã bản quyền từ Clipboard!' })
+        } else {
+          setInputKey(trimmed)
+        }
+      }
+    } catch {
+      // Clipboard fallback
+    }
+  }
+
   async function handleActivate(): Promise<void> {
-    if (!inputKey.trim()) {
+    const rawKey = inputKey.trim()
+    if (!rawKey) {
       setStatusMsg({ type: 'err', text: 'Vui lòng dán mã bản quyền bạn đã nhận.' })
       return
     }
 
-    const res = await saveLicense(inputKey, inputName)
+    // Tự động bóc tách nếu người dùng dán nguyên cả tin nhắn Zalo chứa key
+    const match = rawKey.match(/ASKEY-[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/)
+    const cleanKey = match ? match[0] : rawKey
+
+    const res = await saveLicense(cleanKey, inputName)
     if (res.success) {
       const updated = getLicenseStatus()
       setLicenseState(updated)
@@ -298,10 +328,20 @@ export function LicenseModal({ isOpen, onClose }: LicenseModalProps): JSX.Elemen
                 <input
                   type="text"
                   className="styled-input compact-key-input"
-                  placeholder="Nhập License Key: ASKEY-XXXX-XXXX-XXXX-XXXX"
+                  placeholder="Nhập License Key: ASKEY-XXXX..."
                   value={inputKey}
                   onChange={(e) => setInputKey(e.target.value)}
+                  style={{ flex: 1.5 }}
                 />
+                <button
+                  type="button"
+                  onClick={handlePasteFromClipboard}
+                  title="Dán nhanh từ Clipboard"
+                  className="btn-copy-sm"
+                  style={{ height: '32px', padding: '0 10px', fontSize: '11.5px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                >
+                  📋 Dán
+                </button>
                 <input
                   type="text"
                   className="styled-input compact-name-input"

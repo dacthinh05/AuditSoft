@@ -73,14 +73,14 @@ export function checkSpecificRisk(item: SampleableItem, ctt: number): RiskCheckR
     }
   }
 
-  // 4. Giao dịch ngày cuối kỳ (sát 31/12)
-  if (item.displayDate.includes('31/12') || item.displayDate.includes('-12-31') || item.displayDate.includes('30/12')) {
-    return { isRisk: true, note: 'Giao dịch ngày khóa sổ cuối kỳ (Cutoff)' }
+  // 4. Giao dịch trong tháng khóa sổ (mọi ngày tháng 12, mọi format dd/MM, ISO)
+  if (item.displayDate.includes('/12/') || item.displayDate.includes('-12-')) {
+    return { isRisk: true, note: 'Giao dịch tháng khóa sổ (Cutoff tháng 12)' }
   }
 
-  // 5. Tròn số lớn (chia hết cho 100 triệu)
-  if (absAmt >= 100_000_000 && absAmt % 100_000_000 === 0) {
-    return { isRisk: true, note: 'Giá trị tròn số lớn (chia hết 100tr)' }
+  // 5. Tròn số lớn (từ 50 triệu trở lên và chia hết cho 50 triệu)
+  if (absAmt >= 50_000_000 && absAmt % 50_000_000 === 0) {
+    return { isRisk: true, note: 'Giá trị tròn số lớn (chia hết 50tr)' }
   }
 
   return { isRisk: false, note: '' }

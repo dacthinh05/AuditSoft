@@ -8,6 +8,9 @@ import { ProfitWaterfallChart } from './charts/ProfitWaterfallChart'
 import { KqkdYoYChart } from './charts/KqkdYoYChart'
 import { AiAuditAdvisorPanel } from './AiAuditAdvisorPanel'
 import { CogsMatrix12MTable } from './CogsMatrix12MTable'
+import { ExpenseByNatureTable } from './ExpenseByNatureTable'
+import { AuditRiskAlertPanel } from './AuditRiskAlertPanel'
+import { Vsa520RatiosBar } from './Vsa520RatiosBar'
 
 interface Props {
   data: GlAnalyticsResult
@@ -105,16 +108,16 @@ function ExpenseDetailTable({ title, subtitle, report }: { title: string; subtit
         </div>
       ) : (
         <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
-          <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, fontSize: '12px', fontFamily: 'monospace' }}>
+          <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, fontSize: '13px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
             <thead>
               <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'right', borderBottom: '1px solid #e2e8f0' }}>
-                <th style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 3, padding: '8px 10px', textAlign: 'left', fontWeight: 700, fontFamily: 'system-ui, sans-serif', borderRight: '1px solid #e2e8f0' }}>Tháng</th>
+                <th style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 3, padding: '10px 12px', textAlign: 'left', fontWeight: 700, borderRight: '1px solid #e2e8f0' }}>Tháng</th>
                 {report.accounts.map((acc) => (
-                  <th key={acc} style={{ padding: '8px 8px', fontWeight: 700, minWidth: '110px' }}>TK {acc}</th>
+                  <th key={acc} style={{ padding: '10px 10px', fontWeight: 700, minWidth: '110px' }}>TK {acc}</th>
                 ))}
-                <th style={{ padding: '8px 8px', fontWeight: 700, background: '#f8fafc', minWidth: '120px' }}>Tổng CP</th>
-                <th style={{ padding: '8px 8px', fontWeight: 700, background: '#eff6ff', color: '#1d4ed8', minWidth: '130px' }}>Doanh thu</th>
-                <th style={{ padding: '8px 8px', fontWeight: 700, minWidth: '80px' }}>Tỷ lệ</th>
+                <th style={{ padding: '10px 10px', fontWeight: 700, background: '#f8fafc', minWidth: '120px' }}>Tổng CP</th>
+                <th style={{ padding: '10px 10px', fontWeight: 700, background: '#eff6ff', color: '#1d4ed8', minWidth: '130px' }}>Doanh thu</th>
+                <th style={{ padding: '10px 10px', fontWeight: 700, minWidth: '80px' }}>Tỷ lệ</th>
               </tr>
             </thead>
             <tbody style={{ color: '#1e293b' }}>
@@ -124,29 +127,29 @@ function ExpenseDetailTable({ title, subtitle, report }: { title: string; subtit
                 const ratio = report.ratios[mIdx]
                 return (
                   <tr key={mLabel} style={{ borderBottom: '1px solid #f1f5f9', textAlign: 'right', background: mIdx % 2 === 0 ? '#ffffff' : '#f8fafc' }}>
-                    <td style={{ position: 'sticky', left: 0, background: mIdx % 2 === 0 ? '#ffffff' : '#f8fafc', zIndex: 2, padding: '7px 10px', textAlign: 'left', fontFamily: 'system-ui, sans-serif', fontWeight: 700, color: '#0284c7', borderRight: '1px solid #e2e8f0' }}>{mLabel}</td>
+                    <td style={{ position: 'sticky', left: 0, background: mIdx % 2 === 0 ? '#ffffff' : '#f8fafc', zIndex: 2, padding: '9px 12px', textAlign: 'left', fontWeight: 700, color: '#0284c7', borderRight: '1px solid #e2e8f0' }}>{mLabel}</td>
                     {report.months.map((col, cIdx) => {
                       const v = col[mIdx] ?? 0
                       return (
-                        <td key={cIdx} style={{ padding: '7px 8px' }}>
+                        <td key={cIdx} style={{ padding: '9px 10px', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>
                           {v === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : <span style={{ fontWeight: 600, color: '#0f172a' }}>{fmtMoneyNum(v)}</span>}
                         </td>
                       )
                     })}
-                    <td style={{ padding: '7px 8px', fontWeight: 700, color: '#0f172a' }}>{monthTotal === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(monthTotal)}</td>
-                    <td style={{ padding: '7px 8px', background: '#eff6ff', color: '#1d4ed8', fontWeight: 600 }}>{rev === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(rev)}</td>
-                    <td style={{ padding: '7px 8px', fontWeight: 700, color: '#0f172a' }}>{ratio == null ? <span style={{ color: '#94a3b8' }}>-</span> : `${ratio}%`}</td>
+                    <td style={{ padding: '9px 10px', fontWeight: 700, color: '#0f172a', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{monthTotal === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(monthTotal)}</td>
+                    <td style={{ padding: '9px 10px', background: '#eff6ff', color: '#1d4ed8', fontWeight: 600, fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{rev === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(rev)}</td>
+                    <td style={{ padding: '9px 10px', fontWeight: 700, color: '#0f172a', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{ratio == null ? <span style={{ color: '#94a3b8' }}>-</span> : `${ratio}%`}</td>
                   </tr>
                 )
               })}
               <tr style={{ background: '#f8fafc', fontWeight: 700, textAlign: 'right', color: '#0f172a' }}>
-                <td style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 2, padding: '8px 10px', textAlign: 'left', fontFamily: 'system-ui, sans-serif', borderRight: '1px solid #e2e8f0', borderTop: '2px solid #cbd5e1' }}>Cộng</td>
+                <td style={{ position: 'sticky', left: 0, background: '#f8fafc', zIndex: 2, padding: '10px 12px', textAlign: 'left', borderRight: '1px solid #e2e8f0', borderTop: '2px solid #cbd5e1' }}>Cộng</td>
                 {report.totals.map((t, i) => (
-                  <td key={i} style={{ padding: '8px 8px', borderTop: '2px solid #cbd5e1' }}>{t === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(t)}</td>
+                  <td key={i} style={{ padding: '10px 10px', borderTop: '2px solid #cbd5e1', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{t === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(t)}</td>
                 ))}
-                <td style={{ padding: '8px 8px', borderTop: '2px solid #cbd5e1' }}>{grandTotal === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(grandTotal)}</td>
-                <td style={{ padding: '8px 8px', color: '#1d4ed8', borderTop: '2px solid #cbd5e1' }}>{grandRevenue === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(grandRevenue)}</td>
-                <td style={{ padding: '8px 8px', borderTop: '2px solid #cbd5e1' }}>{grandRatio == null ? <span style={{ color: '#94a3b8' }}>-</span> : `${grandRatio}%`}</td>
+                <td style={{ padding: '10px 10px', borderTop: '2px solid #cbd5e1', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{grandTotal === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(grandTotal)}</td>
+                <td style={{ padding: '10px 10px', color: '#1d4ed8', borderTop: '2px solid #cbd5e1', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{grandRevenue === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(grandRevenue)}</td>
+                <td style={{ padding: '10px 10px', borderTop: '2px solid #cbd5e1', fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{grandRatio == null ? <span style={{ color: '#94a3b8' }}>-</span> : `${grandRatio}%`}</td>
               </tr>
             </tbody>
           </table>
@@ -158,7 +161,7 @@ function ExpenseDetailTable({ title, subtitle, report }: { title: string; subtit
 
 function ExpenseDetailSection({ sell, admin }: { sell: ExpenseDetailReport; admin: ExpenseDetailReport }): JSX.Element {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <ExpenseDetailTable title="Tỷ lệ Chi phí bán hàng / Doanh thu qua các tháng (TK 641)" subtitle="Chi tiết theo TK 4 số — phục vụ giấy làm việc G353" report={sell} />
       <ExpenseDetailTable title="Tỷ lệ Chi phí quản lý doanh nghiệp / Doanh thu qua các tháng (TK 642)" subtitle="Chi tiết theo TK 4 số — phục vụ giấy làm việc G453" report={admin} />
     </div>
@@ -166,7 +169,6 @@ function ExpenseDetailSection({ sell, admin }: { sell: ExpenseDetailReport; admi
 }
 export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
   const { ebitda, relatedParties, pareto, trend12m, correlations } = data
-  const [showRelated, setShowRelated] = useState(false)
   const netInterestNum = moneyToNumber(ebitda.netInterest)
   const ebitdaNum = moneyToNumber(ebitda.ebitda)
   const cap30Num = moneyToNumber(ebitda.cap30)
@@ -185,10 +187,12 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
   const grandYearTotal = trend12m.rows.reduce((sum, r) => sum + moneyToNumber(r.total), 0)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', color: '#0f172a' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', color: '#0f172a' }}>
       {/* ── AI Audit Advisor (Google Gemini 2.5 VSA 520) ── */}
       <AiAuditAdvisorPanel data={data} filePath={filePath} />
 
+      {/* ── Bảng Cảnh Báo Cờ Đỏ Trọng Yếu (Executive Audit Red Flags Panel) ── */}
+      <AuditRiskAlertPanel data={data} filePath={filePath} />
       {/* ── 5 KPI Cards (Clean Enterprise SaaS Standard, Zero Emojis) ── */}
       <div
         style={{
@@ -330,95 +334,20 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
         </div>
       </div>
 
-      {/* ── Grid 2: EBITDA Chi Tiết & Bên Liên Quan ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '18px' }}>
-        {/* Panel EBITDA */}
+      {/* ── Thanh 4 Tỷ Số Tài Chính Kiểm Toán VSA 520 ── */}
+      <Vsa520RatiosBar data={data} />
+      {/* ── Section 2: Báo Cáo KQKD (B02) & Biểu Đồ So Sánh YoY ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '16px', alignItems: 'stretch' }}>
+        {/* Cột Trái (50%): Bảng KQKD B02 */}
         <div
           style={{
             background: '#ffffff',
             border: '1px solid #e2e8f0',
             borderRadius: '12px',
-            padding: '18px 20px',
+            padding: '16px 20px',
             boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
-          }}
-        >
-          <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>Bóc Tách Lãi Vay &amp; EBITDA (Nghị định 132/2020/NĐ-CP)</span>
-            {ebitda.isOverCap && (
-              <span
-                style={{
-                  fontSize: '11px',
-                  background: '#fef2f2',
-                  color: '#b91c1c',
-                  border: '1px solid #fecaca',
-                  padding: '3px 8px',
-                  borderRadius: '4px',
-                  fontWeight: 600,
-                }}
-              >
-                Khuyến nghị điều chỉnh B4
-              </span>
-            )}
-          </div>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
-            <thead>
-              <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'left', borderBottom: '1px solid #e2e8f0' }}>
-                <th style={{ padding: '8px 10px', fontWeight: 600 }}>Khoản Mục</th>
-                <th style={{ padding: '8px 10px', fontWeight: 600 }}>Căn Cứ</th>
-                <th style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600 }}>Số Tiền (VNĐ)</th>
-              </tr>
-            </thead>
-            <tbody style={{ fontFamily: 'monospace', color: '#1e293b' }}>
-              <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                <td style={{ padding: '8px 10px', fontFamily: 'sans-serif' }}>Lợi nhuận thuần từ HĐKD</td>
-                <td style={{ padding: '8px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>Mã số 30 (KQKD)</td>
-                <td style={{ padding: '8px 10px', textAlign: 'right' }}>{fmtMoneyNum(opProfitNum)}</td>
-              </tr>
-              <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                <td style={{ padding: '8px 10px', fontFamily: 'sans-serif' }}>Khấu hao tài sản cố định</td>
-                <td style={{ padding: '8px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>Có TK 214</td>
-                <td style={{ padding: '8px 10px', textAlign: 'right' }}>{fmtMoneyNum(deprNum)}</td>
-              </tr>
-              <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                <td style={{ padding: '8px 10px', fontFamily: 'sans-serif' }}>Chi phí lãi vay phát sinh</td>
-                <td style={{ padding: '8px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>Nợ TK 635</td>
-                <td style={{ padding: '8px 10px', textAlign: 'right' }}>{fmtMoneyNum(fExpNum)}</td>
-              </tr>
-              <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
-                <td style={{ padding: '8px 10px', fontFamily: 'sans-serif' }}>Lãi tiền gửi, cho vay</td>
-                <td style={{ padding: '8px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>Có TK 515</td>
-                <td style={{ padding: '8px 10px', textAlign: 'right' }}>({fmtMoneyNum(fIncNum)})</td>
-              </tr>
-              <tr style={{ borderBottom: '1px solid #e2e8f0', background: '#eff6ff', fontWeight: 700 }}>
-                <td style={{ padding: '8px 10px', color: '#1d4ed8', fontFamily: 'sans-serif' }}>EBITDA Kỳ Này</td>
-                <td style={{ padding: '8px 10px', color: '#1d4ed8', fontFamily: 'sans-serif' }}>NĐ 132/2020</td>
-                <td style={{ padding: '8px 10px', textAlign: 'right', color: '#1d4ed8' }}>{fmtMoneyNum(ebitdaNum)}</td>
-              </tr>
-              <tr style={{ borderBottom: '1px solid #f1f5f9', fontWeight: 600 }}>
-                <td style={{ padding: '8px 10px', fontFamily: 'sans-serif' }}>Mức trần lãi vay được trừ (30%)</td>
-                <td style={{ padding: '8px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>30% × EBITDA</td>
-                <td style={{ padding: '8px 10px', textAlign: 'right' }}>{fmtMoneyNum(cap30Num)}</td>
-              </tr>
-              <tr style={{ background: ebitda.isOverCap ? '#fef2f2' : 'transparent', fontWeight: 700, color: ebitda.isOverCap ? '#b91c1c' : '#047857' }}>
-                <td style={{ padding: '8px 10px', fontFamily: 'sans-serif' }}>Lãi vay vượt trần (Chỉ tiêu B4)</td>
-                <td style={{ padding: '8px 10px', fontFamily: 'sans-serif' }}>Chi phí không được trừ</td>
-                <td style={{ padding: '8px 10px', textAlign: 'right' }}>{fmtMoneyNum(disallowedNum)}</td>
-              </tr>
-            </tbody>
-          </table>
-          <div style={{ fontSize: '11.5px', color: '#64748b', marginTop: '10px', lineHeight: 1.45 }}>
-            [Lưu ý] {ebitda.note}
-          </div>
-        </div>
-
-        {/* Panel KQKD Năm nay vs Năm trước */}
-        <div
-          style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '12px',
-            padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -439,85 +368,306 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
               </span>
             )}
           </div>
-          {relatedParties.length > 0 && (
-            <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '8px', padding: '10px 12px', marginBottom: '12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#92400e' }}>
-                  Phát hiện {relatedParties.length} dấu hiệu giao dịch bên liên quan (VSA 550)
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setShowRelated((v) => !v)}
-                  style={{ background: '#ffffff', color: '#92400e', border: '1px solid #fde68a', padding: '4px 10px', borderRadius: '5px', fontWeight: 600, cursor: 'pointer', fontSize: '12px' }}
-                >
-                  {showRelated ? 'Thu gọn' : 'Xem chi tiết'}
-                </button>
-              </div>
-              {showRelated && (
-                <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '180px', overflowY: 'auto' }}>
-                  {relatedParties.map((rp) => (
-                    <div key={rp.id} style={{ fontSize: '12px', color: '#451a03', background: '#ffffff', border: '1px solid #fef3c7', borderRadius: '5px', padding: '6px 8px' }}>
-                      <b>{rp.name}</b> — {rp.description} ({fmtMoneyNum(rp.totalAmount ? moneyToNumber(rp.totalAmount) : 0)} đ)
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+
           {!data.kqkdYoY || data.kqkdYoY.rows.length === 0 ? (
-            <div style={{ padding: '2rem', textAlign: 'center', color: '#64748b', background: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9', fontSize: '13px' }}>
+            <div style={{ padding: '2.5rem 1.5rem', textAlign: 'center', color: '#64748b', background: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9', fontSize: '13px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               Chưa có dữ liệu kết quả kinh doanh. Nạp file có sheet KQKD/BCTC hoặc Sổ NKC để xem so sánh.
             </div>
           ) : (
             <>
-              <div style={{ overflowX: 'auto' }}>
+              <div style={{ overflowX: 'auto', flex: 1 }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12.5px' }}>
                   <thead>
                     <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'right', borderBottom: '1px solid #e2e8f0' }}>
-                      <th style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 600 }}>Mã số</th>
-                      <th style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 600 }}>Chỉ tiêu</th>
-                      <th style={{ padding: '8px 10px', fontWeight: 600 }}>Năm nay</th>
-                      <th style={{ padding: '8px 10px', fontWeight: 600 }}>Năm trước</th>
-                      <th style={{ padding: '8px 10px', fontWeight: 600 }}>Chênh lệch</th>
-                      <th style={{ padding: '8px 10px', fontWeight: 600 }}>%</th>
+                      <th style={{ padding: '7px 8px', textAlign: 'left', fontWeight: 600 }}>Mã số</th>
+                      <th style={{ padding: '7px 8px', textAlign: 'left', fontWeight: 600 }}>Chỉ tiêu</th>
+                      <th style={{ padding: '7px 8px', fontWeight: 600 }}>Năm nay</th>
+                      <th style={{ padding: '7px 8px', fontWeight: 600 }}>Năm trước</th>
+                      <th style={{ padding: '7px 8px', fontWeight: 600 }}>Chênh lệch</th>
+                      <th style={{ padding: '7px 8px', fontWeight: 600 }}>%</th>
                     </tr>
                   </thead>
                   <tbody style={{ fontFamily: 'monospace', color: '#1e293b' }}>
-                    {data.kqkdYoY.rows.map((r) => (
-                      <tr key={r.maSo} style={{ borderBottom: '1px solid #f1f5f9', textAlign: 'right' }}>
-                        <td style={{ padding: '7px 10px', textAlign: 'left', color: '#64748b' }}>{r.maSo}</td>
-                        <td style={{ padding: '7px 10px', textAlign: 'left', fontFamily: 'sans-serif', fontWeight: 500 }}>{r.chiTieu}</td>
-                        <td style={{ padding: '7px 10px', fontWeight: 700, color: '#0f172a' }}>{r.current === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(r.current)}</td>
-                        <td style={{ padding: '7px 10px', fontWeight: 600, color: '#475569' }}>{r.prior == null || r.prior === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(r.prior)}</td>
-                        <td style={{ padding: '7px 10px', fontWeight: 700, color: '#0f172a' }}>{r.diff == null || r.diff === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : `${r.diff > 0 ? '+' : ''}${fmtMoneyNum(r.diff)}`}</td>
-                        <td style={{ padding: '7px 10px' }}>{r.pct == null ? <span style={{ color: '#94a3b8' }}>-</span> : <span style={{ background: '#eff6ff', color: '#1d4ed8', padding: '2px 7px', borderRadius: '4px', fontWeight: 700 }}>{r.pct > 0 ? '+' : ''}{r.pct}%</span>}</td>
-                      </tr>
-                    ))}
+                    {data.kqkdYoY.rows.map((r) => {
+                      const isLoss = (r.maSo === '60' || r.maSo === '70') && r.current < 0
+                      const isAnomaly = Math.abs(r.pct ?? 0) >= 50 && r.current !== 0
+
+                      let rowBg = '#ffffff'
+                      if (isLoss) rowBg = '#fff1f2'
+                      else if (isAnomaly) rowBg = '#fffbeb'
+
+                      return (
+                        <tr key={r.maSo} style={{ borderBottom: '1px solid #f1f5f9', textAlign: 'right', background: rowBg, transition: 'background 120ms ease' }}>
+                          <td style={{ padding: '6px 8px', textAlign: 'left', color: isLoss ? '#b91c1c' : '#64748b', fontWeight: isLoss ? 700 : 500 }}>
+                            {r.maSo}
+                          </td>
+                          <td style={{ padding: '6px 8px', textAlign: 'left', fontFamily: 'sans-serif', fontWeight: isLoss ? 700 : 500, color: isLoss ? '#991b1b' : '#0f172a' }}>
+                            <span>{r.chiTieu}</span>
+                            {isLoss && (
+                              <span style={{ marginLeft: '6px', fontSize: '9.5px', background: '#dc2626', color: '#ffffff', padding: '1px 5px', borderRadius: '3px', fontWeight: 800 }}>
+                                {r.maSo === '60' ? 'LỖ GỘP' : 'LỖ HĐKD'}
+                              </span>
+                            )}
+                            {isAnomaly && !isLoss && (
+                              <span style={{ marginLeft: '6px', fontSize: '9.5px', background: '#f59e0b', color: '#ffffff', padding: '1px 5px', borderRadius: '3px', fontWeight: 700 }} title="Biến động lớn so với cùng kỳ">
+                                BIẾN ĐỘNG
+                              </span>
+                            )}
+                          </td>
+                          <td style={{ padding: '6px 8px', fontWeight: 700, color: isLoss ? '#b91c1c' : '#0f172a' }}>
+                            {r.current === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(r.current)}
+                          </td>
+                          <td style={{ padding: '6px 8px', fontWeight: 600, color: '#475569' }}>
+                            {r.prior == null || r.prior === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(r.prior)}
+                          </td>
+                          <td style={{ padding: '6px 8px', fontWeight: 700, color: isLoss ? '#b91c1c' : '#0f172a' }}>
+                            {r.diff == null || r.diff === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : `${r.diff > 0 ? '+' : ''}${fmtMoneyNum(r.diff)}`}
+                          </td>
+                          <td style={{ padding: '6px 8px' }}>
+                            {r.pct == null ? (
+                              <span style={{ color: '#94a3b8' }}>-</span>
+                            ) : (
+                              <span
+                                style={{
+                                  background: isLoss ? '#fee2e2' : isAnomaly ? '#fef3c7' : '#eff6ff',
+                                  color: isLoss ? '#dc2626' : isAnomaly ? '#b45309' : '#1d4ed8',
+                                  border: `1px solid ${isLoss ? '#fca5a5' : isAnomaly ? '#fde68a' : '#bfdbfe'}`,
+                                  padding: '2px 6px',
+                                  borderRadius: '4px',
+                                  fontWeight: 700,
+                                }}
+                              >
+                                {r.pct > 0 ? '+' : ''}
+                                {r.pct}%
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      )
+                    })}
                   </tbody>
                 </table>
               </div>
               {!data.kqkdYoY.rows.some((r) => r.prior != null) && (
-                <div style={{ fontSize: '11.5px', color: '#b45309', marginTop: '10px' }}>
+                <div style={{ fontSize: '11px', color: '#b45309', marginTop: '8px' }}>
                   Chưa có số năm trước — nạp file có sheet KQKD/BCTC đủ 2 năm để bật so sánh.
                 </div>
               )}
-              <div style={{ marginTop: '14px' }}>
-                <KqkdYoYChart rows={data.kqkdYoY.rows} />
-              </div>
             </>
+          )}
+        </div>
+
+        {/* Cột Phải (50%): Biểu đồ YoY Chart */}
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: '12px',
+            padding: '16px 20px',
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>Biến Động Các Chỉ Tiêu Trọng Yếu (YoY)</span>
+            <span style={{ fontSize: '11px', color: '#64748b', background: '#f8fafc', border: '1px solid #e2e8f0', padding: '2px 8px', borderRadius: '4px' }}>
+              6 Chỉ tiêu chính
+            </span>
+          </div>
+
+          {data.kqkdYoY && data.kqkdYoY.rows.length > 0 ? (
+            <div id="chart-kqkd-yoy" data-chart-title="Biến Động Các Chỉ Tiêu Trọng Yếu (YoY)">
+              <KqkdYoYChart rows={data.kqkdYoY.rows} noBorder />
+            </div>
+          ) : (
+            <div style={{ padding: '2rem', textAlign: 'center', color: '#64748b', background: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9', fontSize: '13px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              Chưa có dữ liệu biểu đồ
+            </div>
           )}
         </div>
       </div>
 
-      {/* ── Grid 2: Pareto Khách hàng & Nhà cung cấp ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '18px' }}>
+      {/* ── Section 3: Tuân Thủ Thuế NĐ 132/2020 & Giao Dịch Bên Liên Quan VSA 550 ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '16px', alignItems: 'stretch' }}>
+        {/* Panel EBITDA */}
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: '12px',
+            padding: '16px 20px',
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>Bóc Tách Lãi Vay &amp; EBITDA (Nghị định 132/2020/NĐ-CP)</span>
+            {ebitda.isOverCap && (
+              <span
+                style={{
+                  fontSize: '11px',
+                  background: '#fef2f2',
+                  color: '#b91c1c',
+                  border: '1px solid #fecaca',
+                  padding: '3px 8px',
+                  borderRadius: '4px',
+                  fontWeight: 600,
+                }}
+              >
+                Khuyến nghị điều chỉnh B4
+              </span>
+            )}
+          </div>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12.5px' }}>
+            <thead>
+              <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'left', borderBottom: '1px solid #e2e8f0' }}>
+                <th style={{ padding: '7px 10px', fontWeight: 600 }}>Khoản Mục</th>
+                <th style={{ padding: '7px 10px', fontWeight: 600 }}>Căn Cứ</th>
+                <th style={{ padding: '7px 10px', textAlign: 'right', fontWeight: 600 }}>Số Tiền (VNĐ)</th>
+              </tr>
+            </thead>
+            <tbody style={{ fontFamily: 'monospace', color: '#1e293b' }}>
+              <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
+                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Lợi nhuận thuần từ HĐKD</td>
+                <td style={{ padding: '7px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>Mã số 30 (KQKD)</td>
+                <td style={{ padding: '7px 10px', textAlign: 'right' }}>{fmtMoneyNum(opProfitNum)}</td>
+              </tr>
+              <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
+                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Khấu hao tài sản cố định</td>
+                <td style={{ padding: '7px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>Có TK 214</td>
+                <td style={{ padding: '7px 10px', textAlign: 'right' }}>{fmtMoneyNum(deprNum)}</td>
+              </tr>
+              <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
+                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Chi phí lãi vay phát sinh</td>
+                <td style={{ padding: '7px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>Nợ TK 635</td>
+                <td style={{ padding: '7px 10px', textAlign: 'right' }}>{fmtMoneyNum(fExpNum)}</td>
+              </tr>
+              <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
+                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Lãi tiền gửi, cho vay</td>
+                <td style={{ padding: '7px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>Có TK 515</td>
+                <td style={{ padding: '7px 10px', textAlign: 'right' }}>({fmtMoneyNum(fIncNum)})</td>
+              </tr>
+              <tr style={{ borderBottom: '1px solid #e2e8f0', background: '#eff6ff', fontWeight: 700 }}>
+                <td style={{ padding: '7px 10px', color: '#1d4ed8', fontFamily: 'sans-serif' }}>EBITDA Kỳ Này</td>
+                <td style={{ padding: '7px 10px', color: '#1d4ed8', fontFamily: 'sans-serif' }}>NĐ 132/2020</td>
+                <td style={{ padding: '7px 10px', textAlign: 'right', color: '#1d4ed8' }}>{fmtMoneyNum(ebitdaNum)}</td>
+              </tr>
+              <tr style={{ borderBottom: '1px solid #f1f5f9', fontWeight: 600 }}>
+                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Mức trần lãi vay được trừ (30%)</td>
+                <td style={{ padding: '7px 10px', color: '#64748b', fontFamily: 'sans-serif' }}>30% × EBITDA</td>
+                <td style={{ padding: '7px 10px', textAlign: 'right' }}>{fmtMoneyNum(cap30Num)}</td>
+              </tr>
+              <tr style={{ background: ebitda.isOverCap ? '#fef2f2' : 'transparent', fontWeight: 700, color: ebitda.isOverCap ? '#b91c1c' : '#047857' }}>
+                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Lãi vay vượt trần (Chỉ tiêu B4)</td>
+                <td style={{ padding: '7px 10px', fontFamily: 'sans-serif' }}>Chi phí không được trừ</td>
+                <td style={{ padding: '7px 10px', textAlign: 'right' }}>{fmtMoneyNum(disallowedNum)}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style={{ fontSize: '11px', color: '#64748b', marginTop: '8px', lineHeight: 1.4 }}>
+            [Lưu ý] {ebitda.note}
+          </div>
+        </div>
+
+        {/* Panel Bên Liên Quan (VSA 550) */}
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: '12px',
+            padding: '16px 20px',
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>Rà Soát Giao Dịch Bên Liên Quan (VSA 550)</span>
+            <span
+              style={{
+                fontSize: '11px',
+                background: relatedParties.length > 0 ? '#fffbeb' : '#f0fdf4',
+                color: relatedParties.length > 0 ? '#b45309' : '#15803d',
+                border: `1px solid ${relatedParties.length > 0 ? '#fde68a' : '#bbf7d0'}`,
+                padding: '3px 8px',
+                borderRadius: '4px',
+                fontWeight: 600,
+              }}
+            >
+              {relatedParties.length > 0 ? `${relatedParties.length} Dấu hiệu nghi ngờ` : 'Không phát hiện bất thường'}
+            </span>
+          </div>
+
+          {relatedParties.length === 0 ? (
+            <div
+              style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: '#f8fafc',
+                borderRadius: '8px',
+                padding: '24px',
+                border: '1px solid #f1f5f9',
+                textAlign: 'center',
+              }}
+            >
+              <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: '#ecfdf5', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', marginBottom: '8px', fontWeight: 700 }}>
+                ✓
+              </div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a' }}>Không phát hiện giao dịch vay/mượn không lãi suất</div>
+              <div style={{ fontSize: '11.5px', color: '#64748b', marginTop: '4px', maxWidth: '380px', lineHeight: 1.45 }}>
+                Sổ NKC không có các nghiệp vụ cho vay, mượn tiền qua TK 1388, 3388, 128 với lãi suất 0% hoặc chênh lệch bất thường theo chuẩn mực VSA 550.
+              </div>
+            </div>
+          ) : (
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ fontSize: '11.5px', color: '#78350f', background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '6px', padding: '8px 12px', lineHeight: 1.4 }}>
+                <strong>Cảnh báo kiểm toán (VSA 550 &amp; NĐ 132/2020):</strong> Phát hiện các nghiệp vụ vay/mượn hoặc giao dịch nội bộ có dấu hiệu liên kết. Kiểm tra nghĩa vụ kê khai Phụ lục giao dịch liên kết và rà soát mức khống chế lãi vay.
+              </div>
+              <div style={{ overflowY: 'auto', maxHeight: '235px', display: 'flex', flexDirection: 'column', gap: '6px', flex: 1 }}>
+                {relatedParties.map((rp) => (
+                  <div
+                    key={rp.id}
+                    style={{
+                      fontSize: '12px',
+                      color: '#451a03',
+                      background: '#ffffff',
+                      border: '1px solid #fef3c7',
+                      borderRadius: '6px',
+                      padding: '8px 10px',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontWeight: 700, color: '#0f172a' }}>{rp.name}</div>
+                      <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>{rp.description}</div>
+                    </div>
+                    <div style={{ textAlign: 'right', fontFamily: 'monospace', fontWeight: 700, color: '#b45309', whiteSpace: 'nowrap', marginLeft: '10px' }}>
+                      {fmtMoneyNum(rp.totalAmount ? moneyToNumber(rp.totalAmount) : 0)} đ
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── Section 4: Pareto Khách hàng & Nhà cung cấp ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '16px' }}>
         {/* Top Khách Hàng */}
         <div
           style={{
             background: '#ffffff',
             border: '1px solid #e2e8f0',
             borderRadius: '12px',
-            padding: '18px 20px',
+            padding: '16px 20px',
             boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
           }}
         >
@@ -531,22 +681,22 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
               </span>
             )}
           </div>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12.5px' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
             <thead>
               <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'left', borderBottom: '1px solid #e2e8f0' }}>
-                <th style={{ padding: '8px 10px', fontWeight: 600 }}>Khách Hàng</th>
-                <th style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600 }}>Doanh Thu</th>
-                <th style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600 }}>Tỷ Trọng %</th>
-                <th style={{ padding: '8px 10px', width: '90px', fontWeight: 600 }}>Tích Lũy</th>
+                <th style={{ padding: '9px 12px', fontWeight: 700 }}>Khách Hàng</th>
+                <th style={{ padding: '9px 12px', textAlign: 'right', fontWeight: 700 }}>Doanh Thu</th>
+                <th style={{ padding: '9px 12px', textAlign: 'right', fontWeight: 700 }}>Tỷ Trọng %</th>
+                <th style={{ padding: '9px 12px', width: '90px', fontWeight: 700 }}>Tích Lũy</th>
               </tr>
             </thead>
-            <tbody style={{ fontFamily: 'monospace', color: '#1e293b' }}>
+            <tbody style={{ color: '#1e293b' }}>
               {pareto.topCustomers.map((c) => (
                 <tr key={c.rank} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                  <td style={{ padding: '8px 10px', fontFamily: 'sans-serif', fontWeight: 500 }}>{c.name}</td>
-                  <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600 }}>{fmtMoneyNum(moneyToNumber(c.amount))}</td>
-                  <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600 }}>{c.percentage}%</td>
-                  <td style={{ padding: '8px 10px' }}>
+                  <td style={{ padding: '9px 12px', fontFamily: 'system-ui, sans-serif', fontWeight: 500 }}>{c.name}</td>
+                  <td style={{ padding: '9px 12px', textAlign: 'right', fontWeight: 600, fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtMoneyNum(moneyToNumber(c.amount))}</td>
+                  <td style={{ padding: '9px 12px', textAlign: 'right', fontWeight: 600, fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{c.percentage}%</td>
+                  <td style={{ padding: '9px 12px' }}>
                     <div style={{ background: '#e2e8f0', height: '6px', borderRadius: '3px', overflow: 'hidden' }}>
                       <div style={{ background: '#0284c7', height: '100%', width: `${c.cumulativePercentage}%` }} />
                     </div>
@@ -568,7 +718,7 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
             background: '#ffffff',
             border: '1px solid #e2e8f0',
             borderRadius: '12px',
-            padding: '18px 20px',
+            padding: '16px 20px',
             boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
           }}
         >
@@ -582,22 +732,22 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
               </span>
             )}
           </div>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12.5px' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
             <thead>
               <tr style={{ background: '#f8fafc', color: '#475569', textAlign: 'left', borderBottom: '1px solid #e2e8f0' }}>
-                <th style={{ padding: '8px 10px', fontWeight: 600 }}>Nhà Cung Cấp</th>
-                <th style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600 }}>Giá Trị Mua</th>
-                <th style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600 }}>Tỷ Trọng %</th>
-                <th style={{ padding: '8px 10px', width: '90px', fontWeight: 600 }}>Tích Lũy</th>
+                <th style={{ padding: '9px 12px', fontWeight: 700 }}>Nhà Cung Cấp</th>
+                <th style={{ padding: '9px 12px', textAlign: 'right', fontWeight: 700 }}>Giá Trị Mua</th>
+                <th style={{ padding: '9px 12px', textAlign: 'right', fontWeight: 700 }}>Tỷ Trọng %</th>
+                <th style={{ padding: '9px 12px', width: '90px', fontWeight: 700 }}>Tích Lũy</th>
               </tr>
             </thead>
-            <tbody style={{ fontFamily: 'monospace', color: '#1e293b' }}>
+            <tbody style={{ color: '#1e293b' }}>
               {pareto.topSuppliers.map((s) => (
                 <tr key={s.rank} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                  <td style={{ padding: '8px 10px', fontFamily: 'sans-serif', fontWeight: 500 }}>{s.name}</td>
-                  <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600 }}>{fmtMoneyNum(moneyToNumber(s.amount))}</td>
-                  <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600 }}>{s.percentage}%</td>
-                  <td style={{ padding: '8px 10px' }}>
+                  <td style={{ padding: '9px 12px', fontFamily: 'system-ui, sans-serif', fontWeight: 500 }}>{s.name}</td>
+                  <td style={{ padding: '9px 12px', textAlign: 'right', fontWeight: 600, fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{fmtMoneyNum(moneyToNumber(s.amount))}</td>
+                  <td style={{ padding: '9px 12px', textAlign: 'right', fontWeight: 600, fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace' }}>{s.percentage}%</td>
+                  <td style={{ padding: '9px 12px' }}>
                     <div style={{ background: '#e2e8f0', height: '6px', borderRadius: '3px', overflow: 'hidden' }}>
                       <div style={{ background: '#059669', height: '100%', width: `${s.cumulativePercentage}%` }} />
                     </div>
@@ -614,27 +764,42 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
         </div>
       </div>
 
-      {/* ── Section 4: Bộ 4 Đồ Thị Tài Chính Tương Quan VSA 520 (lưới 2x2) ── */}
+      {/* ── Section 5: Cầu Nối Dòng Chảy Lợi Nhuận (Full-Width) ── */}
+      {correlations?.waterfall && (
+        <div id="chart-waterfall" data-chart-title="Cầu Nối Dòng Chảy Lợi Nhuận (Waterfall)">
+          <ProfitWaterfallChart steps={correlations.waterfall} />
+        </div>
+      )}
+
+      {/* ── Section 6: Bộ 3 Đồ Thị Tài Chính Tương Quan 12 Tháng (Lưới 3 Cột) ── */}
       {correlations && (
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(520px, 1fr))',
-            gap: '18px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+            gap: '16px',
           }}
         >
-          <RevenueCogsComboChart report={correlations.grossMargin} />
-          <ProfitWaterfallChart steps={correlations.waterfall} />
-          <CogsStructureStackedChart report={correlations.cogsStructure} />
-          <OpexRatioAreaChart report={correlations.opexRatios} />
+          <div id="chart-gross-margin" data-chart-title="Doanh Thu & Biên Lãi Gộp 12 Tháng">
+            <RevenueCogsComboChart report={correlations.grossMargin} />
+          </div>
+          <div id="chart-cogs-structure" data-chart-title="Cơ Cấu Chi Phí Giá Vốn 12 Tháng">
+            <CogsStructureStackedChart report={correlations.cogsStructure} />
+          </div>
+          <div id="chart-opex-ratio" data-chart-title="Tỷ Trọng Chi Phí Hoạt Động (OPEX / Doanh Thu)">
+            <OpexRatioAreaChart report={correlations.opexRatios} />
+          </div>
         </div>
       )}
-
       {/* ── Section 4b: Ma Trận Chi Phí Cấu Thành Giá Vốn 12 Tháng (Trước Kết Chuyển 911) ── */}
       {correlations?.cogs12mMatrix && (
         <CogsMatrix12MTable matrix={correlations.cogs12mMatrix} />
       )}
 
+      {/* ── Section 4c: Ma Trận Chi Phí Theo Yếu Tố 12 Tháng & Bảng Cân Đối Thuyết Minh BCTC ── */}
+      {correlations?.expenseByNature && (
+        <ExpenseByNatureTable report={correlations.expenseByNature} />
+      )}
       {/* ── Section 5: Ma Trận 12 Tháng Đã Tối Ưu (Sticky Col, Muted Zero '-') ── */}
       <div
         style={{
@@ -723,7 +888,7 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
               </tr>
             </thead>
 
-            <tbody>
+            <tbody style={{ color: '#1e293b' }}>
               {MONTH_NAMES.map((monthName, mIdx) => {
                 const monthNum = mIdx + 1
                 const monthTotal = monthlyTotals[mIdx] ?? 0
@@ -742,7 +907,7 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
                         left: 0,
                         background: mIdx % 2 === 0 ? '#ffffff' : '#f8fafc',
                         zIndex: 2,
-                        padding: '8px 12px',
+                        padding: '9px 12px',
                         textAlign: 'left',
                         fontWeight: 700,
                         color: '#0284c7',
@@ -765,11 +930,12 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
                         <td
                           key={r.key}
                           style={{
-                            padding: '8px 8px',
+                            padding: '9px 10px',
                             textAlign: 'right',
                             borderBottom: '1px solid #f1f5f9',
                             borderRight: '1px solid #f8fafc',
                             background: 'transparent',
+                            fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace',
                           }}
                         >
                           {valNum === 0 ? (
@@ -795,13 +961,14 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
                     {/* Cột tổng phát sinh tháng */}
                     <td
                       style={{
-                        padding: '8px 12px',
+                        padding: '9px 12px',
                         textAlign: 'right',
                         fontWeight: 700,
                         color: '#1d4ed8',
                         background: '#eff6ff',
                         borderBottom: '1px solid #e2e8f0',
                         borderLeft: '1px solid #bfdbfe',
+                        fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace',
                       }}
                     >
                       {monthTotal > 0 ? fmtMoneyNum(monthTotal) : '-'}
@@ -824,53 +991,49 @@ export function GlAnalyticsTab({ data, filePath }: Props): JSX.Element {
                     left: 0,
                     background: '#f8fafc',
                     zIndex: 2,
-                    padding: '9px 12px',
+                    padding: '10px 12px',
                     textAlign: 'left',
-                    color: '#0f172a',
                     fontFamily: 'system-ui, sans-serif',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.03em',
                     borderRight: '1px solid #e2e8f0',
                     borderTop: '2px solid #cbd5e1',
+                    color: '#0f172a',
                   }}
                 >
-                  CẢ NĂM
+                  TỔNG CỘNG CẢ NĂM
                 </td>
 
                 {trend12m.rows.map((r) => {
-                  const yearVal = moneyToNumber(r.total)
+                  const totalNum = moneyToNumber(r.total)
                   return (
                     <td
                       key={r.key}
                       style={{
-                        padding: '9px 8px',
-                        textAlign: 'right',
-                        color: '#0f172a',
-                        fontFamily: 'monospace',
+                        padding: '10px 10px',
                         borderTop: '2px solid #cbd5e1',
-                        borderRight: '1px solid #f1f5f9',
-                        fontWeight: 700,
+                        borderRight: '1px solid #f8fafc',
+                        color: totalNum === 0 ? '#94a3b8' : '#0f172a',
+                        fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace',
                       }}
                     >
-                      {yearVal === 0 ? <span style={{ color: '#94a3b8' }}>-</span> : fmtMoneyNum(yearVal)}
+                      {totalNum === 0 ? '-' : fmtMoneyNum(totalNum)}
                     </td>
                   )
                 })}
 
+                {/* Tổng dòng chót góc dưới cùng bên phải */}
                 <td
                   style={{
-                    padding: '9px 12px',
-                    textAlign: 'right',
-                    color: '#1d4ed8',
-                    fontSize: '13px',
-                    fontFamily: 'monospace',
+                    padding: '10px 12px',
                     fontWeight: 800,
+                    color: '#1d4ed8',
                     background: '#eff6ff',
-                    borderTop: '2px solid #3b82f6',
+                    borderTop: '2px solid #93c5fd',
                     borderLeft: '1px solid #bfdbfe',
+                    fontSize: '13px',
+                    fontFamily: 'Consolas, ui-monospace, SFMono-Regular, monospace',
                   }}
                 >
-                  {fmtMoneyNum(grandYearTotal)}
+                  {grandYearTotal > 0 ? fmtMoneyNum(grandYearTotal) : '-'}
                 </td>
               </tr>
             </tbody>

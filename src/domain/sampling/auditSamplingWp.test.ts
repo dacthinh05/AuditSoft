@@ -188,4 +188,49 @@ describe('Audit Sampling Working Paper Engine (10-Step Model) — Unit Tests', (
     const wb = buildSamplingWorkbook(res)
     expect(wb.worksheets.length).toBe(2)
   })
+
+  it('quét trắng thì bù Top-10 giá trị lớn dưới KCM kèm note nguồn gốc', () => {
+    const items: SampleableItem[] = []
+    for (let i = 1; i <= 20; i++) {
+      items.push(makeItem({ id: `c${i}`, amount: 10_000_000 + i, voucher: `HD_${i}` }))
+    }
+    const res = calculateAuditSamplingWp({
+      sectionName: 'T',
+      accountCode: 'T',
+      periodStr: '01/01 - 31/12/2025',
+      items,
+      performanceMateriality: 750_000_000,
+      itemMaterialityRatio: 0.75,
+      assuranceLevel: 'HIGH',
+      clearlyTrivial: 1_000_000,
+    })
+    // KCM = 750tr: không dòng nào vượt; quét tiêu chí trắng → bù 10 dòng lớn nhất
+    expect(res.steps.riskCount.numericValue).toBe(10)
+    expect(res.riskSamples.every((s) => !s.isManualPick)).toBe(true)
+    expect(res.riskSamples[0]?.riskNote).toContain('Top dưới KCM')
+    expect(res.steps.riskItems.note).toContain('bù Top-10')
+    // Dòng lớn nhất phải đứng đầu nhóm bù
+    const maxId = 'c20'
+    expect(res.riskSamples.map((s) => s.id)).toContain(maxId)
+  })
+
+  it('tắt quét thì không bù Top-N, note giữ nguyên đã tắt', () => {
+    const items: SampleableItem[] = []
+    for (let i = 1; i <= 20; i++) {
+      items.push(makeItem({ id: `d${i}`, amount: 10_000_000 + i, voucher: `HD_${i}` }))
+    }
+    const res = calculateAuditSamplingWp({
+      sectionName: 'T',
+      accountCode: 'T',
+      periodStr: '01/01 - 31/12/2025',
+      items,
+      performanceMateriality: 750_000_000,
+      itemMaterialityRatio: 0.75,
+      assuranceLevel: 'HIGH',
+      clearlyTrivial: 1_000_000,
+      includeRiskItems: false,
+    })
+    expect(res.steps.riskCount.numericValue).toBe(0)
+    expect(res.steps.riskCount.note).toContain('Đã tắt')
+  })
 })

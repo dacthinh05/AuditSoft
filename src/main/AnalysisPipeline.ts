@@ -18,6 +18,7 @@ import { defaultRiskRules } from './risks/rules'
 
 export interface RunAnalysisOptions {
   filePath: string
+  sheetName?: string
   overall?: number
   performance?: number
   clearlyTrivial?: number
@@ -45,9 +46,12 @@ const pctLabel = (v: number | null | undefined): string =>
 /** Chạy toàn bộ pipeline: import → normalize → reconcile → analytics → risk engine. */
 export async function runFullAnalysis(opts: RunAnalysisOptions): Promise<AnalysisResult> {
   const config = makeConfig(opts)
-  const imp = await new ExcelImportService().importWorkbook(opts.filePath)
+  // Nếu có sheetName được chỉ định từ người dùng thì ép ExcelImportService dùng đúng sheet đó (không đoán tự động)
+  const overrides = opts.sheetName
+    ? [{ type: 'GENERAL_LEDGER' as const, sheetName: opts.sheetName }]
+    : []
+  const imp = await new ExcelImportService().importWorkbook(opts.filePath, overrides)
   const entries = imp.journal?.entries ?? []
-
   const reconciliation = imp.trialBalance.length > 0 ? reconcileGlWithTrialBalance(entries, imp.trialBalance) : null
   const tbIssues = imp.trialBalance.length > 0 ? checkTrialBalanceEquation(imp.trialBalance) : []
   const kqkdCmp = imp.incomeStatement && imp.incomeStatement.lines.length > 0 ? analyzeIncomeStatement(imp.incomeStatement) : null
@@ -146,6 +150,16 @@ export async function runFullAnalysis(opts: RunAnalysisOptions): Promise<Analysi
     reconStatus: reconciliation?.status ?? 'PASS',
     reconciliation: reconRows,
     unmatchedGlAccounts: reconciliation?.unmatchedGlAccounts ?? [],
+    trialBalance: imp.trialBalance.map((tb) => ({
+      account: tb.account,
+      accountName: tb.accountName,
+      openingDebit: moneyToNumber(tb.openingDebit),
+      openingCredit: moneyToNumber(tb.openingCredit),
+      movementDebit: moneyToNumber(tb.movementDebit),
+      movementCredit: moneyToNumber(tb.movementCredit),
+      closingDebit: moneyToNumber(tb.closingDebit),
+      closingCredit: moneyToNumber(tb.closingCredit),
+    })),
     kqkd: kqkdDto,
     monthly: monthlyDTO,
     accounts: accountsDTO,

@@ -24,3 +24,7 @@ test_out/
 test-out/
 *.tmp
 ~conv_*
+wp-test-*
+wp-err-*
+wp-check-*
+HoSoKiemToan_*

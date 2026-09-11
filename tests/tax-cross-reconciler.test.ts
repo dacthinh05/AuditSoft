@@ -83,14 +83,17 @@ describe('TaxCrossReconciler', () => {
     const result = TaxCrossReconciler.reconcile(entries, vatList, [])
     expect(result.vatRows[0].status).toBe('DISCREPANCY')
     expect(result.vatRows[0].revenueDiff).toBe(-500000000n) // tax - gl = 1B - 1.5B = -500M
-    expect(result.vatRows[0].auditNote).toContain('Doanh thu sổ NKC lớn hơn Tờ khai thuế')
+    expect(result.vatRows[0].auditNote).toContain('Lệch DT 511')
   })
 
-  it('đối chiếu chính xác chi phí lương tờ khai TNCN với phát sinh Nợ TK 334', () => {
+  it('đối chiếu chính xác quỹ lương (Có 334) và thuế TNCN khấu trừ (Có 3335)', () => {
     const entries: JournalEntry[] = [
-      createMockEntry({ month: 1, debitAccount: '334', amount: makeMoney(400000000n, 0) }),
-      createMockEntry({ month: 2, debitAccount: '334', amount: makeMoney(400000000n, 0) }),
-      createMockEntry({ month: 3, debitAccount: '334', amount: makeMoney(400000000n, 0) }),
+      // Chi phí lương Có 334: 3 tháng x 400tr = 1.2 tỷ
+      createMockEntry({ month: 1, debitAccount: '642', creditAccount: '334', amount: makeMoney(400000000n, 0) }),
+      createMockEntry({ month: 2, debitAccount: '642', creditAccount: '334', amount: makeMoney(400000000n, 0) }),
+      createMockEntry({ month: 3, debitAccount: '642', creditAccount: '334', amount: makeMoney(400000000n, 0) }),
+      // Thuế TNCN khấu trừ Có 3335: 35tr
+      createMockEntry({ month: 3, debitAccount: '334', creditAccount: '3335', amount: makeMoney(35000000n, 0) }),
     ]
 
     const pitList: PitDeclarationSnapshot[] = [
@@ -112,5 +115,47 @@ describe('TaxCrossReconciler', () => {
     expect(result.pitRows.length).toBe(1)
     expect(result.pitRows[0].status).toBe('MATCHED')
     expect(result.pitRows[0].payrollDiff).toBe(0n)
+    expect(result.pitRows[0].glPitWithheld).toBe(35000000n)
+    expect(result.pitRows[0].pitWithheldDiff).toBe(0n)
+  })
+
+  it('khớp chính xác tờ khai thuế theo Tháng với phát sinh sổ NKC theo Tháng', () => {
+    const entries: JournalEntry[] = [
+      createMockEntry({ month: 6, creditAccount: '511', amount: makeMoney(2000000000n, 0) }),
+      createMockEntry({ month: 7, creditAccount: '511', amount: makeMoney(3000000000n, 0) }),
+    ]
+
+    const vatMonthlyList: VatDeclarationSnapshot[] = [
+      {
+        taxpayerId: '0314892001',
+        taxpayerName: 'Công ty Test',
+        formCode: '01/GTGT',
+        period: { type: 'MONTH', value: 'Tháng 06/2025', normalizedKey: '2025-M06', year: 2025, month: 6 },
+        declarationType: 'ORIGINAL',
+        indicators: {
+          '34': { code: '34', name: 'DT', rawValue: '2000000000', numericValue: 2000000000n },
+          '35': { code: '35', name: 'Thuế', rawValue: '0', numericValue: 0n },
+        },
+      },
+      {
+        taxpayerId: '0314892001',
+        taxpayerName: 'Công ty Test',
+        formCode: '01/GTGT',
+        period: { type: 'MONTH', value: 'Tháng 07/2025', normalizedKey: '2025-M07', year: 2025, month: 7 },
+        declarationType: 'ORIGINAL',
+        indicators: {
+          '34': { code: '34', name: 'DT', rawValue: '3000000000', numericValue: 3000000000n },
+          '35': { code: '35', name: 'Thuế', rawValue: '0', numericValue: 0n },
+        },
+      },
+    ]
+
+    const result = TaxCrossReconciler.reconcile(entries, vatMonthlyList, [])
+    expect(result.vatRows.length).toBe(2)
+    // Tháng 6 khớp đúng 2 tỷ, tháng 7 khớp đúng 3 tỷ
+    expect(result.vatRows[0].glRevenue).toBe(2000000000n)
+    expect(result.vatRows[0].revenueDiff).toBe(0n)
+    expect(result.vatRows[1].glRevenue).toBe(3000000000n)
+    expect(result.vatRows[1].revenueDiff).toBe(0n)
   })
 })

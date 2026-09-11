@@ -1,4 +1,5 @@
 import type ExcelJS from 'exceljs'
+import type { OpenXmlPackageEditor } from '../openxml/OpenXmlPackageEditor'
 import type { WorkingPaperFillContext, SectionFillResult, NkcTransaction } from '../types'
 import {
   fillAddSheet,
@@ -23,15 +24,244 @@ function getTxnMonth(t: NkcTransaction): number {
   return 1
 }
 export function fillPayrollWorkingPaper(
-  wb: ExcelJS.Workbook,
+  target: ExcelJS.Workbook | OpenXmlPackageEditor,
   ctx: WorkingPaperFillContext,
 ): SectionFillResult {
   const fileName = 'E400 - Luong - Mau 2025 - Thinh.xlsx'
   const updatedSheets: string[] = []
   let itemsCount = 0
 
-  normalizeWorkbookSharedFormulas(wb)
+  const isEditor = target && typeof (target as OpenXmlPackageEditor).updateCell === 'function'
+  if (isEditor) {
+    const editor = target as OpenXmlPackageEditor
 
+    // 1. ADD
+    if (editor.hasSheet('ADD')) {
+      editor.fillAddSheet(ctx.engagement)
+      updatedSheets.push('ADD')
+    }
+
+    // 2. E 410 Lead schedule
+    const e410Sheet = editor.hasSheet('E 410') ? 'E 410' : editor.hasSheet('E410') ? 'E410' : null
+    if (e410Sheet) {
+      const payMap: Record<string, number> = {
+        '3341': 11,
+        '3342': 12,
+        '335': 15,
+        '3382': 17,
+        '3383': 18,
+        '3384': 19,
+        '3386': 20,
+      }
+
+      for (const [prefix, rowNum] of Object.entries(payMap)) {
+        const acc = ctx.cdfsAccounts.get(prefix)
+        let netAdj = 0
+        if (ctx.adjustingEntries && ctx.adjustingEntries.length > 0) {
+          for (const aje of ctx.adjustingEntries) {
+            if (aje.tkCo.startsWith(prefix)) netAdj += aje.soTien
+            if (aje.tkNo.startsWith(prefix)) netAdj -= aje.soTien
+          }
+        }
+        const ck = acc?.cock || acc?.nock || 0
+        const dk = acc?.sdcdk || acc?.sdndk || 0
+        editor.setLeadRowValues(e410Sheet, rowNum, {
+          ck,
+          dk,
+          adj: netAdj,
+          colAdj: 5,
+        })
+        editor.updateCell(e410Sheet, `F${rowNum}`, { number: ck + netAdj })
+        itemsCount += 3
+      }
+      updatedSheets.push(e410Sheet)
+    }
+
+    // 2.1 Sheet E 441 — Bút toán điều chỉnh kiểm toán Tiền lương & BHXH
+    const e441Sheet = editor.hasSheet('E 441') ? 'E 441' : editor.hasSheet('E441') ? 'E441' : null
+    if (e441Sheet) {
+      const payAjes = (ctx.adjustingEntries || []).filter(
+        (a) =>
+          a.glvRef === 'E441' ||
+          a.tkNo.startsWith('334') ||
+          a.tkCo.startsWith('334') ||
+          a.tkNo.startsWith('335') ||
+          a.tkCo.startsWith('335') ||
+          a.tkNo.startsWith('338') ||
+          a.tkCo.startsWith('338'),
+      )
+      if (payAjes.length > 0) {
+        const count = editor.fillAjeSheet(e441Sheet, 14, 15, payAjes, 'Phải trả người lao động')
+        itemsCount += count * 8
+      } else {
+        editor.updateCell(e441Sheet, 'C15', { text: 'Không phát sinh.' })
+        itemsCount++
+      }
+      updatedSheets.push(e441Sheet)
+    }
+
+    // 3. E 490
+    const e490Sheet = editor.hasSheet('E 490') ? 'E 490' : editor.hasSheet('E490') ? 'E490' : null
+    if (e490Sheet) {
+      let psCo111 = 0
+      let psCo112 = 0
+      let psCo338 = 0
+      let psCoKhac = 0
+      let psNo622 = 0
+      let psNo627 = 0
+      let psNo641 = 0
+      let psNo642 = 0
+      const m622 = new Array(12).fill(0)
+      const m627 = new Array(12).fill(0)
+      const m641 = new Array(12).fill(0)
+      const m642 = new Array(12).fill(0)
+
+      for (const t of ctx.nkcTransactions) {
+        const m = getTxnMonth(t)
+        const mIdx = Math.max(0, Math.min(11, m - 1))
+        const isPayDebt = t.debit.startsWith('334')
+        const isPayCred = t.credit.startsWith('334')
+
+        if (isPayDebt) {
+          if (t.credit.startsWith('111')) psCo111 += t.amount
+          else if (t.credit.startsWith('112')) psCo112 += t.amount
+          else if (t.credit.startsWith('338')) psCo338 += t.amount
+          else psCoKhac += t.amount
+        }
+        if (isPayCred) {
+          if (t.debit.startsWith('622')) { psNo622 += t.amount; m622[mIdx] += t.amount }
+          else if (t.debit.startsWith('627')) { psNo627 += t.amount; m627[mIdx] += t.amount }
+          else if (t.debit.startsWith('641')) { psNo641 += t.amount; m641[mIdx] += t.amount }
+          else if (t.debit.startsWith('642')) { psNo642 += t.amount; m642[mIdx] += t.amount }
+        }
+      }
+
+      editor.updateCell(e490Sheet, 'B16', { number: psCo111 })
+      editor.updateCell(e490Sheet, 'B17', { number: psCo112 })
+      editor.updateCell(e490Sheet, 'B18', { number: psCo338 })
+      editor.updateCell(e490Sheet, 'B19', { number: psCoKhac })
+      editor.updateCell(e490Sheet, 'G16', { number: psNo622 })
+      editor.updateCell(e490Sheet, 'G17', { number: psNo627 })
+      editor.updateCell(e490Sheet, 'G18', { number: psNo641 })
+      editor.updateCell(e490Sheet, 'G19', { number: psNo642 })
+      itemsCount += 8
+
+      for (let m = 0; m < 12; m++) {
+        const r = 42 + m
+        editor.updateCell(e490Sheet, `B${r}`, { number: m622[m] ?? 0 })
+        editor.updateCell(e490Sheet, `C${r}`, { number: m627[m] ?? 0 })
+        editor.updateCell(e490Sheet, `D${r}`, { number: m641[m] ?? 0 })
+        editor.updateCell(e490Sheet, `E${r}`, { number: m642[m] ?? 0 })
+        itemsCount += 4
+      }
+      updatedSheets.push(e490Sheet)
+    }
+
+    // 4. E 491
+    const e491Sheet = editor.hasSheet('E 491') ? 'E 491' : editor.hasSheet('E491') ? 'E491' : null
+    if (e491Sheet) {
+      let psNo338_111 = 0
+      let psNo338_112 = 0
+      let psCo338_112 = 0
+      let psCo338_334 = 0
+      let psCo338_622 = 0
+      let psCo338_641 = 0
+      let psCo338_642 = 0
+      const insExpense12M = new Array(12).fill(0)
+      const insDeduct12M = new Array(12).fill(0)
+      const insPayment12M = new Array(12).fill(0)
+      const insPaymentEntries: NkcTransaction[] = []
+
+      for (const t of ctx.nkcTransactions) {
+        const m = getTxnMonth(t)
+        const mIdx = Math.max(0, Math.min(11, m - 1))
+        const isInsDebt = t.debit.startsWith('338')
+        const isInsCred = t.credit.startsWith('338')
+        const isMandatoryInsCred =
+          t.credit.startsWith('3383') ||
+          t.credit.startsWith('3384') ||
+          t.credit.startsWith('3386') ||
+          (t.credit === '338' && /bhxh|bhyt|bhtn|bảo hiểm/i.test(t.desc) && !/công đoàn|kpcd|3382/i.test(t.desc))
+        const isExpenseDebit =
+          t.debit.startsWith('622') ||
+          t.debit.startsWith('627') ||
+          t.debit.startsWith('641') ||
+          t.debit.startsWith('642') ||
+          t.debit.startsWith('154')
+
+        if (isExpenseDebit && isMandatoryInsCred) insExpense12M[mIdx] += t.amount
+        if (t.debit.startsWith('334') && isMandatoryInsCred) insDeduct12M[mIdx] += t.amount
+        if (isInsDebt) {
+          if (t.credit.startsWith('111')) psNo338_111 += t.amount
+          else if (t.credit.startsWith('112')) {
+            psNo338_112 += t.amount
+            insPayment12M[mIdx] += t.amount
+            insPaymentEntries.push(t)
+          }
+        }
+        if (isInsCred) {
+          if (t.debit.startsWith('112')) psCo338_112 += t.amount
+          else if (t.debit.startsWith('334')) psCo338_334 += t.amount
+          else if (t.debit.startsWith('622')) psCo338_622 += t.amount
+          else if (t.debit.startsWith('641')) psCo338_641 += t.amount
+          else if (t.debit.startsWith('642')) psCo338_642 += t.amount
+        }
+      }
+
+      editor.updateCell(e491Sheet, 'C18', { number: psNo338_111 })
+      editor.updateCell(e491Sheet, 'C19', { number: psNo338_112 })
+      editor.updateCell(e491Sheet, 'G18', { number: psCo338_112 })
+      editor.updateCell(e491Sheet, 'G19', { number: psCo338_334 })
+      editor.updateCell(e491Sheet, 'G20', { number: psCo338_622 })
+      editor.updateCell(e491Sheet, 'G21', { number: psCo338_641 })
+      editor.updateCell(e491Sheet, 'G22', { number: psCo338_642 })
+      itemsCount += 7
+
+      for (let m = 0; m < 12; m++) {
+        const r = 32 + m
+        editor.updateCell(e491Sheet, `B${r}`, { number: insExpense12M[m] ?? 0 })
+        editor.updateCell(e491Sheet, `C${r}`, { number: insDeduct12M[m] ?? 0 })
+        itemsCount += 2
+      }
+
+      for (let m = 0; m < 12; m++) {
+        const r = 69 + m
+        editor.updateCell(e491Sheet, `C${r}`, { number: insPayment12M[m] ?? 0 })
+        if (insPayment12M[m] > 0) {
+          editor.updateCell(e491Sheet, `G${r}`, { text: 'P' })
+        }
+        itemsCount += 2
+      }
+
+      const topInsPayments = insPaymentEntries.sort((a, b) => b.amount - a.amount).slice(0, 10)
+      for (let i = 0; i < topInsPayments.length; i++) {
+        const item = topInsPayments[i]
+        if (!item) continue
+        const r = 88 + i
+        editor.fillSampleRow(e491Sheet, r, {
+          date: item.dateVal,
+          docNo: item.docNo,
+          desc: item.desc,
+          debit: item.debit,
+          credit: item.credit,
+          amount: item.amount,
+        })
+        editor.updateCell(e491Sheet, `G${r}`, { text: 'P' })
+        itemsCount++
+      }
+      updatedSheets.push(e491Sheet)
+    }
+
+    return {
+      fileName,
+      success: true,
+      sheetsUpdated: updatedSheets,
+      itemsFilledCount: itemsCount,
+    }
+  }
+
+  const wb = target as ExcelJS.Workbook
+  normalizeWorkbookSharedFormulas(wb)
   // 1. ADD
   const wsAdd = wb.getWorksheet('ADD')
   if (wsAdd) {
@@ -237,8 +467,10 @@ export function fillPayrollWorkingPaper(
       const row = wsE491.getRow(r)
       styleCellAmount(row.getCell(2), insExpense12M[m] ?? 0)
       styleCellAmount(row.getCell(3), insDeduct12M[m] ?? 0)
-      if (insPayment12M[m] > 0) {
-        styleCellAmount(row.getCell(5), insPayment12M[m])
+      const c5 = row.getCell(5)
+      const hasF5 = Boolean(c5.value && typeof c5.value === 'object' && ('formula' in c5.value || 'sharedFormula' in c5.value))
+      if (!hasF5 && insPayment12M[m] > 0) {
+        styleCellAmount(c5, insPayment12M[m])
       }
       itemsCount += 3
     }

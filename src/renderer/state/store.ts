@@ -11,6 +11,10 @@ import {
   type ViewKey,
 } from './slices/navigationSlice'
 import {
+  createTaxStatsSlice,
+  type TaxStatsSlice,
+} from './slices/taxStatsSlice'
+import {
   createProfilerSlice,
   type ProfilerSlice,
   type ProfilerTier,
@@ -28,26 +32,41 @@ import {
   type EngineSlice,
   type EngineStats,
 } from './slices/engineSlice'
+import {
+  createAiSlice,
+  type AiSlice,
+} from './slices/aiSlice'
+import {
+  createEngagementSlice,
+  type EngagementSlice,
+  type EngagementProfile,
+} from './slices/engagementSlice'
 import type { ReconcileRunRequest } from '../../shared/ipc'
 
-export type { TabKey, ViewKey, ProfilerTier, EngineStats }
+export type { TabKey, ViewKey, ProfilerTier, EngineStats, EngagementProfile }
 
 export type AppStore = ReconcileSlice &
   NavigationSlice &
+  TaxStatsSlice &
   ProfilerSlice &
   LicenseSlice &
   UpdateSlice &
-  EngineSlice & {
+  EngineSlice &
+  AiSlice &
+  EngagementSlice & {
     resetAll(): void
   }
 
 export const useApp = create<AppStore>((...a) => ({
   ...createReconcileSlice(...a),
   ...createNavigationSlice(...a),
+  ...createTaxStatsSlice(...a),
   ...createProfilerSlice(...a),
   ...createLicenseSlice(...a),
   ...createUpdateSlice(...a),
   ...createEngineSlice(...a),
+  ...createAiSlice(...a),
+  ...createEngagementSlice(...a),
   resetAll: () => {
     const [set] = a
     set({

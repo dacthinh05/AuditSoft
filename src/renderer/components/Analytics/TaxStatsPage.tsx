@@ -20,21 +20,25 @@ export function TaxStatsPage(): JSX.Element {
   const [reconResult, setReconResult] = useState<TaxCrossReconciliationResult | null>(null)
 
   const filePath = beforeCfg?.filePath || afterCfg?.filePath || ''
-  const hasGl = glSnapshot != null && glSnapshot.filePath === filePath && glSnapshot.journals.length > 0
+  const sheetName = beforeCfg?.sheetName || afterCfg?.sheetName
+  const hasGl =
+    glSnapshot != null &&
+    glSnapshot.filePath === filePath &&
+    (!sheetName || !glSnapshot.sheetName || glSnapshot.sheetName === sheetName) &&
+    glSnapshot.journals.length > 0
 
-  // Nạp snapshot Sổ NKC để đối chiếu chéo (chạy 1 lần cho mỗi filePath)
+  // Nạp snapshot Sổ NKC để đối chiếu chéo (chạy lại khi filePath hoặc sheetName thay đổi)
   useEffect(() => {
-    if (!filePath || !window.auditsoft?.auditAnalyze) return
-    if (glSnapshot && glSnapshot.filePath === filePath) return
-
+    if (!filePath || filePath === '(clipboard)' || !window.auditsoft?.auditAnalyze) return
+    if (glSnapshot && glSnapshot.filePath === filePath && (!sheetName || glSnapshot.sheetName === sheetName)) return
     let cancelled = false
     async function loadGlSnapshot(): Promise<void> {
       setIsLoading(true)
       setLoadingMsg('Đang đọc Sổ NKC để đối chiếu chéo với tờ khai thuế...')
       try {
-        const res = await window.auditsoft.auditAnalyze({ filePath })
+        const res = await window.auditsoft.auditAnalyze({ filePath, sheetName })
         if (cancelled) return
-        setGlSnapshot({ filePath, journals: res.journals || [] })
+        setGlSnapshot({ filePath, sheetName, journals: res.journals || [] })
       } catch (err) {
         if (!cancelled) {
           // Không chặn luồng thuế: thiếu NKC thì trang vẫn thống kê tờ khai ở degraded mode
@@ -51,8 +55,7 @@ export function TaxStatsPage(): JSX.Element {
     return () => {
       cancelled = true
     }
-  }, [filePath])
-
+  }, [filePath, sheetName])
   // Tính lại đối chiếu mỗi khi tờ khai hoặc snapshot NKC thay đổi
   useEffect(() => {
     if (!taxData) {

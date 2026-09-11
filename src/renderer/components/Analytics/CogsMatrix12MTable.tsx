@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import type { Cogs12MMatrixReport } from '../../../domain/analytics/types'
 import { moneyToNumber } from '../../../domain/money'
-import { IconAlert } from '../Icons'
+import { IconAlert, IconLightbulb, IconCheck } from '../Icons'
 
 interface Props {
   matrix: Cogs12MMatrixReport
@@ -15,7 +15,9 @@ function fmtMoneyNum(v: number): string {
 export function CogsMatrix12MTable({ matrix }: Props): JSX.Element {
   const [hideEmpty, setHideEmpty] = useState(true)
   const [viewMode, setViewMode] = useState<'AMOUNT' | 'PERCENT'>('AMOUNT')
-
+  // Chế độ phân tích biên: Theo Chi Phí Thực Tế (CPSX) vs Theo Sổ Sách Kết Chuyển (632)
+  const [costPerspective, setCostPerspective] = useState<'ACTUAL_CPSX' | 'RECORDED_632'>('ACTUAL_CPSX')
+  const hasLumpSum = useMemo(() => matrix.rows.some((r) => r.isLumpSumYearEnd), [matrix.rows])
   const totals = matrix.annualTotals
 
   // Xác định các cột có phát sinh số liệu cả năm
@@ -89,6 +91,26 @@ export function CogsMatrix12MTable({ matrix }: Props): JSX.Element {
         </div>
 
         <div className="cogs-head-right">
+          {/* Dual Perspective Toggle */}
+          <div className="cogs-perspective-pills">
+            <button
+              type="button"
+              className={`pill-btn ${costPerspective === 'ACTUAL_CPSX' ? 'active-cpsx' : ''}`}
+              onClick={() => setCostPerspective('ACTUAL_CPSX')}
+              title="Phân tích tỷ lệ chi phí sản xuất thực tế phát sinh trong tháng / Doanh thu (Không phụ thuộc thời điểm kế toán kết chuyển 632)"
+            >
+              Biên Chi Phí Thực Tế (CPSX)
+            </button>
+            <button
+              type="button"
+              className={`pill-btn ${costPerspective === 'RECORDED_632' ? 'active-cogs' : ''}`}
+              onClick={() => setCostPerspective('RECORDED_632')}
+              title="Phân tích tỷ lệ Giá vốn kế toán đã hạch toán kết chuyển Nợ 632 / Doanh thu (Dùng phát hiện rủi ro dồn giá vốn cuối năm VSA 520)"
+            >
+              Biên Sổ Sách (TK 632)
+            </button>
+          </div>
+
           {/* Toggle Hide Empty */}
           <button
             type="button"
@@ -96,7 +118,7 @@ export function CogsMatrix12MTable({ matrix }: Props): JSX.Element {
             onClick={() => setHideEmpty(!hideEmpty)}
             title="Ẩn các cột tài khoản không có số liệu phát sinh cả năm"
           >
-            {hideEmpty ? '✓ Đang ẩn cột rỗng' : 'Hiện đủ mọi cột'}
+            {hideEmpty ? 'Đang ẩn cột rỗng' : 'Hiện đủ mọi cột'}
           </button>
 
           {/* View Mode Segmented */}
@@ -119,6 +141,19 @@ export function CogsMatrix12MTable({ matrix }: Props): JSX.Element {
         </div>
       </div>
 
+      {/* ── Lump-Sum Notice Banner ── */}
+      {hasLumpSum && (
+        <div className="cogs-lump-sum-tip">
+          <span className="tip-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+            <IconLightbulb size={13} />
+            <span>Gợi ý kiểm toán:</span>
+          </span>
+          <span>
+            Phát hiện doanh nghiệp dồn <strong>{fmtMoneyNum(moneyToNumber(matrix.rows[11]?.totalCogs632 || matrix.annualTotals.totalCogs632))} đ</strong> giá vốn vào Tháng 12. Hãy chọn chế độ <strong>&ldquo;Biên Chi Phí Thực Tế (CPSX)&rdquo;</strong> ở trên để xem đúng biên chi phí sản xuất từng tháng thay vì bị gạch trống <code>[-]</code> do kế toán chưa kết chuyển 632.
+          </span>
+        </div>
+      )}
+
       {/* ── Table Grid ── */}
       <div className="cogs-matrix-table-wrap">
         <table className="cogs-matrix-table">
@@ -133,7 +168,7 @@ export function CogsMatrix12MTable({ matrix }: Props): JSX.Element {
                 GIÁ VỐN HẠCH TOÁN XUẤT BÁN TRONG KỲ (NỢ TK 632)
               </th>
               <th colSpan={2} className="th-group-rev">
-                DOANH THU &amp; BIÊN
+                DOANH THU &amp; {costPerspective === 'ACTUAL_CPSX' ? 'BIÊN CHI PHÍ THỰC TẾ' : 'BIÊN GIÁ VỐN SỔ SÁCH'}
               </th>
               <th rowSpan={2} className="th-audit-flag">
                 CẢNH BÁO KIỂM TOÁN VSA 520
@@ -156,7 +191,15 @@ export function CogsMatrix12MTable({ matrix }: Props): JSX.Element {
               <th className="th-subtotal-cogs" title="Tổng Nợ 632 hạch toán trong kỳ">Tổng 632</th>
 
               <th title="Doanh thu bán hàng và cung cấp dịch vụ (Có 511)">Doanh Thu 511</th>
-              <th title="Tỷ lệ % Giá vốn 632 / Doanh thu 511">% GV / DT</th>
+              <th
+                title={
+                  costPerspective === 'ACTUAL_CPSX'
+                    ? 'Tỷ lệ % Tổng Chi phí sản xuất đầu vào phát sinh trong tháng (621, 622, 627, 154) / Doanh thu 511'
+                    : 'Tỷ lệ % Giá vốn kế toán đã hạch toán kết chuyển Nợ 632 / Doanh thu 511'
+                }
+              >
+                {costPerspective === 'ACTUAL_CPSX' ? '% CPSX / DT' : '% GV 632 / DT'}
+              </th>
             </tr>
           </thead>
 
@@ -196,12 +239,28 @@ export function CogsMatrix12MTable({ matrix }: Props): JSX.Element {
                   {/* Revenue & Ratio */}
                   <td className="td-num td-rev">{fmtMoneyNum(revNum)}</td>
                   <td className="td-num td-ratio">
-                    {r.cogsToRevenuePct > 0 ? (
-                      <span className={r.cogsToRevenuePct > 90 ? 'ratio-high' : ''}>
-                        {r.cogsToRevenuePct}%
-                      </span>
+                    {costPerspective === 'ACTUAL_CPSX' ? (
+                      r.prodCostToRevenuePct > 0 ? (
+                        <span
+                          className={r.prodCostToRevenuePct > 90 ? 'ratio-high' : 'ratio-actual'}
+                          title={`CPSX thực tế: ${fmtMoneyNum(prodNum)} đ / Doanh thu: ${fmtMoneyNum(revNum)} đ = ${r.prodCostToRevenuePct}%`}
+                        >
+                          {r.prodCostToRevenuePct}%
+                        </span>
+                      ) : (
+                        <span style={{ color: '#94a3b8' }}>-</span>
+                      )
                     ) : (
-                      <span style={{ color: '#94a3b8' }}>-</span>
+                      r.cogsToRevenuePct > 0 ? (
+                        <span
+                          className={r.cogsToRevenuePct > 90 ? 'ratio-high' : ''}
+                          title={`Giá vốn 632: ${fmtMoneyNum(cogsNum)} đ / Doanh thu: ${fmtMoneyNum(revNum)} đ = ${r.cogsToRevenuePct}%`}
+                        >
+                          {r.cogsToRevenuePct}%
+                        </span>
+                      ) : (
+                        <span style={{ color: '#94a3b8' }}>-</span>
+                      )
                     )}
                   </td>
 
@@ -213,10 +272,13 @@ export function CogsMatrix12MTable({ matrix }: Props): JSX.Element {
                         title={r.auditFlag}
                         style={{ cursor: 'help', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                       >
-                        {r.isLumpSumYearEnd ? '🔴 Dồn giá vốn T12' : '🟠 Treo CPSX (Chưa ghi 632)'}
+                        {r.isLumpSumYearEnd ? 'Dồn giá vốn T12' : 'Treo CPSX (Chưa ghi 632)'}
                       </span>
                     ) : (
-                      <span className="cogs-audit-ok" title="Ghi nhận giá vốn khớp nhịp với doanh thu">✓ Khớp nhịp</span>
+                      <span className="cogs-audit-ok" title="Ghi nhận giá vốn khớp nhịp với doanh thu" style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                        <IconCheck size={12} />
+                        <span>Khớp nhịp</span>
+                      </span>
                     )}
                   </td>
                 </tr>
@@ -244,7 +306,11 @@ export function CogsMatrix12MTable({ matrix }: Props): JSX.Element {
 
               <td className="td-num td-rev">{fmtMoneyNum(moneyToNumber(totals.revenue511))}</td>
               <td className="td-num td-ratio">
-                <strong>{matrix.annualPcts.annualCogsToRevenuePct}%</strong>
+                <strong>
+                  {costPerspective === 'ACTUAL_CPSX'
+                    ? `${matrix.annualPcts.annualProdCostToRevenuePct ?? matrix.annualPcts.annualCogsToRevenuePct}%`
+                    : `${matrix.annualPcts.annualCogsToRevenuePct}%`}
+                </strong>
               </td>
               <td className="td-audit-note">
                 <span style={{ fontWeight: 600, color: '#0f172a' }}>

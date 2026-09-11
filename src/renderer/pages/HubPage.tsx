@@ -2,8 +2,6 @@ import { useState, useMemo } from 'react'
 import { useApp } from '../state/store'
 import {
   MODULES_REGISTRY,
-  MODULE_CATEGORIES,
-  type ModuleCategory,
   type ModuleDefinition,
 } from '../config/modulesRegistry'
 import {
@@ -13,11 +11,12 @@ import {
   IconFileSpreadsheet,
   IconLayers,
   IconFileText,
-  IconSpark,
   IconPackage,
+  IconSpark,
   IconRefresh,
 } from '../components/Icons'
 import { ArchitectureDiagramModal } from '../components/ArchitectureDiagramModal'
+import { AuditWorkflowStepper } from '../components/AuditWorkflowStepper'
 
 function getModuleIcon(id: string, size = 22): JSX.Element {
   switch (id) {
@@ -29,9 +28,13 @@ function getModuleIcon(id: string, size = 22): JSX.Element {
       return <IconLayers size={size} />
     case 'etax_qtt03':
       return <IconFileText size={size} />
+    case 'tax_stats_vsa520':
+      return <IconFileText size={size} />
     case 'wp_generator':
       return <IconPackage size={size} />
     case 'tax_risk_scanner':
+      return <IconSpark size={size} />
+    case 'ai_audit_copilot':
       return <IconSpark size={size} />
     default:
       return <IconLayers size={size} />
@@ -40,22 +43,13 @@ function getModuleIcon(id: string, size = 22): JSX.Element {
 
 export function HubPage(): JSX.Element {
   const setView = useApp((s) => s.setView)
-  const trialStatus = useApp((s) => s.trialStatus)
-  const setLicenseModalOpen = useApp((s) => s.setLicenseModalOpen)
-
   const [diagramModalOpen, setDiagramModalOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState<ModuleCategory | 'all'>('all')
 
   const filteredModules = useMemo(() => {
+    if (!searchQuery.trim()) return MODULES_REGISTRY
+    const q = searchQuery.toLowerCase().trim()
     return MODULES_REGISTRY.filter((mod) => {
-      // 1. Lọc theo nhóm
-      if (selectedCategory !== 'all' && mod.category !== selectedCategory) {
-        return false
-      }
-      // 2. Lọc theo từ khóa tìm kiếm
-      if (!searchQuery.trim()) return true
-      const q = searchQuery.toLowerCase().trim()
       return (
         mod.code.includes(q) ||
         mod.title.toLowerCase().includes(q) ||
@@ -65,11 +59,7 @@ export function HubPage(): JSX.Element {
         mod.highlights.some((h) => h.toLowerCase().includes(q))
       )
     })
-  }, [searchQuery, selectedCategory])
-
-  const activeCount = MODULES_REGISTRY.filter((m) => m.status === 'active').length
-  const comingSoonCount = MODULES_REGISTRY.filter((m) => m.status === 'coming_soon').length
-
+  }, [searchQuery])
   const handleCardClick = (mod: ModuleDefinition) => {
     if (mod.status === 'active' && mod.viewKey) {
       setView(mod.viewKey)
@@ -79,85 +69,43 @@ export function HubPage(): JSX.Element {
   return (
     <div className="hub-container">
       {/* ── 1. Hero Header Banner ── */}
-      <section className="hub-hero">
-        <div className="hub-hero-badge">
-          <IconSpark size={13} style={{ color: '#2563eb' }} />
-          <span>HỆ THỐNG CÔNG CỤ PHỤC VỤ KIỂM TOÁN</span>
+      {/* ── 1. Compact Search & Workflow Toolbar (Single-Line 52px) ── */}
+      <section className="hub-compact-toolbar">
+        <div className="hub-search-input-wrap">
+          <IconSearch size={16} className="hub-search-icon" />
+          <input
+            type="text"
+            className="hub-search-input"
+            placeholder="Tìm nhanh công cụ (ví dụ: B410, NKC, VSA 530, eTax, Thuế...)"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              className="hub-search-clear"
+              onClick={() => setSearchQuery('')}
+              title="Xóa tìm kiếm"
+            >
+              ✕
+            </button>
+          )}
         </div>
 
-        {/* Search & Category Filter Toolbar */}
-        <div className="hub-search-toolbar">
-          <div className="hub-search-input-wrap">
-            <IconSearch size={16} className="hub-search-icon" />
-            <input
-              type="text"
-              className="hub-search-input"
-              placeholder="Tìm nhanh công cụ (ví dụ: B410, NKC, VSA 530, eTax, Thuế...)"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                className="hub-search-clear"
-                onClick={() => setSearchQuery('')}
-                title="Xóa tìm kiếm"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-
-          <div className="hub-category-pills">
-            {MODULE_CATEGORIES.map((cat) => (
-              <button
-                key={cat.key}
-                type="button"
-                className={`hub-category-pill ${selectedCategory === cat.key ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(cat.key)}
-              >
-                {cat.name}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Quick Info Bar */}
-        <div className="hub-quick-stats">
-          <div className="quick-stat-item">
-            <span className="stat-dot active" />
-            <span><strong>{activeCount}</strong> Phân hệ sẵn sàng</span>
-          </div>
-          <div className="quick-stat-item">
-            <span className="stat-dot upcoming" />
-            <span><strong>{comingSoonCount}</strong> Công cụ đang phát triển</span>
-          </div>
-          <div className="quick-stat-item">
-            <span className="stat-dot safe" />
-            <span>Xử lý Offline 100% · Bảo mật dữ liệu</span>
-          </div>
-          <button
-            type="button"
-            className="hub-btn-diagram"
-            onClick={() => setDiagramModalOpen(true)}
-            title="Xem sơ đồ tương tác cách các phân hệ liên kết dữ liệu theo chuẩn Archify"
-          >
-            <IconSpark size={13} />
-            <span>Sơ Đồ Luồng Nghiệp Vụ</span>
-          </button>
-
-          <button
-            type="button"
-            className="hub-license-pill"
-            onClick={() => setLicenseModalOpen(true)}
-            title="Xem chi tiết bản quyền và số lượt dùng thử"
-          >
-            {trialStatus.isLicensed ? '✓ Bản quyền VIP: Thịnh Lynx' : `Dùng thử: Còn ${trialStatus.remainingExports}/${trialStatus.maxExports} lượt`}
-          </button>
-        </div>
+        <button
+          type="button"
+          className="hub-btn-diagram"
+          onClick={() => setDiagramModalOpen(true)}
+          title="Xem sơ đồ tương tác cách các phân hệ liên kết dữ liệu theo chuẩn Archify"
+        >
+          <IconLayers size={14} className="hub-btn-diagram-icon" />
+          <span>Sơ Đồ Luồng Nghiệp Vụ</span>
+        </button>
       </section>
+      {/* ── 2. Audit Workflow Stepper (4 Giai đoạn chuẩn VSA) ── */}
+      <AuditWorkflowStepper />
 
-      {/* ── 2. Scalable Modules Grid ── */}
+      {/* ── 3. Scalable Modules Grid ── */}
       <section className="hub-grid-section">
         {filteredModules.length === 0 ? (
           <div className="hub-empty-state">
@@ -167,7 +115,6 @@ export function HubPage(): JSX.Element {
               className="btn btn-secondary"
               onClick={() => {
                 setSearchQuery('')
-                setSelectedCategory('all')
               }}
             >
               Đặt lại bộ lọc
@@ -260,7 +207,7 @@ export function HubPage(): JSX.Element {
                       </button>
                     ) : (
                       <div className="hub-badge-upcoming">
-                        <span>Đang phát triển theo lộ trình</span>
+                        <span>{mod.id === 'wp_generator' ? 'Tính năng đang hoàn thiện' : 'Đang phát triển theo lộ trình'}</span>
                       </div>
                     )}
                   </div>

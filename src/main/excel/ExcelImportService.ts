@@ -11,8 +11,8 @@ import { readWorkbookMatrix } from './WorkbookReader'
 export interface ManualSheetOverride {
   sheetName: string
   type: Exclude<SheetType, 'UNKNOWN'>
-  mapping: Record<string, number | null>
-  headerRow: number // 1-based như Excel
+  mapping?: Record<string, number | null>
+  headerRow?: number // 1-based như Excel
 }
 
 /** Ưước tính số dòng dữ liệu dưới header (sample tối đa 2000 dòng — đủ làm tie-breaker). */
@@ -115,7 +115,10 @@ export class ExcelImportService {
       const sheet = sheets.find((s) => s.sheetName === glName)!
       const override = overrides.find((o) => o.sheetName === glName)
       const detected = detectHeaderRow(sheet.matrix, GL_FIELDS)
-      const headerRowIndex = override ? override.headerRow - 1 : detected.headerRow
+      const headerRowIndex =
+        override && typeof override.headerRow === 'number' && !isNaN(override.headerRow)
+          ? override.headerRow - 1
+          : detected.headerRow
       const rawMapping = override?.mapping ?? detected.best.mapping
       const mapping = toJournalMapping(rawMapping)
       const { entries, quality } = normalizeJournal({
@@ -138,7 +141,10 @@ export class ExcelImportService {
       const sheet = sheets.find((s) => s.sheetName === tbName)!
       const override = overrides.find((o) => o.sheetName === tbName)
       const detected = detectHeaderRow(sheet.matrix, TB_FIELDS)
-      const headerRowIndex = override ? override.headerRow - 1 : detected.headerRow
+      const headerRowIndex =
+        override && typeof override.headerRow === 'number' && !isNaN(override.headerRow)
+          ? override.headerRow - 1
+          : detected.headerRow
       const mapping = toTbMapping(override?.mapping ?? detected.best.mapping)
       trialBalance = normalizeTrialBalance({
         matrix: sheet.matrix,
@@ -155,19 +161,22 @@ export class ExcelImportService {
       const sheet = sheets.find((s) => s.sheetName === isName)!
       const override = overrides.find((o) => o.sheetName === isName)
       const detected = detectHeaderRow(sheet.matrix, IS_FIELDS)
-      const headerRowIndex = override ? override.headerRow - 1 : detected.headerRow
+      const headerRowIndex =
+        override && typeof override.headerRow === 'number' && !isNaN(override.headerRow)
+          ? override.headerRow - 1
+          : detected.headerRow
       const dup = detected.best.duplicateColumns
-      const resolveCurrent = override
+      const resolveCurrent = override?.mapping?.currentYear !== undefined
         ? num(override.mapping.currentYear)
         : pickNumericColumn(sheet.matrix, headerRowIndex + 1, dup.currentYear ?? [])
-      const resolvePrior = override
+      const resolvePrior = override?.mapping?.priorYear !== undefined
         ? num(override.mapping.priorYear)
         : pickNumericColumn(sheet.matrix, headerRowIndex + 1, dup.priorYear ?? [])
       incomeStatement = normalizeIncomeStatement({
         matrix: sheet.matrix,
         mapping: {
-          maSo: (override?.mapping.maSo ?? detected.best.mapping.maSo) ?? null,
-          chiTieu: (override?.mapping.chiTieu ?? detected.best.mapping.chiTieu) ?? null,
+          maSo: (override?.mapping?.maSo ?? detected.best.mapping.maSo) ?? null,
+          chiTieu: (override?.mapping?.chiTieu ?? detected.best.mapping.chiTieu) ?? null,
           currentYear: resolveCurrent,
           priorYear: resolvePrior,
         },

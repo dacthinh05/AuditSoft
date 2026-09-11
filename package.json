@@ -18,21 +18,23 @@
     "build:workers": "esbuild src/workers/reconcile.worker.ts src/workers/export.worker.ts --bundle --platform=node --target=node20 --outdir=dist-electron/workers",
     "build": "npm run build:vite && npm run build:node && npm run build:workers",
     "start": "electron .",
+    "build:protect": "npm run build && node scripts/compile-bytecode.mjs",
     "dist": "npm run build && electron-builder --win",
     "dist:dir": "npm run build && electron-builder --win --dir",
     "dist:portable": "npm run build && electron-builder --win portable -c.directories.output=dist-v116-build --publish never && node scripts/sync-installer.mjs",
     "dist:setup": "npm run build && electron-builder --win nsis -c.directories.output=dist-v116-build --publish never && node scripts/sync-installer.mjs",
     "dist:all": "npm run build && electron-builder --win nsis portable -c.directories.output=dist-v116-build --publish never && node scripts/sync-installer.mjs",
     "keygen": "vite-node scripts/keygen.ts --",
+    "keygen:app": "electron scripts/keygen-app.ts",
     "gen:icon": "node scripts/generateIcon.js",
     "release": "node scripts/publish-distribution.mjs"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",
     "adm-zip": "^0.6.0",
+    "bytenode": "^1.5.5",
     "exceljs": "^4.4.0",
     "qrcode": "^1.5.4",
-    "tedious": "^20.0.0",
     "zod": "^3.24.1",
     "zustand": "^5.0.15"
   },
@@ -41,8 +43,8 @@
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "@types/tedious": "^4.0.14",
     "@vitejs/plugin-react": "^4.3.4",
+    "bytenode": "^1.6.0",
     "concurrently": "^9.1.0",
     "cross-env": "^7.0.3",
     "electron": "^33.2.0",
@@ -67,10 +69,8 @@
     "files": [
       "dist/**",
       "dist-electron/**",
-      "package.json"
-    ],
-    "asarUnpack": [
-      "dist-electron/workers/**"
+      "package.json",
+      "!scripts/**"
     ],
     "extraResources": [
       {

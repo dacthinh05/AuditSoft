@@ -50,7 +50,7 @@ export function NkcSpecSection(): JSX.Element {
       }}
     >
       <summary style={{ cursor: 'pointer', fontWeight: 700, color: '#0f172a', fontSize: '13.5px' }}>
-        📋 File NKC cần chuẩn gì? (bấm để xem + tải file mẫu)
+        File NKC cần chuẩn gì? (bấm để xem + tải file mẫu)
       </summary>
 
       <div style={{ marginTop: '10px', fontWeight: 700, color: '#0f172a' }}>6 cột bắt buộc:</div>

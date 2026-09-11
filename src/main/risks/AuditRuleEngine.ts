@@ -143,9 +143,31 @@ export function severityFromScore(score: number): 'CRITICAL' | 'HIGH' | 'MEDIUM'
   if (score > 0) return 'LOW'
   return 'INFO'
 }
-
 export const MAX_EVIDENCE_IDS = 300
 
+export const RULE_STANDARDS: Record<string, string> = {
+  VIRTUAL_CASH_EXCESSIVE_DEBT: 'VSA 240 / TT 96/2015',
+  PROHIBITED_UNUSUAL_PAIRS: 'VSA 240 / TT 200',
+  ABNORMAL_REVENUE_REVERSAL: 'VSA 240 (Gian lận doanh thu)',
+  EXPENSE_PARKING_TRAP: 'VSA 330 / VSA 520 (Matching Principle)',
+  YEAR_END_JOURNAL_CLUSTER: 'VSA 240 / VSA 330 (Cutoff)',
+  ROUND_NUMBER_JOURNALS: 'VSA 240 (Bút toán tròn số)',
+  WEEKEND_ENTRIES: 'VSA 240 (Ngoài giờ làm việc)',
+  DUPLICATE_JOURNAL_GROUPS: 'VSA 240 (Trùng lặp chứng từ)',
+  RARE_COUNTER_ACCOUNTS: 'VSA 240 / VSA 500 (Đối ứng hiếm)',
+  MANUAL_KEYWORD_JOURNALS: 'VSA 240 (Từ khóa điều chỉnh)',
+  DECEMBER_REVENUE_CONCENTRATION: 'VSA 520 (Dồn tích cuối kỳ)',
+  REVENUE_FLUCTUATION: 'VSA 520 (Biến động doanh thu)',
+  NEGATIVE_REVENUE: 'VSA 240 (Ghi âm doanh thu)',
+  GROSS_MARGIN_SHIFT: 'VSA 520 (Biên lãi gộp)',
+  EXPENSE_INCREASE: 'VSA 520 (Biến động chi phí)',
+  NEW_MATERIAL_ACCOUNT: 'VSA 330 (Tài khoản mới phát sinh)',
+  GL_DEBIT_CREDIT_MISMATCH: 'VAS / TT 200 (Cân đối sổ cái)',
+  RECON_ACCOUNT_DIFF: 'VAS / TT 200 (Chênh lệch đối chiếu)',
+  TB_EQUATION_BROKEN: 'VAS / TT 200 (Phương trình cân đối thử)',
+  DISPOSAL_REVENUE_WITHOUT_ASSET_DERECOGNITION: 'VAS 03 / VSA 500 (Thanh lý TSCĐ)',
+  SUSPICIOUS_DESCRIPTION_TAX_RISK: 'Luật Thuế TNDN / TT 96 (Chỉ tiêu B4)',
+}
 /** Chạy toàn bộ rule → AuditFinding[] sort theo severity/score (deterministic). */
 export function runRiskEngine(ctx: RiskContext, rules: readonly AuditRule[]): import('../../shared/types/analytics').AuditFinding[] {
   const raws: RawFinding[] = []
@@ -185,8 +207,8 @@ function toFindings(raws: readonly RawFinding[]) {
       auditImplication: r.auditImplication,
       recommendedProcedures: r.recommendedProcedures,
       explanation: [
+        { label: 'Chuẩn mực áp dụng', value: RULE_STANDARDS[r.ruleId] ?? 'VSA 240 / VSA 330' },
         { label: 'Rule', value: r.ruleId },
-        { label: 'Điểm materiality/anomaly/timing/pattern', value: `${r.scores.materiality}/${r.scores.anomaly}/${r.scores.timing}/${r.scores.pattern}` },
         ...r.reasons.map((x, i) => ({ label: `Ngưỡng/Lý do ${i + 1}`, value: x })),
       ],
       evidence: {

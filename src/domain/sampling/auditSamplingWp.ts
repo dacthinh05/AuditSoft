@@ -155,6 +155,23 @@ export function calculateAuditSamplingWp(input: AuditSamplingWpInput): AuditSamp
     }
   }
 
+  // 3b. Bù Top-N: quét tự động trắng trơn thì lấy tối đa 10 dòng lớn nhất còn lại
+  const FALLBACK_TOP_N = 10
+  const fallbackNotes = new Map<string, string>()
+  const autoRiskCount = riskItems.filter((it) => !manualSet.has(it.id)).length
+  if (shouldCheckRisk && autoRiskCount === 0 && remainingItems.length > 0) {
+    const topRemaining = [...remainingItems]
+      .sort((a, b) => Math.abs(b.amount) - Math.abs(a.amount))
+      .slice(0, FALLBACK_TOP_N)
+    const topIds = new Set(topRemaining.map((it) => it.id))
+    for (const it of topRemaining) {
+      fallbackNotes.set(it.id, 'Giá trị lớn trong nhóm còn lại (Top dưới KCM, bù khi quét tự động không phát hiện)')
+    }
+    const keptRemaining = remainingItems.filter((it) => !topIds.has(it.id))
+    remainingItems.length = 0
+    remainingItems.push(...keptRemaining)
+    riskItems.push(...topRemaining)
+  }
   const highValAmount = highValueItems.reduce((s, it) => s + Math.abs(it.amount), 0)
   const riskAmount = riskItems.reduce((s, it) => s + Math.abs(it.amount), 0)
   const remainingAmount = Math.max(0, populationAmount - highValAmount - riskAmount)
@@ -211,7 +228,7 @@ export function calculateAuditSamplingWp(input: AuditSamplingWpInput): AuditSamp
       categoryLabel: isManual ? 'Mẫu đặc biệt (KTV chỉ định)' : 'Phần tử đặc biệt / Rủi ro',
       riskNote: isManual
         ? 'KTV phán đoán & chỉ định thủ công'
-        : (checkSpecificRisk(it, clearlyTrivial).note || 'Phần tử có rủi ro đặc thù'),
+        : (fallbackNotes.get(it.id) ?? checkSpecificRisk(it, clearlyTrivial).note ?? 'Phần tử có rủi ro đặc thù'),
       isManualPick: isManual,
     }
   })
@@ -294,14 +311,22 @@ export function calculateAuditSamplingWp(input: AuditSamplingWpInput): AuditSamp
       numericValue: riskAmount,
       note: manualSet.size > 0
         ? `= Gồm ${riskItems.filter((x) => manualSet.has(x.id)).length} mẫu KTV chỉ định${riskItems.filter((x) => !manualSet.has(x.id)).length > 0 ? ` + ${riskItems.filter((x) => !manualSet.has(x.id)).length} mẫu hệ thống quét` : ''}.`
-        : (shouldCheckRisk ? '= Phần tử đặc biệt / Rủi ro chọn kiểm tra 100%.' : '= Đã tắt quét phần tử đặc biệt.'),
+        : (shouldCheckRisk
+          ? (fallbackNotes.size > 0
+            ? `= Quét tự động không phát hiện theo tiêu chí, bù Top-${fallbackNotes.size} giá trị lớn dưới KCM kiểm tra 100%.`
+            : '= Phần tử đặc biệt / Rủi ro chọn kiểm tra 100%.')
+          : '= Đã tắt quét phần tử đặc biệt.'),
     },
     riskCount: {
       stepIndex: '6.1',
       label: '    Số lượng mẫu',
       valueDisplay: `${riskCount} mẫu`,
       numericValue: riskCount,
-      note: shouldCheckRisk ? '= Số lượng nghiệp vụ đặc biệt.' : '= Đã tắt quét phần tử đặc biệt.',
+      note: shouldCheckRisk
+        ? (riskCount === 0
+          ? '= Đã quét tự động (đảo, tháng 12, tròn số ≥50tr, từ khóa, cutoff): không phát hiện dòng rủi ro.'
+          : '= Số lượng nghiệp vụ đặc biệt.')
+        : '= Đã tắt quét phần tử đặc biệt.',
     },
     remainingSampleSize: {
       stepIndex: '7',

@@ -94,6 +94,7 @@ describe('Excel import/export — Unicode + số tiền chính xác', () => {
       'Anh huong BCTC',
       'Dieu chinh ton kho',
       'Loi du lieu',
+      'Phan tich & Rui ro Cutoff',
     ])
 
     const detail = rb.getWorksheet('Chi tiet chenh lech')!
@@ -127,6 +128,12 @@ describe('Excel import/export — Unicode + số tiền chính xác', () => {
     const d7 = bt.getRow(7)
     expect(d7.getCell(7).value).toBe('Phải trả người bán')
     expect(d7.getCell(11).value).toBe(400) // NV Giảm = 400
+    // Kiểm tra định dạng số không có phần thập phân .00
+    expect(bt.getCell('H2').numFmt).toBe('#,##0;[Red](#,##0);"-";@')
+    expect(bt.getCell('I1').numFmt).toBe('[Red](#,##0);[Red](#,##0);"-";@')
+    expect(d6.getCell(6).numFmt).toBe('#,##0;[Red](#,##0);"-";@')
+    expect(d6.getCell(9).numFmt).toBe('#,##0;[Red](#,##0);"-";@')
+    expect(d7.getCell(11).numFmt).toBe('#,##0;[Red](#,##0);"-";@')
 
     // ── Sheet ảnh hưởng BCTC: tổng kiểm tra CÂN; gom nhóm & mã số chuẩn khớp số liệu
     const ah = rb.getWorksheet('Anh huong BCTC')!

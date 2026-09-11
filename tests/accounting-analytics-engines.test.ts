@@ -179,4 +179,21 @@ describe('Trend12MAnalyzer', () => {
     expect(revRow?.anomalyMonths).toContain(12)
     expect(result.warningNotes.some((n) => n.includes('Tháng 12'))).toBe(true)
   })
+
+  it('sinh cellNotes ngắn cho từng tháng đột biến (hover tooltip)', () => {
+    const entries: JournalEntry[] = []
+    for (let m = 1; m <= 11; m++) {
+      entries.push(createMockEntry({ creditAccount: '511', month: m, amount: makeMoney(1000000000n, 0) }))
+    }
+    entries.push(createMockEntry({ creditAccount: '511', month: 12, amount: makeMoney(3000000000n, 0) }))
+
+    const result = Trend12MAnalyzer.analyze(entries)
+    const revRow = result.rows.find((r) => r.key === 'REV_511')
+    const decNote = revRow?.cellNotes?.[12]
+    expect(decNote).toBeDefined()
+    expect(decNote).toContain('200%')
+    expect(decNote).not.toContain('(!)')
+    // Tháng thường không có note
+    expect(revRow?.cellNotes?.[5]).toBeUndefined()
+  })
 })

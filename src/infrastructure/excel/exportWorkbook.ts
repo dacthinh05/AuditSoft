@@ -1,10 +1,11 @@
 import ExcelJS from 'exceljs'
 import { applyMainFilter } from '../../domain/pipeline/mainReport'
 import { moneyFromJSON } from '../../domain/money'
+import { profileDiffRows } from '../../domain/profiling/dataProfiler'
+import { writeProfilerSummaryToWorksheet } from './exportDataProfiler'
 import type { BctcResult } from '../../domain/bctc/aggregate'
 import type { WorkingPaperLine } from '../../domain/bctc/workingPaper'
 import type { DiffRow, ExportEntryRow, ErrorLine, InventoryRow, EntryTypeGroup, ReconcileResult } from '../../domain/types'
-
 const MONEY_FMT = '#,##0;[Red](#,##0);-'
 const DATE_FMT = 'dd/mm/yyyy'
 
@@ -109,7 +110,9 @@ function writeDetailSheet(wb: ExcelJS.Workbook, rows: readonly DiffRow[]): void 
 }
 
 function extractISO(row: DiffRow): string {
-  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(row.key.split('\u00A6')[0] ?? '')
+  if (row.dateISO) return row.dateISO
+  const keyStr = typeof row.key === 'string' ? row.key : ''
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(keyStr.split('\u00A6')[0] ?? '')
   return m ? `${m[1]}-${m[2]}-${m[3]}` : ''
 }
 
@@ -183,8 +186,8 @@ function writeWorkingPaperSheet(wb: ExcelJS.Workbook, lines: readonly WorkingPap
 
   // ── 1. Summary Check Rows (Rows 1-2) ──
   const lastDataRow = Math.max(6, 5 + lines.length)
-  const sumFmt = '#,##0.00;[Red](#,##0.00);"-";@'
-  const redFmt = '[Red](#,##0.00);[Red](#,##0.00);"-";@'
+  const sumFmt = '#,##0;[Red](#,##0);"-";@'
+  const redFmt = '[Red](#,##0);[Red](#,##0);"-";@'
 
   ws.getCell('H2').value = { formula: `SUM(H6:H${lastDataRow})` }
   ws.getCell('I2').value = { formula: `SUM(I6:I${lastDataRow})` }
@@ -271,7 +274,7 @@ function writeWorkingPaperSheet(wb: ExcelJS.Workbook, lines: readonly WorkingPap
     }
   }
   // ── 3. Data Rows ──
-  const numFmt = '#,##0.00;[Red](#,##0.00);"-";@'
+  const numFmt = '#,##0;[Red](#,##0);"-";@'
 
   lines.forEach((line, i) => {
     const rIdx = 6 + i
@@ -408,7 +411,7 @@ function writeBctcSummarySheet(wb: ExcelJS.Workbook, bctc: BctcResult): void {
   }
 }
 
-/** Dựng workbook báo cáo hoàn chỉnh (8 sheet, màu, định dạng, autofilter). */
+/** Dựng workbook báo cáo hoàn chỉnh (9 sheet, màu, định dạng, autofilter). */
 export function buildReportWorkbook(input: ExportBuildInput): ExcelJS.Workbook {
   const { result, excludeKetChuyen } = input
   const filteredDiffRows = applyMainFilter(result.diffRows, { excludeKetChuyen })
@@ -425,5 +428,11 @@ export function buildReportWorkbook(input: ExportBuildInput): ExcelJS.Workbook {
   writeBctcSummarySheet(wb, result.bctc)
   writeInventorySheet(wb, result.inventory)
   writeErrorsSheet(wb, result.errors)
+
+  // Sheet thứ 9: Phân tích trực quan & Rủi ro Cutoff
+  const profilerSummary = profileDiffRows(filteredDiffRows)
+  const wsProfiler = wb.addWorksheet('Phan tich & Rui ro Cutoff')
+  writeProfilerSummaryToWorksheet(wsProfiler, profilerSummary)
+
   return wb
 }

@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import { IconDownloadCloud } from '../Icons'
+import React, { useState, useEffect, useCallback } from 'react'
+import { IconDownloadCloud, IconFileSpreadsheet } from '../Icons'
 import { B410SuccessModal } from './B410SuccessModal'
 import { useApp } from '../../state/store'
 import { useTrialExport } from '../../../shared/license'
@@ -398,7 +398,7 @@ export const B410DropZone: React.FC = () => {
         }}
         onClick={handleSelectFiles}
       >
-        <div style={{ fontSize: '40px', marginBottom: '12px' }}>📥</div>
+        <div style={{ color: '#059669', marginBottom: '12px' }}><IconFileSpreadsheet size={42} /></div>
         <h3 style={{ fontSize: '16px', fontWeight: 600, color: '#1e293b', margin: '0 0 6px 0' }}>
           Kéo & thả file B410 của các thành viên vào đây
         </h3>
@@ -576,7 +576,7 @@ export const B410DropZone: React.FC = () => {
                 gap: '8px'
               }}
             >
-              {isProcessing ? '⏳ Đang tổng hợp bằng Excel COM...' : '🚀 BẮT ĐẦU TỔNG HỢP B410 THÀNH 1 FILE MASTER'}
+              {isProcessing ? 'Đang tổng hợp B410 Master...' : 'Bắt Đầu Tổng Hợp B410 Thành 1 File Master'}
             </button>
           </div>
         </div>
@@ -598,7 +598,7 @@ export const B410DropZone: React.FC = () => {
         }}>
           <div>
             <div style={{ fontSize: '15px', fontWeight: 600, color: report.success ? '#166534' : '#991b1b', marginBottom: '4px' }}>
-              {report.success ? '🎉 Tổng Hợp Thành Công!' : '⚠️ Có lỗi xảy ra trong quá trình tổng hợp'}
+              {report.success ? 'Tổng Hợp B410 Thành Công!' : 'Có lỗi xảy ra trong quá trình tổng hợp'}
             </div>
             <div style={{ fontSize: '13px', color: report.success ? '#15803d' : '#b91c1c' }}>
               {report.message}

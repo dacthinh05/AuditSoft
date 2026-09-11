@@ -28,6 +28,7 @@ export function OpexRatioAreaChart({ report }: Props): JSX.Element {
 
   // Max OPEX ratio để scale trục Y (ít nhất 25%)
   const maxRatio = Math.max(...report.points.map((p) => p.totalOpexRatioPct), 25)
+  const annualAvg = report.annualPcts.totalOpexRatioPct
 
   const X_START = 60
   const X_END = 940
@@ -69,6 +70,8 @@ export function OpexRatioAreaChart({ report }: Props): JSX.Element {
     const pt = report.points[idx]
     if (!pt) return
 
+    const isHigh = pt.totalOpexRatioPct > annualAvg * 1.25
+
     setTooltip({
       x: e.clientX,
       y: e.clientY,
@@ -76,8 +79,8 @@ export function OpexRatioAreaChart({ report }: Props): JSX.Element {
       subtitle: `Doanh thu: ${moneyToNumber(pt.revenue).toLocaleString('vi-VN')} đ`,
       items: [
         { label: 'Chi phí bán hàng (641)', value: `${moneyToNumber(pt.sellingExpense).toLocaleString('vi-VN')} đ (${pt.sellingRatioPct}%)`, color: '#f43f5e' },
-        { label: 'Chi phí QLDN (642)', value: `${moneyToNumber(pt.adminExpense).toLocaleString('vi-VN')} đ (${pt.adminRatioPct}%)`, color: '#8b5cf6' },
-        { label: 'Tổng OPEX / Doanh thu', value: `${moneyToNumber(pt.totalOpex).toLocaleString('vi-VN')} đ (${pt.totalOpexRatioPct}%)`, color: '#0f172a' },
+        { label: 'Chi phí QLDN (642)', value: `${moneyToNumber(pt.adminExpense).toLocaleString('vi-VN')} đ (${pt.adminRatioPct}%)`, color: '#6366f1' },
+        { label: 'Tổng OPEX / Doanh thu', value: `${moneyToNumber(pt.totalOpex).toLocaleString('vi-VN')} đ (${pt.totalOpexRatioPct}%)`, color: '#0f172a', isWarning: isHigh },
       ],
       visible: true,
     })
@@ -97,17 +100,17 @@ export function OpexRatioAreaChart({ report }: Props): JSX.Element {
         </div>
 
         {/* Legend */}
-        <div style={{ display: 'flex', gap: '14px', fontSize: '11px' }}>
+        <div style={{ display: 'flex', gap: '14px', fontSize: '11px', flexWrap: 'wrap' }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#475569' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f43f5e' }} />
+            <span style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#f43f5e' }} />
             CP Bán hàng: <b>{report.annualPcts.sellingRatioPct}%</b>
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#475569' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#8b5cf6' }} />
+            <span style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#6366f1' }} />
             CP Quản lý: <b>{report.annualPcts.adminRatioPct}%</b>
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#0f172a', fontWeight: 700 }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0f172a' }} />
+            <span style={{ width: '9px', height: '9px', borderRadius: '50%', background: '#0f172a' }} />
             Tổng OPEX: <b>{report.annualPcts.totalOpexRatioPct}%</b>
           </span>
         </div>
@@ -118,12 +121,12 @@ export function OpexRatioAreaChart({ report }: Props): JSX.Element {
         <svg viewBox="0 0 1000 245" width="100%" height="100%" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
           <defs>
             <linearGradient id={`${gradientId}-total`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.05" />
+              <stop offset="0%" stopColor="#6366f1" stopOpacity="0.22" />
+              <stop offset="100%" stopColor="#6366f1" stopOpacity="0.03" />
             </linearGradient>
             <linearGradient id={`${gradientId}-sell`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#f43f5e" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#f43f5e" stopOpacity="0.1" />
+              <stop offset="0%" stopColor="#f43f5e" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="#f43f5e" stopOpacity="0.06" />
             </linearGradient>
           </defs>
 
@@ -134,12 +137,31 @@ export function OpexRatioAreaChart({ report }: Props): JSX.Element {
             return (
               <g key={idx}>
                 <line x1={X_START} y1={y} x2={X_END} y2={y} stroke={step === 0 ? '#cbd5e1' : '#f1f5f9'} strokeWidth={step === 0 ? 1.5 : 1} strokeDasharray={step === 0 ? 'none' : '3 3'} />
-                <text x={X_START - 10} y={y + 3.5} textAnchor="end" fill="#94a3b8" fontSize="9.5px" fontFamily="monospace">
+                <text x={X_START - 10} y={y + 3.5} textAnchor="end" fill="#64748b" fontSize="9.5px" fontFamily="monospace" fontWeight="500">
                   {val}%
                 </text>
               </g>
             )
           })}
+
+          {/* Đường tham chiếu Benchmark: Mức trung bình năm */}
+          {annualAvg > 0 && (
+            <g>
+              <line
+                x1={X_START}
+                y1={getY(annualAvg)}
+                x2={X_END}
+                y2={getY(annualAvg)}
+                stroke="#64748b"
+                strokeWidth="1.2"
+                strokeDasharray="4 4"
+                opacity="0.75"
+              />
+              <text x={X_END + 8} y={getY(annualAvg) + 3} fill="#475569" fontSize="9px" fontWeight="600">
+                TB: {annualAvg}%
+              </text>
+            </g>
+          )}
 
           {/* X Axis Months */}
           {MONTHS.map((m, idx) => (
@@ -148,22 +170,35 @@ export function OpexRatioAreaChart({ report }: Props): JSX.Element {
             </text>
           ))}
 
-          {/* Layer 2: Total OPEX Area */}
+          {/* Layer 2: Total OPEX Area & Crisp Stroke */}
           <path d={totalAreaPath} fill={`url(#${gradientId}-total)`} />
-          <path d={totalLinePath} fill="none" stroke="#8b5cf6" strokeWidth="2" />
+          <path d={totalLinePath} fill="none" stroke="#4f46e5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
 
-          {/* Layer 1: Selling Expense Area */}
+          {/* Layer 1: Selling Expense Area & Crisp Stroke */}
           <path d={sellAreaPath} fill={`url(#${gradientId}-sell)`} />
-          <path d={sellLinePath} fill="none" stroke="#f43f5e" strokeWidth="2" />
+          <path d={sellLinePath} fill="none" stroke="#f43f5e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
 
-          {/* Data Points */}
+          {/* Data Points cho cả CP Bán hàng và Tổng OPEX */}
           {report.points.map((pt, idx) => {
             const x = getX(idx)
-            const y = getY(pt.totalOpexRatioPct)
+            const yTotal = getY(pt.totalOpexRatioPct)
+            const ySell = getY(pt.sellingRatioPct)
+            const isHigh = pt.totalOpexRatioPct > annualAvg * 1.25
 
             return (
               <g key={idx} style={{ cursor: 'pointer' }} onMouseEnter={(e) => handlePointHover(e, idx)} onMouseLeave={() => setTooltip((t) => ({ ...t, visible: false }))}>
-                <circle cx={x} cy={y} r="3.5" fill="#0f172a" stroke="#ffffff" strokeWidth="1.5" />
+                {/* Điểm của CP Bán hàng */}
+                <circle cx={x} cy={ySell} r="3" fill="#f43f5e" stroke="#ffffff" strokeWidth="1.5" />
+
+                {/* Pulse alert cho tháng có OPEX đột biến cao hơn đáng kể so với TB */}
+                {isHigh && (
+                  <circle cx={x} cy={yTotal} r="7" fill="none" stroke="#ef4444" strokeWidth="1.5" opacity="0.8">
+                    <animate attributeName="r" values="5;9;5" dur="2s" repeatCount="indefinite" />
+                  </circle>
+                )}
+
+                {/* Điểm của Tổng OPEX */}
+                <circle cx={x} cy={yTotal} r={isHigh ? 4.5 : 3.5} fill={isHigh ? '#ef4444' : '#0f172a'} stroke="#ffffff" strokeWidth="1.5" />
               </g>
             )
           })}

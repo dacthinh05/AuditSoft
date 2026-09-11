@@ -1,5 +1,5 @@
 import { useApp } from '../state/store'
-import { IconSpark, IconX, IconArrowRight } from './Icons'
+import { IconX, IconArrowRight } from './Icons'
 
 export function UpdateNoticePopup(): JSX.Element | null {
   const updateInfo = useApp((s) => s.updateInfo)
@@ -33,7 +33,7 @@ export function UpdateNoticePopup(): JSX.Element | null {
       <div className="update-notice-header">
         <div className="update-notice-title-group">
           <div className="update-notice-icon-box">
-            <IconSpark size={15} />
+            <span style={{ fontSize: 15, lineHeight: 1 }}>🔔</span>
           </div>
           <div>
             <div className="update-notice-tag">ĐÃ CÓ BẢN MỚI</div>

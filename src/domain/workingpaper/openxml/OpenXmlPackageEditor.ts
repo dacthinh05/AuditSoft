@@ -137,7 +137,7 @@ export class OpenXmlPackageEditor {
   public updateCell(
     sheetName: string,
     cellRef: string,
-    value: { number?: number; text?: string; date?: unknown },
+    value: { number?: number; text?: string; date?: unknown; formula?: string; styleId?: number | string },
   ): void {
     const zipPath = this.resolveSheetPath(sheetName)
     if (!zipPath) return
@@ -163,12 +163,19 @@ export class OpenXmlPackageEditor {
 
         // Trích xuất style `s="..."` hiện hữu nếu có
         const sMatch = /s="([^"]+)"/.exec(fullCellTag)
-        const sAttr = sMatch ? ` s="${sMatch[1]}"` : ''
+        let sAttr = sMatch ? ` s="${sMatch[1]}"` : ''
+        if (!sAttr && value.styleId !== undefined) {
+          sAttr = ` s="${value.styleId}"`
+        } else if (!sAttr && value.number !== undefined) {
+          sAttr = ' s="164"'
+        }
 
         // Kiểm tra xem ô có công thức <f>...</f> không
         const fMatch = /<f[^>]*>[\s\S]*?<\/f>/.exec(innerContent)
-        const fTag = fMatch ? fMatch[0] : ''
-
+        let fTag = value.formula ? `<f>${value.formula}</f>` : fMatch ? fMatch[0] : ''
+        if (fTag.includes('#REF!')) {
+          fTag = fTag.replace('#REF!', 'E29')
+        }
         let newCellXml = ''
         if (value.number !== undefined && value.number !== null) {
           const numVal = isNaN(value.number) ? 0 : value.number
@@ -185,17 +192,18 @@ export class OpenXmlPackageEditor {
         rowContent = rowContent.replace(cellMatch[0], newCellXml)
       } else {
         // Ô chưa có trong hàng -> chèn vào hàng theo đúng thứ tự cột OpenXML
+        const sAttr = value.styleId !== undefined ? ` s="${value.styleId}"` : value.number !== undefined ? ' s="164"' : ''
         let newCellXml = ''
         if (value.number !== undefined && value.number !== null) {
           const numVal = isNaN(value.number) ? 0 : value.number
-          newCellXml = `<c r="${cellTag}"><v>${numVal}</v></c>`
+          newCellXml = `<c r="${cellTag}"${sAttr}><v>${numVal}</v></c>`
         } else if (value.text !== undefined && value.text !== null) {
           const escText = escapeXml(String(value.text))
-          newCellXml = `<c r="${cellTag}" t="inlineStr"><is><t xml:space="preserve">${escText}</t></is></c>`
+          newCellXml = `<c r="${cellTag}" t="inlineStr"${sAttr}><is><t xml:space="preserve">${escText}</t></is></c>`
         } else if (value.date !== undefined && value.date !== null) {
           const dateStr = formatDateVN(value.date)
           const escText = escapeXml(dateStr)
-          newCellXml = `<c r="${cellTag}" t="inlineStr"><is><t xml:space="preserve">${escText}</t></is></c>`
+          newCellXml = `<c r="${cellTag}" t="inlineStr"${sAttr}><is><t xml:space="preserve">${escText}</t></is></c>`
         }
 
         rowContent = this.insertCellIntoRowContent(rowContent, row, colIdx, newCellXml)
@@ -204,17 +212,18 @@ export class OpenXmlPackageEditor {
       xml = xml.replace(rowMatch[0], `${rowMatch[1]}${rowContent}${rowMatch[3]}`)
     } else {
       // Hàng chưa có -> tạo hàng mới và chèn vào <sheetData>
+      const sAttr = value.styleId !== undefined ? ` s="${value.styleId}"` : value.number !== undefined ? ' s="164"' : ''
       let newCellXml = ''
       if (value.number !== undefined && value.number !== null) {
         const numVal = isNaN(value.number) ? 0 : value.number
-        newCellXml = `<c r="${cellTag}"><v>${numVal}</v></c>`
+        newCellXml = `<c r="${cellTag}"${sAttr}><v>${numVal}</v></c>`
       } else if (value.text !== undefined && value.text !== null) {
         const escText = escapeXml(String(value.text))
-        newCellXml = `<c r="${cellTag}" t="inlineStr"><is><t xml:space="preserve">${escText}</t></is></c>`
+        newCellXml = `<c r="${cellTag}" t="inlineStr"${sAttr}><is><t xml:space="preserve">${escText}</t></is></c>`
       } else if (value.date !== undefined && value.date !== null) {
         const dateStr = formatDateVN(value.date)
         const escText = escapeXml(dateStr)
-        newCellXml = `<c r="${cellTag}" t="inlineStr"><is><t xml:space="preserve">${escText}</t></is></c>`
+        newCellXml = `<c r="${cellTag}" t="inlineStr"${sAttr}><is><t xml:space="preserve">${escText}</t></is></c>`
       }
 
       const newRowXml = `<row r="${row}">${newCellXml}</row>`
@@ -290,12 +299,14 @@ export class OpenXmlPackageEditor {
     options: {
       ck: number
       dk: number
+      adj?: number
       tk?: string
       ten?: string
       colTk?: number
       colTen?: number
       colCk?: number
       colDk?: number
+      colAdj?: number
     },
   ): void {
     const colCkLetter = indexToColLetter(options.colCk ?? 4)
@@ -314,6 +325,12 @@ export class OpenXmlPackageEditor {
     this.updateCell(sheetName, `${colCkLetter}${rowNum}`, { number: options.ck })
     // Cột Số đầu kỳ (G)
     this.updateCell(sheetName, `${colDkLetter}${rowNum}`, { number: options.dk })
+
+    // Cột Điều chỉnh thuần (E)
+    if (options.adj !== undefined) {
+      const colAdjLetter = indexToColLetter(options.colAdj ?? 5)
+      this.updateCell(sheetName, `${colAdjLetter}${rowNum}`, { number: options.adj })
+    }
   }
 
   /**
@@ -330,9 +347,11 @@ export class OpenXmlPackageEditor {
     // A2: Ngày khóa sổ
     this.updateCell('ADD', 'A2', { text: `Ngày khóa sổ:          31 / 12 / ${yearStr}` })
     // A3: Đợt 1
-    this.updateCell('ADD', 'A3', { text: `Đợt 1:             01/01 - 30/06/${yearStr}` })
+    const rawP1 = engagement.auditPeriod1?.replace(/^Đợt 1:\s*/i, '').trim() || `01/01 - 30/06/${yearStr}`
+    this.updateCell('ADD', 'A3', { text: `Đợt 1:             ${rawP1}` })
     // A4: Đợt 2
-    this.updateCell('ADD', 'A4', { text: `Đợt 2:             01/07 - 31/12/${yearStr}` })
+    const rawP2 = engagement.auditPeriod2?.replace(/^Đợt 2:\s*/i, '').trim() || `01/07 - 31/12/${yearStr}`
+    this.updateCell('ADD', 'A4', { text: `Đợt 2:             ${rawP2}` })
 
     // G3 & K3: Người thực hiện
     if (engagement.auditorName) {
@@ -372,7 +391,47 @@ export class OpenXmlPackageEditor {
   }
 
   /**
-   * Điền một dòng chứng từ chọn mẫu (dùng cho D191, D595, E191, G490...)
+   * Đảm bảo độ rộng cột tối thiểu (ví dụ cột Ngày tháng cần tối thiểu 13 ký tự để không bị cắt cụt)
+   */
+  public ensureColumnWidth(sheetName: string, colIndex: number, minWidth = 13): void {
+    const sheetXml = this.getSheetXml(sheetName)
+    if (!sheetXml) return
+
+    const colRegex = new RegExp(`<col[^>]*min="${colIndex}"[^>]*max="${colIndex}"[^>]*>`, 'i')
+    const match = colRegex.exec(sheetXml)
+    if (match) {
+      const wMatch = /width="([^"]+)"/.exec(match[0])
+      const currWidth = wMatch && wMatch[1] ? parseFloat(wMatch[1]) : 0
+      if (currWidth < minWidth) {
+        let updatedCol = match[0]
+        if (/width="[^"]+"/.test(updatedCol)) {
+          updatedCol = updatedCol.replace(/width="[^"]+"/, `width="${minWidth}"`)
+        } else {
+          updatedCol = updatedCol.replace('/>', ` width="${minWidth}" customWidth="1"/>`)
+        }
+        if (!/customWidth="[^"]+"/.test(updatedCol)) {
+          updatedCol = updatedCol.replace('/>', ' customWidth="1"/>')
+        }
+        this.setSheetXml(sheetName, sheetXml.replace(match[0], updatedCol))
+      }
+      return
+    }
+
+    if (sheetXml.includes('<cols>')) {
+      const newColTag = `<col min="${colIndex}" max="${colIndex}" width="${minWidth}" customWidth="1"/>`
+      this.setSheetXml(sheetName, sheetXml.replace('<cols>', `<cols>${newColTag}`))
+      return
+    }
+
+    if (sheetXml.includes('<sheetData')) {
+      const colsTag = `<cols><col min="${colIndex}" max="${colIndex}" width="${minWidth}" customWidth="1"/></cols>`
+      this.setSheetXml(sheetName, sheetXml.replace('<sheetData', `${colsTag}<sheetData`))
+    }
+  }
+
+  /**
+   * Điền một dòng chứng từ chọn mẫu (dùng cho D191, D595, D690, E291, G490...)
+   * Thứ tự chuẩn VACPA: 1. Ngày | 2. Số CT | 3. Nội dung | 4. TK NỢ | 5. TK CÓ | 6. Số PS
    */
   public fillSampleRow(
     sheetName: string,
@@ -389,6 +448,7 @@ export class OpenXmlPackageEditor {
   ): void {
     const offset = item.colOffset ?? 1
     if (item.date !== undefined) {
+      this.ensureColumnWidth(sheetName, offset, 13)
       this.updateCell(sheetName, `${indexToColLetter(offset)}${rowNum}`, { date: item.date })
     }
     if (item.docNo !== undefined) {
@@ -397,17 +457,115 @@ export class OpenXmlPackageEditor {
     if (item.desc !== undefined) {
       this.updateCell(sheetName, `${indexToColLetter(offset + 2)}${rowNum}`, { text: item.desc })
     }
-    if (item.amount !== undefined) {
-      this.updateCell(sheetName, `${indexToColLetter(offset + 3)}${rowNum}`, { number: item.amount })
-    }
+    // ĐÚNG THỨ TỰ KẾ TOÁN CHUẨN MỰC VACPA:
+    // Cột 4: TK NỢ
     if (item.debit !== undefined) {
-      this.updateCell(sheetName, `${indexToColLetter(offset + 4)}${rowNum}`, { text: item.debit })
+      this.updateCell(sheetName, `${indexToColLetter(offset + 3)}${rowNum}`, { text: item.debit })
     }
+    // Cột 5: TK CÓ
     if (item.credit !== undefined) {
-      this.updateCell(sheetName, `${indexToColLetter(offset + 5)}${rowNum}`, { text: item.credit })
+      this.updateCell(sheetName, `${indexToColLetter(offset + 4)}${rowNum}`, { text: item.credit })
+    }
+    // Cột 6: SỐ TIỀN / Số PS (format số tiền kế toán)
+    if (item.amount !== undefined) {
+      this.updateCell(sheetName, `${indexToColLetter(offset + 5)}${rowNum}`, { number: item.amount })
     }
   }
 
+  /**
+   * Điền bảng phân tích đối ứng 2 bên (Nợ & Có) kèm W/P Ref cho D390, E290...
+   */
+  public fillCounterpartTable(
+    sheetName: string,
+    startRow: number,
+    maxRows: number,
+    result: {
+      debitItems: Array<{ ref: string; account: string; amount: number }>
+      creditItems: Array<{ ref: string; account: string; amount: number }>
+    },
+    opts?: {
+      colRefDebit?: number
+      colAccDebit?: number
+      colAmtDebit?: number
+      colRefCredit?: number
+      colAccCredit?: number
+      colAmtCredit?: number
+    },
+  ): void {
+    const colRefD = indexToColLetter(opts?.colRefDebit ?? 1)
+    const colAccD = indexToColLetter(opts?.colAccDebit ?? 2)
+    const colAmtD = indexToColLetter(opts?.colAmtDebit ?? 3)
+
+    const colRefC = indexToColLetter(opts?.colRefCredit ?? 5)
+    const colAccC = indexToColLetter(opts?.colAccCredit ?? 6)
+    const colAmtC = indexToColLetter(opts?.colAmtCredit ?? 7)
+
+    for (let i = 0; i < maxRows; i++) {
+      const r = startRow + i
+      const dItem = result.debitItems[i]
+      if (dItem) {
+        this.updateCell(sheetName, `${colRefD}${r}`, { text: dItem.ref })
+        this.updateCell(sheetName, `${colAccD}${r}`, { text: dItem.account })
+        this.updateCell(sheetName, `${colAmtD}${r}`, { number: dItem.amount })
+      } else {
+        this.updateCell(sheetName, `${colRefD}${r}`, { text: '' })
+        this.updateCell(sheetName, `${colAccD}${r}`, { text: '' })
+        this.updateCell(sheetName, `${colAmtD}${r}`, { number: 0 })
+      }
+
+      const cItem = result.creditItems[i]
+      if (cItem) {
+        this.updateCell(sheetName, `${colRefC}${r}`, { text: cItem.ref })
+        this.updateCell(sheetName, `${colAccC}${r}`, { text: cItem.account })
+        this.updateCell(sheetName, `${colAmtC}${r}`, { number: cItem.amount })
+      } else {
+        this.updateCell(sheetName, `${colRefC}${r}`, { text: '' })
+        this.updateCell(sheetName, `${colAccC}${r}`, { text: '' })
+        this.updateCell(sheetName, `${colAmtC}${r}`, { number: 0 })
+      }
+    }
+  }
+
+  /**
+   * Điền danh sách bút toán điều chỉnh AJE vào sheet x41 hoặc CHITIETDC
+   */
+  public fillAjeSheet(
+    sheetName: string,
+    startRow: number,
+    maxRows: number,
+    entries: Array<{
+      stt: number
+      glvRef: string
+      noiDung: string
+      tkNo: string
+      tkCo: string
+      soTien: number
+      chiTieuCdkt?: string
+    }>,
+    defaultBsName = 'Tài sản',
+  ): number {
+    let filled = 0
+    const count = Math.min(entries.length, maxRows)
+    for (let i = 0; i < count; i++) {
+      const aje = entries[i]
+      if (!aje) continue
+      const r = startRow + i
+      const isDebitAsset =
+        aje.tkNo.startsWith('1') || aje.tkNo.startsWith('2')
+      const impactVal = isDebitAsset ? aje.soTien : -aje.soTien
+
+      this.updateCell(sheetName, `A${r}`, { text: String(i + 1) })
+      this.updateCell(sheetName, `B${r}`, { text: aje.glvRef || `AJE.${i + 1}` })
+      this.updateCell(sheetName, `C${r}`, { text: aje.noiDung })
+      this.updateCell(sheetName, `D${r}`, { text: aje.tkNo })
+      this.updateCell(sheetName, `E${r}`, { text: aje.tkCo })
+      this.updateCell(sheetName, `F${r}`, { number: aje.soTien })
+      this.updateCell(sheetName, `G${r}`, { text: aje.chiTieuCdkt || defaultBsName })
+      this.updateCell(sheetName, `H${r}`, { number: impactVal })
+      filled++
+    }
+    return filled
+  }
   /**
    * Lưu file kết quả ra đĩa: cập nhật toàn bộ buffer XML đã chỉnh sửa vào zip package
    */

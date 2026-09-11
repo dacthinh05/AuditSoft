@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer, webUtils } from 'electron'
+import { contextBridge, ipcRenderer, webUtils, clipboard } from 'electron'
 import type {
   AuditBridgeApi,
   AuditAnalyzeRequest,
@@ -6,9 +6,12 @@ import type {
   AnalysisResult,
   ExportRunRequest,
   ExportResultPayload,
+  ExportProfilerRequest,
+  ExportExpenseByNatureRequest,
   PickFileResult,
   ReconcileRunRequest,
 } from '../shared/ipc'
+import type { TaxCrossReconciliationResult } from '../domain/analytics/TaxCrossReconciler'
 import type { UpdateProgress } from '../shared/types/update'
 import type { ProgressMessage, ReconcileResult } from '../domain/types'
 
@@ -20,6 +23,9 @@ const CHANNELS = {
   runReconcile: 'auditsoft/runReconcile',
   cancelReconcile: 'auditsoft/cancelReconcile',
   exportReport: 'auditsoft/exportReport',
+  exportTaxReport: 'auditsoft/exportTaxReport',
+  exportProfilerReport: 'auditsoft/exportProfilerReport',
+  exportExpenseByNature: 'auditsoft/exportExpenseByNature',
   progress: 'auditsoft:progress',
   auditAnalyze: 'auditsoft/auditAnalyze',
   auditExport: 'auditsoft/auditExport',
@@ -38,17 +44,24 @@ const CHANNELS = {
   updateProgress: 'auditsoft:updateProgress',
   importTaxXmlFiles: 'auditsoft/importTaxXmlFiles',
   pickTaxFiles: 'auditsoft/pickTaxFiles',
+  geminiTestConnection: 'auditsoft/geminiTestConnection',
+  geminiAnalyze: 'auditsoft/geminiAnalyze',
+  verifyLicenseKey: 'auditsoft/verifyLicenseKey',
 } as const
-
 const api: AuditBridgeApi = {
   pickWorkbook: (): Promise<PickFileResult> => ipcRenderer.invoke(CHANNELS.pickWorkbook),
   inspectWorkbook: (filePath: string) => ipcRenderer.invoke(CHANNELS.inspectWorkbook, filePath),
   runReconcile: (req: ReconcileRunRequest): Promise<ReconcileResult> => ipcRenderer.invoke(CHANNELS.runReconcile, req),
   cancelReconcile: () => ipcRenderer.invoke(CHANNELS.cancelReconcile),
   exportReport: (req: ExportRunRequest): Promise<ExportResultPayload> => ipcRenderer.invoke(CHANNELS.exportReport, req),
+  exportTaxReport: (result: TaxCrossReconciliationResult): Promise<ExportResultPayload> =>
+    ipcRenderer.invoke(CHANNELS.exportTaxReport, result),
+  exportProfilerReport: (req: ExportProfilerRequest): Promise<ExportResultPayload> =>
+    ipcRenderer.invoke(CHANNELS.exportProfilerReport, req),
+  exportExpenseByNature: (req: ExportExpenseByNatureRequest): Promise<ExportResultPayload> =>
+    ipcRenderer.invoke(CHANNELS.exportExpenseByNature, req),
   onProgress: (cb: (p: ProgressMessage) => void) => {
     const listener = (_e: unknown, p: ProgressMessage): void => cb(p)
-    ipcRenderer.on(CHANNELS.progress, listener as never)
     return () => ipcRenderer.removeListener(CHANNELS.progress, listener as never)
   },
   auditAnalyze: (req: AuditAnalyzeRequest): Promise<AnalysisResult> => ipcRenderer.invoke(CHANNELS.auditAnalyze, req),
@@ -72,6 +85,10 @@ const api: AuditBridgeApi = {
   readHtkkFile: (filePath: string) => ipcRenderer.invoke(CHANNELS.readHtkkFile, filePath),
   importTaxXmlFiles: (filePaths: string[]) => ipcRenderer.invoke(CHANNELS.importTaxXmlFiles, filePaths),
   pickTaxFiles: () => ipcRenderer.invoke(CHANNELS.pickTaxFiles),
+  geminiTestConnection: (apiKey: string, model?: string) =>
+    ipcRenderer.invoke(CHANNELS.geminiTestConnection, apiKey, model),
+  geminiAnalyze: (req: { apiKey: string; payload: unknown; model?: string }) =>
+    ipcRenderer.invoke(CHANNELS.geminiAnalyze, req),
   getPathForFile: (file: File): string => {
     try {
       if (webUtils && typeof webUtils.getPathForFile === 'function') {
@@ -85,14 +102,13 @@ const api: AuditBridgeApi = {
     }
     return ''
   },
-  testDbConnection: (config) => ipcRenderer.invoke('db:test-connection', config),
-  previewDbSample: (config, limit) => ipcRenderer.invoke('db:preview-sample', config, limit),
-  fetchDbEntries: (config) => ipcRenderer.invoke('db:fetch-entries', config),
-  onDbProgress: (cb) => {
-    const listener = (_e: unknown, data: { fetched: number }): void => cb(data)
-    ipcRenderer.on('db:fetch-progress', listener as never)
-    return () => ipcRenderer.removeListener('db:fetch-progress', listener as never)
+  verifyLicenseKey: (licenseKey: string, machineId: string) => ipcRenderer.invoke(CHANNELS.verifyLicenseKey, licenseKey, machineId),
+  readClipboardText: async (): Promise<string> => {
+    try {
+      return clipboard.readText()
+    } catch {
+      return ''
+    }
   },
 }
-
 contextBridge.exposeInMainWorld('auditsoft', api)

@@ -14,13 +14,11 @@ if not exist "%~dp0scripts\keygen-gui-server.mjs" (
     exit /b 1
 )
 
-echo [1/2] Dang khoi dong Web Server cuc bo tai http://127.0.0.1:7890 ...
+echo [1/2] Dang khoi dong ung dung Keygen Desktop Pro...
+start "" "%~dp0Keygen-Studio.bat"
+
+echo [2/2] Dang khoi dong Web Server cuc bo du phong tai http://127.0.0.1:7890 ...
 start "" node "%~dp0scripts\keygen-gui-server.mjs"
-
-echo [2/2] Dang mo giao dien tren trinh duyet...
-timeout /t 2 /nobreak >nul
-start "" "http://127.0.0.1:7890"
-
 echo.
 echo ================================================================
 echo  Da mo trinh duyet thanh cong!

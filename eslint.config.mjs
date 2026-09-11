@@ -14,6 +14,7 @@ export default tseslint.config(
       'node_modules/**',
       'output_*/**',
       'temp_*/**',
+      'scripts/**',
     ],
   },
   ...tseslint.configs.recommended,

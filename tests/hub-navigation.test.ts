@@ -13,9 +13,9 @@ describe('Hub & Spoke Navigation Architecture', () => {
   })
 
   describe('Module Registry Configuration', () => {
-    it('đăng ký đầy đủ 5 module hoạt động và ít nhất 2 module tương lai', () => {
+    it('đăng ký đầy đủ 8 module hoạt động và ít nhất 1 module đang phát triển', () => {
       const activeMods = getActiveModules()
-      expect(activeMods.length).toBe(5)
+      expect(activeMods.length).toBe(8)
 
       const activeIds = activeMods.map((m) => m.id)
       expect(activeIds).toContain('b410')
@@ -23,8 +23,13 @@ describe('Hub & Spoke Navigation Architecture', () => {
       expect(activeIds).toContain('sampling_vsa530')
       expect(activeIds).toContain('etax_qtt03')
       expect(activeIds).toContain('analytics_vsa520')
+      expect(activeIds).toContain('tax_stats_vsa520')
+      expect(activeIds).toContain('tax_risk_scanner')
+      expect(activeIds).toContain('wp_generator')
+
       const upcomingMods = MODULES_REGISTRY.filter((m) => m.status === 'coming_soon')
-      expect(upcomingMods.length).toBeGreaterThanOrEqual(2)
+      expect(upcomingMods.length).toBeGreaterThanOrEqual(1)
+      expect(upcomingMods.map((m) => m.id)).toContain('ai_audit_copilot')
     })
 
     it('hàm getModuleByView trả về chính xác module theo view hiện tại', () => {
@@ -33,7 +38,9 @@ describe('Hub & Spoke Navigation Architecture', () => {
       expect(getModuleByView('results')?.id).toBe('reconcile_nkc')
       expect(getModuleByView('sampling')?.id).toBe('sampling_vsa530')
       expect(getModuleByView('qtt03')?.id).toBe('etax_qtt03')
-      expect(getModuleByView('analytics')?.id).toBe('analytics_vsa520')
+      expect(getModuleByView('workingpaper')?.id).toBe('wp_generator')
+      expect(getModuleByView('taxstats')?.id).toBe('tax_stats_vsa520')
+      expect(getModuleByView('taxrisk')?.id).toBe('tax_risk_scanner')
       expect(getModuleByView('hub')).toBeUndefined()
     })
 

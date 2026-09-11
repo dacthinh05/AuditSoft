@@ -7,7 +7,7 @@ interface PasteModalProps {
   isBefore?: boolean
   initialText?: string
   onClose: () => void
-  onApply: (dataOnly: unknown[][], hasHeader: boolean, headerRowIndex: number) => void
+  onApply: (dataOnly: unknown[][], hasHeader: boolean, headerRowIndex: number, fullMatrix: unknown[][]) => void
 }
 
 export function PasteModal({
@@ -53,7 +53,7 @@ export function PasteModal({
 
   function handleConfirm(): void {
     if (dataRows.length === 0) return
-    onApply(dataRows, hasHeader, parsed.headerRowIndex)
+    onApply(dataRows, hasHeader, parsed.headerRowIndex, parsed.matrix)
     onClose()
   }
 

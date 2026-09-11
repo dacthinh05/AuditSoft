@@ -57,13 +57,13 @@ export function ProfitWaterfallChart({ steps }: Props): JSX.Element {
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left' }}>
           <thead>
             <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#475569', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
-              <th style={{ padding: '8px 12px', width: '35px', textAlign: 'center' }}>#</th>
-              <th style={{ padding: '8px 12px' }}>Khoản Mục Dòng Chảy</th>
-              <th style={{ padding: '8px 12px', textAlign: 'center', width: '110px' }}>Phân Loại</th>
-              <th style={{ padding: '8px 12px', textAlign: 'right', width: '150px' }}>Số Phát Sinh</th>
-              <th style={{ padding: '8px 16px', width: '220px' }}>Thanh Tác Động Trực Quan</th>
-              <th style={{ padding: '8px 12px', textAlign: 'right', width: '150px' }}>Lũy Kế Sau Bước</th>
-              <th style={{ padding: '8px 12px', textAlign: 'right', width: '85px' }}>% Doanh Thu</th>
+              <th style={{ padding: '9px 12px', width: '40px', textAlign: 'center' }}>#</th>
+              <th style={{ padding: '9px 14px', width: '220px' }}>Khoản Mục Dòng Chảy</th>
+              <th style={{ padding: '9px 12px', textAlign: 'center', width: '120px' }}>Phân Loại</th>
+              <th style={{ padding: '9px 14px', textAlign: 'right', width: '160px' }}>Số Phát Sinh</th>
+              <th style={{ padding: '9px 16px', minWidth: '240px' }}>Thanh Tác Động Trực Quan</th>
+              <th style={{ padding: '9px 14px', textAlign: 'right', width: '160px' }}>Lũy Kế Sau Bước</th>
+              <th style={{ padding: '9px 12px', textAlign: 'right', width: '95px' }}>% Doanh Thu</th>
             </tr>
           </thead>
           <tbody>

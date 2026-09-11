@@ -9,6 +9,8 @@ export type ViewKey =
   | 'results'
   | 'qtt03'
   | 'analytics'
+  | 'taxstats'
+  | 'taxrisk'
 
 export interface NavigationState {
   view: ViewKey

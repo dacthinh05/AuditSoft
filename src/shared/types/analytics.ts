@@ -343,6 +343,17 @@ export interface KqkdLineDTO {
   pctChange: number | null
 }
 
+export interface TrialBalanceRowDTO {
+  account: string
+  accountName: string
+  openingDebit: number
+  openingCredit: number
+  movementDebit: number
+  movementCredit: number
+  closingDebit: number
+  closingCredit: number
+}
+
 export interface AnalysisResult {
   fileName: string
   classifications: SheetClassification[]
@@ -353,6 +364,7 @@ export interface AnalysisResult {
   reconStatus: ReconStatus
   reconciliation: ReconRowDTO[]
   unmatchedGlAccounts: string[]
+  trialBalance?: TrialBalanceRowDTO[]
   kqkd: {
     hasPriorYear: boolean
     lines: KqkdLineDTO[]
@@ -366,20 +378,31 @@ export interface AnalysisResult {
   journalsTotal: number
   journalsCapped: boolean
 }
-
 export interface AuditAnalyzeRequest {
   filePath: string
+  sheetName?: string
   overall?: number
   performance?: number
   clearlyTrivial?: number
   fiscalYear?: number
 }
 
+export interface ChartImageItem {
+  id: string
+  title: string
+  pngBase64: string
+  width?: number
+  height?: number
+}
+
 export interface AuditExportRequest {
   filePath: string
+  sheetName?: string
   suggestedName?: string
   overall?: number
   performance?: number
   clearlyTrivial?: number
   fiscalYear?: number
+  chartImages?: ChartImageItem[]
+  glAnalyticsData?: unknown // GlAnalyticsResult
 }

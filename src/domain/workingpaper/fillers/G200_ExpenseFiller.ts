@@ -1,5 +1,6 @@
 import type ExcelJS from 'exceljs'
 import type { WorkingPaperFillContext, SectionFillResult } from '../types'
+import type { OpenXmlPackageEditor } from '../openxml/OpenXmlPackageEditor'
 import {
   fillAddSheet,
   findWorksheetFuzzy,
@@ -148,19 +149,44 @@ function detectPrefix(ws: ExcelJS.Worksheet): '641' | '642' | null {
 }
 
 export function fillExpenseWorkingPaper(
-  wb: ExcelJS.Workbook,
+  wbOrEditor: ExcelJS.Workbook | OpenXmlPackageEditor,
   ctx: WorkingPaperFillContext,
 ): SectionFillResult {
   const fileName = 'G200 - 300 - 400 -  Mau 2025 - Thinh.xlsx'
   const updatedSheets: string[] = []
   let itemsCount = 0
 
-  normalizeWorkbookSharedFormulas(wb)
+  if (wbOrEditor && 'hasSheet' in wbOrEditor && typeof (wbOrEditor as { hasSheet: unknown }).hasSheet === 'function') {
+    const editor = wbOrEditor as OpenXmlPackageEditor
+    if (editor.hasSheet('ADD')) {
+      editor.fillAddSheet(ctx.engagement)
+      updatedSheets.push('ADD')
+    }
+    const g210Sheet = editor.hasSheet('G210') ? 'G210' : editor.hasSheet('G 210') ? 'G 210' : null
+    if (g210Sheet) {
+      const acc632 = ctx.cdfsAccounts.get('632')
+      const acc6321 = ctx.cdfsAccounts.get('6321')
+      const acc6322 = ctx.cdfsAccounts.get('6322')
+      const cogsVal = acc632 != null ? acc632.psno : (acc6321?.psno ?? 0) + (acc6322?.psno ?? 0)
+      editor.setLeadRowValues(g210Sheet, 12, { ck: cogsVal, dk: cogsVal })
+      itemsCount++
+      updatedSheets.push(g210Sheet)
+    }
+    return {
+      fileName,
+      success: true,
+      sheetsUpdated: updatedSheets,
+      itemsFilledCount: itemsCount,
+    }
+  }
 
+  const wb = wbOrEditor as ExcelJS.Workbook
+  normalizeWorkbookSharedFormulas(wb)
   // 1. ADD
   const wsAdd = wb.getWorksheet('ADD')
+  const detail = analyzeTransactions(ctx.nkcTransactions)
   if (wsAdd) {
-    fillAddSheet(wsAdd, ctx.engagement)
+    fillAddSheet(wsAdd, ctx.engagement, detail.sell.revenue)
     updatedSheets.push('ADD')
   }
 
@@ -268,20 +294,20 @@ export function fillExpenseWorkingPaper(
         styleCellCode(row.getCell(8), 'P')
         itemsCount += 7
       } else {
-        row.getCell(2).value = ''
-        row.getCell(3).value = ''
-        row.getCell(4).value = ''
-        row.getCell(5).value = ''
-        row.getCell(6).value = ''
+        row.getCell(2).value = null
+        row.getCell(3).value = null
+        row.getCell(4).value = null
+        row.getCell(5).value = null
+        row.getCell(6).value = null
         row.getCell(7).value = 0
-        row.getCell(8).value = ''
+        row.getCell(8).value = null
       }
     }
     updatedSheets.push(wsG490.name)
   }
 
   // 7-8. G353/G453 Phân tích 641/642 theo tháng (TK 4 số) — dò sheet + nhận diện prefix theo nội dung
-  const detail = analyzeTransactions(ctx.nkcTransactions)
+  // detail đã được tính ở bước 1 (ADD)
   const candidates: Array<{ names: string[]; fallback: '641' | '642' }> = [
     { names: ['G353', 'G 353'], fallback: '641' },
     { names: ['G453', 'G 453'], fallback: '642' },

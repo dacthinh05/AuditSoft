@@ -2,14 +2,65 @@ import { ModuleGateBanner } from '../ModuleGateBanner'
 import { useEffect, useState, useRef } from 'react'
 import { useApp } from '../../state/store'
 import type { GlAnalyticsResult } from '../../../domain/analytics/types'
+import type { NormalizedEntry } from '../../../domain/types'
+import type { JournalEntry, JournalRowDTO } from '../../../shared/types/analytics'
+import { standardizeSource } from '../../../domain/pipeline/standardize'
 import { EbitdaCalculator } from '../../../domain/analytics/EbitdaCalculator'
 import { RelatedPartyScanner } from '../../../domain/analytics/RelatedPartyScanner'
 import { ConcentrationAnalyzer } from '../../../domain/analytics/ConcentrationAnalyzer'
 import { Trend12MAnalyzer } from '../../../domain/analytics/Trend12MAnalyzer'
 import { FinancialCorrelationEngine } from '../../../domain/analytics/FinancialCorrelationEngine'
 import { analyzeJournal } from '../../../domain/analytics/ExpenseDetailAnalyzer'
-import { dtoToEntries, dtoToKqkd } from './analyticsMappers'
+import { buildKqkdYoY } from '../../../domain/analytics/KqkdYoY'
+import { CashTaxRiskScanner } from '../../../domain/analytics/CashTaxRiskScanner'
+import { dtoToEntries, dtoToKqkd, dtoToCdfsMap } from './analyticsMappers'
 import { GlAnalyticsTab } from './GlAnalyticsTab'
+import { IconFileSpreadsheet } from '../Icons'
+import { svgElementToPngBase64 } from '../../utils/svgToPng'
+import type { ChartImageItem } from '../../../shared/types/analytics'
+function moneyToNumber(m: { raw: bigint; scale: number } | null): number {
+  if (!m) return 0
+  return Number(m.raw) / Math.pow(10, m.scale)
+}
+
+function monthFromISO(iso: string | null): number | null {
+  if (!iso) return null
+  const m = Number(iso.slice(5, 7))
+  return Number.isInteger(m) && m >= 1 && m <= 12 ? m : null
+}
+
+function normalizedToJournalEntries(entries: NormalizedEntry[]): JournalEntry[] {
+  return entries.map((e, idx) => ({
+    id: `clip-${e.rowIndex}-${idx + 1}`,
+    source: { fileName: '(clipboard)', sheetName: '(clipboard)', rowNumber: e.rowIndex },
+    postingDate: e.dateISO,
+    documentNumber: e.voucher || null,
+    description: e.description,
+    debitAccount: e.debit,
+    creditAccount: e.credit,
+    amount: e.amount ?? { raw: 0n, scale: 0 },
+    foreignAmount: e.foreignAmount,
+    exchangeRate: e.exchangeRate ? moneyToNumber(e.exchangeRate) : null,
+    objectCode: e.partnerCode,
+    customerName: e.partnerName,
+    month: monthFromISO(e.dateISO),
+    issues: [],
+  }))
+}
+
+function normalizedToRowDTOs(entries: NormalizedEntry[]): JournalRowDTO[] {
+  return entries.map((e, idx) => ({
+    id: `clip-${e.rowIndex}-${idx + 1}`,
+    date: e.dateISO,
+    doc: e.voucher || null,
+    desc: e.description,
+    debit: e.debit,
+    credit: e.credit,
+    amount: moneyToNumber(e.amount),
+    month: monthFromISO(e.dateISO),
+    issues: [],
+  }))
+}
 
 function extractDroppedFilePath(file: File): string | null {
   if (window.auditsoft?.getPathForFile) {
@@ -35,6 +86,8 @@ function isExcelOrCsvPath(nameOrPath: string): boolean {
 export function PreliminaryAnalyticsPage(): JSX.Element {
   const beforeCfg = useApp((s) => s.before.cfg)
   const afterCfg = useApp((s) => s.after.cfg)
+  const beforePasted = useApp((s) => s.before.pasted)
+  const afterPasted = useApp((s) => s.after.pasted)
   const setGlSnapshot = useApp((s) => s.setGlSnapshot)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -46,11 +99,60 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
   const [glResult, setGlResult] = useState<GlAnalyticsResult | null>(null)
 
   const filePath = beforeCfg?.filePath || afterCfg?.filePath || ''
+  const activeCfg = beforeCfg ?? afterCfg ?? null
+  const pastedRows = beforePasted?.rows ?? afterPasted?.rows ?? null
+  const pastedLen = pastedRows?.length ?? 0
+  const isClipboard =
+    filePath === '(clipboard)' ||
+    activeCfg?.filePath === '(clipboard)' ||
+    activeCfg?.sheetName === '(clipboard)'
 
-  // 1. Phân tích sổ kế toán khi có file
+  // 1. Phân tích sổ kế toán: clipboard chạy local, file chạy qua main
   useEffect(() => {
-    if (!filePath || !window.auditsoft?.auditAnalyze) return
+    if (!filePath) return
 
+    // Nhánh clipboard: chuẩn hóa pasted.rows tại renderer (giống SamplingTab)
+    if (isClipboard) {
+      if (!pastedRows || pastedRows.length === 0 || !activeCfg) {
+        setGlResult(null)
+        return
+      }
+      let cancelled = false
+      setIsLoading(true)
+      setLoadingMsg('Đang phân tích dữ liệu dán từ clipboard...')
+      setError(null)
+      try {
+        const std = standardizeSource({
+          rows: pastedRows,
+          firstDataRowIndex: 0,
+          mapping: activeCfg.mapping,
+        })
+        if (std.entries.length === 0) throw new Error('Không đọc được dòng bút toán hợp lệ nào từ clipboard.')
+        const entries = normalizedToJournalEntries(std.entries)
+        const ebitda = EbitdaCalculator.calculate(entries, null)
+        const relatedParties = RelatedPartyScanner.scan(entries)
+        const pareto = ConcentrationAnalyzer.analyze(entries)
+        const trend12m = Trend12MAnalyzer.analyze(entries)
+        const correlations = FinancialCorrelationEngine.analyze(entries, null)
+        const expenseDetail = analyzeJournal(entries)
+        const kqkdYoY = buildKqkdYoY(null, entries)
+        const cashTaxRisk = CashTaxRiskScanner.scan(entries)
+        if (cancelled) return
+        setGlResult({ ebitda, relatedParties, pareto, trend12m, correlations, expenseDetail, kqkdYoY, cashTaxRisk })
+        setGlSnapshot({ filePath, journals: normalizedToRowDTOs(std.entries) })
+      } catch (err) {
+        if (!cancelled) {
+          setGlResult(null)
+          setError(err instanceof Error ? err.message : String(err))
+        }
+      } finally {
+        if (!cancelled) setIsLoading(false)
+      }
+      return () => {
+        cancelled = true
+      }
+    }
+    if (!window.auditsoft?.auditAnalyze) return
     let cancelled = false
     async function runAnalysis(): Promise<void> {
       setIsLoading(true)
@@ -58,21 +160,25 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
       setError(null)
 
       try {
+        const sheetName = activeCfg?.sheetName
         const res = await window.auditsoft.auditAnalyze({
           filePath,
+          sheetName,
         })
         if (cancelled) return
-
         const entries = dtoToEntries(res.journals || [])
         const incomeStatement = dtoToKqkd(res.kqkd)
+        const cdfsMap = dtoToCdfsMap(res.trialBalance)
 
         // Chạy 5 engines phân tích
         const ebitda = EbitdaCalculator.calculate(entries, incomeStatement)
         const relatedParties = RelatedPartyScanner.scan(entries)
         const pareto = ConcentrationAnalyzer.analyze(entries)
         const trend12m = Trend12MAnalyzer.analyze(entries)
-        const correlations = FinancialCorrelationEngine.analyze(entries, incomeStatement)
+        const correlations = FinancialCorrelationEngine.analyze(entries, incomeStatement, cdfsMap)
         const expenseDetail = analyzeJournal(entries)
+        const kqkdYoY = buildKqkdYoY(incomeStatement, entries)
+        const cashTaxRisk = CashTaxRiskScanner.scan(entries)
 
         setGlResult({
           ebitda,
@@ -81,10 +187,11 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
           trend12m,
           correlations,
           expenseDetail,
+          kqkdYoY,
+          cashTaxRisk,
         })
-
-        // Cache journals thô cho module Thuế đối chiếu chéo
-        setGlSnapshot({ filePath, journals: res.journals || [] })
+        // Cache journals thô cho module Thuế và Rủi ro đối chiếu chéo kèm sheetName
+        setGlSnapshot({ filePath, sheetName, journals: res.journals || [] })
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : String(err))
@@ -98,8 +205,7 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
     return () => {
       cancelled = true
     }
-  }, [filePath])
-
+  }, [filePath, isClipboard, pastedLen, activeCfg?.sheetName])
   // 3. Chọn file sổ kế toán nếu chưa nạp hoặc muốn đổi
   async function handlePickAccountingFile(): Promise<void> {
     if (!window.auditsoft?.pickWorkbook) return
@@ -181,10 +287,10 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
       onDragOver={handleDragOver}
       onDrop={(e) => void handleDrop(e)}
       style={{
-        padding: '20px 24px',
+        padding: '16px 20px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '18px',
+        gap: '16px',
         height: '100%',
         overflowY: 'auto',
         position: 'relative',
@@ -271,7 +377,9 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
               }}
             >
               <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#10b981' }} />
-              Sổ NKC: {filePath.split(/\\|\//).pop()}
+              {isClipboard
+                ? 'Sổ NKC: Dán từ Clipboard'
+                : `Sổ NKC: ${filePath.split(/\\|\//).pop()}${activeCfg?.sheetName ? ` (Sheet: ${activeCfg.sheetName})` : ''}`}
             </span>
             <button
               type="button"
@@ -298,6 +406,86 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
               title="Bấm để chọn file Excel khác hoặc kéo thả trực tiếp file mới vào màn hình"
             >
               Đổi file Sổ NKC
+            </button>
+            <button
+              onClick={async () => {
+                if (!window.auditsoft?.auditExport) return
+                try {
+                  setIsLoading(true)
+                  setLoadingMsg('Đang chụp biểu đồ và xuất báo cáo Audit Analytics ra Excel...')
+                  
+                  // Quét và chụp tất cả SVG của các biểu đồ đang hiển thị
+                  const chartImages: ChartImageItem[] = []
+                  const chartIds = [
+                    'chart-gross-margin',
+                    'chart-waterfall',
+                    'chart-cogs-structure',
+                    'chart-opex-ratio',
+                    'chart-kqkd-yoy',
+                  ]
+
+                  for (const cid of chartIds) {
+                    const container = document.getElementById(cid)
+                    if (!container) continue
+                    const svg = container.querySelector('svg')
+                    if (!svg) continue
+                    try {
+                      const title = container.getAttribute('data-chart-title') || cid
+                      const base64 = await svgElementToPngBase64(svg, 2)
+                      chartImages.push({
+                        id: cid,
+                        title,
+                        pngBase64: base64,
+                      })
+                    } catch (err) {
+                      console.warn(`Lỗi convert chart ${cid}:`, err)
+                    }
+                  }
+
+                  const res = await window.auditsoft.auditExport({
+                    filePath,
+                    sheetName: activeCfg?.sheetName,
+                    suggestedName: `BaoCao-PhanTich-NKC-VSA520-${filePath.split(/\\|\//).pop()?.replace(/\.[^/.]+$/, '')}.xlsx`,
+                    chartImages,
+                    glAnalyticsData: glResult,
+                  })
+                  if (!res.ok) {
+                    setError('Đã hủy xuất báo cáo Excel.')
+                  } else {
+                    setError(null)
+                  }
+                } catch (err) {
+                  setError(err instanceof Error ? err.message : String(err))
+                } finally {
+                  setIsLoading(false)
+                }
+              }}
+              disabled={isLoading || !glResult}
+              style={{
+                background: '#059669',
+                color: '#ffffff',
+                border: 'none',
+                padding: '6px 14px',
+                borderRadius: '6px',
+                fontWeight: 600,
+                cursor: isLoading || !glResult ? 'not-allowed' : 'pointer',
+                fontSize: '12px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: '0 1px 2px rgba(5, 150, 105, 0.25)',
+                transition: 'background 0.15s ease',
+              }}
+              onMouseEnter={(e) => {
+                if (!isLoading && glResult) e.currentTarget.style.background = '#047857'
+              }}
+              onMouseLeave={(e) => {
+                if (!isLoading && glResult) e.currentTarget.style.background = '#059669'
+              }}
+              title="Xuất bảng tổng hợp phân tích kiểm toán VSA 520, KQKD, EBITDA 30% và ma trận biến động ra Excel"
+            >
+              <IconFileSpreadsheet size={14} />
+              <span>Xuất Báo Cáo Phân Tích Excel</span>
             </button>
           </div>
         ) : (
@@ -349,7 +537,7 @@ export function PreliminaryAnalyticsPage(): JSX.Element {
       {/* Nội dung phân tích Sổ NKC */}
       <div>
           {glResult ? (
-            <GlAnalyticsTab data={glResult} />
+            <GlAnalyticsTab data={glResult} filePath={filePath} />
           ) : (
             !isLoading && (
               <div

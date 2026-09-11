@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Sơ Đồ Luồng Dữ Liệu Tự Động Điền 15 Giấy Làm Việc Kiểm Toán (GLV VACPA)",
+    "description": "Bản đồ chi tiết các sheet được sinh tự động tương ứng với từng phần hành kiểm toán từ Sổ Cái & Sổ NKC",
+    "preset": "signal-flow",
+    "theme": "dark",
+    "animation": "trace"
+  },
+  "stages": [
+    { "id": "stage_source", "label": "1. DỮ LIỆU NGUỒN (INPUT)", "order": 1 },
+    { "id": "stage_engine", "label": "2. ENGINE XỬ LÝ (OPENXML)", "order": 2 },
+    { "id": "stage_asset", "label": "3. TÀI SẢN (D-SERIES)", "order": 3 },
+    { "id": "stage_liability", "label": "4. NỢ PHẢI TRẢ & VỐN (E & F)", "order": 4 },
+    { "id": "stage_pnl", "label": "5. DOANH THU & CHI PHÍ (G)", "order": 5 },
+    { "id": "stage_master", "label": "6. TỔNG HỢP (A-B-H & LEADSHEET)", "order": 6 }
+  ],
+  "nodes": [
+    {
+      "id": "cdfs_input",
+      "label": "Bảng CĐPS (CDFS)",
+      "stage": "stage_source",
+      "role": "source",
+      "classification": "confidential",
+      "description": "Số dư đầu năm, phát sinh trong năm, số dư cuối năm của 67+ tài khoản"
+    },
+    {
+      "id": "nkc_input",
+      "label": "Sổ Nhật Ký Chung (NKC)",
+      "stage": "stage_source",
+      "role": "source",
+      "classification": "confidential",
+      "description": "Toàn bộ bút toán chi tiết ngày, số CT, diễn giải, TK Nợ/Có, số tiền, đối tác"
+    },
+    {
+      "id": "tax_input",
+      "label": "Tờ Khai Thuế (01/GTGT, 05/TNCN)",
+      "stage": "stage_source",
+      "role": "source",
+      "classification": "confidential",
+      "description": "Số liệu kê khai thuế GTGT các tháng/quý và quyết toán thuế TNCN"
+    },
+    {
+      "id": "aje_input",
+      "label": "Bút Toán AJE (B410)",
+      "stage": "stage_source",
+      "role": "source",
+      "classification": "internal",
+      "description": "Các bút toán điều chỉnh sai sót và phân loại của KTV"
+    },
+    {
+      "id": "openxml_engine",
+      "label": "OpenXmlPackageEditor Engine",
+      "stage": "stage_engine",
+      "role": "transform",
+      "classification": "internal",
+      "description": "Nạp template gốc, cập nhật ô XML trực tiếp, bảo toàn 100% drawings và công thức"
+    },
+
+    {
+      "id": "wp_d100",
+      "label": "D100 - Tiền & Tương Đương Tiền",
+      "stage": "stage_asset",
+      "role": "store",
+      "classification": "confidential",
+      "description": "Sheets: ADD, D 110 (Leadsheet), D 110.1 (Bank Detail), D 191.1 (Mẫu TM), D 191.2 (Mẫu TGNH), D 195TM/TGNH (Cutoff), D 190 (Đối ứng), D 196 (Tiền gửi có kỳ hạn)"
+    },
+    {
+      "id": "wp_d200",
+      "label": "D200 - Đầu Tư Tài Chính",
+      "stage": "stage_asset",
+      "role": "store",
+      "classification": "confidential",
+      "description": "Sheets: ADD, D210 (Leadsheet đầu tư), D290 (Phát sinh đầu tư)"
+    },
+    {
+      "id": "wp_d300",
+      "label": "D300 - Phải Thu Khách Hàng",
+      "stage": "stage_asset",
+      "role": "store",
+      "classification": "confidential",
+      "description": "Sheets: ADD, D 310 (Leadsheet 131/2293), D 351.1 (Chi tiết KH), D 351.2 (Công nợ tuổi nợ), D 352 (Thư xác nhận), D 391 (Mẫu phát sinh)"
+    },
+    {
+      "id": "wp_d500",
+      "label": "D500 - Hàng Tồn Kho",
+      "stage": "stage_asset",
+      "role": "store",
+      "classification": "confidential",
+      "description": "Sheets: ADD, D 510 (Leadsheet 151-158/2294), D550 (Biến động HTK), D553 (Nhập xuất tồn NVL 152), D590 (Đối ứng), D 595 (Kiểm kê/Cutoff)"
+    },
+    {
+      "id": "wp_d600",
+      "label": "D600 - Chi Phí Trả Trước (242)",
+      "stage": "stage_asset",
+      "role": "store",
+      "classification": "confidential",
+      "description": "Sheets: ADD, D 610 (Leadsheet 242 ngắn/dài hạn), D 690 (Đối ứng chi phí trả trước), D 692 (Chi tiết phân bổ 242)"
+    },
+    {
+      "id": "wp_d700",
+      "label": "D700 - Tài Sản Cố Định (211/214)",
+      "stage": "stage_asset",
+      "role": "store",
+      "classification": "confidential",
+      "description": "Sheets: ADD, D 710 (Leadsheet nguyên giá/khấu hao), D 790 (Đối ứng phát sinh), D 792 (Kiểm tra trích khấu hao TSCĐ)"
+    },
+
+    {
+      "id": "wp_e100",
+      "label": "E100 - Vay & Nợ Thuê Tài Chính (341)",
+      "stage": "stage_liability",
+      "role": "store",
+      "classification": "confidential",
+      "description": "Sheets: ADD, E 110 (Leadsheet vay ngắn/dài hạn), E 191 (Mẫu rút vốn/trả nợ vay), E 152 (Chi tiết từng khế ước), E 190 (Đối ứng vay)"
+    },
+    {
+      "id": "wp_e200",
+      "label": "E200 - Phải Trả Người Bán (331)",
+      "stage": "stage_liability",
+      "role": "store",
+      "classification": "confidential",
+      "description": "Sheets: ADD, E 210 (Leadsheet Hàng 13 Trả trước & Hàng 16 Phải trả), E 250.2 (Chi tiết NCC), E252 (Xác nhận nợ), E290 (Đối ứng 331), E 291 (Mẫu mua hàng)"
+    },
+    {
+      "id": "wp_e300",
+      "label": "E300 - Thuế & Các Khoản Phải Nộp (333)",
+      "stage": "stage_liability",
+      "role": "store",
+      "classification": "confidential",
+      "description": "Sheets: ADD, E 310 (Leadsheet các sắc thuế), E 380 (Đối chiếu GTGT 2 khối chuẩn VACPA), E 381 (Thuế TNDN), E 382 (Thuế TNCN)"
+    },
+    {
+      "id": "wp_e400",
+      "label": "E400 - Tiền Lương & BHXH (334/338)",
+      "stage": "stage_liability",
+      "role": "store",
+      "classification": "confidential",
+      "description": "Sheets: ADD, E 410 (Leadsheet 334/338), E 490 (Cơ cấu chi phí lương 622/627/641/642), E 491 (Đối chiếu trích nộp BHXH/BHYT/BHTN)"
+    },
+    {
+      "id": "wp_f100",
+      "label": "F100 - Vốn Chủ Sở Hữu (411/421)",
+      "stage": "stage_liability",
+      "role": "store",
+      "classification": "confidential",
+      "description": "Sheets: ADD, F 110 (Leadsheet vốn đầu tư chủ sở hữu & LNST chưa phân phối)"
+    },
+
+    {
+      "id": "wp_g100",
+      "label": "G100 - Doanh Thu Bán Hàng (511/711)",
+      "stage": "stage_pnl",
+      "role": "sink",
+      "classification": "confidential",
+      "description": "Sheets: ADD, G 110 (Leadsheet DT bán hàng, giảm trừ 521, DTTC 515), G 150 (Đối chiếu DT Sổ Cái vs Tờ khai thuế GTGT), G 191.1 (Mẫu hóa đơn doanh thu), G 195 (Cutoff)"
+    },
+    {
+      "id": "wp_g200",
+      "label": "G200 - Giá Vốn & Chi Phí (632/641/642)",
+      "stage": "stage_pnl",
+      "role": "sink",
+      "classification": "confidential",
+      "description": "Sheets: ADD, G210 (Leadsheet giá vốn 632), G310 (Chi phí bán hàng 641), G410 (Chi phí QLDN 642), G353/G453 (Phân tích 641/642 theo tháng), G490, G291.2 (Mẫu CP)"
+    },
+
+    {
+      "id": "wp_abh",
+      "label": "A - B - H Master BCTC & Trọng Yếu",
+      "stage": "stage_master",
+      "role": "governance",
+      "classification": "confidential",
+      "description": "Sheets: ADD, bcdsps-Truoc DC (Bảng CĐPS tổng hợp), A710 (Tính mức trọng yếu VSA 320: OM, PM, CTT), thongtincty, BenLienQuan"
+    },
+    {
+      "id": "wp_leadsheet",
+      "label": "Leadsheet Master (38 CTKT VACPA)",
+      "stage": "stage_master",
+      "role": "governance",
+      "classification": "confidential",
+      "description": "Sheets: ADD, D130.1 - G430.1 (38 sheet đánh giá rủi ro CSDL và thủ tục kiểm toán hoàn thành)"
+    }
+  ],
+  "flows": [
+    { "from": "cdfs_input", "to": "openxml_engine", "label": "Nạp số dư đầu/cuối & phát sinh" },
+    { "from": "nkc_input", "to": "openxml_engine", "label": "Bốc mẫu & phân tích đối ứng 12M" },
+    { "from": "tax_input", "to": "openxml_engine", "label": "Chỉ tiêu thuế [25],[35],[37],[38],[42],[40]" },
+    { "from": "aje_input", "to": "openxml_engine", "label": "Cập nhật Cột E (Điều chỉnh thuần)" },
+
+    { "from": "openxml_engine", "to": "wp_d100", "label": "Điền 9 sheets" },
+    { "from": "openxml_engine", "to": "wp_d200", "label": "Điền 3 sheets" },
+    { "from": "openxml_engine", "to": "wp_d300", "label": "Điền 6 sheets" },
+    { "from": "openxml_engine", "to": "wp_d500", "label": "Điền 7 sheets" },
+    { "from": "openxml_engine", "to": "wp_d600", "label": "Điền 4 sheets" },
+    { "from": "openxml_engine", "to": "wp_d700", "label": "Điền 4 sheets" },
+
+    { "from": "openxml_engine", "to": "wp_e100", "label": "Điền 5 sheets" },
+    { "from": "openxml_engine", "to": "wp_e200", "label": "Điền 6 sheets" },
+    { "from": "openxml_engine", "to": "wp_e300", "label": "Điền 5 sheets" },
+    { "from": "openxml_engine", "to": "wp_e400", "label": "Điền 4 sheets" },
+    { "from": "openxml_engine", "to": "wp_f100", "label": "Điền 2 sheets" },
+
+    { "from": "openxml_engine", "to": "wp_g100", "label": "Điền 5 sheets" },
+    { "from": "openxml_engine", "to": "wp_g200", "label": "Điền 8 sheets" },
+
+    { "from": "openxml_engine", "to": "wp_abh", "label": "Điền 4 sheets" },
+    { "from": "openxml_engine", "to": "wp_leadsheet", "label": "Điền 37 sheets" }
+  ]
+}

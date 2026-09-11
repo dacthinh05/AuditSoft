@@ -163,6 +163,8 @@ export function detectYearEndWindow(
     if (!d) continue
     const t = d.getTime()
     if (t < startMs || t > end.getTime() + 86399000) continue
+    // Khử dương tính giả: Bút toán kết chuyển xác định KQKD (TK 911) vào ngày 31/12 là quy trình kỹ thuật, không phải bất thường
+    if (e.debitAccount.startsWith('911') || e.creditAccount.startsWith('911')) continue
     ids.push(e.id)
     total = addMoney(total, e.amount)
     if ([e.debitAccount, e.creditAccount].some((a) => priority.some((p) => isAccount(a, p)))) hitPriority = true

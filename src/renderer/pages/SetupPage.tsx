@@ -144,17 +144,19 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
   }
   function handleApplyPaste(dataOnly: unknown[][], hasHeader: boolean, headerRowIndex: number, fullMatrix: unknown[][]): void {
     const detected = detectHeaderAndMapping(fullMatrix)
+    const colCount = Math.max(6, ...(fullMatrix.slice(0, 10).map((r) => r.length)))
+    // Dùng mapping tự động nhận diện nếu có; nếu không nhận diện được cột thì gán mặc định theo 6 cột TT200 chuẩn
     const auto: ColumnMapping = {
-      date: detected.mapping.date,
-      voucher: detected.mapping.voucher,
-      description: detected.mapping.description,
-      debit: detected.mapping.debit,
-      credit: detected.mapping.credit,
-      amount: detected.mapping.amount,
-      partnerCode: detected.mapping.partnerCode,
-      partnerName: detected.mapping.partnerName,
-      exchangeRate: detected.mapping.exchangeRate,
-      foreignAmount: detected.mapping.foreignAmount,
+      date: detected.mapping.date ?? (colCount >= 6 ? 0 : null),
+      voucher: detected.mapping.voucher ?? (colCount >= 6 ? 1 : null),
+      description: detected.mapping.description ?? (colCount >= 6 ? 2 : null),
+      debit: detected.mapping.debit ?? (colCount >= 6 ? 3 : null),
+      credit: detected.mapping.credit ?? (colCount >= 6 ? 4 : null),
+      amount: detected.mapping.amount ?? (colCount >= 6 ? 5 : null),
+      partnerCode: detected.mapping.partnerCode ?? (colCount >= 7 ? 6 : null),
+      partnerName: detected.mapping.partnerName ?? (colCount >= 8 ? 7 : null),
+      exchangeRate: detected.mapping.exchangeRate ?? null,
+      foreignAmount: detected.mapping.foreignAmount ?? null,
     }
     useApp.getState().setCfg(kind, {
       kind,
@@ -257,41 +259,154 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
               </div>
             </div>
 
-            {side.meta != null && side.meta.sheets.length > 1 && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12 }}>
-                <span style={{ fontWeight: 600, color: '#475569' }}>Sheet dữ liệu:</span>
-                <select
-                  style={{ flex: 1, padding: '4px 8px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 12 }}
-                  value={side.cfg.sheetName}
-                  onChange={(e) => {
-                    const s = side.meta?.sheets.find((x) => x.name === e.target.value)
-                    if (!s) return
-                    setCfg(kind, {
-                      kind,
-                      filePath: side.meta?.filePath ?? '',
-                      sheetName: s.name,
-                      headerRow: s.suggestedHeaderRow,
-                      mapping: {
-                        date: s.suggestedMapping.date ?? null,
-                        voucher: s.suggestedMapping.voucher ?? null,
-                        description: s.suggestedMapping.description ?? null,
-                        debit: s.suggestedMapping.debit ?? null,
-                        credit: s.suggestedMapping.credit ?? null,
-                        amount: s.suggestedMapping.amount ?? null,
-                        partnerCode: s.suggestedMapping.partnerCode ?? null,
-                        partnerName: s.suggestedMapping.partnerName ?? null,
-                        exchangeRate: s.suggestedMapping.exchangeRate ?? null,
-                        foreignAmount: s.suggestedMapping.foreignAmount ?? null,
-                      },
-                    })
+            {side.meta != null && (
+              <div
+                style={{
+                  marginTop: 10,
+                  padding: '10px 14px',
+                  background: '#f8fafc',
+                  borderRadius: 8,
+                  border: '1px solid #e2e8f0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 12,
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', whiteSpace: 'nowrap' }}>
+                    📄 Sheet đang đọc:
+                  </span>
+                  {side.meta.sheets.length > 1 ? (
+                    <select
+                      style={{
+                        flex: 1,
+                        padding: '6px 10px',
+                        borderRadius: 6,
+                        border: '1.5px solid #0284c7',
+                        background: '#ffffff',
+                        fontSize: 13,
+                        fontWeight: 600,
+                        color: '#0369a1',
+                        cursor: 'pointer',
+                        outline: 'none',
+                      }}
+                      value={side.cfg.sheetName}
+                      onChange={(e) => {
+                        const s = side.meta?.sheets.find((x) => x.name === e.target.value)
+                        if (!s) return
+                        setCfg(kind, {
+                          kind,
+                          filePath: side.meta?.filePath ?? '',
+                          sheetName: s.name,
+                          headerRow: s.suggestedHeaderRow,
+                          mapping: {
+                            date: s.suggestedMapping.date ?? null,
+                            voucher: s.suggestedMapping.voucher ?? null,
+                            description: s.suggestedMapping.description ?? null,
+                            debit: s.suggestedMapping.debit ?? null,
+                            credit: s.suggestedMapping.credit ?? null,
+                            amount: s.suggestedMapping.amount ?? null,
+                            partnerCode: s.suggestedMapping.partnerCode ?? null,
+                            partnerName: s.suggestedMapping.partnerName ?? null,
+                            exchangeRate: s.suggestedMapping.exchangeRate ?? null,
+                            foreignAmount: s.suggestedMapping.foreignAmount ?? null,
+                          },
+                        })
+                      }}
+                    >
+                      {side.meta.sheets.map((s) => {
+                        const conf = Math.min(100, Math.round(s.confidence <= 1 ? s.confidence * 100 : s.confidence))
+                        return (
+                          <option key={s.name} value={s.name}>
+                            {s.name} ({s.totalRows.toLocaleString('vi-VN')} dòng — {conf >= 50 ? `${conf}% TT200` : 'chưa khớp'})
+                          </option>
+                        )
+                      })}
+                    </select>
+                  ) : (
+                    <span
+                      style={{
+                        fontSize: 13,
+                        fontWeight: 600,
+                        color: '#0369a1',
+                        background: '#eff6ff',
+                        padding: '4px 10px',
+                        borderRadius: 6,
+                        border: '1px solid #bfdbfe',
+                      }}
+                    >
+                      {side.cfg.sheetName} ({sheet?.totalRows.toLocaleString('vi-VN')} dòng)
+                    </span>
+                  )}
+                </div>
+
+                {sheet && (() => {
+                  const conf = Math.min(100, Math.round(sheet.confidence <= 1 ? sheet.confidence * 100 : sheet.confidence))
+                  const isHigh = conf >= 80
+                  const isMed = conf >= 50 && conf < 80
+                  return (
+                    <span
+                      style={{
+                        fontSize: 11.5,
+                        fontWeight: 600,
+                        padding: '3px 8px',
+                        borderRadius: 4,
+                        background: isHigh ? '#ecfdf5' : isMed ? '#fffbeb' : '#fef2f2',
+                        color: isHigh ? '#059669' : isMed ? '#b45309' : '#b91c1c',
+                        border: `1px solid ${isHigh ? '#a7f3d0' : isMed ? '#fde68a' : '#fecaca'}`,
+                        whiteSpace: 'nowrap',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {isHigh
+                        ? '✓ Chuẩn cấu trúc'
+                        : isMed
+                        ? '⚡ Cần rà soát cột'
+                        : '⚠ Chưa khớp chuẩn'}
+                    </span>
+                  )
+                })()}
+              </div>
+            )}
+
+            {side.pasted && (
+              <div
+                style={{
+                  marginTop: 10,
+                  padding: '9px 12px',
+                  background: '#fffbeb',
+                  border: '1px solid #fde68a',
+                  borderRadius: 8,
+                  fontSize: 12.5,
+                  color: '#92400e',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 10,
+                }}
+              >
+                <span>
+                  📋 Nguồn hiện tại: <strong>Dán từ Clipboard</strong> (không có danh sách Sheet).
+                </span>
+                <button
+                  type="button"
+                  onClick={() => void pickFile()}
+                  style={{
+                    background: '#d97706',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: 6,
+                    padding: '5px 12px',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                   }}
                 >
-                  {side.meta.sheets.map((s) => (
-                    <option key={s.name} value={s.name}>
-                      {s.name} ({s.totalRows.toLocaleString('vi-VN')} dòng)
-                    </option>
-                  ))}
-                </select>
+                  📁 Chọn file Excel thay thế…
+                </button>
               </div>
             )}
           </div>
@@ -357,13 +472,36 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
                     }}
                   >
                     <option value="">-- Chưa chọn --</option>
-                    {sheet
-                      ? sheet.headerLabels.map((lbl, idx) => (
+                    {sheet ? (
+                      sheet.headerLabels.map((lbl, idx) => (
                         <option key={idx} value={String(idx)}>
                           Cột {idx + 1}: {lbl || `(Cột ${idx + 1})`}
                         </option>
                       ))
-                      : <option value="">-- Nguồn tự động: 6 cột TT200 --</option>}
+                    ) : side.pasted && side.pasted.rows.length > 0 ? (
+                      Array.from(
+                        {
+                          length: Math.max(
+                            6,
+                            Math.min(25, side.pasted.rows[0]?.length || 6),
+                          ),
+                        },
+                        (_, idx) => {
+                          const val = side.pasted?.rows[0]?.[idx]
+                          const preview =
+                            val != null && String(val).trim() !== ''
+                              ? ` (${String(val).trim().slice(0, 18)})`
+                              : ''
+                          return (
+                            <option key={idx} value={String(idx)}>
+                              Cột {idx + 1}{preview}
+                            </option>
+                          )
+                        },
+                      )
+                    ) : (
+                      <option value="">-- Nguồn tự động: 6 cột TT200 --</option>
+                    )}
                   </select>
                 </div>
               )
@@ -378,7 +516,7 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
             </span>
           </div>
 
-          <div className="mapping-cards-grid">
+          <div className="mapping-cards-grid optional-cards-grid">
             {NKC_OPTIONAL_COLUMN_SPEC.map((f) => {
               const currentIdx = side.cfg?.mapping[f.key]
               const isMapped = currentIdx != null
@@ -386,9 +524,11 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
                 <div key={f.key} className={`mapping-card ${isMapped ? 'is-mapped' : ''}`}>
                   <div className="card-top-line">
                     <span className="field-name">{f.label}</span>
-                    <span className={`status-indicator ${isMapped ? 'ok' : ''}`}>
-                      {isMapped ? '✓' : 'Tùy chọn'}
-                    </span>
+                    {isMapped ? (
+                      <span className="status-indicator ok">✓</span>
+                    ) : (
+                      <span className="optional-badge">Tùy chọn</span>
+                    )}
                   </div>
                   <span className="field-desc">{f.desc}</span>
                   <select
@@ -400,13 +540,36 @@ function SourceCard({ kind }: { kind: SourceKind }): JSX.Element {
                     }}
                   >
                     <option value="">-- Không có / Bỏ qua --</option>
-                    {sheet
-                      ? sheet.headerLabels.map((lbl, idx) => (
+                    {sheet ? (
+                      sheet.headerLabels.map((lbl, idx) => (
                         <option key={idx} value={String(idx)}>
                           Cột {idx + 1}: {lbl || `(Cột ${idx + 1})`}
                         </option>
                       ))
-                      : <option value="">-- Nguồn tự động: 6 cột TT200 --</option>}
+                    ) : side.pasted && side.pasted.rows.length > 0 ? (
+                      Array.from(
+                        {
+                          length: Math.max(
+                            6,
+                            Math.min(25, side.pasted.rows[0]?.length || 6),
+                          ),
+                        },
+                        (_, idx) => {
+                          const val = side.pasted?.rows[0]?.[idx]
+                          const preview =
+                            val != null && String(val).trim() !== ''
+                              ? ` (${String(val).trim().slice(0, 18)})`
+                              : ''
+                          return (
+                            <option key={idx} value={String(idx)}>
+                              Cột {idx + 1}{preview}
+                            </option>
+                          )
+                        },
+                      )
+                    ) : (
+                      <option value="">-- Nguồn tự động: 6 cột TT200 --</option>
+                    )}
                   </select>
                 </div>
               )
@@ -487,8 +650,8 @@ export function SetupPage(): JSX.Element {
       {/* ── Stepper 3 bước ── */}
       <div style={{ display: 'flex', gap: '10px', margin: '14px 0 4px', flexWrap: 'wrap' }}>
         {[
-          { n: 1, title: 'Nhập NKC TRƯỚC điều chỉnh', done: beforeReady, hint: 'Nguồn ① — mở khóa Phân tích, Thuế, Bốc mẫu' },
-          { n: 2, title: 'Nhập NKC SAU điều chỉnh', done: afterReady, hint: 'Nguồn ② — mở khóa So khớp, Xuất GLV' },
+          { n: 1, title: 'Nhập NKC TRƯỚC điều chỉnh', done: beforeReady, hint: 'Nguồn ① — mở khóa Phân tích, Thuế, Bốc mẫu, Lập GLV' },
+          { n: 2, title: 'Nhập NKC SAU điều chỉnh', done: afterReady, hint: 'Nguồn ② — mở khóa So khớp, AJE Cột 5/6 trên GLV' },
           { n: 3, title: 'Đối chiếu & dùng các module', done: ready, hint: 'Bấm nút chạy ở thanh bên dưới' },
         ].map((s) => (
           <div

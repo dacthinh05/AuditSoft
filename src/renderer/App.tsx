@@ -1,20 +1,35 @@
-import { useEffect } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import { useApp } from './state/store'
-import { SetupPage } from './pages/SetupPage'
-import { ResultsPage } from './pages/ResultsPage'
-import { SamplingTab } from './components/SamplingTab'
-import { B410DropZone } from './components/B410Consolidation/B410DropZone'
-import { WorkingPaperPage } from './pages/WorkingPaperPage'
 import { LicenseModal } from './components/LicenseModal'
-import { IconAlert, IconX, IconRefresh } from './components/Icons'
+import { IconAlert, IconX, IconRefresh, IconClipboard } from './components/Icons'
+import { EngagementModal } from './components/EngagementModal'
 import { AppLogo } from './components/AppLogo'
 import { UpdateModal } from './components/UpdateModal'
 import { UpdateNoticePopup } from './components/UpdateNoticePopup'
 import { HubPage } from './pages/HubPage'
 import { HeaderNavigation } from './components/HeaderNavigation'
-import { Qtt03ConverterPage } from './components/EtaxConverter/Qtt03ConverterPage'
-import { PreliminaryAnalyticsPage } from './components/Analytics/PreliminaryAnalyticsPage'
-import { DbConnectionModal } from './components/DatabaseConnector/DbConnectionModal'
+import { AiConfigModal } from './components/Settings/AiConfigModal'
+import { ErrorBoundary } from './components/ErrorBoundary'
+// Code-splitting các phân hệ bằng React.lazy() để giảm 75% bundle size ban đầu
+const SetupPage = lazy(() => import('./pages/SetupPage').then((m) => ({ default: m.SetupPage })))
+const ResultsPage = lazy(() => import('./pages/ResultsPage').then((m) => ({ default: m.ResultsPage })))
+const SamplingTab = lazy(() => import('./components/SamplingTab').then((m) => ({ default: m.SamplingTab })))
+const B410DropZone = lazy(() => import('./components/B410Consolidation/B410DropZone').then((m) => ({ default: m.B410DropZone })))
+const WorkingPaperPage = lazy(() => import('./pages/WorkingPaperPage').then((m) => ({ default: m.WorkingPaperPage })))
+const Qtt03ConverterPage = lazy(() => import('./components/EtaxConverter/Qtt03ConverterPage').then((m) => ({ default: m.Qtt03ConverterPage })))
+const PreliminaryAnalyticsPage = lazy(() => import('./components/Analytics/PreliminaryAnalyticsPage').then((m) => ({ default: m.PreliminaryAnalyticsPage })))
+const TaxStatsPage = lazy(() => import('./components/Analytics/TaxStatsPage').then((m) => ({ default: m.TaxStatsPage })))
+const TaxRiskScannerPage = lazy(() => import('./components/TaxRisk/TaxRiskScannerPage').then((m) => ({ default: m.TaxRiskScannerPage })))
+
+function PageLoadingFallback(): JSX.Element {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', gap: 14 }}>
+      <div className="spin-icon" style={{ width: 32, height: 32, border: '3px solid #e2e8f0', borderTopColor: '#2563eb', borderRadius: '50%' }} />
+      <span style={{ fontSize: 13, color: '#64748b', fontWeight: 600 }}>Đang nạp phân hệ...</span>
+    </div>
+  )
+}
+
 export default function App(): JSX.Element {
   const view = useApp((s) => s.view)
   const result = useApp((s) => s.result)
@@ -26,7 +41,19 @@ export default function App(): JSX.Element {
   const trialStatus = useApp((s) => s.trialStatus)
   const updateInfo = useApp((s) => s.updateInfo)
   const setUpdateModalOpen = useApp((s) => s.setUpdateModalOpen)
+  const apiKey = useApp((s) => s.apiKey)
+  const setAiConfigModalOpen = useApp((s) => s.setAiConfigModalOpen)
   const checkAppUpdate = useApp((s) => s.checkAppUpdate)
+  const engagement = useApp((s) => s.engagement)
+  const setEngagementModalOpen = useApp((s) => s.setEngagementModalOpen)
+  const setView = useApp((s) => s.setView)
+
+  // Lắng nghe sự kiện điều hướng về Trang Chủ từ ErrorBoundary
+  useEffect(() => {
+    const handleHome = () => setView('hub')
+    window.addEventListener('auditsoft:navigate-home', handleHome)
+    return () => window.removeEventListener('auditsoft:navigate-home', handleHome)
+  }, [setView])
 
   // Tự động kiểm tra cập nhật khi khởi chạy ứng dụng (delay 2s)
   useEffect(() => {
@@ -35,7 +62,6 @@ export default function App(): JSX.Element {
     }, 2000)
     return () => clearTimeout(timer)
   }, [checkAppUpdate])
-
   return (
     <div className="app-container">
       {/* ── Enterprise Topbar ── */}
@@ -49,6 +75,34 @@ export default function App(): JSX.Element {
         </div>
 
         <div className="header-right">
+          {/* ── Engagement Profile Button (Sheet ADD) ── */}
+          <button
+            type="button"
+            className="btn-engagement-header"
+            onClick={() => setEngagementModalOpen(true)}
+            title="Cấu hình Hồ sơ Kiểm toán & Sheet ADD (Tên khách hàng, Niên độ, KTV)"
+          >
+            <IconClipboard size={13} style={{ color: '#0284c7' }} />
+            <span className="engagement-client-name">
+              {engagement.clientName
+                ? engagement.clientName.slice(0, 24) + (engagement.clientName.length > 24 ? '…' : '')
+                : 'Hồ sơ (ADD)'}
+            </span>
+            <span className="engagement-year-pill">{engagement.fiscalYearEnd.slice(-4)}</span>
+          </button>
+
+          {/* ── Google Gemini 2.5 AI Settings Button ── */}
+          <button
+            type="button"
+            className={`btn-ai-header ${apiKey ? 'configured' : ''}`}
+            onClick={() => setAiConfigModalOpen(true)}
+            title={apiKey ? 'Trợ lý AI Gemini 2.5 đã sẵn sàng (Bấm để cấu hình)' : 'Cấu hình Trợ lý AI Gemini 2.5 (BYOK miễn phí)'}
+          >
+            <span className="ai-star-sparkle">✨</span>
+            <span className="ai-btn-text">AI Gemini 2.5</span>
+            <span className={`ai-dot-indicator ${apiKey ? 'online' : 'offline'}`} />
+          </button>
+
           {/* ── Version & Auto-Update Badge ── */}
           <button
             type="button"
@@ -119,16 +173,21 @@ export default function App(): JSX.Element {
       )}
       {/* ── Main View Area ── */}
       <main className="app-main">
-        {view === 'hub' && <HubPage />}
-        {view === 'b410' && <B410DropZone />}
-        {view === 'setup' && <SetupPage />}
-        {view === 'results' && <ResultsPage />}
-        {view === 'sampling' && <SamplingTab />}
-        {view === 'workingpaper' && <WorkingPaperPage />}
-        {view === 'qtt03' && <Qtt03ConverterPage />}
-        {view === 'analytics' && <PreliminaryAnalyticsPage />}
+        <ErrorBoundary key={view}>
+          <Suspense fallback={<PageLoadingFallback />}>
+            {view === 'hub' && <HubPage />}
+            {view === 'b410' && <B410DropZone />}
+            {view === 'setup' && <SetupPage />}
+            {view === 'results' && <ResultsPage />}
+            {view === 'sampling' && <SamplingTab />}
+            {view === 'workingpaper' && <WorkingPaperPage />}
+            {view === 'qtt03' && <Qtt03ConverterPage />}
+            {view === 'analytics' && <PreliminaryAnalyticsPage />}
+            {view === 'taxstats' && <TaxStatsPage />}
+            {view === 'taxrisk' && <TaxRiskScannerPage />}
+          </Suspense>
+        </ErrorBoundary>
       </main>
-
       {/* ── License & Copyright Modal ── */}
       <LicenseModal isOpen={licenseModalOpen} onClose={() => setLicenseModalOpen(false)} />
 
@@ -136,8 +195,12 @@ export default function App(): JSX.Element {
       <UpdateNoticePopup />
 
       <UpdateModal />
-      {/* ── Database Connection Modal ── */}
-      <DbConnectionModal />
+
+      {/* ── AI Gemini 2.5 Configuration Modal ── */}
+      <AiConfigModal />
+
+      {/* ── Engagement Profile Modal (Sheet ADD) ── */}
+      <EngagementModal />
     </div>
   )
 }

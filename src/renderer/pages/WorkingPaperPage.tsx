@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useApp } from '../state/store'
 import { useTrialExport } from '../../shared/license'
-import type { WorkingPaperGenerationResult } from '../../shared/ipc'
 import {
   IconFolder,
   IconCheck,
@@ -11,28 +10,52 @@ import {
   IconDownload,
 } from '../components/Icons'
 import { extractDroppedFilePath, isExcelOrCsvPath } from '../lib/fileDrop'
+import { AjeDerivationEngine } from '../../domain/workingpaper/AjeDerivationEngine'
 
 export function WorkingPaperPage(): JSX.Element {
+  const engagement = useApp((s) => s.engagement)
+  const setEngagement = useApp((s) => s.setEngagement)
+  const storeSourcePath = useApp((s) => s.workingPaperSourcePath)
+  const beforeFilePath = useApp((s) => s.before.meta?.filePath || s.before.cfg?.filePath || null)
+  const result = useApp((s) => s.result)
+
   const [sourcePath, setSourcePath] = useState<string>('')
-  const [clientName, setClientName] = useState<string>('Công ty Cổ phần May Mặc Gia Công Test')
-  const [fiscalYearEnd, setFiscalYearEnd] = useState<string>('31/12/2026')
-  const [auditorName, setAuditorName] = useState<string>('Đắc Thịnh')
-  const [auditFirmName, setAuditFirmName] = useState<string>('Công ty TNHH Kiểm toán BẮC ĐẨU')
-  const [outputDir, setOutputDir] = useState<string>('')
+  const [clientName, setClientName] = useState<string>(engagement.clientName || 'Công ty Cổ phần May Mặc Gia Công Test')
+  const [fiscalYearEnd, setFiscalYearEnd] = useState<string>(engagement.fiscalYearEnd || '31/12/2026')
+  const [auditPeriod1, setAuditPeriod1] = useState<string>(engagement.auditPeriod1 || '01/01 - 30/06/2026')
+  const [auditPeriod2, setAuditPeriod2] = useState<string>(engagement.auditPeriod2 || '01/07 - 31/12/2026')
+  const [auditorName, setAuditorName] = useState<string>(engagement.auditorName || 'Đắc Thịnh')
+  const [auditFirmName, setAuditFirmName] = useState<string>(engagement.auditFirmName || 'Công ty TNHH Kiểm toán BẮC ĐẨU')
+  const [outputDir, setOutputDir] = useState<string>(engagement.outputDir || '')
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [genResult, setGenResult] = useState<WorkingPaperGenerationResult | null>(null)
+  const genResult = useApp((s) => s.workingPaperGenResult)
+  const setGenResult = useApp((s) => s.setWorkingPaperGenResult)
   const [isDragging, setIsDragging] = useState(false)
   const dragCounter = useRef(0)
-  const storeSourcePath = useApp((s) => s.workingPaperSourcePath)
 
-  // Tự động nạp file khi được chuyển từ SetupPage qua store
+  const isAutoLoadedFromBefore = Boolean(beforeFilePath && sourcePath === beforeFilePath)
+
+  // Đồng bộ từ engagementSlice khi store thay đổi
   useEffect(() => {
-    if (storeSourcePath && storeSourcePath !== sourcePath) {
-      handleLoadPath(storeSourcePath)
+    if (engagement.clientName) setClientName(engagement.clientName)
+    if (engagement.fiscalYearEnd) setFiscalYearEnd(engagement.fiscalYearEnd)
+    if (engagement.auditPeriod1) setAuditPeriod1(engagement.auditPeriod1)
+    if (engagement.auditPeriod2) setAuditPeriod2(engagement.auditPeriod2)
+    if (engagement.auditorName) setAuditorName(engagement.auditorName)
+    if (engagement.auditFirmName) setAuditFirmName(engagement.auditFirmName)
+    if (engagement.outputDir) setOutputDir(engagement.outputDir)
+  }, [engagement])
+
+  // Tự động nạp file: ưu tiên storeSourcePath, fallback về NKC Trước Điều Chỉnh (Nguồn ①)
+  useEffect(() => {
+    const candidatePath = storeSourcePath || beforeFilePath
+    if (candidatePath && (!sourcePath || candidatePath !== sourcePath)) {
+      handleLoadPath(candidatePath)
     }
-  }, [storeSourcePath])
+  }, [storeSourcePath, beforeFilePath])
+
   async function handlePickFile(): Promise<string | null> {
     if (!window.auditsoft) {
       setError('Vui lòng chạy ứng dụng thông qua Electron.')
@@ -42,13 +65,7 @@ export function WorkingPaperPage(): JSX.Element {
     try {
       const picked = await window.auditsoft.pickWorkbook()
       if (picked.canceled || !picked.filePath) return null
-      setSourcePath(picked.filePath)
-
-      const baseName = picked.filePath.split(/[/\\]/).pop() ?? ''
-      if (baseName.includes('2026')) setFiscalYearEnd('31/12/2026')
-      else if (baseName.includes('2025')) setFiscalYearEnd('31/12/2025')
-      else if (baseName.includes('2024')) setFiscalYearEnd('31/12/2024')
-
+      handleLoadPath(picked.filePath)
       return picked.filePath
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err))
@@ -59,9 +76,43 @@ export function WorkingPaperPage(): JSX.Element {
   function handleLoadPath(filePath: string): void {
     setSourcePath(filePath)
     const baseName = filePath.split(/[/\\]/).pop() ?? ''
-    if (baseName.includes('2026')) setFiscalYearEnd('31/12/2026')
-    else if (baseName.includes('2025')) setFiscalYearEnd('31/12/2025')
-    else if (baseName.includes('2024')) setFiscalYearEnd('31/12/2024')
+    let yr = ''
+    if (baseName.includes('2026')) yr = '2026'
+    else if (baseName.includes('2025')) yr = '2025'
+    else if (baseName.includes('2024')) yr = '2024'
+
+    if (yr) {
+      const newFiscal = `31/12/${yr}`
+      const newP1 = `01/01 - 30/06/${yr}`
+      const newP2 = `01/07 - 31/12/${yr}`
+      setFiscalYearEnd(newFiscal)
+      setAuditPeriod1(newP1)
+      setAuditPeriod2(newP2)
+      setEngagement({
+        fiscalYearEnd: newFiscal,
+        auditPeriod1: newP1,
+        auditPeriod2: newP2,
+      })
+    }
+  }
+
+  function handleFiscalYearChange(val: string): void {
+    setFiscalYearEnd(val)
+    const yrMatch = val.match(/\d{4}/)
+    if (yrMatch) {
+      const yr = yrMatch[0]
+      const newP1 = `01/01 - 30/06/${yr}`
+      const newP2 = `01/07 - 31/12/${yr}`
+      setAuditPeriod1(newP1)
+      setAuditPeriod2(newP2)
+      setEngagement({
+        fiscalYearEnd: val,
+        auditPeriod1: newP1,
+        auditPeriod2: newP2,
+      })
+    } else {
+      setEngagement({ fiscalYearEnd: val })
+    }
   }
 
   function handleDragEnter(e: React.DragEvent): void {
@@ -150,17 +201,23 @@ export function WorkingPaperPage(): JSX.Element {
     setError(null)
     setGenResult(null)
     try {
+      let ajes: unknown[] | undefined
+      if (result?.diffRows && result.diffRows.length > 0) {
+        ajes = AjeDerivationEngine.deriveAjesFromDiffRows(result.diffRows)
+      }
+
       const res = await window.auditsoft.generateWorkingPapers({
         sourcePath: activePath,
         outputDir: outputDir.trim() || undefined,
         engagement: {
           clientName: clientName.trim() || 'Doanh Nghiệp Kiểm Toán',
           fiscalYearEnd: fiscalYearEnd.trim() || '31/12/2026',
-          auditPeriod1: '01/01 - 30/06/2026',
-          auditPeriod2: '01/07 - 31/12/2026',
+          auditPeriod1: auditPeriod1.trim() || '01/01 - 30/06/2026',
+          auditPeriod2: auditPeriod2.trim() || '01/07 - 31/12/2026',
           auditorName: auditorName.trim() || 'Đắc Thịnh',
           auditFirmName: auditFirmName.trim() || 'Công ty TNHH Kiểm toán BẮC ĐẨU',
         },
+        adjustingEntries: ajes,
       })
       setGenResult(res)
       useApp.getState().refreshTrialStatus()
@@ -274,12 +331,32 @@ export function WorkingPaperPage(): JSX.Element {
                 Hỗ trợ file .xlsx, .xlsm chứa sổ Nhật ký chung & Bảng CĐSPS
               </div>
             </div>
-
-            {sourcePath && (
-              <span style={{ background: '#dcfce7', color: '#15803d', border: '1px solid #bbf7d0', fontSize: 12, fontWeight: 600, padding: '3px 10px', borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-                <IconCheck size={12} /> Đã sẵn sàng
-              </span>
-            )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              {isAutoLoadedFromBefore && (
+                <span
+                  style={{
+                    background: '#eff6ff',
+                    color: '#1d4ed8',
+                    border: '1px solid #bfdbfe',
+                    fontSize: 11.5,
+                    fontWeight: 600,
+                    padding: '3px 8px',
+                    borderRadius: 6,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                  }}
+                  title="File được tự động nhận diện từ NKC Trước điều chỉnh (Nguồn ①)"
+                >
+                  ⚡ NKC Trước điều chỉnh (Nguồn ①)
+                </span>
+              )}
+              {sourcePath && (
+                <span style={{ background: '#dcfce7', color: '#15803d', border: '1px solid #bbf7d0', fontSize: 12, fontWeight: 600, padding: '3px 10px', borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                  <IconCheck size={12} /> Đã sẵn sàng
+                </span>
+              )}
+            </div>
           </div>
 
           <div
@@ -394,7 +471,10 @@ export function WorkingPaperPage(): JSX.Element {
                   type="text"
                   className="input-text"
                   value={clientName}
-                  onChange={(e) => setClientName(e.target.value)}
+                  onChange={(e) => {
+                    setClientName(e.target.value)
+                    setEngagement({ clientName: e.target.value })
+                  }}
                   style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
                   placeholder="Công ty TNHH ABC"
                 />
@@ -408,7 +488,7 @@ export function WorkingPaperPage(): JSX.Element {
                   type="text"
                   className="input-text"
                   value={fiscalYearEnd}
-                  onChange={(e) => setFiscalYearEnd(e.target.value)}
+                  onChange={(e) => handleFiscalYearChange(e.target.value)}
                   style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
                   placeholder="31/12/2026"
                 />
@@ -422,9 +502,46 @@ export function WorkingPaperPage(): JSX.Element {
                   type="text"
                   className="input-text"
                   value={auditorName}
-                  onChange={(e) => setAuditorName(e.target.value)}
+                  onChange={(e) => {
+                    setAuditorName(e.target.value)
+                    setEngagement({ auditorName: e.target.value })
+                  }}
                   style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
                   placeholder="Đắc Thịnh"
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#475569', marginBottom: 4 }}>
+                  Đợt 1 (Interim / Giữa kỳ):
+                </label>
+                <input
+                  type="text"
+                  className="input-text"
+                  value={auditPeriod1}
+                  onChange={(e) => {
+                    setAuditPeriod1(e.target.value)
+                    setEngagement({ auditPeriod1: e.target.value })
+                  }}
+                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
+                  placeholder="01/01 - 30/06/2026"
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#475569', marginBottom: 4 }}>
+                  Đợt 2 (Final / Cuối kỳ):
+                </label>
+                <input
+                  type="text"
+                  className="input-text"
+                  value={auditPeriod2}
+                  onChange={(e) => {
+                    setAuditPeriod2(e.target.value)
+                    setEngagement({ auditPeriod2: e.target.value })
+                  }}
+                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
+                  placeholder="01/07 - 31/12/2026"
                 />
               </div>
 
@@ -436,7 +553,10 @@ export function WorkingPaperPage(): JSX.Element {
                   type="text"
                   className="input-text"
                   value={auditFirmName}
-                  onChange={(e) => setAuditFirmName(e.target.value)}
+                  onChange={(e) => {
+                    setAuditFirmName(e.target.value)
+                    setEngagement({ auditFirmName: e.target.value })
+                  }}
                   style={{ width: '100%', padding: '8px 12px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: 13 }}
                   placeholder="Công ty TNHH Kiểm toán BẮC ĐẨU"
                 />

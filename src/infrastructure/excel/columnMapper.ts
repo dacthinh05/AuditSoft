@@ -39,6 +39,7 @@ export interface HeaderDetection {
 /** Dò hàng tiêu đề + mapping cột tự động từ ma trận dữ liệu thô. */
 export function detectHeaderAndMapping(matrix: readonly (readonly unknown[])[]): HeaderDetection {
   let best: HeaderDetection = { headerRowIndex: -1, mapping: emptyMapping(), confidence: 0 }
+  let bestScoreAll = 0
 
   const limit = Math.min(matrix.length, 10)
   for (let r = 0; r < limit; r++) {
@@ -66,7 +67,8 @@ export function detectHeaderAndMapping(matrix: readonly (readonly unknown[])[]):
     const totalScore = [...chosen.values()].reduce((acc, v) => acc + v.score, 0)
     const matchedRoles = chosen.size
     // cần ít nhất 3 vai trò khớp để coi là hàng tiêu đề đáng tin
-    if (matchedRoles >= 3 && totalScore > best.confidence * 6) {
+    if (matchedRoles >= 3 && totalScore > bestScoreAll) {
+      bestScoreAll = totalScore
       best = {
         headerRowIndex: r,
         mapping: {
@@ -81,7 +83,8 @@ export function detectHeaderAndMapping(matrix: readonly (readonly unknown[])[]):
           exchangeRate: chosen.get('exchangeRate')?.col ?? null,
           foreignAmount: chosen.get('foreignAmount')?.col ?? null,
         },
-        confidence: matchedRoles / 6,
+        // Quy đổi độ tin cậy về thang đo phần trăm chuẩn 0 - 100%
+        confidence: Math.min(100, Math.round((matchedRoles / 6) * 100)),
       }
     }
   }

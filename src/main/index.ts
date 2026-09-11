@@ -12,16 +12,25 @@ import { runFullAnalysis } from './AnalysisPipeline'
 import { buildAuditWorkbook } from './export/AuditReportExporter'
 import { buildTaxReconWorkbook } from './export/TaxReconExporter'
 import type { TaxCrossReconciliationResult } from '../domain/analytics/TaxCrossReconciler'
+import { buildProfilerWorkbook } from '../infrastructure/excel/exportDataProfiler'
+import { buildExpenseByNatureWorkbook } from '../infrastructure/excel/exportExpenseByNature'
+import type { ExpenseByNatureReport } from '../domain/analytics/types'
+import type { ProfileSummary } from '../domain/profiling/dataProfiler'
+import type { DiffRow } from '../domain/types'
 import fs from 'node:fs'
 import ExcelJS from 'exceljs'
 import { checkForAppUpdates, downloadAndInstallUpdate } from './updater'
 import { LocalHtkkScanner } from '../domain/etax/LocalHtkkScanner'
 import { assertAuditDirectory, assertAuditFileReadable } from './ipcFileGuard'
 import { LocalXmlIngestionEngine } from '../domain/etax/ingestion/LocalXmlIngestionEngine'
-
+import { testGeminiConnection, generateGeminiAuditReview, type FinancialMetricsPayload } from './services/GeminiService'
+import { verifyLicense } from '../shared/license'
+import { buildInterimPeriodBalances } from '../domain/workingpaper/InterimPeriodReconciler'
 let mainWindow: BrowserWindow | null = null
 let activeReconcileWorker: Worker | null = null
 let activeExportWorker: Worker | null = null
+// Vô hiệu hóa tính năng Print Preview và tự động dò máy in mạng của Chromium
+app.commandLine.appendSwitch('disable-print-preview')
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -43,6 +52,13 @@ function createWindow(): void {
 
   Menu.setApplicationMenu(null)
   mainWindow.once('ready-to-show', () => mainWindow?.show())
+
+  // Chặn phím tắt Ctrl+P mặc định của Chromium để không kích hoạt Windows Print Spooler / Driver máy in mạng
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.control && input.key.toLowerCase() === 'p') {
+      event.preventDefault()
+    }
+  })
 
   const devUrl = process.env.VITE_DEV_SERVER_URL
   if (devUrl) {
@@ -168,7 +184,7 @@ function registerIpcHandlers(): void {
 
     try {
       const analysis = await runFullAnalysis(req)
-      const wb = buildAuditWorkbook(analysis)
+      const wb = buildAuditWorkbook(analysis, req.chartImages, req.glAnalyticsData)
       await wb.xlsx.writeFile(save.filePath)
       return { ok: true, outPath: save.filePath }
     } catch (err) {
@@ -223,6 +239,58 @@ function registerIpcHandlers(): void {
     await wb.xlsx.writeFile(save.filePath)
     return { ok: true, outPath: save.filePath }
   })
+  ipcMain.handle(IPC.exportProfilerReport, async (_e, rawReq: unknown) => {
+    const req = rawReq as {
+      suggestedName?: string
+      summary: ProfileSummary
+      filteredRows?: DiffRow[]
+      filterDesc?: string
+    }
+    if (!req || !req.summary) throw new Error('Thiếu dữ liệu phân tích Data Profiler')
+    const win = mainWindow ?? undefined
+    const suggested = typeof req.suggestedName === 'string' && req.suggestedName.trim() !== ''
+      ? req.suggestedName
+      : 'BaoCao-PhanTich-RuiRo-Cutoff.xlsx'
+    const save = await dialog.showSaveDialog(win as BrowserWindow, {
+      title: 'Xuất báo cáo phân tích rủi ro khóa sổ',
+      defaultPath: suggested,
+      filters: [{ name: 'Excel', extensions: ['xlsx'] }],
+    })
+    if (save.canceled || !save.filePath) {
+      return { ok: false, outPath: null }
+    }
+    const wb = buildProfilerWorkbook(req.summary, req.filteredRows, req.filterDesc)
+    await wb.xlsx.writeFile(save.filePath)
+    return { ok: true, outPath: save.filePath }
+  })
+
+  ipcMain.handle(IPC.exportExpenseByNature, async (_e, rawReq: unknown) => {
+    const req = rawReq as {
+      report: ExpenseByNatureReport
+      clientName?: string
+      fiscalYear?: string
+      suggestedName?: string
+    }
+    if (!req || !req.report) throw new Error('Thiếu dữ liệu ma trận chi phí theo yếu tố')
+    const win = mainWindow ?? undefined
+    const yr = req.fiscalYear || `${new Date().getFullYear()}`
+    const suggested =
+      typeof req.suggestedName === 'string' && req.suggestedName.trim() !== ''
+        ? req.suggestedName
+        : `MaTran-ChiPhi-YeuTo-12M-${yr}.xlsx`
+
+    const save = await dialog.showSaveDialog(win as BrowserWindow, {
+      title: 'Xuất Ma Trận Chi Phí Theo Yếu Tố (12 Tháng & Chi Tiết Tài Khoản)',
+      defaultPath: suggested,
+      filters: [{ name: 'Excel Workbook', extensions: ['xlsx'] }],
+    })
+    if (save.canceled || !save.filePath) {
+      return { ok: false, outPath: null }
+    }
+    const wb = buildExpenseByNatureWorkbook(req.report, req.clientName, yr)
+    await wb.xlsx.writeFile(save.filePath)
+    return { ok: true, outPath: save.filePath }
+  })
 
   // ── Working Paper Auto-Fill ──
   ipcMain.handle(IPC.pickDirectory, async () => {
@@ -242,6 +310,8 @@ function registerIpcHandlers(): void {
     await shell.openPath(p)
   })
   ipcMain.handle(IPC.showItemInFolder, async (_e, rawPath: unknown) => {
+    const p = zString(rawPath, 'targetPath')
+    shell.showItemInFolder(path.resolve(p))
   })
 
   ipcMain.handle(IPC.generateWorkingPapers, async (_e, rawReq: unknown) => {
@@ -258,10 +328,15 @@ function registerIpcHandlers(): void {
     const sanitizedClient = (req.engagement?.clientName || 'DoanhNghiep').replace(/[\\/:*?"<>|]/g, '_').trim()
     const year = (req.engagement?.fiscalYearEnd || '2026').slice(-4)
     const defaultOutDir = req.outputDir || path.resolve(path.dirname(req.sourcePath), `HoSoKiemToan_${sanitizedClient}_${year}`)
-
     const ctx = await extractAccountingContext(req.sourcePath, req.engagement)
     if (req.taxVatDeclarations && req.taxVatDeclarations.length > 0) {
       ctx.vatDeclarations = req.taxVatDeclarations
+    }
+    if (req.interimWpDir) {
+      ctx.interimBalances = await buildInterimPeriodBalances(req.interimWpDir, ctx)
+    }
+    if (req.adjustingEntries && Array.isArray(req.adjustingEntries) && req.adjustingEntries.length > 0) {
+      ctx.adjustingEntries = req.adjustingEntries as never
     }
     return generateAllWorkingPapers(templateDir, defaultOutDir, ctx)
   })
@@ -363,6 +438,22 @@ function registerIpcHandlers(): void {
       ],
     })
     return { canceled: res.canceled, filePaths: res.filePaths }
+  })
+
+  // ── Google Gemini 2.5 AI Audit Advisor ──
+  ipcMain.handle(IPC.geminiTestConnection, async (_e, apiKey: string, model?: string) => {
+    return testGeminiConnection(apiKey, model)
+  })
+
+  ipcMain.handle(IPC.geminiAnalyze, async (_e, rawReq: unknown) => {
+    const req = rawReq as { apiKey: string; payload: FinancialMetricsPayload; model?: string }
+    if (!req || !req.apiKey) throw new Error('Vui lòng cung cấp Gemini API Key.')
+    return generateGeminiAuditReview(req.apiKey, req.payload, req.model)
+  })
+
+  // ── Bản quyền bảo mật Ed25519 (Chạy Node.js Crypto phía Main Process 100% chính xác) ──
+  ipcMain.handle(IPC.verifyLicenseKey, async (_e, licenseKey: string, machineId: string) => {
+    return verifyLicense(machineId, licenseKey)
   })
 }
 

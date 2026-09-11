@@ -11,6 +11,7 @@ interface AuditDataProfilerBarProps {
   onClearFilters: () => void
   isOpen: boolean
   onToggleOpen: () => void
+  onExportProfiler?: () => void
 }
 
 function fmtShortVnd(amount: bigint): string {
@@ -33,6 +34,7 @@ export function AuditDataProfilerBar({
   onClearFilters,
   isOpen,
   onToggleOpen,
+  onExportProfiler,
 }: AuditDataProfilerBarProps): JSX.Element {
   const hasActiveFilter = selectedMonth !== null || selectedTier !== null
 
@@ -67,6 +69,17 @@ export function AuditDataProfilerBar({
             </div>
           )}
 
+          {onExportProfiler && (
+            <button
+              type="button"
+              className="btn-export-profiler"
+              onClick={onExportProfiler}
+              title="Xuất bảng phân tích dữ liệu & danh sách chứng từ lọc sang Excel"
+            >
+              📊 Xuất Excel Phân Tích
+            </button>
+          )}
+
           <button
             type="button"
             className="btn-toggle-profiler-view"
@@ -91,35 +104,41 @@ export function AuditDataProfilerBar({
             <div className="tier-pills-list">
               {summary.tiers.map((t) => {
                 const isSelected = selectedTier === t.key
+                const isKeyItem = t.key === 'KEY_ITEM'
+                const isHigh = t.key === 'HIGH'
                 return (
                   <div
                     key={t.key}
                     className={`tier-pill-card ${isSelected ? 'selected' : ''} tier-${t.key.toLowerCase()}`}
                     onClick={() => onSelectTier(isSelected ? null : t.key)}
+                    title={`Bấm để lọc các bút toán ${t.label} (Tổng: ${fmtShortVnd(t.totalAmount)} đ)`}
                   >
                     <div className="tier-card-top">
                       <span className="tier-label">{t.label}</span>
-                      <span className="tier-sub-tag">{t.subLabel}</span>
+                      <span className="tier-sub-tag">
+                        {isKeyItem ? '🚨 Trọng yếu' : isHigh ? '⚠️ Lưu ý' : t.subLabel}
+                      </span>
+                    </div>
+
+                    <div className="tier-card-middle">
+                      <span className="tier-amount-hero">{fmtShortVnd(t.totalAmount)} <small>đ</small></span>
                     </div>
 
                     <div className="tier-card-bottom">
                       <span className="tier-count">
                         <strong>{t.count.toLocaleString('vi-VN')}</strong> dòng ({t.percentOfTotal}%)
                       </span>
-                      <span className="tier-amount">{fmtShortVnd(t.totalAmount)} đ</span>
-                    </div>
-
-                    <div className="tier-progress-bg">
-                      <div
-                        className="tier-progress-bar"
-                        style={{ width: `${Math.min(100, Math.max(t.count > 0 ? 5 : 0, t.percentOfTotal))}%` }}
-                      />
+                      <div className="tier-progress-bg">
+                        <div
+                          className="tier-progress-bar"
+                          style={{ width: `${Math.min(100, Math.max(t.count > 0 ? 6 : 0, t.percentOfTotal))}%` }}
+                        />
+                      </div>
                     </div>
                   </div>
                 )
               })}
             </div>
-
             {/* Thống kê bổ sung: Tiền tròn */}
             {summary.quality.roundAmountCount > 0 && (
               <div className="round-amount-notice">

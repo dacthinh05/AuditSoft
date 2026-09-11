@@ -37,6 +37,18 @@ export interface ExportRunRequest {
   excludeKetChuyen: boolean
   result: ReconcileResult
 }
+export interface ExportProfilerRequest {
+  suggestedName?: string
+  summary: unknown // ProfileSummary
+  filteredRows?: unknown[] // DiffRow[]
+  filterDesc?: string
+}
+export interface ExportExpenseByNatureRequest {
+  report: unknown // ExpenseByNatureReport
+  clientName?: string
+  fiscalYear?: string
+  suggestedName?: string
+}
 
 export interface WorkbookSheetMeta {
   name: string
@@ -75,6 +87,8 @@ export interface AuditBridgeApi {
   cancelReconcile(): Promise<void>
   exportReport(req: ExportRunRequest): Promise<ExportResultPayload>
   exportTaxReport(result: TaxCrossReconciliationResult): Promise<ExportResultPayload>
+  exportProfilerReport(req: ExportProfilerRequest): Promise<ExportResultPayload>
+  exportExpenseByNature(req: ExportExpenseByNatureRequest): Promise<ExportResultPayload>
   onProgress(cb: (p: ProgressMessage) => void): () => void
   /** Audit Analytics */
   auditAnalyze(req: AuditAnalyzeRequest): Promise<AnalysisResult>
@@ -103,10 +117,14 @@ export interface AuditBridgeApi {
   readHtkkFile(filePath: string): Promise<string | null>
   importTaxXmlFiles(filePaths: string[]): Promise<IngestedTaxDeclarations>
   pickTaxFiles(): Promise<{ canceled: boolean; filePaths: string[] }>
+  geminiTestConnection(apiKey: string, model?: string): Promise<{ success: boolean; message: string }>
+  geminiAnalyze(req: unknown): Promise<{ success: boolean; reviewText?: string; error?: string }>
+  verifyLicenseKey(licenseKey: string, machineId: string): Promise<{ valid: boolean; message: string; payload?: unknown }>
+  readClipboardText(): Promise<string>
 }
-
 export interface GenerateWorkingPapersRequest {
   sourcePath: string
+  adjustedSourcePath?: string
   templateDir?: string
   outputDir?: string
   engagement: {
@@ -121,6 +139,10 @@ export interface GenerateWorkingPapersRequest {
   }
   /** Tờ khai GTGT đã nạp ở phân hệ Thuế — main điền vào GLV E300 */
   taxVatDeclarations?: VatDeclarationSnapshot[]
+  /** Đường dẫn thư mục hoặc file ZIP bộ Giấy làm việc Đợt 1 (30/06) để đối chiếu hồi tố */
+  interimWpDir?: string
+  /** Danh sách các bút toán điều chỉnh kiểm toán (AJE) từ đối chiếu Nguồn 1 vs Nguồn 2 */
+  adjustingEntries?: unknown[]
 }
 
 export interface WorkingPaperGenerationResult {
@@ -144,6 +166,8 @@ export const IPC = {
   cancelReconcile: 'auditsoft/cancelReconcile',
   exportReport: 'auditsoft/exportReport',
   exportTaxReport: 'auditsoft/exportTaxReport',
+  exportProfilerReport: 'auditsoft/exportProfilerReport',
+  exportExpenseByNature: 'auditsoft/exportExpenseByNature',
   progress: 'auditsoft:progress',
   auditAnalyze: 'auditsoft/auditAnalyze',
   auditExport: 'auditsoft/auditExport',
@@ -162,6 +186,9 @@ export const IPC = {
   readHtkkFile: 'auditsoft/readHtkkFile',
   importTaxXmlFiles: 'auditsoft/importTaxXmlFiles',
   pickTaxFiles: 'auditsoft/pickTaxFiles',
+  geminiTestConnection: 'auditsoft/geminiTestConnection',
+  geminiAnalyze: 'auditsoft/geminiAnalyze',
+  verifyLicenseKey: 'auditsoft/verifyLicenseKey',
 } as const
 
 /** Channel strings dùng bởi preload (sandbox — không import được module khác). */

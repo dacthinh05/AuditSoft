@@ -122,12 +122,33 @@ export class VatXmlParser {
     }
   }
 
+  /** Dấu hiệu tờ khai KHÔNG phải GTGT (TNCN, TNDN...) — ưu tiên hơn envelope chung. */
+  private static hasNonVatFormMarker(xmlContent: string): boolean {
+    return (
+      xmlContent.includes('05/KK') ||
+      xmlContent.includes('05/QTT') ||
+      xmlContent.includes('05_KK') ||
+      xmlContent.includes('05_QTT') ||
+      xmlContent.includes('02/KK-TNCN') ||
+      xmlContent.includes('TKhaiThueTNCN') ||
+      xmlContent.includes('ToKhaiTNCN') ||
+      xmlContent.includes('03/TNDN') ||
+      xmlContent.includes('03_TNDN') ||
+      xmlContent.includes('/TNCN') ||
+      xmlContent.includes('_TNCN')
+    )
+  }
+
   public static parseVatXml(
     xmlContent: string,
     sourceFile?: string,
   ): VatDeclarationSnapshot | null {
     if (!xmlContent || typeof xmlContent !== 'string') return null
-    if (!xmlContent.includes('01/GTGT') && !xmlContent.includes('01_GTGT') && !xmlContent.includes('TKhaiThue')) {
+    const hasVatMarker = xmlContent.includes('01/GTGT') || xmlContent.includes('01_GTGT')
+    // Envelope TKhaiThue là chung cho mọi loại tờ khai HTKK — không đủ để kết luận GTGT.
+    // Tờ khai TNCN/TNDN có marker riêng thì từ chối ngay để parser chuyên biệt xử lý.
+    if (!hasVatMarker && this.hasNonVatFormMarker(xmlContent)) return null
+    if (!hasVatMarker && !xmlContent.includes('TKhaiThue')) {
       // Kiểm tra xem có các tag đặc thù của 01/GTGT không
       if (!this.findTag(xmlContent, ['ct22', 'ct23', 'ct34', 'ct35'])) {
         return null

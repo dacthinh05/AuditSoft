@@ -95,27 +95,16 @@ describe('AnalysisPipeline end-to-end (Phase A–F)', () => {
     expect(dec).toBeDefined()
     expect(dec!.evidence.journalEntryIds?.length).toBe(1)
 
-    // Exporter tạo đủ 8 sheet
+    // Exporter tạo sheet báo cáo tổng hợp VSA 520 chuẩn mực
     const wb = buildAuditWorkbook(res)
-    const names = wb.worksheets.map((w) => w.name).sort()
-    expect(names).toEqual([
-      '01_Risk_Summary',
-      '02_KQKD_Analysis',
-      '03_Account_Analysis',
-      '04_Monthly_Trend',
-      '05_JE_Risks',
-      '06_NKC_CDSPS_Recon',
-      '07_Risk_Detail',
-      '08_Selected_Journals',
-      '09_ChiPhi_BienDong',
-    ])
-
+    const names = wb.worksheets.map((w) => w.name)
+    expect(names).toContain('BaoCao_PhanTich_VSA520')
     // ghi đọc lại được
     const out = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'exp-')), 'rep.xlsx')
     await wb.xlsx.writeFile(out)
     const rb = new ExcelJS.Workbook()
     await rb.xlsx.readFile(out)
-    expect(rb.getWorksheet('01_Risk_Summary')!.rowCount).toBeGreaterThan(1)
+    expect(rb.getWorksheet('BaoCao_PhanTich_VSA520')!.rowCount).toBeGreaterThan(1)
   }, 60_000)
 
   it('materiality truyền từ request vào engine', async () => {

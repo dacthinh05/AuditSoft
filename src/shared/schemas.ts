@@ -32,14 +32,25 @@ export const reconcileRequestSchema = z.object({
 
 export const auditAnalyzeSchema = z.object({
   filePath: z.string().min(1),
+  sheetName: z.string().optional(),
   overall: z.number().nonnegative().optional(),
   performance: z.number().nonnegative().optional(),
   clearlyTrivial: z.number().nonnegative().optional(),
   fiscalYear: z.number().int().min(2000).max(2100).optional(),
 })
 
+export const chartImageSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  pngBase64: z.string(),
+  width: z.number().optional(),
+  height: z.number().optional(),
+})
+
 export const auditExportSchema = auditAnalyzeSchema.extend({
   suggestedName: z.string().optional(),
+  chartImages: z.array(chartImageSchema).optional(),
+  glAnalyticsData: z.unknown().optional(),
 })
 
 export const exportRequestSchema = z
