@@ -304,7 +304,7 @@ export function WorkingPaperPage(): JSX.Element {
             Tự động lập & Điền trọn bộ 12 Giấy làm việc (GLV) Mẫu
           </h1>
           <p style={{ margin: '6px 0 0', fontSize: 13, color: '#64748b', lineHeight: 1.5 }}>
-            Chỉ cần nạp <strong>1 file Excel kế toán duy nhất</strong> (chứa sheet <code>NKC</code> & <code>CDFS</code> như <code>MAU NKC.xlsx</code>). Hệ thống tự động tính mức trọng yếu, bốc mẫu phát sinh theo chuẩn VSA 530, kiểm tra Cutoff 31/12 và điền trực tiếp vào 12 file Excel chuẩn mực của công ty.
+            Chỉ cần nạp <strong>1 file Excel kế toán duy nhất</strong> (chứa sheet <code>NKC</code> & <code>CDFS</code> như <code>MAU NKC.xlsx</code>). Hệ thống tự động tính mức trọng yếu, bốc mẫu phát sinh theo chuẩn VSA 530, kiểm tra Cutoff 31/12 và điền trực tiếp vào 15 file Excel chuẩn mực của công ty.
           </p>
         </div>
 
@@ -313,7 +313,7 @@ export function WorkingPaperPage(): JSX.Element {
             ✓ Tự bốc mẫu VSA 530 (Key + Risk + MUS)
           </div>
           <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', color: '#334155', fontSize: 12, fontWeight: 600, padding: '5px 12px', borderRadius: 6 }}>
-            ✓ Điền 12 File Excel GLV giữ nguyên công thức
+            ✓ Điền 15 File Excel GLV giữ nguyên công thức
           </div>
         </div>
       </div>
@@ -500,7 +500,7 @@ export function WorkingPaperPage(): JSX.Element {
               Thông Tin Hồ Sơ Kiểm Toán (ADD)
             </h3>
             <div style={{ fontSize: 12, color: '#64748b', marginBottom: 16 }}>
-              Tự động điền vào tiêu đề tất cả 12 file phần hành
+              Tự động điền vào tiêu đề tất cả 15 file phần hành
             </div>
 
             {/* Preview Strings */}
@@ -776,7 +776,7 @@ export function WorkingPaperPage(): JSX.Element {
             </>
           ) : (
             <>
-              <IconLayers size={18} /> Bốc mẫu VSA 530 & Xuất trọn bộ 12 file Excel GLV
+              <IconLayers size={18} /> Bốc mẫu VSA 530 & Xuất trọn bộ 15 file Excel GLV
             </>
           )}
         </button>
@@ -822,7 +822,7 @@ export function WorkingPaperPage(): JSX.Element {
                 boxShadow: '0 4px 12px rgba(22, 163, 74, 0.3)',
               }}
             >
-              <IconFolder size={18} /> 📂 Mở thư mục chứa 12 File Excel
+              <IconFolder size={18} /> Mở thư mục chứa {genResult.totalFilesProcessed || 15} File Excel
             </button>
           </div>
 
