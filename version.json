@@ -1,13 +1,13 @@
 {
-  "version": "1.1.9",
-  "releaseDate": "2026-09-11",
-  "title": "AuditSoft v1.1.9 — Kích Hoạt Dùng Thử 30 Ngày Toàn Diện Cho Người Dùng Mới",
+  "version": "1.2.0",
+  "releaseDate": "2026-09-13",
+  "title": "AuditSoft v1.2.0 — Chốt Số Dư CĐPS Chuẩn Mới, Thuyết Minh VSA 520 AI Vào Excel & Tối Ưu Giao Diện",
   "changelog": [
-    "Kích hoạt chính sách dùng thử miễn phí 30 ngày cho tất cả người dùng mới, mở khóa toàn bộ tính năng kiểm toán",
-    "Hiển thị số ngày dùng thử trực quan trên thanh tiêu đề và thông báo chi tiết trong bảng bản quyền",
-    "Bảo vệ kép tiến trình xuất dữ liệu từ Main Process và Renderer khi hết hạn dùng thử",
-    "Tối ưu hóa hiệu năng và đồng bộ cấu hình phiên bản v1.1.9"
+    "Đồng bộ toàn diện màn Chốt Số Dư (CĐPS & Sổ) theo chuẩn Chốt Công Nợ: Dual File Slots, Drawer soi cơ cấu đối ứng 12M, smart sort",
+    "Tự động xuất toàn văn bài Thuyết minh kiểm toán VSA 520 (Executive Summary, Ma trận thủ tục đề xuất, 4 phần phân tích) thành Sheet riêng trong file Excel",
+    "Tối ưu phân tích AI Gemini 2.5: ghép đa luồng phản hồi, nâng giới hạn token, xử lý triệt để lỗi hiển thị code block JSON",
+    "Hoàn thiện giao diện: loại bỏ dải đen dark mode bảng KQKD YoY, sửa trùng màu nền dòng với huy hiệu Nguồn (+ Thêm sau ĐC / - Xóa sau ĐC)"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.9/AuditSoft-1.1.9-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.1.9/AuditSoft-1.1.9-Portable.exe"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.0/AuditSoft-1.2.0-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.0/AuditSoft-1.2.0-Portable.exe"
 }
