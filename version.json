@@ -8,6 +8,7 @@
     "Tối ưu phân tích AI Gemini 2.5: ghép đa luồng phản hồi, nâng giới hạn token, xử lý triệt để lỗi hiển thị code block JSON",
     "Hoàn thiện giao diện: loại bỏ dải đen dark mode bảng KQKD YoY, sửa trùng màu nền dòng với huy hiệu Nguồn (+ Thêm sau ĐC / - Xóa sau ĐC)"
   ],
+  "sha256": "db3da67e6c2d014ea5c94804b1e59ba61ea54bba77c645244983d08593da1397",
   "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.0/AuditSoft-1.2.0-Setup.exe",
   "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.0/AuditSoft-1.2.0-Portable.exe"
 }
