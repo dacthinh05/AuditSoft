@@ -1,13 +1,18 @@
 {
-  "version": "1.2.1",
-  "releaseDate": "2026-09-13",
-  "title": "AuditSoft v1.2.1 — Căn Giữa Modal Xem Trước Công Nợ, Sửa Lỗi Wrap Text D720 & Chuẩn Hóa OpenXML",
+  "version": "1.2.2",
+  "releaseDate": "2026-09-14",
+  "title": "AuditSoft v1.2.2 — Toàn Vẹn Tổng Thể Sổ Cái, Chọn Mẫu Tái Lập VSA 530 & Xác Thực OpenXML SDK",
   "changelog": [
-    "Tối ưu giao diện xem trước chi tiết công nợ & chốt số dư: chuyển từ bảng dạt phải sang Modal Dialog 1200px căn giữa chuyên nghiệp, chống cắt cụt chữ cột diễn giải nghiệp vụ và thêm phím tắt Escape",
-    "Sửa triệt để lỗi Wrap Text và trượt Merged Cells trên Giấy làm việc D 720 (Chương trình kiểm toán & Thuyết minh TSCĐ theo TT 45 / VACPA), khôi phục đủ 8 thủ tục kiểm toán chuẩn",
-    "Nâng cấp tính toàn vẹn OpenXML: bảo vệ cấu trúc ô tự đóng và công thức khi sinh 15 Giấy làm việc tự động"
+    "PR0: Tích hợp bộ sinh dữ liệu kiểm thử thực tế >=100.000 dòng TT200 và khung đo lường độ chính xác bộ dò VSA 240/250",
+    "PR1: Kiểm soát toàn vẹn tổng thể (Control Totals Tie-Out), bảo tồn khóa dòng gốc và gỡ bỏ giới hạn 50.000 dòng trong chọn mẫu",
+    "PR2: Rà soát bất thường nhật ký chung toàn tổng thể, tích hợp kiểm định luật Benford (chữ số 1 & 2) và theo dõi giải trình kiểm toán",
+    "PR3: Phân tách chọn mẫu thống kê MUS/PPS với quy trình VACPA A810, cách ly số âm, hạt giống PRNG tái lập 100% và đánh giá sai sót cận trên Stringer UEL",
+    "PR4: Xóa bỏ thay thế công thức #REF!, loại bỏ styleId mồ côi và tích hợp công cụ kiểm tra Open XML SDK độc lập bảo vệ 15 Giấy làm việc",
+    "PR5: Bổ sung bộ adapter đọc hóa đơn điện tử đa nhà cung cấp (TCT, MISA, VNPT, Viettel, FPT) và xác thực chữ ký điện tử XMLDSig",
+    "PR6: Xử lý dữ liệu nền cô lập trong Worker Threads, bảo toàn số học tiền tệ BigInt chính xác tuyệt đối và cơ chế fallback an toàn",
+    "PR7: Nâng cấp xác thực mã băm bộ cài đặt SHA-256, mã hóa API Key qua Windows DPAPI và kiểm soát chấp thuận gửi dữ liệu AI"
   ],
-  "sha256": "e684b140d2e5c89e001c5ad0980d47d8789445afdce2f1f369373f0fdfb46e97",
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.1/AuditSoft-1.2.1-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.1/AuditSoft-1.2.1-Portable.exe"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.2/AuditSoft-1.2.2-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.2/AuditSoft-1.2.2-Portable.exe",
+  "sha256": "c32f63813f200573aa97a97316e99bd17588ac82be165f863e3f9d4cb0b1dc7d"
 }
