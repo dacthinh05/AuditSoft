@@ -1,14 +1,13 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.1",
   "releaseDate": "2026-09-13",
-  "title": "AuditSoft v1.2.0 — Chốt Số Dư CĐPS Chuẩn Mới, Thuyết Minh VSA 520 AI Vào Excel & Tối Ưu Giao Diện",
+  "title": "AuditSoft v1.2.1 — Căn Giữa Modal Xem Trước Công Nợ, Sửa Lỗi Wrap Text D720 & Chuẩn Hóa OpenXML",
   "changelog": [
-    "Đồng bộ toàn diện màn Chốt Số Dư (CĐPS & Sổ) theo chuẩn Chốt Công Nợ: Dual File Slots, Drawer soi cơ cấu đối ứng 12M, smart sort",
-    "Tự động xuất toàn văn bài Thuyết minh kiểm toán VSA 520 (Executive Summary, Ma trận thủ tục đề xuất, 4 phần phân tích) thành Sheet riêng trong file Excel",
-    "Tối ưu phân tích AI Gemini 2.5: ghép đa luồng phản hồi, nâng giới hạn token, xử lý triệt để lỗi hiển thị code block JSON",
-    "Hoàn thiện giao diện: loại bỏ dải đen dark mode bảng KQKD YoY, sửa trùng màu nền dòng với huy hiệu Nguồn (+ Thêm sau ĐC / - Xóa sau ĐC)"
+    "Tối ưu giao diện xem trước chi tiết công nợ & chốt số dư: chuyển từ bảng dạt phải sang Modal Dialog 1200px căn giữa chuyên nghiệp, chống cắt cụt chữ cột diễn giải nghiệp vụ và thêm phím tắt Escape",
+    "Sửa triệt để lỗi Wrap Text và trượt Merged Cells trên Giấy làm việc D 720 (Chương trình kiểm toán & Thuyết minh TSCĐ theo TT 45 / VACPA), khôi phục đủ 8 thủ tục kiểm toán chuẩn",
+    "Nâng cấp tính toàn vẹn OpenXML: bảo vệ cấu trúc ô tự đóng và công thức khi sinh 15 Giấy làm việc tự động"
   ],
-  "sha256": "db3da67e6c2d014ea5c94804b1e59ba61ea54bba77c645244983d08593da1397",
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.0/AuditSoft-1.2.0-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.0/AuditSoft-1.2.0-Portable.exe"
+  "sha256": "e684b140d2e5c89e001c5ad0980d47d8789445afdce2f1f369373f0fdfb46e97",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.1/AuditSoft-1.2.1-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.1/AuditSoft-1.2.1-Portable.exe"
 }
