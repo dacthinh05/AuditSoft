@@ -1,18 +1,15 @@
 {
-  "version": "1.2.2",
+  "version": "1.2.3",
   "releaseDate": "2026-09-14",
-  "title": "AuditSoft v1.2.2 — Toàn Vẹn Tổng Thể Sổ Cái, Chọn Mẫu Tái Lập VSA 530 & Xác Thực OpenXML SDK",
+  "title": "AuditSoft v1.2.3 — Tối Ưu Tuổi Số Dư FIFO 2 Tầng, Nâng Cấp Dark Mode & Đồng Bộ Nạp File",
   "changelog": [
-    "PR0: Tích hợp bộ sinh dữ liệu kiểm thử thực tế >=100.000 dòng TT200 và khung đo lường độ chính xác bộ dò VSA 240/250",
-    "PR1: Kiểm soát toàn vẹn tổng thể (Control Totals Tie-Out), bảo tồn khóa dòng gốc và gỡ bỏ giới hạn 50.000 dòng trong chọn mẫu",
-    "PR2: Rà soát bất thường nhật ký chung toàn tổng thể, tích hợp kiểm định luật Benford (chữ số 1 & 2) và theo dõi giải trình kiểm toán",
-    "PR3: Phân tách chọn mẫu thống kê MUS/PPS với quy trình VACPA A810, cách ly số âm, hạt giống PRNG tái lập 100% và đánh giá sai sót cận trên Stringer UEL",
-    "PR4: Xóa bỏ thay thế công thức #REF!, loại bỏ styleId mồ côi và tích hợp công cụ kiểm tra Open XML SDK độc lập bảo vệ 15 Giấy làm việc",
-    "PR5: Bổ sung bộ adapter đọc hóa đơn điện tử đa nhà cung cấp (TCT, MISA, VNPT, Viettel, FPT) và xác thực chữ ký điện tử XMLDSig",
-    "PR6: Xử lý dữ liệu nền cô lập trong Worker Threads, bảo toàn số học tiền tệ BigInt chính xác tuyệt đối và cơ chế fallback an toàn",
-    "PR7: Nâng cấp xác thực mã băm bộ cài đặt SHA-256, mã hóa API Key qua Windows DPAPI và kiểm soát chấp thuận gửi dữ liệu AI"
+    "Tối ưu hóa cột Tuổi số dư (FIFO) trên phân hệ Chốt số dư: Hợp nhất 2 tầng trực quan, chống rớt chữ và không bị cắt cụt",
+    "Nâng cấp giao diện Dark Mode chuẩn sắc nét cho VSA 530 ('Cho phần mềm tự chọn', '+ Tự chọn mẫu đặc biệt')",
+    "Chuẩn hóa nút Đổi file khác trong vùng thả file Excel kế toán tương thích hoàn hảo Dark/Light mode",
+    "Khắc phục triệt để an toàn kiểu dữ liệu trong bộ xử lý OpenXmlPackageEditor",
+    "Dọn dẹp release cũ, thư mục trống và giải phóng hơn 1.1 GB dung lượng bộ nhớ"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.2/AuditSoft-1.2.2-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.2/AuditSoft-1.2.2-Portable.exe",
-  "sha256": "c32f63813f200573aa97a97316e99bd17588ac82be165f863e3f9d4cb0b1dc7d"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.3/AuditSoft-1.2.3-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.3/AuditSoft-1.2.3-Portable.exe",
+  "sha256": "705757a4e20510fcbae7deb80ab4cc487c9f457da780d9592229328254d241e7"
 }
