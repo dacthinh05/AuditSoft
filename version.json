@@ -1,17 +1,16 @@
 {
-  "version": "1.2.4",
+  "version": "1.2.5",
   "releaseDate": "2026-09-14",
-  "title": "AuditSoft v1.2.4 — Nhận Diện Đa Biểu Mẫu Công Nợ, Giải Mã VNI/TCVN3 & Xuất GLV Chốt CN (=INDEX)",
+  "title": "AuditSoft v1.2.5 — Tự Động Nhận Diện 1 File Đa Sheet Công Nợ, Bảng Chi Tiết Cấu Thành & Gỡ Icon AI",
   "changelog": [
-    "Động cơ Universal Ingestion: Nhận diện tự động biểu mẫu Sổ Tổng hợp và Sổ Chi tiết phẳng (Flat Ledger) từ 1 file đa sheet hoặc 2 file rời",
-    "Giải mã FSM Lexer: Chuyển đổi triệt để bảng mã tiếng Việt di sản VNI-Windows và TCVN3 sang Unicode NFC, không lỗi cascading",
-    "Khử trùng cạm bẫy Subtotal: Tự động loại bỏ 37 dòng SUM con xen kẽ, loại trừ triệt để lỗi nhân đôi phát sinh",
-    "Giải Invariant kế toán: Nhận diện 4 cột tiền bằng phương trình cân đối ĐK + Có - Nợ = CK với độ tin cậy 100%",
-    "So khớp 2 yếu tố & HITL: Kết hợp Mỏ neo số tiền và Ngữ nghĩa lõi, cung cấp Modal xác nhận 1-Click cho KTV",
-    "Nâng cấp FIFO Aging: Cấn trừ số dư đầu kỳ (Trước 01/2021) chính xác theo VSA 540 & Thông tư 48, phân rã 4 trạng thái hóa đơn",
-    "Xuất Giấy làm việc tương tác: Sinh sheet Chốt CN 331 chuẩn thực tế có công thức sống =INDEX và =SUMIF trỏ trực tiếp về dòng nguồn"
+    "Tự động nhận diện 1 File Excel đa sheet (như Chốt CN.xlsx) chứa cả Sổ Tổng Hợp và Sổ Chi Tiết",
+    "Tự động gán 2 dropdown chọn sheet TH và CT mà không cần nạp 2 file riêng rẽ",
+    "Chốt tuổi nợ 100% cho các đối tượng chỉ có số dư đầu kỳ (Trước 01/2021) không có phát sinh trong năm",
+    "Bổ sung Tab Bảng 2 'Chi Tiết Hóa Đơn & Đầu Kỳ' trực tiếp trên giao diện với đầy đủ 190 dòng cấu thành",
+    "Xuất Giấy làm việc tương tác có công thức sống =INDEX và =SUMIF chuẩn xác",
+    "Gỡ bỏ icon lấp lánh AI, chuẩn hóa phong cách kiểm toán doanh nghiệp phẳng"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.4/AuditSoft-1.2.4-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.4/AuditSoft-1.2.4-Portable.exe",
-  "sha256": "0eef561c10431d8506f819d5840bcf9af80ae30847aae6ae38f8e5590f5ff1c5"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.5/AuditSoft-1.2.5-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.5/AuditSoft-1.2.5-Portable.exe",
+  "sha256": "5033b2e3cb9c4a318bd6c4a26bba8727b3527d28ed8a11fce86257b7cad2cade"
 }
