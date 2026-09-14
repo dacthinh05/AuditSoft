@@ -1,18 +1,16 @@
 {
-  "version": "1.2.7",
+  "version": "1.2.8",
   "releaseDate": "2026-09-14",
-  "title": "AuditSoft v1.2.7 — Khắc Phục Lỗi Thoát App Khi Xuất Excel, Tự Động Đồng Bộ Git & Dàn Hàng Nút Báo Cáo",
+  "title": "AuditSoft v1.2.8 — Sửa Toàn Diện Bộ Sinh 15 Giấy Làm Việc: Hết Dòng In Đậm Sai, Điền Đủ Bảng Đối Ứng TK *90",
   "changelog": [
-    "Sửa triệt để lỗi tự động thoát ứng dụng khi bấm Xuất Excel trong phân hệ Chốt CĐPS và Chi phí bất thường",
-    "Khắc phục lỗi nạp module V8 Bytecode Loader cho các hàm kiểm soát bản quyền xuất file",
-    "Tự động hóa hoàn toàn quy trình Commit & Push mã nguồn lên GitHub song song với Release",
-    "Căn chỉnh giao diện thanh công cụ: các nút 'Đổi file Sổ' và 'Xuất Báo Cáo' luôn nằm song song thẳng hàng",
-    "Gộp thông minh các dòng bổ sung trong bảng Lưu ý kiểm toán B410 (không rơi dòng vàng)",
-    "Đồng bộ chuẩn 100% font Times New Roman, bảo toàn màu đỏ và in đậm cho toàn bộ file B410 Master",
-    "Tự động đặt tên file B410 Master theo tên khách hàng, đợt kiểm toán và tên KTV",
-    "Sửa lỗi nhận diện lệch cột Diễn giải và TK đối ứng trong phân hệ Chốt công nợ 331"
+    "Sửa triệt để lỗi dòng dữ liệu bị nhân bản và in đậm sai trên GLV: bộ ghi OpenXML định vị đúng hàng sẵn có (kể cả dòng không thuộc tính), không còn sinh thẻ <row> trùng và không vay định dạng của hàng tiêu đề",
+    "Khôi phục nguyên trạng dòng chứng từ mẫu D595 (Ngày, Số CT, Nội dung, TK Nợ, TK Có, Số tiền) với đúng định dạng số của mẫu",
+    "Tự động dò cấu trúc bảng đối ứng từ chính công thức của mẫu và điền đầy đủ cả vế Nợ và vế Có cho toàn bộ GLV *90 (D190, D390, D590, D690, D790, E290, E490, G190.1, G190.2, G290, G390, G490)",
+    "Sửa dải SUM của dòng Σ và công thức tỷ lệ sai sẵn trong mẫu; xoá công thức tỷ lệ của bảng không phát sinh nên không còn ô #DIV/0!",
+    "Tự động gộp ngang các đoạn thuyết minh/chính sách kế toán của mọi sheet chương trình kiểm toán *20 (D120, D220, D320, D520, D620, D720, E120, E220, E320, E420, F120, G120, G220) để chữ trải ngang trang, hết tình trạng chữ rơi thành cột dọc",
+    "Bổ sung bộ test hồi quy toàn vẹn GLV: 0 dòng trùng, 0 ô tỷ lệ mẫu số rỗng, 0 đoạn thuyết minh chưa gộp ngang"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.7/AuditSoft-1.2.7-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.7/AuditSoft-1.2.7-Portable.exe",
-  "sha256": "0ee7321032bd40379f4ad1620101bb0ec2df32c3763b04d08ad24ff285f8074c"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.8/AuditSoft-1.2.8-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.8/AuditSoft-1.2.8-Portable.exe",
+  "sha256": "be76cf3c4f5b48f51a86b9987649139ee38f705720a5fd647bf49d83dc0e5cc1"
 }
