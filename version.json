@@ -1,18 +1,13 @@
 {
-  "version": "1.2.9",
+  "version": "1.2.10",
   "releaseDate": "2026-09-14",
-  "title": "AuditSoft v1.2.9 — Nâng Cấp Bộ Nhận Diện Rủi Ro Thông Minh & Tối Ưu Hóa Trợ Lý Gemini VSA 520",
+  "title": "AuditSoft v1.2.10 — Tối Ưu Hóa Phân Tích Gemini VSA 520: Ngắt Dòng Hoàn Hảo & Cô Đọng Súc Tích",
   "changelog": [
-    "Tối ưu hóa trợ lý AI Gemini VSA 520: Tinh gọn prompt, khắc phục triệt để lỗi mâu thuẫn số liệu giữa dòng tiền NKC và B02, ngắt dòng thành các đầu mục rõ ràng, không còn dồn cục văn bản",
-    "Nâng cấp hệ thống nhận diện rủi ro kiểm toán VSA 240 & 250: Loại bỏ cảnh báo giả ngày Thứ 7, siết chặt điều kiện Chủ Nhật",
-    "Bổ sung nhận diện chuỗi hóa đơn tròn số liên tục cùng nhà cung cấp (ROUND_SUM_CLUSTER) phát hiện mua bán hóa đơn dịch vụ khống",
-    "Bổ sung nhận diện giao dịch tiền mặt né trần 5M và 20M (THRESHOLD_SNIPING)",
-    "Bổ sung nhận diện vòng lặp đảo tạm ứng 141/1388 qua niên độ (ADVANCE_ROLLOVER) làm sạch số dư BCTC",
-    "Đồng bộ Kho bàn giao: bổ sung module Tổng Hợp Điều Chỉnh B360 vào danh mục Kho bàn giao trên HubPage",
-    "Việt hóa và tinh giản thuật ngữ chuyên ngành khó hiểu trên sơ đồ luồng dữ liệu (Rủi ro thuế, Bốc mẫu đại diện)",
-    "Nâng cấp bộ lọc rủi ro thuế & JET Cockpit với các chip lọc chuyên đề tức thì"
+    "Sửa triệt để lỗi không xuống dòng của phân tích Gemini VSA 520: Hỗ trợ tự động ngắt dòng cho mọi gạch đầu dòng dấu '-' và dấu '*', tách riêng biệt tiêu đề La Mã và từng mục chỉ tiêu thành các thẻ danh sách thông thoáng",
+    "Siết chặt quy tắc Prompt: Khống chế tối đa 3 ý cốt lõi cho mỗi phần, mỗi ý tối đa 2 câu ngắn gọn (~30 từ), loại bỏ hoàn toàn tính dài dòng và lan man",
+    "Bảo vệ định dạng số âm và gạch nối nghiệp vụ (như '-94.1%', '-2.8 tỷ', 'TK 641 - Chi phí') không bị cắt câu sai"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.9/AuditSoft-1.2.9-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.9/AuditSoft-1.2.9-Portable.exe",
-  "sha256": "fdbc377543dff3f8c642a0b0cdd228fc1894b1b01b18209c3a7049af5d1b18dc"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.10/AuditSoft-1.2.10-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.10/AuditSoft-1.2.10-Portable.exe",
+  "sha256": "c485bba6b6fb935b206b140b1cda19a1f53742fcee3a95ab200d2b6efb2d6190"
 }
