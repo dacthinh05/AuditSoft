@@ -1,18 +1,18 @@
 {
-  "version": "1.2.6",
+  "version": "1.2.7",
   "releaseDate": "2026-09-14",
-  "title": "AuditSoft v1.2.6 — Gộp B410 Đa Dòng, Tự Động Đặt Tên File Theo Khách Hàng & Sửa Lỗi Cột Diễn Giải Công Nợ 331",
+  "title": "AuditSoft v1.2.7 — Khắc Phục Lỗi Thoát App Khi Xuất Excel, Tự Động Đồng Bộ Git & Dàn Hàng Nút Báo Cáo",
   "changelog": [
+    "Sửa triệt để lỗi tự động thoát ứng dụng khi bấm Xuất Excel trong phân hệ Chốt CĐPS và Chi phí bất thường",
+    "Khắc phục lỗi nạp module V8 Bytecode Loader cho các hàm kiểm soát bản quyền xuất file",
+    "Tự động hóa hoàn toàn quy trình Commit & Push mã nguồn lên GitHub song song với Release",
+    "Căn chỉnh giao diện thanh công cụ: các nút 'Đổi file Sổ' và 'Xuất Báo Cáo' luôn nằm song song thẳng hàng",
     "Gộp thông minh các dòng bổ sung trong bảng Lưu ý kiểm toán B410 (không rơi dòng vàng)",
-    "Tự động chèn khoảng cách Enter (\\n\\n) tách biệt giữa các đoạn kiến nghị khi gộp B410",
     "Đồng bộ chuẩn 100% font Times New Roman, bảo toàn màu đỏ và in đậm cho toàn bộ file B410 Master",
     "Tự động đặt tên file B410 Master theo tên khách hàng, đợt kiểm toán và tên KTV",
-    "Xử lý triệt để lỗi OpenXML Repair khi mở file tổng hợp B410 bằng Microsoft Excel",
-    "Sửa lỗi nhận diện lệch cột Diễn giải và TK đối ứng trong phân hệ Chốt công nợ 331",
-    "Đổi tên cột 'Phân bổ' thành 'Còn lại' chuẩn nghiệp vụ kế toán kiểm toán",
-    "Hỗ trợ đọc và chuyển đổi siêu tốc file Excel 97-2003 (.xls) đời cũ chỉ trong 0.05 giây"
+    "Sửa lỗi nhận diện lệch cột Diễn giải và TK đối ứng trong phân hệ Chốt công nợ 331"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.6/AuditSoft-1.2.6-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.6/AuditSoft-1.2.6-Portable.exe",
-  "sha256": "c8f6d51274db4b018e94a33fef1f760fcb263686353a9a581101994391f13c8a"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.7/AuditSoft-1.2.7-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.7/AuditSoft-1.2.7-Portable.exe",
+  "sha256": "0ee7321032bd40379f4ad1620101bb0ec2df32c3763b04d08ad24ff285f8074c"
 }
