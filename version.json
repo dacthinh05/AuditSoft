@@ -1,13 +1,14 @@
 {
-  "version": "1.3.5",
+  "version": "1.3.6",
   "releaseDate": "2026-09-15",
-  "title": "AuditSoft v1.3.5 — Đột Phá Xử Lý Dữ Liệu Lớn NKC > 300.000 Dòng & Khắc Phục Ma Trận 12 Tháng A520",
+  "title": "AuditSoft v1.3.6 — Khắc Phục Khóa Sổ Công Nợ Bị Nhảy Ngày, Mặc Định Lọc Ẩn TK Hết Số Dư & Chuẩn Hóa Dư Ngược",
   "changelog": [
-    "Nâng trần trích xuất ô WorkbookReader từ 1 triệu lên 15 triệu ô: Xử lý mượt mà và trọn vẹn các file Sổ NKC dung lượng lớn > 200.000 - 300.000 dòng mà không bị cắt bớt dữ liệu",
-    "Nâng trần vận chuyển dữ liệu DTO journalsCap từ 50.000 lên 500.000 dòng: Truyền tải đầy đủ toàn bộ 12 tháng sang phân hệ Phân tích VSA 520, giải quyết dứt điểm lỗi chỉ hiển thị Tháng 01 còn Tháng 02-12 bị trống (-)",
-    "Bổ sung cơ chế fallback tự động bóc tách Tháng phát sinh từ postingDate trong Trend12MAnalyzer: Đảm bảo 100% dòng phát sinh được phân bổ chính xác vào 12 tháng"
+    "Khắc phục lỗi ngày khóa sổ công nợ (DebtAuditPage) bị nhảy về 31/12/2026: Tôn trọng 100% ngày người dùng lựa chọn (ví dụ 30/06, 30/09, 31/03), không bị ép ngược về cuối năm",
+    "Mặc định bật bộ lọc ẩn tài khoản hết số dư cuối kỳ trong phân hệ Chốt số dư CĐPS: Tự động lọc sạch các tài khoản đã tất toán hết số dư (SDCK = 0), giao diện tinh gọn, không còn rác",
+    "Sửa triệt để điều kiện lọc chỉ xem TK có số dư: Không còn bị lọt các tài khoản có phát sinh trong năm nhưng cuối kỳ đã hết số dư (như 1311LL, 1311ZH, 3311BD)",
+    "Chuẩn hóa tuổi số dư cho tài khoản dư ngược (như 1311DBL dư Có -647 triệu): Hiển thị chuẩn xác 'Khách trả trước (Dư Có)' kèm tháng nộp tiền, không bị báo nhầm là 'Hết số dư'"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.5/AuditSoft-1.3.5-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.5/AuditSoft-1.3.5-Portable.exe",
-  "sha256": "b24f81c0ee068719383edf5263d499dd673aff048ee3e46a2d5bc75f3262b88d"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.6/AuditSoft-1.3.6-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.6/AuditSoft-1.3.6-Portable.exe",
+  "sha256": "70e1ab2cb02807f33ea1fafec452d492f40e5e2228d371b863a08bec19836461"
 }
