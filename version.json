@@ -1,12 +1,15 @@
 {
   "changelog": [
-    "Khắc phục lỗi Altman Z''-Score hiển thị giá trị phi thực tế (X4 = 5.78 tỷ, Z'' = 6.07 tỷ) khi doanh nghiệp gần như không nợ: chặn |X1..X4| ≤ 10 — mức tối đa không bao giờ vượt với BCTC thật",
-    "Bổ sung kiểm thử hồi quy Zero-Debt Resilience: CĐPS không có TK Loại 3 phải cho X4 và Z'' hữu hạn trong ngưỡng kinh tế"
+    "Khắc phục lỗi Khấu hao TSCĐ (Mã 02) bị nhận diện số âm deltaNet trên TK 214 khiến dòng tiền gián tiếp bị hụt",
+    "Chuẩn hóa Form B420.CĐKT đầy đủ 4 khối hoạt động (Mã 01..70) và các cột điều chỉnh đối ứng hai chiều theo mẫu Master GLV (Freetrend A & SHY 2025)",
+    "Bổ sung tính năng Xuất Báo Cáo Lưu Chuyển Tiền Tệ ra Excel (4 sheet: LCTT Gián Tiếp, LCTT Trực Tiếp, B420, B430)",
+    "Định dạng toàn bộ số âm trên báo cáo lưu chuyển tiền tệ trong ngoặc (x.xxx.xxx) chuẩn kế toán Việt Nam",
+    "Thu gọn giao diện B430 Thuyết minh giao dịch phi tiền tệ khi không có phát sinh"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.11/AuditSoft-1.2.11-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.11/AuditSoft-1.2.11-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.12/AuditSoft-1.2.12-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.12/AuditSoft-1.2.12-Portable.exe",
   "releaseDate": "2026-09-15",
-  "sha256": "bb5ee53c49b154f36bf84814b088aa9614794a5dcbe1c58a25acaeb207f8363b",
-  "title": "AuditSoft v1.2.11 — Khắc Phục Lỗi Altman X4 Vốn Chủ Sở Hữu / Tổng Nợ (Tỷ Lệ Đệm Bảo Vệ Nợ)",
-  "version": "1.2.11"
+  "sha256": "25143256d908fdffca9980a09d5d0efaca1fda6a4fa2b8e46f6f9c284a264f92",
+  "title": "AuditSoft v1.2.12 — Chuẩn Hóa Ma Trận B420.CĐKT Theo Master GLV & Xuất Excel BCLCTT",
+  "version": "1.2.12"
 }
