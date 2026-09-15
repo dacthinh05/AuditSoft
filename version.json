@@ -1,15 +1,14 @@
 {
-  "version": "1.3.2",
+  "version": "1.3.3",
   "releaseDate": "2026-09-15",
-  "title": "AuditSoft v1.3.2 — Tái Tính Toán Lãi Vay Theo Ngày Phát Sinh Thực Tế (VSA 520 - E120) & Lịch Phân Rã 12 Tháng",
+  "title": "AuditSoft v1.3.3 — Chuẩn Hóa Toàn Diện Mẫu Xuất Excel LCTT (B420/B430), Khắc Phục Lỗi Ẩn Cột & Tràn Chữ",
   "changelog": [
-    "Tái tính toán độc lập chi phí lãi vay (VSA 520 - E120) theo số ngày thực tế (Daily Actual): Tính từ ngày giải ngân phát sinh khoản vay đến ngày đáo hạn/kết thúc kỳ, không tính khống cả năm",
-    "Tự động bóc tách chi tiết từng khế ước/khoản vay phát sinh từ Sổ NKC (Có 341) kèm ngày chứng từ giải ngân và số chứng từ khế ước",
-    "Giao diện Bảng E120 mới: Bổ sung cột Ngày bắt đầu, Ngày đáo hạn, Số ngày tính lãi, cho phép chỉnh sửa trực tiếp inline",
-    "Phân rã chi phí lãi 12 tháng: Bổ sung tính năng mở rộng dòng (Row Expander) xem chi tiết số ngày hiệu lực và chi phí lãi ước tính từng tháng",
-    "Đồng bộ mẫu biểu Excel Giấy làm việc E120: Xuất đầy đủ 13 cột với công thức sống tính chênh lệch chuẩn VACPA"
+    "Khắc phục triệt để lỗi giao diện Excel xuất ra ở sheet B420_DieuChinh: Bỏ logic tự ý ẩn cột rỗng làm gãy tiêu đề gộp D5:J5 và nhảy mất ký tự cột (D, H, I, J)",
+    "Hiển thị trọn vẹn và liền mạch 12 cột chuẩn của Giấy làm việc B420.CĐKT theo mẫu Master VACPA",
+    "Tăng độ rộng cột B (Chỉ tiêu) từ 42 lên 56 và bật wrapText tự động xuống dòng, khắc phục lỗi chữ bị cắt cụt",
+    "Bật chế độ hiển thị lưới (showGridLines) mặc định cho toàn bộ các sheet LCTT trong tệp Excel xuất ra"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.2/AuditSoft-1.3.2-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.2/AuditSoft-1.3.2-Portable.exe",
-  "sha256": "07ccc7cef2852b76007cd23bbbd18c9bd4dcc7ad4c6ca8645edd6173fcfec239"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.3/AuditSoft-1.3.3-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.3/AuditSoft-1.3.3-Portable.exe",
+  "sha256": "f3cf0b22af98073529af33bc685186fd2cb7d5c820075b7eaef9e747fbbd5666"
 }
