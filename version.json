@@ -1,13 +1,13 @@
 {
-  "changelog": [
-    "Khắc phục dứt điểm lệch dòng tiền HĐKD: Tự động cân đối biến động vốn lưu động qua Mã 07 để dòng tiền gián tiếp khớp 100% với trực tiếp và Tiền trên CĐKT (Chênh lệch: 0 đ)",
-    "Khắc phục lệch cột Thanh lý TSCĐ: Bù trừ chính xác khoản phải thu thanh lý chưa thu tiền để tổng cột điều chỉnh luôn luôn triệt tiêu bằng 0",
-    "Sửa triệt để lỗi vỡ layout bảng B420: Cố định độ rộng cột bằng colgroup, fixed table layout 1410px, chống chém dòng khi cuộn sticky thead"
-  ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.13/AuditSoft-1.2.13-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.13/AuditSoft-1.2.13-Portable.exe",
+  "version": "1.2.14",
   "releaseDate": "2026-09-15",
-  "sha256": "d04dd04c1ef43386c4a803df5a7383dfa2debf7735d32d52e5b23ca1fffc4961",
-  "title": "AuditSoft v1.2.13 — Khắc Phục Dứt Điểm Lệch Dòng Tiền Gián Tiếp & Sửa Lỗi Vỡ Layout B420",
-  "version": "1.2.13"
+  "title": "AuditSoft v1.2.14 — Tự Động Nhận Diện & Chốt Công Nợ 131/331 Trực Tiếp Từ Sổ NKC & Bảng CĐPS",
+  "changelog": [
+    "Tự động nhận diện danh sách đối tượng công nợ 131 (Phải thu) và 331 (Phải trả) từ tài khoản chi tiết trên Bảng CĐPS và phát sinh Sổ NKC",
+    "Bổ sung chế độ chốt công nợ 1-click không cần kéo thả thêm file MISA/FAST bên ngoài, tự động tính tuổi nợ FIFO và quét rủi ro công nợ",
+    "Giao diện kiểm toán tinh gọn, chuẩn mực, loại bỏ hoàn toàn các biểu tượng dạng AI"
+  ],
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.14/AuditSoft-1.2.14-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.14/AuditSoft-1.2.14-Portable.exe",
+  "sha256": "5b6e0297752bf26e56b54c960bb4d6af6d9a8dd67b2aa23651c02afdf554d0bf"
 }
