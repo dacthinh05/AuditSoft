@@ -1,13 +1,13 @@
 {
-  "version": "1.3.4",
+  "version": "1.3.5",
   "releaseDate": "2026-09-15",
-  "title": "AuditSoft v1.3.4 — Chuẩn Hóa Nhận Diện Âm Quỹ Tiền Mặt (VSA 520 - TK 111) & Triệt Tiêu Báo Động Giả",
+  "title": "AuditSoft v1.3.5 — Đột Phá Xử Lý Dữ Liệu Lớn NKC > 300.000 Dòng & Khắc Phục Ma Trận 12 Tháng A520",
   "changelog": [
-    "Tự động kết chuyển số dư đầu kỳ TK 111 từ Bảng CĐPS vào Động cơ rà soát rủi ro: Loại bỏ hoàn toàn báo động giả âm quỹ cho các khoản chi lẻ đầu năm",
-    "Chuẩn hóa ngưỡng thâm hụt tiền mặt khi chưa nạp CĐPS: Không gắn cờ báo động đỏ vô cớ cho các khoản chi thực tế hợp lý",
-    "Chuẩn hóa câu nhận xét kiểm toán VSA 520: Loại bỏ hoàn toàn cụm từ quy kết sai 'chi khống', thay bằng hướng dẫn rà soát đối chiếu sổ quỹ và kiểm kê thực tế"
+    "Nâng trần trích xuất ô WorkbookReader từ 1 triệu lên 15 triệu ô: Xử lý mượt mà và trọn vẹn các file Sổ NKC dung lượng lớn > 200.000 - 300.000 dòng mà không bị cắt bớt dữ liệu",
+    "Nâng trần vận chuyển dữ liệu DTO journalsCap từ 50.000 lên 500.000 dòng: Truyền tải đầy đủ toàn bộ 12 tháng sang phân hệ Phân tích VSA 520, giải quyết dứt điểm lỗi chỉ hiển thị Tháng 01 còn Tháng 02-12 bị trống (-)",
+    "Bổ sung cơ chế fallback tự động bóc tách Tháng phát sinh từ postingDate trong Trend12MAnalyzer: Đảm bảo 100% dòng phát sinh được phân bổ chính xác vào 12 tháng"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.4/AuditSoft-1.3.4-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.4/AuditSoft-1.3.4-Portable.exe",
-  "sha256": "c4210c51d42a442f1e66bc5b9de129552813d60367a0a9c70712b82d02860004"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.5/AuditSoft-1.3.5-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.5/AuditSoft-1.3.5-Portable.exe",
+  "sha256": "b24f81c0ee068719383edf5263d499dd673aff048ee3e46a2d5bc75f3262b88d"
 }
