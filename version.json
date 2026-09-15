@@ -1,14 +1,13 @@
 {
-  "version": "1.3.3",
+  "version": "1.3.4",
   "releaseDate": "2026-09-15",
-  "title": "AuditSoft v1.3.3 — Chuẩn Hóa Toàn Diện Mẫu Xuất Excel LCTT (B420/B430), Khắc Phục Lỗi Ẩn Cột & Tràn Chữ",
+  "title": "AuditSoft v1.3.4 — Chuẩn Hóa Nhận Diện Âm Quỹ Tiền Mặt (VSA 520 - TK 111) & Triệt Tiêu Báo Động Giả",
   "changelog": [
-    "Khắc phục triệt để lỗi giao diện Excel xuất ra ở sheet B420_DieuChinh: Bỏ logic tự ý ẩn cột rỗng làm gãy tiêu đề gộp D5:J5 và nhảy mất ký tự cột (D, H, I, J)",
-    "Hiển thị trọn vẹn và liền mạch 12 cột chuẩn của Giấy làm việc B420.CĐKT theo mẫu Master VACPA",
-    "Tăng độ rộng cột B (Chỉ tiêu) từ 42 lên 56 và bật wrapText tự động xuống dòng, khắc phục lỗi chữ bị cắt cụt",
-    "Bật chế độ hiển thị lưới (showGridLines) mặc định cho toàn bộ các sheet LCTT trong tệp Excel xuất ra"
+    "Tự động kết chuyển số dư đầu kỳ TK 111 từ Bảng CĐPS vào Động cơ rà soát rủi ro: Loại bỏ hoàn toàn báo động giả âm quỹ cho các khoản chi lẻ đầu năm",
+    "Chuẩn hóa ngưỡng thâm hụt tiền mặt khi chưa nạp CĐPS: Không gắn cờ báo động đỏ vô cớ cho các khoản chi thực tế hợp lý",
+    "Chuẩn hóa câu nhận xét kiểm toán VSA 520: Loại bỏ hoàn toàn cụm từ quy kết sai 'chi khống', thay bằng hướng dẫn rà soát đối chiếu sổ quỹ và kiểm kê thực tế"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.3/AuditSoft-1.3.3-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.3/AuditSoft-1.3.3-Portable.exe",
-  "sha256": "f3cf0b22af98073529af33bc685186fd2cb7d5c820075b7eaef9e747fbbd5666"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.4/AuditSoft-1.3.4-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.4/AuditSoft-1.3.4-Portable.exe",
+  "sha256": "c4210c51d42a442f1e66bc5b9de129552813d60367a0a9c70712b82d02860004"
 }
