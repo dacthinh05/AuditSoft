@@ -1,13 +1,13 @@
 {
-  "version": "1.2.17",
+  "version": "1.3.0",
   "releaseDate": "2026-09-15",
-  "title": "AuditSoft v1.2.17 — Chuẩn Hóa Typography Số Sắc Nét, Sửa Lỗi Màu Sắc & Sửa Đè Cột Bảng Thuế",
+  "title": "AuditSoft v1.3.0 — Ra Mắt Phân Hệ Chốt Nợ Vay (GLV E110/E120) & Hoàn Thiện Dark Mode Toàn Diện",
   "changelog": [
-    "Khắc phục triệt để lỗi font & số bị mờ: Chuyển sang font tài chính chuyên dụng (Segoe UI + tabular-nums) hiển thị đậm nét, tròn trịa, dấu chấm phân cách sắc sảo",
-    "Sửa lỗi màu sắc clashing: Loại bỏ hoàn toàn các mảng màu nền hồng/xanh chắp vá từng ô, áp dụng nền zebra striping sạch sẽ, số chênh lệch nổi bật màu đỏ đậm",
-    "Khắc phục lỗi đè chữ ở Bảng Thuế TNCN (B.2): Bổ sung colgroup cố định bề ngang cột, hiển thị trọn vẹn tiêu đề 'Cá nhân cư trú'"
+    "Ra mắt phân hệ Chốt Nợ Vay & Chi Phí Lãi Vay (Phần hành F, TK 341/335/635): Đối chiếu số dư với xác nhận ngân hàng, tái phân loại nợ dài hạn đến hạn trả, tái tính toán lãi vay VSA 520, quét 7 rủi ro trọng yếu và xuất trọn bộ GLV E110/E120",
+    "Chuẩn hóa Dark Mode toàn diện 100% tất cả phân hệ: Sửa triệt để lỗi màu sắc, tương phản chữ đạt chuẩn WCAG AA, loại bỏ chớp sáng trắng khi khởi động",
+    "Tích hợp thanh điều hướng SaaSSidebar và Dashboard Hub phân hệ nợ vay #12"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.17/AuditSoft-1.2.17-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.17/AuditSoft-1.2.17-Portable.exe",
-  "sha256": "151bcdaf5437151bb782348f1dbc5249f71e6db66ff90607e34223b55718606a"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.0/AuditSoft-1.3.0-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.0/AuditSoft-1.3.0-Portable.exe",
+  "sha256": ""
 }
