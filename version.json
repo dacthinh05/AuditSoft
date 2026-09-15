@@ -1,13 +1,12 @@
 {
-  "version": "1.2.10",
-  "releaseDate": "2026-09-14",
-  "title": "AuditSoft v1.2.10 — Tối Ưu Hóa Phân Tích Gemini VSA 520: Ngắt Dòng Hoàn Hảo & Cô Đọng Súc Tích",
   "changelog": [
-    "Sửa triệt để lỗi không xuống dòng của phân tích Gemini VSA 520: Hỗ trợ tự động ngắt dòng cho mọi gạch đầu dòng dấu '-' và dấu '*', tách riêng biệt tiêu đề La Mã và từng mục chỉ tiêu thành các thẻ danh sách thông thoáng",
-    "Siết chặt quy tắc Prompt: Khống chế tối đa 3 ý cốt lõi cho mỗi phần, mỗi ý tối đa 2 câu ngắn gọn (~30 từ), loại bỏ hoàn toàn tính dài dòng và lan man",
-    "Bảo vệ định dạng số âm và gạch nối nghiệp vụ (như '-94.1%', '-2.8 tỷ', 'TK 641 - Chi phí') không bị cắt câu sai"
+    "Khắc phục lỗi Altman Z''-Score hiển thị giá trị phi thực tế (X4 = 5.78 tỷ, Z'' = 6.07 tỷ) khi doanh nghiệp gần như không nợ: chặn |X1..X4| ≤ 10 — mức tối đa không bao giờ vượt với BCTC thật",
+    "Bổ sung kiểm thử hồi quy Zero-Debt Resilience: CĐPS không có TK Loại 3 phải cho X4 và Z'' hữu hạn trong ngưỡng kinh tế"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.10/AuditSoft-1.2.10-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.10/AuditSoft-1.2.10-Portable.exe",
-  "sha256": "c485bba6b6fb935b206b140b1cda19a1f53742fcee3a95ab200d2b6efb2d6190"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.11/AuditSoft-1.2.11-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.11/AuditSoft-1.2.11-Portable.exe",
+  "releaseDate": "2026-09-15",
+  "sha256": "bb5ee53c49b154f36bf84814b088aa9614794a5dcbe1c58a25acaeb207f8363b",
+  "title": "AuditSoft v1.2.11 — Khắc Phục Lỗi Altman X4 Vốn Chủ Sở Hữu / Tổng Nợ (Tỷ Lệ Đệm Bảo Vệ Nợ)",
+  "version": "1.2.11"
 }
