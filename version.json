@@ -1,15 +1,14 @@
 {
-  "version": "1.2.15",
+  "version": "1.2.16",
   "releaseDate": "2026-09-15",
-  "title": "AuditSoft v1.2.15 — Cố Định 2 Cột B420 (Freeze Panes), Cân Bằng 100% Dòng Tiền Gián Tiếp & Sửa Lỗi Vỡ Layout",
+  "title": "AuditSoft v1.2.16 — Cố Định 2 Cột B420 (Freeze Panes), Cân Bằng 100% Dòng Tiền Gián Tiếp & Sửa Lỗi Vỡ Layout",
   "changelog": [
     "Khắc phục triệt để lỗi vỡ layout B420: Cố định (Freeze/Sticky Left) 2 cột Mã số và Chỉ tiêu LCTT không bao giờ bị trôi hoặc bị cắt khi cuộn chuột",
     "Tự động điều chỉnh cân đối biến động vốn lưu động qua Mã 07, triệt tiêu 100% độ lệch dòng tiền HĐKD và tiền cuối kỳ trên CĐKT (Chênh lệch: 0 đ)",
     "Bù trừ cân bằng cột Thanh lý TSCĐ đảm bảo tổng cột điều chỉnh luôn luôn triệt tiêu bằng 0",
-    "Tối ưu bề ngang bảng vừa vặn màn hình làm việc 1214px, xóa bỏ hoàn toàn các lỗi xô lệch cột",
-    "Sửa triệt để đối chiếu thuế GTGT (TK 133 & 33311) và thu gọn padding bảng đối chiếu E380/E381"
+    "Tối ưu bề ngang bảng vừa vặn màn hình làm việc 1214px, xóa bỏ hoàn toàn các lỗi xô lệch cột"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.15/AuditSoft-1.2.15-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.15/AuditSoft-1.2.15-Portable.exe",
-  "sha256": "7ba3ee1178d9d01c118b88565925ec91e9f35a0af8de2d516301b78a99b1119d"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.16/AuditSoft-1.2.16-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.16/AuditSoft-1.2.16-Portable.exe",
+  "sha256": "e056da7c4dce1b51ff5d9b3e39b521dab9137c056dcded576df3e7871a5c9b88"
 }
