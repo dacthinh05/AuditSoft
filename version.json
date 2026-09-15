@@ -1,14 +1,13 @@
 {
-  "version": "1.2.16",
+  "version": "1.2.17",
   "releaseDate": "2026-09-15",
-  "title": "AuditSoft v1.2.16 — Cố Định 2 Cột B420 (Freeze Panes), Cân Bằng 100% Dòng Tiền Gián Tiếp & Sửa Lỗi Vỡ Layout",
+  "title": "AuditSoft v1.2.17 — Chuẩn Hóa Typography Số Sắc Nét, Sửa Lỗi Màu Sắc & Sửa Đè Cột Bảng Thuế",
   "changelog": [
-    "Khắc phục triệt để lỗi vỡ layout B420: Cố định (Freeze/Sticky Left) 2 cột Mã số và Chỉ tiêu LCTT không bao giờ bị trôi hoặc bị cắt khi cuộn chuột",
-    "Tự động điều chỉnh cân đối biến động vốn lưu động qua Mã 07, triệt tiêu 100% độ lệch dòng tiền HĐKD và tiền cuối kỳ trên CĐKT (Chênh lệch: 0 đ)",
-    "Bù trừ cân bằng cột Thanh lý TSCĐ đảm bảo tổng cột điều chỉnh luôn luôn triệt tiêu bằng 0",
-    "Tối ưu bề ngang bảng vừa vặn màn hình làm việc 1214px, xóa bỏ hoàn toàn các lỗi xô lệch cột"
+    "Khắc phục triệt để lỗi font & số bị mờ: Chuyển sang font tài chính chuyên dụng (Segoe UI + tabular-nums) hiển thị đậm nét, tròn trịa, dấu chấm phân cách sắc sảo",
+    "Sửa lỗi màu sắc clashing: Loại bỏ hoàn toàn các mảng màu nền hồng/xanh chắp vá từng ô, áp dụng nền zebra striping sạch sẽ, số chênh lệch nổi bật màu đỏ đậm",
+    "Khắc phục lỗi đè chữ ở Bảng Thuế TNCN (B.2): Bổ sung colgroup cố định bề ngang cột, hiển thị trọn vẹn tiêu đề 'Cá nhân cư trú'"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.16/AuditSoft-1.2.16-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.16/AuditSoft-1.2.16-Portable.exe",
-  "sha256": "e056da7c4dce1b51ff5d9b3e39b521dab9137c056dcded576df3e7871a5c9b88"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.17/AuditSoft-1.2.17-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.2.17/AuditSoft-1.2.17-Portable.exe",
+  "sha256": "151bcdaf5437151bb782348f1dbc5249f71e6db66ff90607e34223b55718606a"
 }
