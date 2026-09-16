@@ -1,17 +1,16 @@
 {
-  "version": "1.4.4",
+  "version": "1.4.5",
   "releaseDate": "2026-09-16",
-  "title": "AuditSoft v1.4.4 — Chuẩn Hóa Chốt Công Nợ 131/331 (6 Cột Tiền, Mã ĐT, Cột USD) & Nâng Cấp Tuổi Nợ Nguyên Tệ",
+  "title": "AuditSoft v1.4.5 — Nâng Cấp Forensic Mutation Engine (Điều Tra Sửa TK & Dời Ngày)",
   "changelog": [
-    "Chuẩn hóa bảng chốt số dư công nợ: Tách riêng 6 cột số tiền chuẩn mực kế toán (Dư Nợ ĐK, Dư Có ĐK, PS Nợ, PS Có, Dư Nợ CK, Dư Có CK), sửa dứt điểm lỗi hiển thị số dư âm trong ngoặc và lỗi gán nhầm số liệu PS Nợ",
-    "Bổ sung cột Mã đối tượng (Mã KH / Mã NCC) và tự động sắp xếp (Sort descending) danh sách đối tác theo số dư từ cao xuống thấp, hỗ trợ KTV nhận diện ngay các khoản mục lớn trọng yếu theo VSA 530",
-    "Hỗ trợ công nợ ngoại tệ toàn diện: Tự động bổ sung các cột nguyên tệ USD và Tỷ giá trên cả file Excel Chốt CN, Modal chi tiết chứng từ (DebtTraceDrawer) và file Excel chi tiết đơn lẻ",
-    "Phân định tuyệt đối logic tài khoản 131 (Phải thu khách hàng) vs 331 (Phải trả người bán): Tiêu đề, thẻ KPI, cột tính chất và cấu phần tương ứng; CHỈ trích lập dự phòng TT 48 đối với TK 131 có Dư Nợ, không lập dự phòng cho TK 331",
-    "Kích hoạt cơ chế gom chứng từ VSA 530 trên giao diện SamplingTab: Lọc phần hành trước, gom chứng từ cùng số CT sau, bảo toàn 100% giá trị và nhận diện đúng các hóa đơn lớn vượt KCM",
-    "Xử lý triệt để hiện tượng lạm dụng dấu sao bôi đậm (**) trong bài thuyết minh phân tích kiểm toán VSA 520 của Gemini 2.5, giữ giao diện trang nhã và chuyên nghiệp"
+    "Tích hợp Forensic Mutation Engine cho Module 01 (Đối Chiếu 2 Sổ NKC): Tự động phát hiện thủ thuật sửa sổ kế toán gian lận của doanh nghiệp",
+    "Nhận diện Đổi Tài Khoản (ACCOUNT_MUTATED): Tự động ghép cặp các bút toán Thêm/Xóa có cùng ngày, số chứng từ và số tiền nhưng bị đổi tài khoản đối ứng (bắt quả tang hành vi chuyển chi phí không hợp lý như 811 sang chi phí hợp lệ 642, 156)",
+    "Nhận diện Dời Ngày (DATE_SHIFTED): Ghép cặp các bút toán bị dời ngày hạch toán giữa kỳ cũ và kỳ mới, phát hiện rủi ro sai lệch tính đúng kỳ (Cut-off testing)",
+    "Tự động sinh Bút toán Điều chỉnh Kiểm toán (AJE) tương ứng khi phát hiện tái phân loại tài khoản: Nợ TK mới / Có TK cũ với diễn giải chi tiết",
+    "Trực quan hóa trên giao diện và Excel: Bổ sung badge màu sắc chuyên biệt [Đổi tài khoản], [Dời ngày] trên bảng đối chiếu và tô màu highlight tương ứng trên file xuất Excel Chi tiết chênh lệch"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.4/AuditSoft-1.4.4-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.4/AuditSoft-1.4.4-Portable.exe",
-  "sha256": "f4008ad66b569f0899d9b4eafdd6132469e90aa25cbec3f2781d0ac8faaaf129",
-  "signature": "wuQLJM6WXjttB3ojXejuYtw7cOFBAJY10zIwmc3_zzPGaK9IHeGt9hNznORaiTylQcii9wGa4K9GcLt9kLUcDw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.5/AuditSoft-1.4.5-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.5/AuditSoft-1.4.5-Portable.exe",
+  "sha256": "",
+  "signature": ""
 }
