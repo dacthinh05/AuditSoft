@@ -1,17 +1,17 @@
 {
-  "version": "1.4.0",
+  "version": "1.4.1",
   "releaseDate": "2026-09-16",
-  "title": "AuditSoft v1.4.0 — Đột Phá Chuẩn Hóa Bảo Mật Thương Mại, Ký Số Manifest Ed25519 & Khắc Phục Toàn Diện Số Liệu Kế Toán",
+  "title": "AuditSoft v1.4.1 — Gia Hạn 30 Ngày Dùng Thử, Không Giới Hạn Lượt Xuất & Bảo Lưu Thời Gian Khi Cập Nhật",
   "changelog": [
-    "Bảo vệ bản quyền trói buộc phần cứng (Hardware Machine ID): Nhận diện mã máy duy nhất qua Windows Registry MachineGuid, chống sao chép key và ngăn chặn reset dùng thử vô hạn",
-    "Thực thi giới hạn 20 lượt xuất dùng thử & HMAC Guard: Chặn xuất dữ liệu khi hết hạn mức; bảo mật tệp cấu hình chống tua lùi thời gian hệ thống",
-    "Chuỗi tin cậy cập nhật tự động (Ed25519 Manifest Signing): Ký số bản tin version.json bằng khoá bất đối xứng, tính SHA-256 dạng stream song song lúc tải và xử lý backpressure",
-    "Khắc phục 6 lỗi nghiệp vụ kế toán trọng yếu: Chuẩn hóa kiểm tra Nợ - Có thực chất (VSA 500), tính lãi vay vượt trần theo ngày thực tế (Điều 468 BLDS), chuẩn hóa parseRate lãi suất thấp, khắc phục tỷ lệ YoY đảo dấu khi lỗ, minh bạch dự phòng nợ cũ ĐK (TT48) và chặn CFO/PAT khi lỗ",
-    "Cách ly dữ liệu khách hàng tuyệt đối: resetAll xóa sạch 100% cache phân hệ công nợ (modeReports), triệt tiêu rủi ro rò rỉ dữ liệu giữa các hồ sơ kiểm toán",
-    "Hệ thống ghi log sự cố và an toàn Main Process: Tự động ghi nhật ký xoay vòng tại %APPDATA%/AuditSoft/logs, bổ sung nút xuất log hỗ trợ kỹ thuật, kiểm tra nghiêm ngặt đường dẫn xuất file và tiêm CSP header"
+    "Không giới hạn lượt xuất dữ liệu dùng thử: Gỡ bỏ hoàn toàn rào cản 20 lượt xuất, cho phép trải nghiệm xuất Excel và báo cáo không giới hạn trong thời gian dùng thử",
+    "Gia hạn 30 ngày dùng thử miễn phí: Mở rộng thời gian trải nghiệm toàn bộ tính năng kiểm toán từ 20 ngày lên 30 ngày cho người dùng mới",
+    "Bảo lưu bền vững mốc dùng thử qua các bản cập nhật (Multi-Anchor Persistence): Lưu trữ đa điểm neo cấp máy và đồng bộ Main-Renderer, đảm bảo khi cập nhật phần mềm không bị reset mốc ngày còn lại",
+    "Khắc phục triệt để lỗi giải mã font Unicode tiếng Việt: Sửa bộ lọc FSM Lexer bảo vệ toàn vẹn các ký tự Unicode chuẩn (Ô, Ê...), chấm dứt tình trạng biến dạng tên đối tượng và lỗi không bóc tách được Sổ Chi Tiết MISA 1311",
+    "Hỗ trợ phân bổ tuổi nợ ngoại tệ FIFO: Cho phép chốt tuổi nợ theo nguyên tệ USD (TK 3312) kể cả khi số dư sổ sách quy đổi VND bằng 0, không bị ngắt sớm thành hết nợ",
+    "Bổ sung nút xóa và dán nhanh mã bản quyền: Thao tác tiện lợi hơn trong cửa sổ Kích hoạt bản quyền với nút xóa nhanh và xóa key cũ lưu trong máy"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.0/AuditSoft-1.4.0-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.0/AuditSoft-1.4.0-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.1/AuditSoft-1.4.1-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.1/AuditSoft-1.4.1-Portable.exe",
   "sha256": "75d0a9e5233b4dcdac668ca9134d760ca9ebc789326820032988f9c80f04a106",
-  "signature": "qrOUqvPsuiiBxbP6UP0jm7uLGr_zGA3pcmbbrpHgBU0OAx0E66E9hILNMF1ZWGevBYe6clwPmatIEsQg3exQBw"
+  "signature": "ePNIFXEZbkjVIePxPDeM3PYzI9zOTZQ8KbPxPjnufjOwJYz3QEdsOoih_AzI0c4gR1LDP97JDMnqjarzaiWfDg"
 }
