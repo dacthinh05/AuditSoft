@@ -1,16 +1,18 @@
 {
-  "version": "1.4.5",
+  "version": "1.4.6",
   "releaseDate": "2026-09-16",
-  "title": "AuditSoft v1.4.5 — Nâng Cấp Forensic Mutation Engine (Điều Tra Sửa TK & Dời Ngày)",
+  "title": "AuditSoft v1.4.6 — Tích Hợp Ma Trận Rà Soát Chi Phí Trọng Yếu 12 Tháng (VSA 520 / G 450)",
   "changelog": [
-    "Tích hợp Forensic Mutation Engine cho Module 01 (Đối Chiếu 2 Sổ NKC): Tự động phát hiện thủ thuật sửa sổ kế toán gian lận của doanh nghiệp",
-    "Nhận diện Đổi Tài Khoản (ACCOUNT_MUTATED): Tự động ghép cặp các bút toán Thêm/Xóa có cùng ngày, số chứng từ và số tiền nhưng bị đổi tài khoản đối ứng (bắt quả tang hành vi chuyển chi phí không hợp lý như 811 sang chi phí hợp lệ 642, 156)",
-    "Nhận diện Dời Ngày (DATE_SHIFTED): Ghép cặp các bút toán bị dời ngày hạch toán giữa kỳ cũ và kỳ mới, phát hiện rủi ro sai lệch tính đúng kỳ (Cut-off testing)",
-    "Tự động sinh Bút toán Điều chỉnh Kiểm toán (AJE) tương ứng khi phát hiện tái phân loại tài khoản: Nợ TK mới / Có TK cũ với diễn giải chi tiết",
-    "Trực quan hóa trên giao diện và Excel: Bổ sung badge màu sắc chuyên biệt [Đổi tài khoản], [Dời ngày] trên bảng đối chiếu và tô màu highlight tương ứng trên file xuất Excel Chi tiết chênh lệch"
+    "Tích hợp Ma Trận Rà Soát Chi Phí 12 Tháng (VSA 520 / G 450): Hỗ trợ kiểm toán viên rà soát tính đầy đủ (Completeness) và tính đúng kỳ (Cut-off) của các chi phí hoạt động định kỳ",
+    "Phân loại 5 nhóm chi phí trọng yếu cốt lõi: Tiền Điện Nước, Tiền Thuê Mặt Bằng, Dịch Vụ Bảo Vệ, Viễn Thông/Internet/Phần Mềm SaaS, và Dịch Vụ Chuyên Môn Bên Ngoài",
+    "Tự động dồn chi phí nhỏ lẻ vào mục 'Chi Phí Hoạt Động Khác': Giữ ma trận tinh gọn, tập trung cao độ vào rủi ro kiểm toán",
+    "Hỗ trợ Xét đoán Động của KTV (Custom Heuristics): Cho phép gõ thêm từ khóa (tiếp khách, cước xe, quảng cáo...) để tự động bóc tách thành dòng theo dõi riêng",
+    "Cảnh báo thông minh: Tự động đánh dấu đỏ các tháng bị khuyết (0đ) và chấm cam các tháng đột biến chi phí vượt 150% bình quân",
+    "Khoan sâu bằng chứng (Click-to-Drilldown): Click vào bất kỳ số tiền nào để xem danh sách chứng từ, hóa đơn chi tiết",
+    "Xuất báo cáo Excel chuyên nghiệp: Tích hợp nút xuất bảng G 450 sang Excel với định dạng chuẩn mực lưu hồ sơ kiểm toán"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.5/AuditSoft-1.4.5-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.5/AuditSoft-1.4.5-Portable.exe",
-  "sha256": "b0f657e6df92d3817e30f8263dcae90b60cfc843abd47465772e8fa0375fff7c",
-  "signature": "zypcHNqoYb0L2Y4BldFHzHnTDpQ-GA488hZy4m3hRcxHBXPj_2L3nb6UgvwXCBMAovaNHQypCb_M6Mu0mpfoBw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.6/AuditSoft-1.4.6-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.6/AuditSoft-1.4.6-Portable.exe",
+  "sha256": "8b7e67c94f7bfa896dfc77526feaa321dfc2155f5369d59a634dd221939cd9af",
+  "signature": "PudRS83orxAzgATMIumjYEWxwPJ2tnYxfypkX3D2-88DLRFomCJSsxk8RecpmF32xRr-lY2SKr1y0b_C5botDw"
 }
