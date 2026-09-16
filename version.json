@@ -1,8 +1,10 @@
 {
-  "version": "1.5.0",
+  "version": "1.5.1",
   "releaseDate": "2026-09-16",
-  "title": "AuditSoft v1.5.0 — Bản Phát Hành Lớn: Phân Vùng Dịch Vụ Công Nợ 331, Hoàn Thiện Chốt Nợ Vay & Tinh Gọn Hub VSA",
+  "title": "AuditSoft v1.5.1 — Tinh Gọn Sơ Đồ Hub B360 & Ra Mắt Hệ Sinh Thái Kế Toán",
   "changelog": [
+    "Tinh gọn sơ đồ Hub: Loại bỏ nhãn 'Chờ nạp NKC' trên thẻ Tổng hợp điều chỉnh B360 theo đúng quy trình B410",
+    "Tích hợp trang đích hệ sinh thái bản quyền 3 công cụ (InvoiceDesk, TaxInsight, AuditSoft) kèm bộ tính toán ROI và cổng VietQR động",
     "Tách biệt phân vùng dịch vụ (Service Category Isolation) & Thừa hưởng tính chất hóa đơn (Invoice Category Inheritance): Thanh toán tiền điện nước (cả tiền gốc và thuế GTGT 1331) trừ đúng vào hóa đơn điện nước, tuyệt đối không trừ lẹm vào tiền thuê nhà xưởng",
     "Hoàn thiện thuật toán 2-Pass Hybrid Chốt công nợ 331/131: Tự động đối trừ đích danh hóa đơn theo số HĐ và diễn giải, khắc phục việc trả nợ tháng sau bị trừ nhầm vào tháng trước",
     "Khử cảnh báo giả rủi ro cao đối với chi phí dùng chung (tiền điện, tiền nước, thuê xưởng, bảo vệ phân bổ giữa 627 và 642)",
@@ -11,8 +13,8 @@
     "Khắc phục triệt để lỗi [object Object] và mã đối tượng NCC_ do tệp Excel nén có thứ tự sheet trước bảng SharedStrings",
     "Chuẩn hóa nhận diện loại tiền: Tự động nhận diện Loại tiền: Tổng hợp, VNĐ, Đồng Việt Nam về chuẩn VND"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.0/AuditSoft-1.5.0-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.0/AuditSoft-1.5.0-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.1/AuditSoft-1.5.1-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.1/AuditSoft-1.5.1-Portable.exe",
   "sha256": "1a6818d3cf4dabd006fe78b2312bb408878b779feea9b5d60bb7d0d5b2386b04",
-  "signature": "cpXscYstk1AOIj9VBmznw0hj6Vf6zUdRwFcHpbDbtCjiC_el8SzFf8tXc_PdXyTuEhQUE6IBupAbslezytdiAw"
+  "signature": "QeXaKAEMnn48ZgK97rYt0sP5qXrlN-2G4aHkf1q00rpRA57EqOhT0RQJXfAW5Fy1n3z64kw9yHsOKvMLWlyVBw"
 }
