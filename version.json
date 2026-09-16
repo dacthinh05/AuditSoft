@@ -1,17 +1,16 @@
 {
-  "version": "1.4.1",
+  "version": "1.4.2",
   "releaseDate": "2026-09-16",
-  "title": "AuditSoft v1.4.1 — Gia Hạn 30 Ngày Dùng Thử, Không Giới Hạn Lượt Xuất & Bảo Lưu Thời Gian Khi Cập Nhật",
+  "title": "AuditSoft v1.4.2 — Tinh Chỉnh Rủi Ro Thuế Nhà Thầu, Khử Cảnh Báo Giả Bút Toán Tròn & Module Nhất Quán Chi Phí",
   "changelog": [
-    "Không giới hạn lượt xuất dữ liệu dùng thử: Gỡ bỏ hoàn toàn rào cản 20 lượt xuất, cho phép trải nghiệm xuất Excel và báo cáo không giới hạn trong thời gian dùng thử",
-    "Gia hạn 30 ngày dùng thử miễn phí: Mở rộng thời gian trải nghiệm toàn bộ tính năng kiểm toán từ 20 ngày lên 30 ngày cho người dùng mới",
-    "Bảo lưu bền vững mốc dùng thử qua các bản cập nhật (Multi-Anchor Persistence): Lưu trữ đa điểm neo cấp máy và đồng bộ Main-Renderer, đảm bảo khi cập nhật phần mềm không bị reset mốc ngày còn lại",
-    "Khắc phục triệt để lỗi giải mã font Unicode tiếng Việt: Sửa bộ lọc FSM Lexer bảo vệ toàn vẹn các ký tự Unicode chuẩn (Ô, Ê...), chấm dứt tình trạng biến dạng tên đối tượng và lỗi không bóc tách được Sổ Chi Tiết MISA 1311",
-    "Hỗ trợ phân bổ tuổi nợ ngoại tệ FIFO: Cho phép chốt tuổi nợ theo nguyên tệ USD (TK 3312) kể cả khi số dư sổ sách quy đổi VND bằng 0, không bị ngắt sớm thành hết nợ",
-    "Bổ sung nút xóa và dán nhanh mã bản quyền: Thao tác tiện lợi hơn trong cửa sổ Kích hoạt bản quyền với nút xóa nhanh và xóa key cũ lưu trong máy"
+    "Khử triệt để cảnh báo giả Thuế Nhà Thầu (FCT - TT 103): Miễn trừ 100% các bút toán bù trừ chênh lệch tỷ giá hối đoái, lãi tỷ giá Có 515 và lỗ tỷ giá lẻ khi thanh toán đối tác nước ngoài",
+    "Khử cảnh báo giả số tiền tròn VSA 240 trên chi phí định kỳ: Sửa bộ lọc nhận diện chính xác các khoản chi phí dịch vụ khoán hợp đồng định kỳ (phí bảo vệ, thuê văn phòng/nhà, cước internet, vệ sinh...)",
+    "Bổ sung Module Rà soát Tính Nhất Quán Phân Loại Chi Phí (VAS 01 & VSA 520): Tự động phát hiện các khoản chi phí cùng loại hoặc cùng nhà cung cấp bị hạch toán phân tán vào nhiều tài khoản (như 627 vs 642, 621 vs 154), cảnh báo rủi ro điều chuyển chi phí và vốn hóa sai chuẩn mực",
+    "Tích hợp Giấy làm việc Excel A310: Bổ sung Sheet A310_NhatQuan_ChiPhi và đồng bộ Lead Sheet kiểm toán toàn diện",
+    "Sửa lỗi hiển thị giao diện hộp thoại Bản quyền: Khắc phục lỗi tràn viền cắt tiêu đề trên màn hình nhỏ và đồng bộ hoàn hảo giao diện theo Dark Mode / Light Mode"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.1/AuditSoft-1.4.1-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.1/AuditSoft-1.4.1-Portable.exe",
-  "sha256": "0abb317d12f8d15d7bf7ceb23dd4dcb972c11db395344ad12e5108b0ec7b47af",
-  "signature": "Ab24lEKpHgtQJb2mX9aAEjbjh5D9zq5-PxTHk-Jx6ARcqVLfsc2jpA_bufnNZMhZ6AxtPyP_3L3CFDgSe7V5DA"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.2/AuditSoft-1.4.2-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.2/AuditSoft-1.4.2-Portable.exe",
+  "sha256": "1b09ae7f6c4832014af2270fc5b915859b877865ff5a04f7353218292842c5e1",
+  "signature": "P4nusoSHOE5LkUZymm0z9aWevyCJnXIR0OzhFx9uAPCSb9peLcTGpEbfif9gqYH_XnYpmtMPZvPe3JGXyi1ACQ"
 }
