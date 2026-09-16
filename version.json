@@ -1,15 +1,18 @@
 {
   "version": "1.4.10",
   "releaseDate": "2026-09-16",
-  "title": "AuditSoft v1.4.10 — Khắc Phục Lỗi SharedStrings Excel & Nhận Diện Đa Loại Tiền Chốt Công Nợ",
+  "title": "AuditSoft v1.4.10 — Phân Vùng Dịch Vụ Chốt Công Nợ 331 & Tối Ưu Hóa Đọc Excel",
   "changelog": [
+    "Tách biệt phân vùng dịch vụ (Service Category Isolation) & Thừa hưởng tính chất hóa đơn (Invoice Category Inheritance): Thanh toán tiền điện nước (cả tiền gốc và thuế GTGT 1331) trừ đúng vào hóa đơn điện nước, tuyệt đối không trừ lẹm vào tiền thuê nhà xưởng",
+    "Hoàn thiện thuật toán 2-Pass Hybrid Chốt công nợ 331/131: Tự động đối trừ đích danh hóa đơn theo số HĐ và diễn giải, khắc phục việc trả nợ tháng sau bị trừ nhầm vào tháng trước",
+    "Khử cảnh báo giả rủi ro cao đối với chi phí dùng chung (tiền điện, tiền nước, thuê xưởng, bảo vệ phân bổ giữa 627 và 642)",
+    "Khắc phục triệt để lỗi chốt nợ vay: Gom chứng từ trả nợ UNC vào 1 hợp đồng chuẩn, hết lệch lãi vay E120 và khử số dư âm Chailease",
+    "Cập nhật và tinh gọn sơ đồ Hub Tổng quan hồ sơ: Bổ sung phân hệ Chốt Nợ Vay (TK 341/335) vào Cột 2 luồng động cơ phân tích VSA",
     "Khắc phục triệt để lỗi [object Object] và mã đối tượng NCC_ do tệp Excel nén có thứ tự sheet trước bảng SharedStrings",
-    "Chuẩn hóa nhận diện loại tiền: Tự động nhận diện Loại tiền: Tổng hợp, VNĐ, Đồng Việt Nam về chuẩn VND",
-    "Quét toàn bộ ô tiêu đề metadata kể cả khi bị căn giữa hoặc merge ở cột C/D, tự động ghép cặp 131/331 chính xác 100%",
-    "Tối ưu hoá cơ chế đọc Excel: Tự động fallback fullLoad bảo toàn nguyên vẹn chuỗi dữ liệu khi phát hiện chuỗi chưa phân giải"
+    "Chuẩn hóa nhận diện loại tiền: Tự động nhận diện Loại tiền: Tổng hợp, VNĐ, Đồng Việt Nam về chuẩn VND"
   ],
   "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.10/AuditSoft-1.4.10-Setup.exe",
   "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.10/AuditSoft-1.4.10-Portable.exe",
   "sha256": "f9a14f6c7a3fa92c83157ceb278c5d7500ce2b0a910d075ceb07b53ef63b4327",
-  "signature": ""
+  "signature": "DZk-CEWWdaIfxxOt5cCW24qaWq_Nx__faP5ZmklfHGfJ6cONpHeTdCkDf52p0gngDLURnho8WDZgdM0ZgDUrCQ"
 }
