@@ -1,16 +1,14 @@
 {
-  "version": "1.4.2",
+  "version": "1.4.3",
   "releaseDate": "2026-09-16",
-  "title": "AuditSoft v1.4.2 — Tinh Chỉnh Rủi Ro Thuế Nhà Thầu, Khử Cảnh Báo Giả Bút Toán Tròn & Module Nhất Quán Chi Phí",
+  "title": "AuditSoft v1.4.3 — Miễn Trừ FCT Tiền Hàng Nhập Khẩu & Tinh Lọc Thuế Nhà Thầu Chuẩn TT 103",
   "changelog": [
-    "Khử triệt để cảnh báo giả Thuế Nhà Thầu (FCT - TT 103): Miễn trừ 100% các bút toán bù trừ chênh lệch tỷ giá hối đoái, lãi tỷ giá Có 515 và lỗ tỷ giá lẻ khi thanh toán đối tác nước ngoài",
-    "Khử cảnh báo giả số tiền tròn VSA 240 trên chi phí định kỳ: Sửa bộ lọc nhận diện chính xác các khoản chi phí dịch vụ khoán hợp đồng định kỳ (phí bảo vệ, thuê văn phòng/nhà, cước internet, vệ sinh...)",
-    "Bổ sung Module Rà soát Tính Nhất Quán Phân Loại Chi Phí (VAS 01 & VSA 520): Tự động phát hiện các khoản chi phí cùng loại hoặc cùng nhà cung cấp bị hạch toán phân tán vào nhiều tài khoản (như 627 vs 642, 621 vs 154), cảnh báo rủi ro điều chuyển chi phí và vốn hóa sai chuẩn mực",
-    "Tích hợp Giấy làm việc Excel A310: Bổ sung Sheet A310_NhatQuan_ChiPhi và đồng bộ Lead Sheet kiểm toán toàn diện",
-    "Sửa lỗi hiển thị giao diện hộp thoại Bản quyền: Khắc phục lỗi tràn viền cắt tiêu đề trên màn hình nhỏ và đồng bộ hoàn hảo giao diện theo Dark Mode / Light Mode"
+    "Phân định rạch ròi Mua hàng hóa nhập khẩu vs Dịch vụ chịu FCT: Căn cứ Khoản 1 Điều 2 Thông tư 103/2014/TT-BTC, miễn trừ 100% các lệnh chuyển tiền thanh toán mua nguyên vật liệu, hàng hóa nhập khẩu cho nhà cung cấp nước ngoài (Co., Ltd, Inc, Corp...)",
+    "Chỉ áp dụng Thuế Nhà Thầu khi giao dịch có yếu tố dịch vụ: Cước tàu biển, quảng cáo số, SaaS/Cloud, tư vấn, bản quyền, lắp đặt, bảo hành hoặc các nền tảng xuyên biên giới",
+    "Khử sạch toàn bộ cảnh báo giả FCT trên hồ sơ kiểm toán xuất nhập khẩu, bảo vệ tính chính xác tuyệt đối của báo cáo kiểm toán A310"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.2/AuditSoft-1.4.2-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.2/AuditSoft-1.4.2-Portable.exe",
-  "sha256": "1b09ae7f6c4832014af2270fc5b915859b877865ff5a04f7353218292842c5e1",
-  "signature": "P4nusoSHOE5LkUZymm0z9aWevyCJnXIR0OzhFx9uAPCSb9peLcTGpEbfif9gqYH_XnYpmtMPZvPe3JGXyi1ACQ"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.3/AuditSoft-1.4.3-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.3/AuditSoft-1.4.3-Portable.exe",
+  "sha256": "9ec5272fa4d58af1995a17f5dcb0d91a6e94c10545caf4ec9c5417f41db26147",
+  "signature": "73BlcEttC7ZH6KSCNoOLM-aBEKdkt1S8_MzfViDq57jcZFrmwwtLZXn8AYDHK7gbaGVI2VjFMxQ52ZOFzpsOBw"
 }
