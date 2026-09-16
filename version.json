@@ -1,17 +1,15 @@
 {
-  "version": "1.4.9",
+  "version": "1.4.10",
   "releaseDate": "2026-09-16",
-  "title": "AuditSoft v1.4.9 — Thuật Toán 2-Pass Hybrid Chốt Công Nợ 331 (Bóc Tách Diễn Giải & Khử Lệch Thanh Toán)",
+  "title": "AuditSoft v1.4.10 — Khắc Phục Lỗi SharedStrings Excel & Nhận Diện Đa Loại Tiền Chốt Công Nợ",
   "changelog": [
-    "Nâng cấp thuật toán Chốt công nợ MISA (TK 331/131) thành 2-Pass Hybrid Engine: Kết hợp đối trừ đích danh theo diễn giải/số hóa đơn với FIFO fallback",
-    "Tự động đọc diễn giải chứng từ thanh toán (UNC/Phiếu chi) để trừ trực tiếp vào đúng hóa đơn được thanh toán (ví dụ thanh toán đích danh HĐ Tháng 6 trong khi Tháng 5 còn nợ), chấm dứt hiện tượng trừ lầm vào hóa đơn cũ",
-    "Hỗ trợ nhận diện số hóa đơn và kỳ/tháng thanh toán trong diễn giải tiếng Việt có dấu và không dấu",
-    "Khử cảnh báo giả rủi ro cao đối với chi phí dùng chung (tiền điện, tiền nước, thuê xưởng, bảo vệ phân bổ giữa 627 và 642)",
-    "Khắc phục triệt để lỗi chốt nợ vay: Gom chứng từ trả nợ UNC vào 1 hợp đồng chuẩn, hết lệch lãi vay E120 và khử số dư âm Chailease",
-    "Bổ sung phân hệ Chốt Nợ Vay (TK 341/335) vào Cột 2 sơ đồ Hub Tổng quan hồ sơ"
+    "Khắc phục triệt để lỗi [object Object] và mã đối tượng NCC_ do tệp Excel nén có thứ tự sheet trước bảng SharedStrings",
+    "Chuẩn hóa nhận diện loại tiền: Tự động nhận diện Loại tiền: Tổng hợp, VNĐ, Đồng Việt Nam về chuẩn VND",
+    "Quét toàn bộ ô tiêu đề metadata kể cả khi bị căn giữa hoặc merge ở cột C/D, tự động ghép cặp 131/331 chính xác 100%",
+    "Tối ưu hoá cơ chế đọc Excel: Tự động fallback fullLoad bảo toàn nguyên vẹn chuỗi dữ liệu khi phát hiện chuỗi chưa phân giải"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.9/AuditSoft-1.4.9-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.9/AuditSoft-1.4.9-Portable.exe",
-  "sha256": "53bd11e385d01899aa02860646d3bdb9df1a1e84926e9d3149ec0f42926cc7b0",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.10/AuditSoft-1.4.10-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.10/AuditSoft-1.4.10-Portable.exe",
+  "sha256": "f9a14f6c7a3fa92c83157ceb278c5d7500ce2b0a910d075ceb07b53ef63b4327",
   "signature": ""
 }
