@@ -1,19 +1,17 @@
 {
-  "version": "1.4.8",
+  "version": "1.4.9",
   "releaseDate": "2026-09-16",
-  "title": "AuditSoft v1.4.8 — Khử Cảnh Báo Giả Chi Phí Dùng Chung & Hoàn Thiện Chốt Nợ Vay (TK 341/335)",
+  "title": "AuditSoft v1.4.9 — Thuật Toán 2-Pass Hybrid Chốt Công Nợ 331 (Bóc Tách Diễn Giải & Khử Lệch Thanh Toán)",
   "changelog": [
-    "Khử triệt để cảnh báo giả rủi ro cao đối với chi phí dùng chung hợp lệ (tiền điện, tiền nước, thuê xưởng, bảo vệ, vệ sinh phân bổ giữa 627 và 642)",
-    "Nhận diện đúng bản chất Logistics: phân định rõ cước hàng xuất (641) và cước hàng nhập (627/15x), không còn cảnh báo sai lệch điều chuyển chi phí",
-    "Tách biệt tài khoản 811 (tiền phạt, loại trừ thuế B4), không làm sai lệch đánh giá nhóm chi phí năng lượng/hoạt động",
-    "Lọc sạch Sheet Chi_Tiet_Chi_Phi_Bat_Thuong trong file Excel xuất ra, chỉ giữ lại các rủi ro bất thường thực chất (VSA 240, VSA 250)",
-    "Sửa dứt điểm phân hệ Chốt Nợ Vay: Chứng từ trả nợ UNC không còn bị nhận diện nhầm thành khế ước vay mới, gom đúng vào hợp đồng tín dụng duy nhất",
-    "Bảng tái tính lãi vay E120 tính toán chuẩn xác theo dư nợ thực tế từng khoản vay, khớp sát số liệu kế toán trên TK 635 (hết lệch khống 3.76 tỷ)",
-    "Khắc phục lỗi số dư nợ vay bị âm (-1.110.302.119 đ) ở Chailease khi dùng chung tài khoản CĐPS 3413 với Vietcombank Leasing",
-    "Cập nhật và tinh gọn sơ đồ Hub Tổng quan hồ sơ: Bổ sung phân hệ Chốt Nợ Vay (TK 341/335) vào luồng động cơ phân tích VSA"
+    "Nâng cấp thuật toán Chốt công nợ MISA (TK 331/131) thành 2-Pass Hybrid Engine: Kết hợp đối trừ đích danh theo diễn giải/số hóa đơn với FIFO fallback",
+    "Tự động đọc diễn giải chứng từ thanh toán (UNC/Phiếu chi) để trừ trực tiếp vào đúng hóa đơn được thanh toán (ví dụ thanh toán đích danh HĐ Tháng 6 trong khi Tháng 5 còn nợ), chấm dứt hiện tượng trừ lầm vào hóa đơn cũ",
+    "Hỗ trợ nhận diện số hóa đơn và kỳ/tháng thanh toán trong diễn giải tiếng Việt có dấu và không dấu",
+    "Khử cảnh báo giả rủi ro cao đối với chi phí dùng chung (tiền điện, tiền nước, thuê xưởng, bảo vệ phân bổ giữa 627 và 642)",
+    "Khắc phục triệt để lỗi chốt nợ vay: Gom chứng từ trả nợ UNC vào 1 hợp đồng chuẩn, hết lệch lãi vay E120 và khử số dư âm Chailease",
+    "Bổ sung phân hệ Chốt Nợ Vay (TK 341/335) vào Cột 2 sơ đồ Hub Tổng quan hồ sơ"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.8/AuditSoft-1.4.8-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.8/AuditSoft-1.4.8-Portable.exe",
-  "sha256": "4e9e1e57088c6756a638be85dab3d2968f3dd4cd42314aefe788d2d2ea5ea725",
-  "signature": "mfHeDS4CWPprykVkD6CRzzEFU11jlH_khmZy3afUyY0m2wUvrMC3HWIcmwegX0mEuSpa8SMnb7_sJ_xzUmCdDw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.9/AuditSoft-1.4.9-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.9/AuditSoft-1.4.9-Portable.exe",
+  "sha256": "53bd11e385d01899aa02860646d3bdb9df1a1e84926e9d3149ec0f42926cc7b0",
+  "signature": ""
 }
