@@ -1,14 +1,17 @@
 {
-  "version": "1.3.6",
-  "releaseDate": "2026-09-15",
-  "title": "AuditSoft v1.3.6 — Khắc Phục Khóa Sổ Công Nợ Bị Nhảy Ngày, Mặc Định Lọc Ẩn TK Hết Số Dư & Chuẩn Hóa Dư Ngược",
+  "version": "1.4.0",
+  "releaseDate": "2026-09-16",
+  "title": "AuditSoft v1.4.0 — Đột Phá Chuẩn Hóa Bảo Mật Thương Mại, Ký Số Manifest Ed25519 & Khắc Phục Toàn Diện Số Liệu Kế Toán",
   "changelog": [
-    "Khắc phục lỗi ngày khóa sổ công nợ (DebtAuditPage) bị nhảy về 31/12/2026: Tôn trọng 100% ngày người dùng lựa chọn (ví dụ 30/06, 30/09, 31/03), không bị ép ngược về cuối năm",
-    "Mặc định bật bộ lọc ẩn tài khoản hết số dư cuối kỳ trong phân hệ Chốt số dư CĐPS: Tự động lọc sạch các tài khoản đã tất toán hết số dư (SDCK = 0), giao diện tinh gọn, không còn rác",
-    "Sửa triệt để điều kiện lọc chỉ xem TK có số dư: Không còn bị lọt các tài khoản có phát sinh trong năm nhưng cuối kỳ đã hết số dư (như 1311LL, 1311ZH, 3311BD)",
-    "Chuẩn hóa tuổi số dư cho tài khoản dư ngược (như 1311DBL dư Có -647 triệu): Hiển thị chuẩn xác 'Khách trả trước (Dư Có)' kèm tháng nộp tiền, không bị báo nhầm là 'Hết số dư'"
+    "Bảo vệ bản quyền trói buộc phần cứng (Hardware Machine ID): Nhận diện mã máy duy nhất qua Windows Registry MachineGuid, chống sao chép key và ngăn chặn reset dùng thử vô hạn",
+    "Thực thi giới hạn 20 lượt xuất dùng thử & HMAC Guard: Chặn xuất dữ liệu khi hết hạn mức; bảo mật tệp cấu hình chống tua lùi thời gian hệ thống",
+    "Chuỗi tin cậy cập nhật tự động (Ed25519 Manifest Signing): Ký số bản tin version.json bằng khoá bất đối xứng, tính SHA-256 dạng stream song song lúc tải và xử lý backpressure",
+    "Khắc phục 6 lỗi nghiệp vụ kế toán trọng yếu: Chuẩn hóa kiểm tra Nợ - Có thực chất (VSA 500), tính lãi vay vượt trần theo ngày thực tế (Điều 468 BLDS), chuẩn hóa parseRate lãi suất thấp, khắc phục tỷ lệ YoY đảo dấu khi lỗ, minh bạch dự phòng nợ cũ ĐK (TT48) và chặn CFO/PAT khi lỗ",
+    "Cách ly dữ liệu khách hàng tuyệt đối: resetAll xóa sạch 100% cache phân hệ công nợ (modeReports), triệt tiêu rủi ro rò rỉ dữ liệu giữa các hồ sơ kiểm toán",
+    "Hệ thống ghi log sự cố và an toàn Main Process: Tự động ghi nhật ký xoay vòng tại %APPDATA%/AuditSoft/logs, bổ sung nút xuất log hỗ trợ kỹ thuật, kiểm tra nghiêm ngặt đường dẫn xuất file và tiêm CSP header"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.6/AuditSoft-1.3.6-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.3.6/AuditSoft-1.3.6-Portable.exe",
-  "sha256": "48135b8e6ce6f7bd2f64c01294ebfaaa5223fa3a73349877f6715b08dca31db1"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.0/AuditSoft-1.4.0-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.0/AuditSoft-1.4.0-Portable.exe",
+  "sha256": "75d0a9e5233b4dcdac668ca9134d760ca9ebc789326820032988f9c80f04a106",
+  "signature": "qrOUqvPsuiiBxbP6UP0jm7uLGr_zGA3pcmbbrpHgBU0OAx0E66E9hILNMF1ZWGevBYe6clwPmatIEsQg3exQBw"
 }
