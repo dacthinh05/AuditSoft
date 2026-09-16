@@ -1,18 +1,18 @@
 {
-  "version": "1.4.6",
+  "version": "1.4.7",
   "releaseDate": "2026-09-16",
-  "title": "AuditSoft v1.4.6 — Tích Hợp Ma Trận Rà Soát Chi Phí Trọng Yếu 12 Tháng (VSA 520 / G 450)",
+  "title": "AuditSoft v1.4.7 — Mở Rộng 14 Khoản Mục Chi Phí Trọng Yếu (Bao Phủ Lương, Khấu Hao, Logistics)",
   "changelog": [
-    "Tích hợp Ma Trận Rà Soát Chi Phí 12 Tháng (VSA 520 / G 450): Hỗ trợ kiểm toán viên rà soát tính đầy đủ (Completeness) và tính đúng kỳ (Cut-off) của các chi phí hoạt động định kỳ",
-    "Phân loại 5 nhóm chi phí trọng yếu cốt lõi: Tiền Điện Nước, Tiền Thuê Mặt Bằng, Dịch Vụ Bảo Vệ, Viễn Thông/Internet/Phần Mềm SaaS, và Dịch Vụ Chuyên Môn Bên Ngoài",
-    "Tự động dồn chi phí nhỏ lẻ vào mục 'Chi Phí Hoạt Động Khác': Giữ ma trận tinh gọn, tập trung cao độ vào rủi ro kiểm toán",
-    "Hỗ trợ Xét đoán Động của KTV (Custom Heuristics): Cho phép gõ thêm từ khóa (tiếp khách, cước xe, quảng cáo...) để tự động bóc tách thành dòng theo dõi riêng",
-    "Cảnh báo thông minh: Tự động đánh dấu đỏ các tháng bị khuyết (0đ) và chấm cam các tháng đột biến chi phí vượt 150% bình quân",
-    "Khoan sâu bằng chứng (Click-to-Drilldown): Click vào bất kỳ số tiền nào để xem danh sách chứng từ, hóa đơn chi tiết",
-    "Xuất báo cáo Excel chuyên nghiệp: Tích hợp nút xuất bảng G 450 sang Excel với định dạng chuẩn mực lưu hồ sơ kiểm toán"
+    "Đột phá mở rộng Ma Trận Rà Soát Chi Phí 12 Tháng (VSA 520 / G 450) lên 14 khoản mục chi phí trọng yếu cốt lõi, bóc tách triệt để toàn bộ 492 tỷ chi phí hoạt động doanh nghiệp",
+    "Bổ sung phân nhóm Lương & Tiền công (Có 334 / Nợ 6411, 6421), Bảo hiểm trích theo lương (Có 338), Thưởng & Ăn ca phúc lợi",
+    "Bổ sung phân nhóm Khấu hao TSCĐ (Có 214) và Phân bổ Chi phí trả trước (Có 242) phục vụ soát xét tính định kỳ đều đặn",
+    "Bổ sung Logistics, Vận chuyển, Cước tàu & Phí kéo xe (khoản mục thường chiếm tỷ trọng lớn tại DN thương mại/sản xuất)",
+    "Bổ sung Quảng cáo/Tiếp thị, Hoa hồng môi giới và Chi phí Tiếp khách/Công tác phí",
+    "Dồn chi phí vụn vặt vào 'Chi Phí Hoạt Động Khác' giúp dòng Khác chỉ còn tỷ trọng nhỏ, làm nổi bật toàn bộ rủi ro kiểm toán",
+    "Hỗ trợ trọn vẹn Khoan sâu chứng từ (Click-to-Drilldown) và Xuất báo cáo Excel G 450 đầy đủ 14 khoản mục"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.6/AuditSoft-1.4.6-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.6/AuditSoft-1.4.6-Portable.exe",
-  "sha256": "8b7e67c94f7bfa896dfc77526feaa321dfc2155f5369d59a634dd221939cd9af",
-  "signature": "PudRS83orxAzgATMIumjYEWxwPJ2tnYxfypkX3D2-88DLRFomCJSsxk8RecpmF32xRr-lY2SKr1y0b_C5botDw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.7/AuditSoft-1.4.7-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.4.7/AuditSoft-1.4.7-Portable.exe",
+  "sha256": "197da156bd8548a6a395c07a423be1393bfc4393e7d89b0591c40bd068e861a8",
+  "signature": "jFksJXGbB3SCDZNpu6uVWiINwC1B8XMUAGpEr2f-1oAKR2FWbIbSbMFLZrhO-jIvIFnB-XA9DKorLnU202sUDQ"
 }
