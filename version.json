@@ -1,18 +1,16 @@
 {
-  "version": "1.5.3",
+  "version": "1.5.4",
   "releaseDate": "2026-09-17",
-  "title": "AuditSoft v1.5.3 — Tự Động Cập Nhật, Tái Cấu Trúc G450 & Gộp Sheet Workbook",
+  "title": "AuditSoft v1.5.4 — Chuẩn Hóa Điều Chỉnh B360 & Tự Động Kiểm Định Cân Đối",
   "changelog": [
-    "Kích hoạt cơ chế tự động cập nhật hệ thống (Auto-Update Engine) trực tiếp từ đám mây",
-    "Tái cấu trúc Ma trận chi phí 12 tháng (VSA 520 / G 450): Chuyển tháng sang cột dọc (T01 - T12), nhóm chi phí theo chiều ngang kèm shortName ngắn gọn và bộ lọc tự động ẩn nhóm 0đ",
-    "Nâng cấp Tiện ích Gộp Excel Pro: Bổ sung chế độ gộp toàn bộ Sheet trong 1 Workbook (Kho 12 tháng, Phân bổ 242, Khấu hao 214), tự động unwrap công thức tránh lỗi #REF!, khử dòng tiêu đề lặp và dòng tổng cộng con",
-    "Chuẩn hóa bóc tách Lãi vay & Bút toán phi tiền tệ LCTT B420: Tách bạch rõ Chi phí lãi vay (Mã 06) vs Tiền lãi vay đã trả (Mã 14), loại trừ triệt để tài khoản 6352 (CLTG) và 413",
-    "Tối ưu hiệu năng và ngăn ngừa crash Out-Of-Memory (OOM): Tăng dung lượng bộ nhớ worker lên 8GB, tích hợp thanh tiến trình đọc/phân tích NKC mượt mà",
-    "Cải tiến định dạng tệp Excel xuất gộp: Tự động căn chỉnh độ rộng cột, định dạng ngày DD/MM/YYYY, số tiền chuẩn kế toán và thêm Macro VBA hỗ trợ thao tác offline",
-    "Khắc phục niên độ tính lãi vay E120 và đồng bộ trạng thái luồng kiểm toán trên Hub B360"
+    "Tự động trích xuất và sinh bút toán điều chỉnh AJE tái phân loại khi thay đổi tài khoản Nợ/Có (ví dụ: Nợ 242 sang 2111)",
+    "Hiển thị trực quan luồng đổi tài khoản hạch toán (TK_Cũ → TK_Mới) trên bảng chi tiết và tệp Excel xuất ra",
+    "Bổ sung công thức tự động kiểm định cân đối CĐKT (ΔTS − ΔNV = 0) trực tiếp trên file Excel Working Paper B360",
+    "Hiện thực hóa tính năng Cộng gộp bút toán theo cặp tài khoản đối ứng (chuẩn Working Paper kiểm toán)",
+    "Đồng bộ nhãn nguồn chênh lệch nhóm (Đổi tài khoản, Dời ngày) và bảo toàn tính toàn vẹn số liệu"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.3/AuditSoft-1.5.3-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.3/AuditSoft-1.5.3-Portable.exe",
-  "sha256": "e19ed96ab89e1d91e9a960f45b89bd0d33e0adb0570fb78ed54e01c73f5cdbd1",
-  "signature": "_O8D4UWGbvEARojXE8Z2D6wMLWZvsgdqveLMRTRArH07bz8WB-0wDDIG_7TGe8AxRXjLXPfUvzCc4riGg5N7Cg"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.4/AuditSoft-1.5.4-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.4/AuditSoft-1.5.4-Portable.exe",
+  "sha256": "b8abfffed34dcbacfd7ac21e7142238e62cdc5233deedeff7613cf17ab8df481",
+  "signature": "aYeW7ZgSS2tCQO9xrIafRQYiIQ1PdgzUZwgjucSaibNTA5ocN_cxAjBz_ZFLL5UVJO1Hx1q-dDxKiK8z7k2ODQ"
 }
