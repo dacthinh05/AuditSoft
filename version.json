@@ -1,20 +1,18 @@
 {
-  "version": "1.5.1",
-  "releaseDate": "2026-09-16",
-  "title": "AuditSoft v1.5.1 — Tinh Gọn Sơ Đồ Hub B360 & Ra Mắt Hệ Sinh Thái Kế Toán",
+  "version": "1.5.3",
+  "releaseDate": "2026-09-17",
+  "title": "AuditSoft v1.5.3 — Tự Động Cập Nhật, Tái Cấu Trúc G450 & Gộp Sheet Workbook",
   "changelog": [
-    "Tinh gọn sơ đồ Hub: Loại bỏ nhãn 'Chờ nạp NKC' trên thẻ Tổng hợp điều chỉnh B360 theo đúng quy trình B410",
-    "Tích hợp trang đích hệ sinh thái bản quyền 3 công cụ (InvoiceDesk, TaxInsight, AuditSoft) kèm bộ tính toán ROI và cổng VietQR động",
-    "Tách biệt phân vùng dịch vụ (Service Category Isolation) & Thừa hưởng tính chất hóa đơn (Invoice Category Inheritance): Thanh toán tiền điện nước (cả tiền gốc và thuế GTGT 1331) trừ đúng vào hóa đơn điện nước, tuyệt đối không trừ lẹm vào tiền thuê nhà xưởng",
-    "Hoàn thiện thuật toán 2-Pass Hybrid Chốt công nợ 331/131: Tự động đối trừ đích danh hóa đơn theo số HĐ và diễn giải, khắc phục việc trả nợ tháng sau bị trừ nhầm vào tháng trước",
-    "Khử cảnh báo giả rủi ro cao đối với chi phí dùng chung (tiền điện, tiền nước, thuê xưởng, bảo vệ phân bổ giữa 627 và 642)",
-    "Khắc phục triệt để lỗi chốt nợ vay: Gom chứng từ trả nợ UNC vào 1 hợp đồng chuẩn, hết lệch lãi vay E120 và khử số dư âm Chailease",
-    "Cập nhật và tinh gọn sơ đồ Hub Tổng quan hồ sơ: Bổ sung phân hệ Chốt Nợ Vay (TK 341/335) vào Cột 2 luồng động cơ phân tích VSA",
-    "Khắc phục triệt để lỗi [object Object] và mã đối tượng NCC_ do tệp Excel nén có thứ tự sheet trước bảng SharedStrings",
-    "Chuẩn hóa nhận diện loại tiền: Tự động nhận diện Loại tiền: Tổng hợp, VNĐ, Đồng Việt Nam về chuẩn VND"
+    "Kích hoạt cơ chế tự động cập nhật hệ thống (Auto-Update Engine) trực tiếp từ đám mây",
+    "Tái cấu trúc Ma trận chi phí 12 tháng (VSA 520 / G 450): Chuyển tháng sang cột dọc (T01 - T12), nhóm chi phí theo chiều ngang kèm shortName ngắn gọn và bộ lọc tự động ẩn nhóm 0đ",
+    "Nâng cấp Tiện ích Gộp Excel Pro: Bổ sung chế độ gộp toàn bộ Sheet trong 1 Workbook (Kho 12 tháng, Phân bổ 242, Khấu hao 214), tự động unwrap công thức tránh lỗi #REF!, khử dòng tiêu đề lặp và dòng tổng cộng con",
+    "Chuẩn hóa bóc tách Lãi vay & Bút toán phi tiền tệ LCTT B420: Tách bạch rõ Chi phí lãi vay (Mã 06) vs Tiền lãi vay đã trả (Mã 14), loại trừ triệt để tài khoản 6352 (CLTG) và 413",
+    "Tối ưu hiệu năng và ngăn ngừa crash Out-Of-Memory (OOM): Tăng dung lượng bộ nhớ worker lên 8GB, tích hợp thanh tiến trình đọc/phân tích NKC mượt mà",
+    "Cải tiến định dạng tệp Excel xuất gộp: Tự động căn chỉnh độ rộng cột, định dạng ngày DD/MM/YYYY, số tiền chuẩn kế toán và thêm Macro VBA hỗ trợ thao tác offline",
+    "Khắc phục niên độ tính lãi vay E120 và đồng bộ trạng thái luồng kiểm toán trên Hub B360"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.1/AuditSoft-1.5.1-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.1/AuditSoft-1.5.1-Portable.exe",
-  "sha256": "1a6818d3cf4dabd006fe78b2312bb408878b779feea9b5d60bb7d0d5b2386b04",
-  "signature": "QeXaKAEMnn48ZgK97rYt0sP5qXrlN-2G4aHkf1q00rpRA57EqOhT0RQJXfAW5Fy1n3z64kw9yHsOKvMLWlyVBw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.3/AuditSoft-1.5.3-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.3/AuditSoft-1.5.3-Portable.exe",
+  "sha256": "e19ed96ab89e1d91e9a960f45b89bd0d33e0adb0570fb78ed54e01c73f5cdbd1",
+  "signature": "_O8D4UWGbvEARojXE8Z2D6wMLWZvsgdqveLMRTRArH07bz8WB-0wDDIG_7TGe8AxRXjLXPfUvzCc4riGg5N7Cg"
 }
