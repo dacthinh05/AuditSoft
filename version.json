@@ -1,16 +1,16 @@
 {
-  "version": "1.5.4",
+  "version": "1.5.5",
   "releaseDate": "2026-09-17",
-  "title": "AuditSoft v1.5.4 — Chuẩn Hóa Điều Chỉnh B360 & Tự Động Kiểm Định Cân Đối",
+  "title": "AuditSoft v1.5.5 — Tối Ưu Bố Cục Bảng Chốt Công Nợ, Ma Trận Chi Phí & Tích Hợp Landing Page",
   "changelog": [
-    "Tự động trích xuất và sinh bút toán điều chỉnh AJE tái phân loại khi thay đổi tài khoản Nợ/Có (ví dụ: Nợ 242 sang 2111)",
-    "Hiển thị trực quan luồng đổi tài khoản hạch toán (TK_Cũ → TK_Mới) trên bảng chi tiết và tệp Excel xuất ra",
-    "Bổ sung công thức tự động kiểm định cân đối CĐKT (ΔTS − ΔNV = 0) trực tiếp trên file Excel Working Paper B360",
-    "Hiện thực hóa tính năng Cộng gộp bút toán theo cặp tài khoản đối ứng (chuẩn Working Paper kiểm toán)",
-    "Đồng bộ nhãn nguồn chênh lệch nhóm (Đổi tài khoản, Dời ngày) và bảo toàn tính toàn vẹn số liệu"
+    "Tối ưu toàn diện bảng Chốt Công Nợ 331/131: mở rộng cột rủi ro lên 215px chống rớt dòng badge, tinh gọn các cột số dư giúp hiển thị trọn vẹn mép phải",
+    "Tái cấu trúc thanh công cụ (Toolbar) 2 tầng ngăn nắp, tách biệt Tìm kiếm và Bộ lọc, ghim cố định cặp nút Word & Excel liền kề",
+    "Nâng cỡ chữ số tiền trên Bảng Ma Trận Chi Phí 12 Tháng (T01-T12) lên 13.5px - 14.5px rõ nét chuẩn kế toán",
+    "Thiết kế lại Landing Page hệ sinh thái (docs/index.html & landing-page/index.html) chuyên nghiệp, cập nhật gói giải pháp VIP",
+    "Tích hợp nút liên kết mở nhanh Landing Page ngay trong cửa sổ Bản quyền phần mềm (LicenseModal) và thanh công cụ"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.4/AuditSoft-1.5.4-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.4/AuditSoft-1.5.4-Portable.exe",
-  "sha256": "b8abfffed34dcbacfd7ac21e7142238e62cdc5233deedeff7613cf17ab8df481",
-  "signature": "aYeW7ZgSS2tCQO9xrIafRQYiIQ1PdgzUZwgjucSaibNTA5ocN_cxAjBz_ZFLL5UVJO1Hx1q-dDxKiK8z7k2ODQ"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.5/AuditSoft-1.5.5-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.5/AuditSoft-1.5.5-Portable.exe",
+  "sha256": "b7252bd1b4868bbdc8d2ba3fcc428b31e2499dd4fc9d2388c51394bcb1779209",
+  "signature": "ykGDHBqAkLCjumt5VVvHV1_7F9CSArQG16k3rHh-JxOF6UM8kcvwvv50iJcn7ZWJPhFM_kPS4dazBhxgyInzBA"
 }
