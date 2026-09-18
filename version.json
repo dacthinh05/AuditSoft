@@ -1,15 +1,16 @@
 {
-  "version": "1.5.9",
+  "version": "1.6.0",
   "releaseDate": "2026-09-18",
-  "title": "AuditSoft v1.5.9 — Tối Ưu Bảng Chốt Số Dư CĐPS & Mặc Định Lọc Ẩn TK Bình Thường",
+  "title": "AuditSoft v1.6.0 — Chuẩn Hóa 15 Giấy Làm Việc VACPA, Chống Tràn Ô '###' & Khử Nhân Đôi Số Dư",
   "changelog": [
-    "Tối ưu toàn diện giao diện phân hệ #02B Chốt Số Dư CĐPS: thiết lập scroll container nội bộ kèm sticky header, tối ưu padding và độ rộng cột hiển thị trọn vẹn 100% trên mọi kích thước màn hình",
-    "Mặc định lọc ẩn các tài khoản hoạt động bình thường, giúp kiểm toán viên tập trung ngay vào các tài khoản có rủi ro, chênh lệch số dư, dư ngược chiều và tồn đọng lâu năm",
-    "Chuẩn hóa phân loại nghiệp vụ kiểm toán: xếp Hao mòn TSCĐ (TK 214) và Vốn CSH / Lợi nhuận (TK 411, 421) khớp sổ vào diện bình thường; cấm tuyệt đối chạy tuổi nợ FIFO lên Vốn chủ sở hữu",
-    "Làm sạch cột số liệu tiền tệ: loại bỏ chữ chèn gây lệch hàng; chuẩn hóa tiêu đề và ghi chú phân bổ chứng từ trong Drawer thành 'Số tiền tính vào SDCK' và 'Còn nợ %'"
+    "Tự động chống tràn ô '###' trên Microsoft Excel: cơ chế auto-fit đảm bảo độ rộng cột tiền tệ tối thiểu 18-22 ký tự, hiển thị hoàn hảo các số tiền hàng chục, hàng trăm tỷ đồng",
+    "Khắc phục đứt gãy liên kết công thức Master A-B-H: tự động điền mã TK cấp 1 và cấp 2 trên sheet bcdsps-Truoc DC, kích hoạt tính toán tự động toàn bộ BCTC B01, B02, B03",
+    "Triển khai thuật toán Leaf-Node Rollup: loại bỏ hoàn toàn tình trạng nhân đôi số dư đa cấp (chỉ cộng nút lá trên cây tài khoản con)",
+    "Làm sạch bảng phân tích đối ứng: loại trừ 100% tài khoản kết chuyển 911 khỏi các biểu mẫu đối ứng G190, G290, G490; đồng bộ hóa chi phí bán hàng 6421 và quản lý 6422 theo Thông tư 133",
+    "Bảo tồn nguyên vẹn đường viền bảng (borders) khi khử công thức chia cho 0 và chuẩn hóa thứ tự XML Schema ECMA-376"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.9/AuditSoft-1.5.9-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.9/AuditSoft-1.5.9-Portable.exe",
-  "sha256": "b4b8783c7ab35a916058c7ac94b6a0e5787d8953fbbfbd17b539464492370b47",
-  "signature": "LKosIPr5FL2G6sk-pJeTrumgfeEZVanundSJl4mPEd5BRJhMkmmUusSnK6tcBNisHMlSv1JLJWqJHqNg0WqdCw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.6.0/AuditSoft-1.6.0-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.6.0/AuditSoft-1.6.0-Portable.exe",
+  "sha256": "9d6f4b3cf59a6cb7712fc60bf7b37feaa854467f872d32656310cca771ecb159",
+  "signature": "W0Kp_aF63ZNRzceaM1KF7UcOvKMsNMyP5RXgguGzptWH_UUPio-U53EYB1HXZgRO13DtznseRjk5F05iU0WwAw"
 }
