@@ -1,16 +1,16 @@
 {
-  "version": "1.5.5",
-  "releaseDate": "2026-09-17",
-  "title": "AuditSoft v1.5.5 — Tối Ưu Bố Cục Bảng Chốt Công Nợ, Ma Trận Chi Phí & Tích Hợp Landing Page",
+  "version": "1.5.6",
+  "releaseDate": "2026-09-18",
+  "title": "AuditSoft v1.5.6 — Nâng Cấp Toàn Diện Trạm Thư Xác Nhận VSA 505 (Chuẩn OpenXML & 1-Click Auto-Fill)",
   "changelog": [
-    "Tối ưu toàn diện bảng Chốt Công Nợ 331/131: mở rộng cột rủi ro lên 215px chống rớt dòng badge, tinh gọn các cột số dư giúp hiển thị trọn vẹn mép phải",
-    "Tái cấu trúc thanh công cụ (Toolbar) 2 tầng ngăn nắp, tách biệt Tìm kiếm và Bộ lọc, ghim cố định cặp nút Word & Excel liền kề",
-    "Nâng cỡ chữ số tiền trên Bảng Ma Trận Chi Phí 12 Tháng (T01-T12) lên 13.5px - 14.5px rõ nét chuẩn kế toán",
-    "Thiết kế lại Landing Page hệ sinh thái (docs/index.html & landing-page/index.html) chuyên nghiệp, cập nhật gói giải pháp VIP",
-    "Tích hợp nút liên kết mở nhanh Landing Page ngay trong cửa sổ Bản quyền phần mềm (LicenseModal) và thanh công cụ"
+    "Sửa triệt để lỗi format OpenXML trên toàn bộ 5 mẫu Thư xác nhận chuẩn Bắc Đẩu / VACPA (D352, E252, D152, E152, F131)",
+    "Tự động điền bảng tiền gửi thanh toán & tiền gửi kỳ hạn mẫu D152, bảng chi tiết khoản vay E152, và bảng vốn góp F131",
+    "Bổ sung nút 1-Click 'Đổ từ Chốt Công Nợ (131 / 331)' giúp nạp tức thì danh sách đối tác có số dư không cần gõ phím",
+    "Tối ưu hóa bộ lọc ngôn ngữ và ngắt trang in hàng loạt sạch sẽ theo chuẩn ECMA-376, mở mượt mà trên MS Word & WPS Office",
+    "Hỗ trợ dán thông minh từ Clipboard / Bảng tính Excel và thêm tab xác nhận Vốn góp chủ sở hữu (411 - Mẫu F131)"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.5/AuditSoft-1.5.5-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.5/AuditSoft-1.5.5-Portable.exe",
-  "sha256": "b7252bd1b4868bbdc8d2ba3fcc428b31e2499dd4fc9d2388c51394bcb1779209",
-  "signature": "ykGDHBqAkLCjumt5VVvHV1_7F9CSArQG16k3rHh-JxOF6UM8kcvwvv50iJcn7ZWJPhFM_kPS4dazBhxgyInzBA"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.6/AuditSoft-1.5.6-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.6/AuditSoft-1.5.6-Portable.exe",
+  "sha256": "705ea19d9cdf462de16d671efe15ef8973b1c5a01e413f9778d8157c87a98a5c",
+  "signature": ""
 }
