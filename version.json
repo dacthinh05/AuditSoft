@@ -1,15 +1,15 @@
 {
-  "version": "1.5.8",
+  "version": "1.5.9",
   "releaseDate": "2026-09-18",
-  "title": "AuditSoft v1.5.8 — Khắc Phục Triệt Để Worker Crash & Tối Ưu Snapshot Cache",
+  "title": "AuditSoft v1.5.9 — Tối Ưu Bảng Chốt Số Dư CĐPS & Mặc Định Lọc Ẩn TK Bình Thường",
   "changelog": [
-    "Khắc phục triệt để race condition khi hủy worker phân tích trong Main process, loại bỏ hoàn toàn cảnh báo lỗi sai lệch về tràn bộ nhớ RAM",
-    "Chuẩn hóa dependency array trong các phân hệ Phân tích sơ bộ, Thuế, Rủi ro chi phí, Chọn mẫu, Chốt công nợ, Chốt số dư, Ngân hàng, ngăn chặn vòng lặp re-analysis",
-    "Tối ưu hóa cơ chế sử dụng bộ nhớ đệm glSnapshot, mở trang tức thì trong 0ms khi tệp đã được phân tích trước đó",
-    "Cải thiện độ ổn định và triệt tiêu xung đột tiến trình khi chuyển tab liên tục trong phiên kiểm toán"
+    "Tối ưu toàn diện giao diện phân hệ #02B Chốt Số Dư CĐPS: thiết lập scroll container nội bộ kèm sticky header, tối ưu padding và độ rộng cột hiển thị trọn vẹn 100% trên mọi kích thước màn hình",
+    "Mặc định lọc ẩn các tài khoản hoạt động bình thường, giúp kiểm toán viên tập trung ngay vào các tài khoản có rủi ro, chênh lệch số dư, dư ngược chiều và tồn đọng lâu năm",
+    "Chuẩn hóa phân loại nghiệp vụ kiểm toán: xếp Hao mòn TSCĐ (TK 214) và Vốn CSH / Lợi nhuận (TK 411, 421) khớp sổ vào diện bình thường; cấm tuyệt đối chạy tuổi nợ FIFO lên Vốn chủ sở hữu",
+    "Làm sạch cột số liệu tiền tệ: loại bỏ chữ chèn gây lệch hàng; chuẩn hóa tiêu đề và ghi chú phân bổ chứng từ trong Drawer thành 'Số tiền tính vào SDCK' và 'Còn nợ %'"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.8/AuditSoft-1.5.8-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.8/AuditSoft-1.5.8-Portable.exe",
-  "sha256": "b4678e938a961c2a06dfc1afab3317c6f14f4f985c4a9985355121d9a2f0b5d7",
-  "signature": "-NaJz9u3Zr59FN84zkVmAWxBINHVlm7nbcmjx6HGURN8yLNfJ313aQ2xUreyPJLm9q7ihQFoVdwhHcXuQUPMAQ"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.9/AuditSoft-1.5.9-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.9/AuditSoft-1.5.9-Portable.exe",
+  "sha256": "b4b8783c7ab35a916058c7ac94b6a0e5787d8953fbbfbd17b539464492370b47",
+  "signature": "LKosIPr5FL2G6sk-pJeTrumgfeEZVanundSJl4mPEd5BRJhMkmmUusSnK6tcBNisHMlSv1JLJWqJHqNg0WqdCw"
 }
