@@ -1,16 +1,15 @@
 {
-  "version": "1.5.7",
+  "version": "1.5.8",
   "releaseDate": "2026-09-18",
-  "title": "AuditSoft v1.5.7 — Đột Phá Xử Lý Sổ NKC Siêu Lớn 400.000+ Dòng (Streaming Ingestion & Zero-Matrix)",
+  "title": "AuditSoft v1.5.8 — Khắc Phục Triệt Để Worker Crash & Tối Ưu Snapshot Cache",
   "changelog": [
-    "Đột phá công nghệ Streaming Ingestion: Đọc và phân tích trọn vẹn sổ NKC 370.000 – 400.000+ dòng (đo đạc thực tế 372.804 dòng chỉ mất 50s)",
-    "Xóa bỏ hoàn toàn trần cắt dòng ô maxCells: Bảo đảm nạp đủ 100% dữ liệu kế toán kể cả với các tệp có nhiều cột (> 18 cột = hơn 7 triệu ô)",
-    "Động cơ Zero-Matrix Normalization: Chuẩn hóa trực tiếp từng dòng stream thành thực thể kiểm toán, giảm 88% mức tiêu thụ RAM (từ > 3.8GB xuống ~398MB)",
-    "Đọc đồng thời tất cả các sheet mục tiêu (NKC, CĐPS, KQKD, CĐKT) trong DUY NHẤT một luồng stream khép kín, tối ưu tốc độ x4 lần",
-    "Bảo toàn tính đại diện kiểm toán VSA 530 & VSA 240/520: Toàn bộ thuật toán đối chiếu CĐPS, bốc mẫu và rà soát rủi ro đều vận hành trên 100% tổng thể"
+    "Khắc phục triệt để race condition khi hủy worker phân tích trong Main process, loại bỏ hoàn toàn cảnh báo lỗi sai lệch về tràn bộ nhớ RAM",
+    "Chuẩn hóa dependency array trong các phân hệ Phân tích sơ bộ, Thuế, Rủi ro chi phí, Chọn mẫu, Chốt công nợ, Chốt số dư, Ngân hàng, ngăn chặn vòng lặp re-analysis",
+    "Tối ưu hóa cơ chế sử dụng bộ nhớ đệm glSnapshot, mở trang tức thì trong 0ms khi tệp đã được phân tích trước đó",
+    "Cải thiện độ ổn định và triệt tiêu xung đột tiến trình khi chuyển tab liên tục trong phiên kiểm toán"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.7/AuditSoft-1.5.7-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.7/AuditSoft-1.5.7-Portable.exe",
-  "sha256": "d1c19701bbbcaf5aeeba58e27915d331a9fcd6a1d83f00645b0e3249f09f2a77",
-  "signature": "cTzwZwF_HVhWuwzUHoAUZMtX5KfMmh-fQxfGbc6_QN9D2vcj4h-0UhaZ6xp4J170rprgHL9Ru5-NuLnB-JfKAg"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.8/AuditSoft-1.5.8-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.5.8/AuditSoft-1.5.8-Portable.exe",
+  "sha256": "b4678e938a961c2a06dfc1afab3317c6f14f4f985c4a9985355121d9a2f0b5d7",
+  "signature": "-NaJz9u3Zr59FN84zkVmAWxBINHVlm7nbcmjx6HGURN8yLNfJ313aQ2xUreyPJLm9q7ihQFoVdwhHcXuQUPMAQ"
 }
