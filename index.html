@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thịnh Lynx Ecosystem — Bộ Ba Tự Động Hóa Kế Toán &amp; Kiểm Toán (InvoiceDesk • TaxInsight • AuditSoft)</title>
+  <title>Thịnh Lynx Ecosystem — Khép Lại Mùa Quyết Toán Không Tăng Ca</title>
   
-  <meta name="description" content="Hệ sinh thái tự động hóa Kế toán & Kiểm toán: Tải HĐĐT TCT hàng loạt (InvoiceDesk v2.7.14), tải hồ sơ eTax không cần Token (TaxInsight v3.3.4), soát xét sổ NKC & 15 GLV VACPA (AuditSoft NKC v1.6.1). 100% Offline.">
+  <meta name="description" content="Bộ ba tự động hóa Kế toán & Kiểm toán: Tự động kéo HĐĐT Cổng Thuế (InvoiceDesk v2.7.14), tải tờ khai không cần Token (TaxInsight v3.3.4) và xuất trọn bộ 15 Giấy làm việc VACPA (AuditSoft NKC v1.6.1). 100% Offline an toàn.">
   <meta name="keywords" content="hóa đơn điện tử, tải tờ khai thuế không cần token, kiểm toán nkc, nghị định 181 2025, 15 giấy làm việc vacpa, thịnh lynx">
   <meta name="author" content="Thịnh Lynx (0817.567.008)">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Thịnh Lynx Ecosystem — Bộ Ba Tự Động Hóa Kế Toán &amp; Kiểm Toán">
-  <meta property="og:description" content="Giải phóng 90% thao tác gõ captcha, cắm token và dò sổ thủ công. Dữ liệu xử lý an toàn 100% offline trên máy tính cá nhân.">
+  <meta property="og:title" content="Thịnh Lynx Ecosystem — Khép Lại Mùa Quyết Toán Không Tăng Ca">
+  <meta property="og:description" content="Thao tác 3 bước khép kín: Tự động kéo HĐĐT Cổng Thuế, tải tờ khai không cần Token và xuất trọn bộ 15 Giấy làm việc VACPA.">
   <meta property="og:image" content="https://raw.githubusercontent.com/dacthinh05/AuditSoft/main/icon.svg">
   <meta property="og:locale" content="vi_VN">
 
@@ -958,6 +958,268 @@
       transform: translateX(-50%) translateY(0);
     }
 
+
+    /* ─── 3-STAGE CLEAN LINEAR PIPELINE (NO SPAGHETTI) ─── */
+    .linear-stages-container {
+      display: grid;
+      grid-template-columns: 1fr 40px 1.1fr 40px 1fr;
+      align-items: center;
+      gap: 12px;
+      margin: 36px 0;
+    }
+    @media (max-width: 990px) {
+      .linear-stages-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .stage-arrow-divider {
+        transform: rotate(90deg);
+        margin: 8px auto;
+      }
+    }
+    .stage-column-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: all var(--transition-fast);
+    }
+    .stage-column-card:hover {
+      border-color: var(--border-focus);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .stage-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 12px;
+    }
+    .stage-tag {
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-blue);
+    }
+    .stage-column-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .stage-items-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .stage-item-pill {
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .stage-item-pill svg {
+      color: var(--accent-emerald);
+      flex-shrink: 0;
+    }
+    .stage-arrow-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--border-strong);
+    }
+
+    /* ─── EXCEL WORKING PAPER VIEWER (XUẤT EXCEL XEM ĐƯỢC) ─── */
+    .excel-window-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      margin: 36px 0;
+      text-align: left;
+    }
+    .excel-titlebar {
+      background: #107c41; /* Microsoft Excel Green */
+      color: #ffffff;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .excel-title-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+    .excel-title-left svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+    .excel-status-tag {
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .excel-formulabar {
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+    }
+    .excel-cell-ref {
+      font-weight: 700;
+      color: var(--text-dim);
+      border-right: 1px solid var(--border-subtle);
+      padding-right: 12px;
+      min-width: 45px;
+    }
+    .excel-formula-fx {
+      color: var(--accent-blue);
+      font-weight: 700;
+      font-style: italic;
+    }
+    .excel-formula-text {
+      color: var(--text-main);
+      font-weight: 500;
+      flex-grow: 1;
+    }
+    .excel-sheet-selector-tabs {
+      display: flex;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border-subtle);
+      overflow-x: auto;
+      padding: 4px 12px 0;
+      gap: 4px;
+    }
+    .excel-tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      border-bottom: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 6px 6px 0 0;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+    }
+    .excel-tab-btn:hover {
+      color: var(--text-main);
+      background: var(--bg-surface);
+    }
+    .excel-tab-btn.is-active {
+      background: var(--bg-surface);
+      color: #107c41;
+      border-color: var(--border-subtle);
+      border-top: 2px solid #107c41;
+      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.04);
+    }
+    .excel-grid-viewport {
+      overflow-x: auto;
+      background: var(--bg-surface);
+    }
+    .excel-grid-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      text-align: left;
+    }
+    .excel-grid-table th {
+      background: #f1f5f9;
+      color: #475569;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      text-align: center;
+      user-select: none;
+    }
+    [data-theme="dark"] .excel-grid-table th {
+      background: #1e293b;
+      color: #94a3b8;
+      border-color: #334155;
+    }
+    .excel-grid-table td {
+      padding: 8px 12px;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+    .excel-row-idx {
+      background: #f1f5f9;
+      color: #64748b;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      text-align: center;
+      width: 40px;
+      user-select: none;
+    }
+    [data-theme="dark"] .excel-row-idx {
+      background: #1e293b;
+      color: #64748b;
+    }
+    .excel-cell-formula {
+      font-family: var(--font-mono);
+      text-align: right;
+      font-weight: 600;
+    }
+    .excel-total-row td {
+      font-weight: 800;
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border-strong);
+      border-bottom: 3px double var(--text-main);
+    }
+    .excel-pane {
+      display: none;
+    }
+    .excel-pane.is-active {
+      display: block;
+    }
+    .excel-statusbar {
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border-subtle);
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    .excel-statusbar .formula-notice {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #107c41;
+      font-weight: 700;
+    }
+
+
     .tool-spotlight-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-strong);
@@ -1032,13 +1294,6 @@
       margin-top: auto;
       padding-top: 12px;
       border-top: 1px solid var(--border-subtle);
-    }
-    .dataflow-img {
-      width: 100%;
-      height: auto;
-      max-height: 520px;
-      display: block;
-      margin: 0 auto;
     }
   </style>
 </head>
@@ -1299,9 +1554,9 @@
 
       <nav>
         <ul id="navMenu" class="nav-menu">
-          <li><a href="#pain-points">Thực Trạng</a></li>
+          <li><a href="#pipeline">Quy Trình 3 Bước</a></li>
           <li><a href="#ecosystem">3 Phần Mềm</a></li>
-          <li><a href="#architecture">Kiến Trúc Luồng</a></li>
+          <li><a href="#excel-preview">Mẫu Excel Xuất Ra</a></li>
           <li><a href="#roi">Tính ROI</a></li>
           <li><a href="#comparison">So Sánh</a></li>
           <li><a href="#pricing">Bảng Giá</a></li>
@@ -1322,20 +1577,20 @@
     </div>
   </header>
 
-  <!-- Hero Section (Condensed & Humanized) -->
+  <!-- Hero Section (OPTION A: KHÉP LẠI MÙA QUYẾT TOÁN KHÔNG TĂNG CA) -->
   <section class="hero-section">
     <div class="container">
       <div class="hero-kicker">
-        Dành Riêng Cho Kế Toán Dịch Vụ &amp; Kiểm Toán Viên Mùa Quyết Toán
+        Hệ Sinh Thái Tự Động Hóa Kế Toán &amp; Kiểm Toán Thịnh Lynx
       </div>
 
       <h1 class="hero-title">
-        Tự động hóa trọn vẹn quy trình Kế toán &amp; Kiểm toán.
-        <span class="emphasis">Từ Hóa Đơn, Tờ Khai Thuế đến 15 Giấy Làm Việc VACPA</span>
+        Khép lại mùa quyết toán không tăng ca.
+        <span class="emphasis">Tự động kéo HĐĐT, tải tờ khai không cần Token và xuất 15 Giấy làm việc VACPA</span>
       </h1>
 
       <p class="hero-description">
-        Bộ ba công cụ độc lập giải phóng bạn khỏi cảnh gõ captcha, cắm rút USB Token và đối chiếu sổ sách thủ công. Xử lý an toàn 100% offline nội bộ trên máy tính cá nhân.
+        Dành riêng cho Kế toán dịch vụ và Kiểm toán viên. Chấm dứt cảnh thức trắng đêm gõ captcha, cắm rút USB Token và dò sổ thủ công. Máy tính làm thay bạn mọi khâu lặp lại vô nghĩa, xử lý 100% offline an toàn trên máy tính cá nhân.
       </p>
 
       <div class="hero-actions-row">
@@ -1343,9 +1598,9 @@
           <span>Xem Bảng Giá &amp; Ưu Đãi Mùa BCTC</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="#roi" class="btn-action-secondary">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>Tính Số Giờ Tiết Kiệm Được</span>
+        <a href="#excel-preview" class="btn-action-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>Xem Mẫu Excel Xuất Ra ↓</span>
         </a>
       </div>
 
@@ -1357,7 +1612,7 @@
         </div>
         <div class="stat-strip-box">
           <div class="stat-strip-num">50 – 100</div>
-          <div class="stat-strip-lbl">Doanh nghiệp quản lý / 1 người</div>
+          <div class="stat-strip-lbl">Doanh nghiệp / 1 nhân sự</div>
         </div>
         <div class="stat-strip-box">
           <div class="stat-strip-num">15 GLV</div>
@@ -1368,10 +1623,116 @@
           <div class="stat-strip-lbl">Thời gian cắm USB Token</div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- 3 DEDICATED TOOL BENTO CARDS (INTERLINKED) -->
-      <div id="ecosystem" class="bento-features-grid" style="text-align: left; margin-top: 40px;">
-        <!-- Tool 1: InvoiceDesk -->
+  <!-- 3-STAGE CLEAN LINEAR PIPELINE (REPLACES THE TANGLED MESSY DIAGRAM) -->
+  <section id="pipeline" class="section-spacing" style="background: var(--bg-canvas);">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-kicker">Chu Trình Tự Động Hóa Khép Kín</span>
+        <h2 class="section-title">Quy Trình 3 Bước Xử Lý Mạch Lạc Từ Đầu Vào Đến Hồ Sơ Kiểm Toán</h2>
+        <p class="section-subtitle">Dữ liệu luân chuyển tự động và bảo mật tuyệt đối trên ổ cứng máy tính của bạn.</p>
+      </div>
+
+      <div class="linear-stages-container">
+        <!-- Stage 1 -->
+        <div class="stage-column-card">
+          <div class="stage-header">
+            <span class="stage-tag">Trạm 01 • Đầu Vào</span>
+            <span style="font-size: 11px; font-weight: 700; color: var(--accent-blue);">Tự Động 100%</span>
+          </div>
+          <h3>Thu Thập Dữ Liệu</h3>
+          <div class="stage-items-stack">
+            <div class="stage-item-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Quét hàng loạt HĐĐT Cổng Thuế (XML &amp; PDF gốc)</span>
+            </div>
+            <div class="stage-item-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Tải tờ khai eTax &amp; Giấy nộp tiền không cần Token</span>
+            </div>
+            <div class="stage-item-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Nạp Sổ Nhật Ký Chung (NKC) &amp; Bảng CĐPS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Divider 1 -->
+        <div class="stage-arrow-divider">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <!-- Stage 2 -->
+        <div class="stage-column-card" style="border-color: var(--border-focus);">
+          <div class="stage-header">
+            <span class="stage-tag" style="color: var(--primary);">Trạm 02 • Động Cơ</span>
+            <span style="font-size: 11px; font-weight: 700; color: var(--accent-emerald);">Thuật Toán Kế Toán</span>
+          </div>
+          <h3>Soát Xét &amp; Nhận Diện Rủi Ro</h3>
+          <div class="stage-items-stack">
+            <div class="stage-item-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>So khớp 2 sổ NKC (B360) &amp; bóc tách bút toán AJE</span>
+            </div>
+            <div class="stage-item-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Quét chi tiền mặt &ge; 5tr theo NĐ 181 đưa vào B4</span>
+            </div>
+            <div class="stage-item-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Đối chiếu công nợ 331 với tờ khai Hải quan ECUS</span>
+            </div>
+            <div class="stage-item-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Bốc mẫu kiểm toán chuẩn mực VSA 530 trong 3 giây</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Divider 2 -->
+        <div class="stage-arrow-divider">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <!-- Stage 3 -->
+        <div class="stage-column-card">
+          <div class="stage-header">
+            <span class="stage-tag" style="color: var(--accent-emerald);">Trạm 03 • Kết Xuất</span>
+            <span style="font-size: 11px; font-weight: 700; color: var(--accent-emerald);">100% Excel Form</span>
+          </div>
+          <h3>Kho Bàn Giao Hồ Sơ</h3>
+          <div class="stage-items-stack">
+            <div class="stage-item-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>15 Giấy làm việc chuẩn VACPA bảo toàn công thức</span>
+            </div>
+            <div class="stage-item-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Thư xác nhận công nợ Word (.docx) chuẩn VSA 505</span>
+            </div>
+            <div class="stage-item-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Báo cáo soát xét B410 tổng hợp sai sót kiểm toán</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 DEDICATED PRODUCT CARDS -->
+  <section id="ecosystem" class="section-spacing">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-kicker">Hệ Sinh Thái Phần Mềm</span>
+        <h2 class="section-title">Bộ Ba Công Cụ Độc Lập Cho Mọi Nhu Cầu Kế Toán &amp; Kiểm Toán</h2>
+        <p class="section-subtitle">Bạn có thể sử dụng riêng lẻ từng công cụ hoặc kết hợp trọn bộ để khép kín chu trình.</p>
+      </div>
+
+      <div class="bento-features-grid">
+        <!-- Card 1: InvoiceDesk -->
         <a href="tools/invoicedesk.html" class="tool-spotlight-card">
           <div class="tool-card-head">
             <div class="tool-icon-frame">
@@ -1382,14 +1743,14 @@
               <span style="font-size: 11.5px; color: var(--accent-blue); font-weight: 700;">Hóa Đơn Điện Tử TCT</span>
             </div>
           </div>
-          <p>Quét &amp; tải hàng nghìn HĐĐT Tổng Cục Thuế. Phân loại 6 trạng thái, tải XML/PDF gốc, cảnh báo người bán bỏ trốn, đóng MST.</p>
+          <p>Quét &amp; tải hàng nghìn HĐĐT Tổng Cục Thuế. Phân loại 6 trạng thái, tải XML &amp; PDF gốc từ nhà cung cấp, rà soát MST đóng cửa, bỏ trốn.</p>
           <div class="tool-card-action">
             <span>Khám phá tính năng InvoiceDesk chi tiết</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
         </a>
 
-        <!-- Tool 2: TaxInsight -->
+        <!-- Card 2: TaxInsight -->
         <a href="tools/taxinsight.html" class="tool-spotlight-card">
           <div class="tool-card-head">
             <div class="tool-icon-frame">
@@ -1495,14 +1856,14 @@
               <span style="font-size: 11.5px; color: var(--accent-emerald); font-weight: 700;">Hồ Sơ Thuế Tokenless</span>
             </div>
           </div>
-          <p>Tải trọn bộ Tờ khai &amp; Giấy nộp tiền C1-02/NS cho 50–100 công ty không cần cắm Token. Soát xét luồng GTGT [22]-[43] và quyết toán TNCN.</p>
+          <p>Tải trọn bộ Tờ khai &amp; Giấy nộp tiền C1-02/NS cho 50–100 công ty không cần cắm USB Token. Soát xét luồng thuế GTGT [22]-[43] và quyết toán TNCN.</p>
           <div class="tool-card-action" style="color: var(--accent-emerald);">
             <span>Khám phá tính năng TaxInsight chi tiết</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
         </a>
 
-        <!-- Tool 3: AuditSoft NKC -->
+        <!-- Card 3: AuditSoft NKC -->
         <a href="tools/auditsoft.html" class="tool-spotlight-card">
           <div class="tool-card-head">
             <div class="tool-icon-frame">
@@ -1741,93 +2102,276 @@
               <span style="font-size: 11.5px; color: var(--primary); font-weight: 700;">Soát Xét &amp; 15 GLV VACPA</span>
             </div>
           </div>
-          <p>So khớp 2 sổ NKC (B360), lọc chi tiền mặt &ge; 5tr NĐ 181/2025 đưa vào B4, đối chiếu Hải quan, bốc mẫu VSA 530, sinh 15 GLV VACPA.</p>
+          <p>So khớp 2 sổ NKC (B360), lọc chi tiền mặt &ge; 5tr NĐ 181/2025 đưa vào B4, đối chiếu Hải quan, bốc mẫu VSA 530, tự động sinh 15 GLV VACPA.</p>
           <div class="tool-card-action" style="color: var(--primary);">
             <span>Khám phá tính năng AuditSoft chi tiết</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
         </a>
       </div>
-
-      <div class="hero-trust-row">
-        <div class="hero-trust-item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          <span>Dữ liệu lưu 100% nội bộ trên máy tính cá nhân</span>
-        </div>
-        <div class="hero-trust-item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          <span>Rà soát chi tiền mặt &ge; 5 triệu theo Nghị định 181/2025</span>
-        </div>
-        <div class="hero-trust-item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          <span>Hơn 1.200 kế toán dịch vụ &amp; kiểm toán viên tin dùng</span>
-        </div>
-      </div>
     </div>
   </section>
 
-  <!-- Real Architectural Dataflow Section (Isolated <img> avoids SVG CSS leaks) -->
-  <section id="architecture" class="section-spacing" style="background: var(--bg-canvas);">
+  <!-- INTERACTIVE EXCEL WORKING PAPER VIEWER (XUẤT EXCEL XEM ĐƯỢC NHÉ) -->
+  <section id="excel-preview" class="section-spacing" style="background: var(--bg-canvas);">
     <div class="container">
       <div class="section-header-center">
-        <span class="section-kicker">Kiến Trúc Kỹ Thuật Độc Quyền</span>
-        <h2 class="section-title">Sơ Đồ Luồng Dữ Liệu &amp; Chu Trình Kiểm Toán Thực Tế</h2>
-        <p class="section-subtitle">Minh bạch 3 giai đoạn: Tiếp nhận dữ liệu $ightarrow$ Động cơ Phân tích &amp; Rà soát $ightarrow$ Kho bàn giao 15 GLV VACPA.</p>
+        <span class="section-kicker">Trực Quan Hóa Đầu Ra Thực Tế</span>
+        <h2 class="section-title">Khám Phá Mẫu File Excel 15 Giấy Làm Việc VACPA Xuất Ra</h2>
+        <p class="section-subtitle">Bấm chuyển các Sheet bên dưới để xem trực tiếp cấu trúc bảng tính Excel, công thức tính toán và số liệu kế toán thực tế.</p>
       </div>
 
-      <div class="dataflow-architecture-card">
-        <img src="assets/auditsoft-dataflow.svg" alt="Sơ Đồ Luồng Dữ Liệu Kiểm Toán Thực Tế" class="dataflow-img" />
-      </div>
-    </div>
-  </section>
-
-  <!-- Real-world Pain Points Section (Condensed 60%) -->
-  <section id="pain-points" class="section-spacing">
-    <div class="container">
-      <div class="section-header-center">
-        <span class="section-kicker">Thực Trạng Mùa Báo Cáo Tài Chính</span>
-        <h2 class="section-title">Những Công Việc Đang Ngốn Hàng Trăm Giờ Của Bạn</h2>
-        <p class="section-subtitle">Loại bỏ hoàn toàn các thao tác thủ công lặp lại để bạn tập trung tư vấn số liệu cho khách hàng.</p>
-      </div>
-
-      <div class="bento-features-grid" style="grid-template-columns: repeat(2, 1fr);">
-        <div class="bento-card">
-          <div class="bento-card-icon" style="color: var(--accent-danger);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/></svg>
+      <div class="excel-window-card">
+        <!-- Title bar -->
+        <div class="excel-titlebar">
+          <div class="excel-title-left">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.17 3.25Q21.5 3.25 21.76 3.5 22 3.74 22 4.08V19.92Q22 20.26 21.76 20.5 21.5 20.75 21.17 20.75H7.83Q7.5 20.75 7.24 20.5 7 20.26 7 19.92V17H2.83Q2.5 17 2.24 16.76 2 16.5 2 16.17V7.83Q2 7.5 2.24 7.24 2.5 7 2.83 7H7V4.08Q7 3.74 7.24 3.5 7.5 3.25 7.83 3.25M7 15H3.5V9H7M8.5 4.75V19.25H20.5V4.75M10 6.5H12L13.5 9.75L15 6.5H17L14.5 11.25L17 16H15L13.5 12.75L12 16H10L12.5 11.25Z"/></svg>
+            <span>Microsoft Excel — HoSoKiemToan_MauVACPA_ThinhLynx.xlsx</span>
           </div>
-          <h4>Tải lẻ từng HĐĐT &amp; gõ captcha</h4>
-          <p>Quản lý 30–50 công ty, mỗi kỳ phải gõ hàng trăm mã captcha và bấm tải lẻ từng file XML hóa đơn. Lãng phí 40–60 giờ làm việc mỗi tháng.</p>
+          <span class="excel-status-tag">Bảo Toàn 100% Công Thức SUM &amp; VLOOKUP</span>
         </div>
 
-        <div class="bento-card">
-          <div class="bento-card-icon" style="color: var(--accent-danger);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          </div>
-          <h4>Bẫy phạt thuế Nghị định 181/2025</h4>
-          <p>Siết chặt chi tiền mặt từ 5 triệu đồng và rủi ro hóa đơn doanh nghiệp bỏ trốn. Rất khó bao quát hết trên hàng chục nghìn dòng sổ NKC.</p>
+        <!-- Formula Bar -->
+        <div class="excel-formulabar">
+          <span id="excelCellRef" class="excel-cell-ref">D18</span>
+          <span class="excel-formula-fx">fx</span>
+          <span id="excelFormulaText" class="excel-formula-text">=SUM(D6:D17)</span>
         </div>
 
-        <div class="bento-card">
-          <div class="bento-card-icon" style="color: var(--accent-danger);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
-          </div>
-          <h4>Lệch tỷ giá 331 &amp; tờ khai hải quan</h4>
-          <p>Hàng nhập khẩu về kho hạch toán lệch ngày hoặc lệch tỷ giá giữa ECUS và sổ chi tiết 331, làm sai lệch số liệu báo cáo tài chính.</p>
+        <!-- Sheet Selector Tabs -->
+        <div class="excel-sheet-selector-tabs">
+          <button type="button" class="excel-tab-btn is-active" onclick="switchExcelSheet('d300', 'D18', '=SUM(D6:D17)', this)">
+            <span>📊 Sheet D300 (Phải Thu 131)</span>
+          </button>
+          <button type="button" class="excel-tab-btn" onclick="switchExcelSheet('e200', 'E14', '=SUM(E6:E13)-F14', this)">
+            <span>📋 Sheet E200 (Phải Trả 331 &amp; Hải Quan)</span>
+          </button>
+          <button type="button" class="excel-tab-btn" onclick="switchExcelSheet('g200', 'C16', '=SUMIFS(NKC!E:E, NKC!C:C, ">=5000000")', this)">
+            <span>⚠️ Sheet G200 (Chi Tiền Mặt &ge; 5Tr NĐ 181)</span>
+          </button>
+          <button type="button" class="excel-tab-btn" onclick="switchExcelSheet('b360', 'F12', '=SUM(F6:F11)', this)">
+            <span>⚖️ Sheet B360 (Tổng Hợp Bút Toán AJE)</span>
+          </button>
         </div>
 
-        <div class="bento-card">
-          <div class="bento-card-icon" style="color: var(--accent-danger);">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <!-- Grid Viewport -->
+        <div class="excel-grid-viewport">
+          <!-- Pane D300 -->
+          <div id="excelPane-d300" class="excel-pane is-active">
+            <table class="excel-grid-table">
+              <thead>
+                <tr>
+                  <th class="excel-row-idx"></th>
+                  <th>A (Mã KH)</th>
+                  <th>B (Tên Khách Hàng / Đối Tượng)</th>
+                  <th>C (Số Dư Sổ Sách)</th>
+                  <th>D (Số Dư Kiểm Toán)</th>
+                  <th>E (Chênh Lệch)</th>
+                  <th>F (Tuổi Nợ)</th>
+                  <th>G (Kết Luận VSA 505)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="excel-row-idx">6</td>
+                  <td class="table-cell-mono">KH00124</td>
+                  <td>Công Ty Cổ Phần Cơ Khí Tân Bình</td>
+                  <td class="excel-cell-formula">148.500.000 đ</td>
+                  <td class="excel-cell-formula">148.500.000 đ</td>
+                  <td class="excel-cell-formula" style="color: var(--accent-emerald);">0 đ</td>
+                  <td>Dưới 30 ngày</td>
+                  <td><span class="status-badge green">Đã khớp thư xác nhận</span></td>
+                </tr>
+                <tr>
+                  <td class="excel-row-idx">7</td>
+                  <td class="table-cell-mono">KH00389</td>
+                  <td>Công Ty TNHH Sản Xuất Nhựa An Phú</td>
+                  <td class="excel-cell-formula">320.400.000 đ</td>
+                  <td class="excel-cell-formula">320.400.000 đ</td>
+                  <td class="excel-cell-formula" style="color: var(--accent-emerald);">0 đ</td>
+                  <td>31 – 60 ngày</td>
+                  <td><span class="status-badge green">Đã khớp thư xác nhận</span></td>
+                </tr>
+                <tr>
+                  <td class="excel-row-idx">8</td>
+                  <td class="table-cell-mono">KH00912</td>
+                  <td>Công Ty CP Xuất Nhập Khẩu Toàn Cầu</td>
+                  <td class="excel-cell-formula">85.000.000 đ</td>
+                  <td class="excel-cell-formula">85.000.000 đ</td>
+                  <td class="excel-cell-formula" style="color: var(--accent-emerald);">0 đ</td>
+                  <td>Dưới 30 ngày</td>
+                  <td><span class="status-badge green">Đã khớp thư xác nhận</span></td>
+                </tr>
+                <tr class="excel-total-row">
+                  <td class="excel-row-idx">18</td>
+                  <td colspan="2">TỔNG CỘNG PHẢI THU KHÁCH HÀNG (TK 131)</td>
+                  <td class="excel-cell-formula">553.900.000 đ</td>
+                  <td class="excel-cell-formula">553.900.000 đ</td>
+                  <td class="excel-cell-formula" style="color: var(--accent-emerald);">0 đ</td>
+                  <td></td>
+                  <td><strong style="color: var(--accent-emerald);">Khớp 100% Sổ Cái</strong></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <h4>Bẫy phí thuê bao hàng năm đắt đỏ</h4>
-          <p>Nhiều phần mềm thu phí gia hạn hàng năm, giới hạn số lượng MST và bắt nạp dữ liệu lên đám mây, tiềm ẩn rủi ro lộ số liệu khách hàng.</p>
+
+          <!-- Pane E200 -->
+          <div id="excelPane-e200" class="excel-pane">
+            <table class="excel-grid-table">
+              <thead>
+                <tr>
+                  <th class="excel-row-idx"></th>
+                  <th>A (Mã NCC)</th>
+                  <th>B (Tên Nhà Cung Cấp)</th>
+                  <th>C (Số Dư Sổ 331)</th>
+                  <th>D (Số Tờ Khai Hải Quan)</th>
+                  <th>E (Giá Trị ECUS)</th>
+                  <th>F (Tỷ Giá Hạch Toán)</th>
+                  <th>G (Chênh Lệch Tỷ Giá)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="excel-row-idx">6</td>
+                  <td class="table-cell-mono">NCC015</td>
+                  <td>Zhejiang Machinery Co., Ltd</td>
+                  <td class="excel-cell-formula">1.250.000.000 đ</td>
+                  <td class="table-cell-mono">1048928190</td>
+                  <td class="excel-cell-formula">1.250.000.000 đ</td>
+                  <td class="table-cell-mono">25.420</td>
+                  <td class="excel-cell-formula" style="color: var(--accent-emerald);">0 đ</td>
+                </tr>
+                <tr>
+                  <td class="excel-row-idx">7</td>
+                  <td class="table-cell-mono">NCC048</td>
+                  <td>Nippon Steel Logistics Japan</td>
+                  <td class="excel-cell-formula">890.000.000 đ</td>
+                  <td class="table-cell-mono">1051902840</td>
+                  <td class="excel-cell-formula">890.000.000 đ</td>
+                  <td class="table-cell-mono">25.415</td>
+                  <td class="excel-cell-formula" style="color: var(--accent-emerald);">0 đ</td>
+                </tr>
+                <tr class="excel-total-row">
+                  <td class="excel-row-idx">14</td>
+                  <td colspan="2">TỔNG HỢP CÔNG NỢ PHẢI TRẢ 331</td>
+                  <td class="excel-cell-formula">2.140.000.000 đ</td>
+                  <td></td>
+                  <td class="excel-cell-formula">2.140.000.000 đ</td>
+                  <td></td>
+                  <td class="excel-cell-formula" style="color: var(--accent-emerald);">0 đ (Khớp Hải Quan)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pane G200 -->
+          <div id="excelPane-g200" class="excel-pane">
+            <table class="excel-grid-table">
+              <thead>
+                <tr>
+                  <th class="excel-row-idx"></th>
+                  <th>A (Ngày Chứng Từ)</th>
+                  <th>B (Số Hóa Đơn)</th>
+                  <th>C (Mã Số Thuế Bên Bán)</th>
+                  <th>D (Tên Đơn Vị Bán)</th>
+                  <th>E (Nội Dung Chi)</th>
+                  <th>F (Số Tiền Thanh Toán Mặt)</th>
+                  <th>G (Rủi Ro Nghị Định 181)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="excel-row-idx">6</td>
+                  <td>12/12/2025</td>
+                  <td class="table-cell-mono">0004912</td>
+                  <td class="table-cell-mono">0301982810</td>
+                  <td>Công Ty TNHH Dịch Vụ Vận Tải Hoàng Gia</td>
+                  <td>Chi cước vận chuyển kho</td>
+                  <td class="excel-cell-formula" style="color: var(--accent-danger);">18.500.000 đ</td>
+                  <td><span class="status-badge amber">Chi tiền mặt &ge; 5tr $ightarrow$ Đưa B4</span></td>
+                </tr>
+                <tr>
+                  <td class="excel-row-idx">7</td>
+                  <td>18/12/2025</td>
+                  <td class="table-cell-mono">0001209</td>
+                  <td class="table-cell-mono">0102910283</td>
+                  <td>Công Ty TNHH In Ấn Quảng Cáo Đại Nam</td>
+                  <td>In tài liệu hội nghị cuối năm</td>
+                  <td class="excel-cell-formula" style="color: var(--accent-danger);">7.200.000 đ</td>
+                  <td><span class="status-badge amber">Chi tiền mặt &ge; 5tr $ightarrow$ Đưa B4</span></td>
+                </tr>
+                <tr class="excel-total-row">
+                  <td class="excel-row-idx">16</td>
+                  <td colspan="5">TỔNG CHI PHÍ TIỀN MẶT CẦN LOẠI TRỪ KHI QUYẾT TOÁN TNDN (B4)</td>
+                  <td class="excel-cell-formula" style="color: var(--accent-danger);">25.700.000 đ</td>
+                  <td><strong>Tự động đưa vào B4</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pane B360 -->
+          <div id="excelPane-b360" class="excel-pane">
+            <table class="excel-grid-table">
+              <thead>
+                <tr>
+                  <th class="excel-row-idx"></th>
+                  <th>A (Mã Bút Toán)</th>
+                  <th>B (Diễn Giải Bút Toán Điều Chỉnh AJE)</th>
+                  <th>C (TK Nợ)</th>
+                  <th>D (TK Có)</th>
+                  <th>E (Số Tiền Điều Chỉnh)</th>
+                  <th>F (Ảnh Hưởng LNTT)</th>
+                  <th>G (Trạng Thái Cân Đối)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="excel-row-idx">6</td>
+                  <td class="table-cell-mono" style="color: var(--accent-blue); font-weight: 700;">AJE-01</td>
+                  <td>Trích trước chi phí thuê nhà xưởng tháng 12 chưa có hóa đơn</td>
+                  <td class="table-cell-mono">642</td>
+                  <td class="table-cell-mono">335</td>
+                  <td class="excel-cell-formula">45.000.000 đ</td>
+                  <td>Giảm LNTT 45.000.000 đ</td>
+                  <td><span class="status-badge green">Đã cân đối</span></td>
+                </tr>
+                <tr>
+                  <td class="excel-row-idx">7</td>
+                  <td class="table-cell-mono" style="color: var(--accent-blue); font-weight: 700;">AJE-02</td>
+                  <td>Tái phân loại chi phí lãi vay vượt trần 30% EBITDA (NĐ 132)</td>
+                  <td class="table-cell-mono">B4</td>
+                  <td class="table-cell-mono">635</td>
+                  <td class="excel-cell-formula">120.000.000 đ</td>
+                  <td>Tăng thu nhập tính thuế</td>
+                  <td><span class="status-badge green">Đã cân đối</span></td>
+                </tr>
+                <tr class="excel-total-row">
+                  <td class="excel-row-idx">12</td>
+                  <td colspan="4">TỔNG CỘNG ẢNH HƯỞNG BÚT TOÁN ĐIỀU CHỈNH AJE KIỂM TOÁN</td>
+                  <td class="excel-cell-formula">165.000.000 đ</td>
+                  <td></td>
+                  <td><strong style="color: var(--accent-emerald);">Cân Bằng Tuyệt Đối</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Excel Statusbar -->
+        <div class="excel-statusbar">
+          <div class="formula-notice">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Định dạng Excel OpenXML (.xlsx) chuẩn mẫu VACPA • Tự động liên kết các Sheet</span>
+          </div>
+          <div>Sẵn sàng xuất file • Sổ NKC &amp; CĐPS</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ROI Calculator Section -->
-  <section id="roi" class="section-spacing" style="background: var(--bg-canvas);">
+  <section id="roi" class="section-spacing">
     <div class="container">
       <div class="roi-container-box">
         <div class="roi-grid">
@@ -1871,7 +2415,7 @@
   </section>
 
   <!-- Comparison Matrix Section -->
-  <section id="comparison" class="section-spacing">
+  <section id="comparison" class="section-spacing" style="background: var(--bg-canvas);">
     <div class="container">
       <div class="section-header-center">
         <span class="section-kicker">Hiệu Suất Thực Tế</span>
@@ -1919,12 +2463,12 @@
     </div>
   </section>
 
-  <!-- Pricing Section & Dynamic VietQR (STANDARDIZED REAL SOURCE-CODE PRICES) -->
-  <section id="pricing" class="section-spacing" style="background: var(--bg-canvas);">
+  <!-- Pricing Section & Dynamic VietQR -->
+  <section id="pricing" class="section-spacing">
     <div class="container">
       <div class="section-header-center">
-        <span class="section-kicker">Bảng Giá Chính Thức</span>
-        <h2 class="section-title">Chi Phí Bản Quyền Minh Bạch &amp; Ưu Đãi Mùa Quyết Toán</h2>
+        <span class="section-kicker">Bảng Giá Bản Quyền Chính Thức</span>
+        <h2 class="section-title">Chi Phí Đầu Tư Minh Bạch &amp; Ưu Đãi Mùa Quyết Toán</h2>
         <p class="section-subtitle">Chọn gói mong muốn. Cổng VietQR MB Bank bên dưới sẽ tự động cập nhật số tiền tức thì.</p>
       </div>
 
@@ -1943,7 +2487,7 @@
           <ul class="tier-feature-list">
             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Bản quyền 1 máy tính / 1 năm</span></li>
             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Không giới hạn số lượng công ty &amp; MST</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Cập nhật tính năng &amp; biểu mẫu mới liên tục</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Cập nhật tính năng mới liên tục</span></li>
             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Hỗ trợ kỹ thuật 1-1 qua Zalo</span></li>
           </ul>
 
@@ -2051,7 +2595,7 @@
   </section>
 
   <!-- FAQ Section -->
-  <section id="faq" class="section-spacing">
+  <section id="faq" class="section-spacing" style="background: var(--bg-canvas);">
     <div class="container">
       <div class="section-header-center">
         <span class="section-kicker">Giải Đáp Thắc Mắc</span>
@@ -2179,6 +2723,25 @@
       if (content) {
         content.classList.toggle('is-visible', !isExpanded);
       }
+    }
+
+
+    // Excel Sheet Inspector Switcher
+    function switchExcelSheet(sheetId, cellRef, formula, btn) {
+      const tabs = document.querySelectorAll('.excel-tab-btn');
+      tabs.forEach(t => t.classList.remove('is-active'));
+      if (btn) btn.classList.add('is-active');
+
+      const panes = document.querySelectorAll('.excel-pane');
+      panes.forEach(p => p.classList.remove('is-active'));
+
+      const targetPane = document.getElementById('excelPane-' + sheetId);
+      if (targetPane) targetPane.classList.add('is-active');
+
+      const refElem = document.getElementById('excelCellRef');
+      const formulaElem = document.getElementById('excelFormulaText');
+      if (refElem) refElem.innerText = cellRef;
+      if (formulaElem) formulaElem.innerText = formula;
     }
 
     // ROI Calculator
