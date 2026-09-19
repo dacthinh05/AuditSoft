@@ -6,7 +6,7 @@
   <title>AuditSoft NKC (v1.6.1) — Trợ Lý Kiểm Toán Toàn Diện Cho Kế Toán Trưởng &amp; KTV</title>
   
   <meta name="description" content="AuditSoft NKC v1.6.1: So khớp 2 sổ NKC (B360), quét chi tiền mặt >= 5 triệu theo Nghị định 181/2025/NĐ-CP (đưa vào B4 TNDN), đối chiếu công nợ 331 với Hải quan, bốc mẫu VSA 530, tự động sinh 15 Giấy làm việc chuẩn mẫu VACPA.">
-  <meta name="keywords" content="auditsoft, kiểm toán nkc, đối chiếu sổ nkc b360, nghị định 181 chi tiền mặt 5 triệu, bốc mẫu vsa 530, giấy làm việc vacpa, thư xác nhận công nợ vsa 505">
+  <meta name="keywords" content="auditsoft, kiểm toán nkc, đối chiếu sổ nkc b360, nghị định 181 chi tiền mặt 5 triệu, bốc mẫu vsa 530, giấy làm việc vacpa">
   <meta name="author" content="Thịnh Lynx (0817.567.008)">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -953,6 +953,13 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    .dataflow-img {
+      width: 100%;
+      height: auto;
+      max-height: 520px;
+      display: block;
+      margin: 0 auto;
+    }
   </style>
 </head>
 <body>
@@ -1211,9 +1218,8 @@
 
       <nav>
         <ul id="navMenu" class="nav-menu">
-          <li><a href="#features">6 Tính Năng</a></li>
+          <li><a href="#features">Tính Năng</a></li>
           <li><a href="#architecture">Kiến Trúc Luồng</a></li>
-          <li><a href="#vacpa">15 GLV VACPA</a></li>
           <li><a href="#pricing">Bảng Giá</a></li>
           <li><a href="#faq">Hỏi Đáp</a></li>
           <li><a href="../index.html" style="color: var(--accent-blue);">← Về Trang Chủ</a></li>
@@ -1233,11 +1239,11 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Section (Condensed) -->
   <section class="hero-section">
     <div class="container">
       <div class="hero-kicker">
-        Phiên Bản v1.6.1 Chính Thức • Tích Hợp Nghị Định 181/2025/NĐ-CP
+        Phiên Bản v1.6.1 • Tích Hợp Nghị Định 181/2025/NĐ-CP
       </div>
 
       <h1 class="hero-title">
@@ -1246,7 +1252,7 @@
       </h1>
 
       <p class="hero-description">
-        Nạp đồng thời Sổ Nhật ký chung, CĐPS và Tờ khai thuế. AuditSoft tự động so khớp 2 sổ NKC (B360), gom các hóa đơn chi tiền mặt &ge; 5 triệu theo Nghị định 181/2025 đưa vào B4 Quyết toán TNDN, đối chiếu công nợ 331 với Hải quan và sinh trọn bộ 15 file Excel mẫu VACPA bảo toàn 100% công thức.
+        Nạp đồng thời Sổ Nhật ký chung, CĐPS và Tờ khai thuế. AuditSoft tự động so khớp 2 sổ NKC (B360), gom hóa đơn chi tiền mặt &ge; 5 triệu theo Nghị định 181/2025 đưa vào B4 TNDN, đối chiếu công nợ 331 với Hải quan và sinh 15 file Excel mẫu VACPA bảo toàn 100% công thức.
       </p>
 
       <div class="hero-actions-row">
@@ -1255,11 +1261,10 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
         <a href="#architecture" class="btn-action-secondary">
-          <span>Xem Sơ Đồ Luồng Dữ Liệu</span>
+          <span>Xem Sơ Đồ Kiến Trúc Luồng</span>
         </a>
       </div>
 
-      <!-- Stats Strip -->
       <div class="stats-strip">
         <div class="stat-strip-box">
           <div class="stat-strip-num">14.250+</div>
@@ -1281,7 +1286,7 @@
     </div>
   </section>
 
-  <!-- Real Architectural Dataflow Section -->
+  <!-- Real Architectural Dataflow Section (Isolated <img> avoids SVG CSS leaks) -->
   <section id="architecture" class="section-spacing" style="background: var(--bg-canvas);">
     <div class="container">
       <div class="section-header-center">
@@ -1291,190 +1296,130 @@
       </div>
 
       <div class="dataflow-architecture-card">
-        <svg class="ak-diagram-svg" viewBox="0 0 820 620" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AuditSoft — Sơ Đồ Luồng Dữ Liệu &amp; Chu Trình Kiểm Toán"><title>AuditSoft — Sơ Đồ Luồng Dữ Liệu &amp; Chu Trình Kiểm Toán</title><defs><style>
-      svg {
-        --ak-bg: #ffffff; --ak-surface: #f8fafc; --ak-surface-border: #e2e8f0;
-        --ak-text-primary: #0f172a; --ak-text-secondary: #475569; --ak-text-muted: #94a3b8;
-        --ak-accent: #2563eb; --ak-node-bg: #ffffff; --ak-node-border: #cbd5e1;
-        --ak-edge-stroke: #64748b; --ak-edge-active: #2563eb;
-        --ak-font-sans: system-ui, -apple-system, sans-serif;
-        font-family: var(--ak-font-sans);
-      }
-      svg { --ak-bg: #090d16; --ak-text-primary: #f8fafc; --ak-text-secondary: #94a3b8; --ak-node-bg: #0f172a; --ak-node-border: #334155; --ak-edge-stroke: #475569; --ak-edge-active: #38bdf8; }
-      svg { --ak-accent: #06b6d4; --ak-edge-stroke: #0ea5e9; --ak-edge-active: #38bdf8; }
-      
-      
-    </style><marker id="ak-arrowhead-f8d397a3" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="var(--ak-edge-stroke)" />
-    </marker>
-  </defs><g class="ak-stage" data-stage-id="stage-ingest">
-        <rect x="48" y="60" width="174" height="252" rx="8" fill="var(--ak-surface)" stroke="var(--ak-surface-border)" stroke-width="1" stroke-dasharray="4 2" />
-        <text x="135" y="80" font-size="11" font-weight="600" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">1. TIẾP NHẬN DỮ LIỆU</text>
-      </g><g class="ak-stage" data-stage-id="stage-analysis">
-        <rect x="288" y="60" width="174" height="540" rx="8" fill="var(--ak-surface)" stroke="var(--ak-surface-border)" stroke-width="1" stroke-dasharray="4 2" />
-        <text x="375" y="80" font-size="11" font-weight="600" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">2. ĐỘNG CƠ PHÂN TÍCH &amp; RÀ SOÁT</text>
-      </g><g class="ak-stage" data-stage-id="stage-deliverables">
-        <rect x="528" y="60" width="174" height="252" rx="8" fill="var(--ak-surface)" stroke="var(--ak-surface-border)" stroke-width="1" stroke-dasharray="4 2" />
-        <text x="615" y="80" font-size="11" font-weight="600" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">3. KHO BÀN GIAO HỒ SƠ</text>
-      </g><g class="ak-edge" data-from="node_nkc" data-to="node_recon" data-edge-id="edge-node_nkc-node_recon-0">
-        <path d="M 210 128 C 255 128, 255 128, 300 128" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="255" y="122" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Bút toán NKC trước &amp; sau</text></g><g class="ak-edge" data-from="node_nkc" data-to="node_analytics" data-edge-id="edge-node_nkc-node_analytics-1">
-        <path d="M 210 128 C 255 128, 255 224, 300 224" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="255" y="170" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Phát sinh doanh thu, chi phí</text></g><g class="ak-edge" data-from="node_nkc" data-to="node_taxrisk" data-edge-id="edge-node_nkc-node_taxrisk-2">
-        <path d="M 210 128 C 255 128, 255 320, 300 320" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="255" y="218" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Dòng phát sinh cần rà soát</text></g><g class="ak-edge" data-from="node_nkc" data-to="node_closeout" data-edge-id="edge-node_nkc-node_closeout-3">
-        <path d="M 210 128 C 255 128, 255 512, 300 512" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="255" y="314" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Số dư &amp; phát sinh TK</text></g><g class="ak-edge" data-from="node_tax" data-to="node_taxrisk" data-edge-id="edge-node_tax-node_taxrisk-4">
-        <path d="M 210 224 C 255 224, 255 320, 300 320" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="255" y="266" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Đối chiếu chéo hóa đơn &amp; thuế</text></g><g class="ak-edge" data-from="node_recon" data-to="node_sampling" data-edge-id="edge-node_recon-node_sampling-5">
-        <path d="M 450 128 C 510 168, 240 456, 300 416" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="375" y="266" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Bút toán chênh lệch cần bốc mẫu</text></g><g class="ak-edge" data-from="node_analytics" data-to="node_sampling" data-edge-id="edge-node_analytics-node_sampling-6">
-        <path d="M 450 224 C 510 264, 240 456, 300 416" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="375" y="314" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Khoản mục rủi ro đột biến</text></g><g class="ak-edge" data-from="node_sampling" data-to="node_b410" data-edge-id="edge-node_sampling-node_b410-7">
-        <path d="M 450 416 C 495 416, 495 224, 540 224" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="495" y="314" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Sai sót kiểm toán phát hiện</text></g><g class="ak-edge" data-from="node_closeout" data-to="node_wp" data-edge-id="edge-node_closeout-node_wp-8">
-        <path d="M 450 512 C 495 512, 495 128, 540 128" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="495" y="314" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Số dư chốt đổ vào GLV</text></g><g class="ak-edge" data-from="node_sampling" data-to="node_wp" data-edge-id="edge-node_sampling-node_wp-9">
-        <path d="M 450 416 C 495 416, 495 128, 540 128" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="495" y="266" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Mẫu kiểm toán sang GLV chi tiết</text></g><g class="ak-edge" data-from="node_b410" data-to="node_wp" data-edge-id="edge-node_b410-node_wp-10">
-        <path d="M 690 224 C 750 264, 480 168, 540 128" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="615" y="170" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Tổng hợp B410 vào hồ sơ kiểm toán</text></g><g class="ak-node" data-node-id="node_nkc" data-label="Sổ NKC &amp; BCTC" data-role="source" data-desc="Nạp Sổ Nhật Ký Chung, CĐPS và Báo cáo KQKD trước/sau kiểm toán" tabindex="0">
-        <rect x="60" y="100" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="135" y="124" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Sổ NKC &amp; BCTC</text>
-        <text x="135" y="142" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">source</text>
-      </g><g class="ak-node" data-node-id="node_tax" data-label="Tờ Khai Thuế XML" data-role="source" data-desc="Nạp gói tờ khai thuế điện tử XML (GTGT, TNCN, TNDN) đối chiếu chéo số liệu" tabindex="0">
-        <rect x="60" y="196" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="135" y="220" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Tờ Khai Thuế XML</text>
-        <text x="135" y="238" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">source</text>
-      </g><g class="ak-node" data-node-id="node_recon" data-label="Đối Chiếu 2 Sổ NKC" data-role="transform" data-desc="So khớp tự động từng dòng phát sinh AJE, bóc tách chênh lệch số liệu" tabindex="0">
-        <rect x="300" y="100" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="375" y="124" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Đối Chiếu 2 Sổ NKC</text>
-        <text x="375" y="142" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">transform</text>
-      </g><g class="ak-node" data-node-id="node_analytics" data-label="Phân Tích VSA 520" data-role="transform" data-desc="Xu hướng 12 tháng, biên lãi gộp, bóc tách EBITDA và mô hình Beneish/Altman" tabindex="0">
-        <rect x="300" y="196" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="375" y="220" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Phân Tích VSA 520</text>
-        <text x="375" y="238" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">transform</text>
-      </g><g class="ak-node" data-node-id="node_taxrisk" data-label="Rà Soát Rủi Ro &amp; B4" data-role="filter" data-desc="Quét tiền mặt NĐ 181, phát hiện gian lận JET VSA 240, liên kết VSA 550" tabindex="0">
-        <rect x="300" y="292" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="375" y="316" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Rà Soát Rủi Ro &amp; B4</text>
-        <text x="375" y="334" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">filter</text>
-      </g><g class="ak-node" data-node-id="node_sampling" data-label="Chọn Mẫu VSA 530" data-role="filter" data-desc="Bỏ kết chuyển 911, chọn mẫu khoản mục lớn, phương pháp chọn mẫu tiền tệ MUS" tabindex="0">
-        <rect x="300" y="388" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="375" y="412" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Chọn Mẫu VSA 530</text>
-        <text x="375" y="430" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">filter</text>
-      </g><g class="ak-node" data-node-id="node_closeout" data-label="Chốt Số Dư CĐPS" data-role="transform" data-desc="Đối chiếu số dư đầu kỳ, phát sinh cả năm và số dư cuối kỳ giữa NKC &amp; CĐPS" tabindex="0">
-        <rect x="300" y="484" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="375" y="508" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Chốt Số Dư CĐPS</text>
-        <text x="375" y="526" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">transform</text>
-      </g><g class="ak-node" data-node-id="node_wp" data-label="15 Giấy Làm Việc VACPA" data-role="sink" data-desc="Tự động điền số liệu từ NKC vào 15 file giấy làm việc chuẩn mẫu VACPA" tabindex="0">
-        <rect x="540" y="100" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="615" y="124" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">15 Giấy Làm Việc VACPA</text>
-        <text x="615" y="142" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">sink</text>
-      </g><g class="ak-node" data-node-id="node_b410" data-label="Tổng Hợp B410 Master" data-role="store" data-desc="Hợp nhất tự động toàn bộ bảng sai sót B410 chi tiết của KTV thành file Master" tabindex="0">
-        <rect x="540" y="196" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="615" y="220" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Tổng Hợp B410 Master</text>
-        <text x="615" y="238" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">store</text>
-      </g></svg>
+        <img src="../assets/auditsoft-dataflow.svg" alt="Sơ Đồ Luồng Dữ Liệu Kiểm Toán Thực Tế" class="dataflow-img" />
       </div>
     </div>
   </section>
 
-  <!-- 6 Deep Features Bento Grid -->
+  <!-- 6 Features Bento Grid -->
   <section id="features" class="section-spacing">
     <div class="container">
       <div class="section-header-center">
-        <span class="section-kicker">Chi Tiết Tính Năng Nghiệp Vụ</span>
+        <span class="section-kicker">Chi Tiết Nghiệp Vụ</span>
         <h2 class="section-title">6 Trụ Cột Đột Phá Giúp Bạn Làm Chủ Mọi Kỳ Kiểm Toán</h2>
       </div>
 
       <div class="bento-features-grid">
-        <!-- 1 -->
         <div class="bento-card">
           <div class="bento-card-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
           </div>
           <h4>So Khớp 2 Sổ NKC (B360) &amp; Bút Toán AJE</h4>
-          <p>Tự động so khớp từng dòng Nợ/Có giữa sổ doanh nghiệp và sổ kiểm toán. Phát hiện chênh lệch ngày, số tiền, tài khoản đối ứng và bóc tách bảng bút toán điều chỉnh kiểm toán (AJE).</p>
+          <p>Tự động so khớp từng dòng Nợ/Có giữa sổ doanh nghiệp và sổ kiểm toán. Bóc tách bảng bút toán điều chỉnh kiểm toán (AJE).</p>
         </div>
 
-        <!-- 2 -->
         <div class="bento-card">
           <div class="bento-card-icon" style="color: var(--accent-danger);">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
           </div>
           <h4>Quét Tiền Mặt &ge; 5Tr Theo Nghị Định 181/2025</h4>
-          <p>Tự động phát hiện các hóa đơn chi tiền mặt từ 5 triệu hoặc gom xé nhỏ trong ngày. Cảnh báo rủi ro loại trừ chi phí và xuất bảng kê đưa vào Phụ lục B4 Quyết toán thuế TNDN.</p>
+          <p>Tự động gom hóa đơn chi tiền mặt từ 5 triệu phát sinh cùng ngày. Cảnh báo rủi ro và xuất bảng kê đưa vào Phụ lục B4 TNDN.</p>
         </div>
 
-        <!-- 3 -->
         <div class="bento-card">
           <div class="bento-card-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
           </div>
           <h4>Đối Chiếu Công Nợ 331 Với Hải Quan ECUS</h4>
-          <p>Đối chiếu chi tiết công nợ 331 với tờ khai hải quan nhập khẩu (D150/G100). Phát hiện lệch tỷ giá và tự động xuất mẫu thư xác nhận công nợ Word (.docx) hàng loạt theo VSA 505.</p>
+          <p>Đối chiếu chi tiết 331 với tờ khai hải quan (D150/G100). Phát hiện lệch tỷ giá và xuất thư xác nhận công nợ Word (.docx) chuẩn VSA 505.</p>
         </div>
 
-        <!-- 4 -->
         <div class="bento-card">
           <div class="bento-card-icon" style="color: var(--accent-blue);">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
           </div>
           <h4>Phân Tích VSA 520, EBITDA &amp; Beneish M-Score</h4>
-          <p>Tự động phân tích biến động 12 tháng, biên lãi gộp, bóc tách EBITDA và tích hợp mô hình cảnh báo gian lận BCTC: Beneish M-score và chỉ số sức khỏe tài chính Altman Z-score.</p>
+          <p>Tự động phân tích biến động 12 tháng, biên lãi gộp, bóc tách EBITDA và cảnh báo gian lận BCTC: Beneish M-score, Altman Z-score.</p>
         </div>
 
-        <!-- 5 -->
         <div class="bento-card">
           <div class="bento-card-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
           </div>
           <h4>Bốc Mẫu Kiểm Toán VSA 530 Đa Kỹ Thuật</h4>
-          <p>Tự động loại trừ bút toán kết chuyển 911. Hỗ trợ chọn mẫu khoản mục lớn, chọn mẫu ngẫu nhiên và phương pháp chọn mẫu theo đơn vị tiền tệ (MUS) trong vòng 3 giây.</p>
+          <p>Loại trừ bút toán 911. Chọn mẫu khoản mục lớn, ngẫu nhiên và phương pháp chọn mẫu theo đơn vị tiền tệ (MUS) trong 3 giây.</p>
         </div>
 
-        <!-- 6 -->
         <div class="bento-card">
           <div class="bento-card-icon" style="color: var(--accent-emerald);">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
           </div>
           <h4>Xuất 15 Giấy Làm Việc Chuẩn Mẫu VACPA</h4>
-          <p>Tự động điền số liệu từ NKC vào 15 file mẫu: D100 (Tiền), D200 (Đầu tư), D300 (Phải thu), D500 (Tồn kho), G100 (Doanh thu), G200 (Chi phí), ABH Master... Bảo toàn 100% công thức.</p>
+          <p>Tự động điền số liệu từ NKC vào 15 file mẫu: D100, D200, D300, D500, G100, G200, ABH Master... Bảo toàn 100% công thức Excel.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Pricing Section -->
+  <!-- Pricing Section (EXACT SOURCE CODE PRICES: 899k, 990k, 2.49M) -->
   <section id="pricing" class="section-spacing" style="background: var(--bg-canvas);">
     <div class="container">
       <div class="section-header-center">
-        <span class="section-kicker">Chi Phí Bản Quyền</span>
-        <h2 class="section-title">Gói Bản Quyền AuditSoft NKC &amp; Ưu Đãi Trọn Bộ VIP</h2>
+        <span class="section-kicker">Bảng Giá Bản Quyền Chính Thức</span>
+        <h2 class="section-title">Các Gói Bản Quyền AuditSoft NKC</h2>
       </div>
 
-      <div class="pricing-grid" style="max-width: 800px; margin: 0 auto 48px; grid-template-columns: 1fr 1fr;">
-        <div class="pricing-card is-selected">
-          <div class="tier-name">AuditSoft NKC Đơn Lẻ</div>
-          <div class="tier-desc">Dành riêng cho Kế toán trưởng &amp; KTV soát xét sổ và lập 15 GLV VACPA.</div>
+      <div class="pricing-grid">
+        <!-- Early Bird Lifetime -->
+        <div class="pricing-card hero-tier is-selected" data-plan-id="early_bird" data-plan-title="AuditSoft Early Bird (Vĩnh Viễn)" data-price="899000" data-memo="AS BIRD">
+          <div class="tier-badge">Còn 5 Suất Cuối</div>
+          <div class="tier-name">Early Bird — Vĩnh Viễn</div>
+          <div class="tier-desc">Đủ mọi quyền lợi gói Vĩnh Viễn — mở bán 15 suất ưu đãi, hiện còn đúng 5 suất.</div>
           <div class="tier-price-row">
-            <span class="tier-price-val">2.990.000 đ</span>
-            <span class="tier-price-orig">4.500.000 đ</span>
-            <span class="tier-price-period">/ 1 Năm</span>
+            <span class="tier-price-val">899.000 đ</span>
+            <span class="tier-price-orig">2.890.000 đ</span>
+            <span class="tier-price-period">/ Trọn Đời</span>
           </div>
           <ul class="tier-feature-list">
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Bản quyền chính thức AuditSoft NKC v1.6.1</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Trọn bộ 15 Giấy làm việc chuẩn mẫu VACPA</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>So khớp B360 &amp; Quét tiền mặt 5tr NĐ 181</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Bốc mẫu kiểm toán chuẩn VSA 530</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Bản quyền vĩnh viễn trên 1 máy tính</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Trọn bộ 15 Giấy làm việc chuẩn VACPA</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Bảo hành chuyển key miễn phí khi đổi laptop</span></li>
           </ul>
-          <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn-tier-select primary" style="text-decoration: none; display: block;">Nhận Bản Quyền Ngay</a>
+          <button type="button" class="btn-tier-select primary">✓ Đang Chọn Gói Này</button>
         </div>
 
-        <div class="pricing-card hero-tier">
-          <div class="tier-badge">Toàn Diện Nhất</div>
-          <div class="tier-name">Combo Trợ Lý Toàn Diện VIP</div>
-          <div class="tier-desc">Cả 3 Tool: InvoiceDesk + TaxInsight + AuditSoft NKC. Tối ưu 100% quy trình.</div>
+        <!-- 1 Year -->
+        <div class="pricing-card" data-plan-id="first_year" data-plan-title="AuditSoft 1 Năm (Năm Đầu)" data-price="990000" data-memo="AS 1Y">
+          <div class="tier-name">Gói 1 Năm (Năm Đầu)</div>
+          <div class="tier-desc">Ưu đãi trải nghiệm trọn vẹn 365 ngày mùa kiểm toán. Đầy đủ tính năng.</div>
           <div class="tier-price-row">
-            <span class="tier-price-val">4.990.000 đ</span>
-            <span class="tier-price-orig">8.500.000 đ</span>
+            <span class="tier-price-val">990.000 đ</span>
+            <span class="tier-price-orig">1.890.000 đ</span>
             <span class="tier-price-period">/ 1 Năm</span>
           </div>
           <ul class="tier-feature-list">
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Trọn bộ 3 bản quyền VIP đầy đủ tính năng</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Khép kín từ HĐĐT TCT $ightarrow$ eTax $ightarrow$ 15 GLV</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Ưu tiên hỗ trợ trực tiếp 1-1 từ Thịnh Lynx</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Bản quyền 1 năm (365 ngày)</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>So khớp B360 &amp; Quét tiền mặt 5tr NĐ 181</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Bốc mẫu kiểm toán VSA 530</span></li>
           </ul>
-          <a href="../index.html#pricing" class="btn-tier-select primary" style="text-decoration: none; display: block;">Xem Chi Tiết Combo 3 Tool</a>
+          <button type="button" class="btn-tier-select ghost">Chọn Gói Này</button>
+        </div>
+
+        <!-- 3 Years -->
+        <div class="pricing-card" data-plan-id="triennial" data-plan-title="AuditSoft 3 Năm (Siêu Tiết Kiệm)" data-price="2490000" data-memo="AS 3Y">
+          <div class="tier-name">Gói 3 Năm (Siêu Tiết Kiệm)</div>
+          <div class="tier-desc">Chỉ 830.000 đ/năm. Cố định chi phí cho 3 mùa kiểm toán liên tiếp.</div>
+          <div class="tier-price-row">
+            <span class="tier-price-val">2.490.000 đ</span>
+            <span class="tier-price-orig">5.670.000 đ</span>
+            <span class="tier-price-period">/ 3 Năm</span>
+          </div>
+          <ul class="tier-feature-list">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Bản quyền 3 năm (1.095 ngày)</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Tiết kiệm 56% so với mua lẻ từng năm</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Ưu tiên cập nhật biểu mẫu VACPA mới nhất</span></li>
+          </ul>
+          <button type="button" class="btn-tier-select ghost">Chọn Gói Này</button>
         </div>
       </div>
 
@@ -1482,19 +1427,19 @@
       <div id="vietqrBox" class="vietqr-console-card">
         <div style="text-align: center; margin-bottom: 24px;">
           <h3 style="font-size: 20px; font-weight: 800; color: var(--text-main);">Cổng Thanh Toán VietQR MB Bank Cho AuditSoft NKC</h3>
-          <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Quét mã QR bằng ứng dụng ngân hàng bất kỳ để tự động điền STK, Số tiền 2.990.000 đ và Nội dung chuyển khoản.</p>
+          <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Quét mã QR bằng app ngân hàng bất kỳ để tự động điền STK, Số tiền và Nội dung chuyển khoản.</p>
         </div>
 
         <div class="vietqr-grid">
           <div class="qr-frame">
-            <img src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=2990000&addInfo=AUDITSOFT&accountName=THINH%20LYNX" alt="VietQR MB Bank" class="qr-img">
+            <img id="qrCodeDisplay" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=899000&addInfo=AS%20BIRD&accountName=THINH%20LYNX" alt="VietQR MB Bank" class="qr-img">
             <span class="qr-caption">Quét Mã Tự Động Điền Số Tiền</span>
           </div>
 
           <div class="bank-info-stack">
             <div class="bank-row">
-              <span class="lbl">Sản phẩm:</span>
-              <span class="val" style="color: var(--primary);">Bản Quyền AuditSoft NKC v1.6.1 (1 Năm)</span>
+              <span class="lbl">Gói đang chọn:</span>
+              <span id="labelSelectedPlan" class="val" style="color: var(--primary);">Early Bird — Vĩnh Viễn (899.000 đ)</span>
             </div>
             <div class="bank-row">
               <span class="lbl">Ngân hàng:</span>
@@ -1503,7 +1448,7 @@
             <div class="bank-row">
               <span class="lbl">Số tài khoản:</span>
               <div class="val">
-                <span class="table-cell-mono">0817567008</span>
+                <span id="valAccountNumber" class="table-cell-mono">0817567008</span>
                 <button type="button" class="btn-copy-mini" onclick="copyValue('0817567008', 'Số tài khoản')">Chép STK</button>
               </div>
             </div>
@@ -1514,15 +1459,15 @@
             <div class="bank-row">
               <span class="lbl">Số tiền:</span>
               <div class="val">
-                <span class="table-cell-mono" style="color: var(--accent-emerald);">2.990.000 đ</span>
-                <button type="button" class="btn-copy-mini" onclick="copyValue('2990000', 'Số tiền')">Chép Tiền</button>
+                <span id="valTransferAmount" class="table-cell-mono" style="color: var(--accent-emerald);">899.000 đ</span>
+                <button type="button" class="btn-copy-mini" onclick="copyValue(window.activePriceRaw.toString(), 'Số tiền')">Chép Tiền</button>
               </div>
             </div>
             <div class="bank-row">
               <span class="lbl">Nội dung CK:</span>
               <div class="val">
-                <span class="table-cell-mono" style="color: var(--accent-amber);">AUDITSOFT SĐT</span>
-                <button type="button" class="btn-copy-mini" onclick="copyValue('AUDITSOFT', 'Nội dung CK')">Chép Memo</button>
+                <span id="valTransferMemo" class="table-cell-mono" style="color: var(--accent-amber);">AS BIRD SĐT</span>
+                <button type="button" class="btn-copy-mini" onclick="copyValue(document.getElementById('valTransferMemo').innerText, 'Nội dung CK')">Chép Memo</button>
               </div>
             </div>
           </div>
@@ -1546,7 +1491,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="faq-body">
-            Tuyệt đối không! Toàn bộ 15 file Excel đều bảo toàn 100% công thức tính toán SUM, VLOOKUP, IF và liên kết sheet theo đúng biểu mẫu kiểm toán chuẩn VACPA. Bạn hoàn toàn có thể chỉnh sửa, thêm dòng hoặc in ấn tự do như file Excel thông thường.
+            Tuyệt đối không! Toàn bộ 15 file Excel đều bảo toàn 100% công thức tính toán SUM, VLOOKUP, IF và liên kết sheet theo đúng biểu mẫu kiểm toán chuẩn VACPA.
           </div>
         </div>
 
@@ -1556,7 +1501,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="faq-body">
-            Phần mềm quét toàn bộ định khoản Nợ TK chi phí (641, 642, 152, 156...) / Có TK 111. Hệ thống tự động gom các hóa đơn cùng ngày của cùng một mã số thuế người bán có tổng giá trị từ 5 triệu đồng trở lên, cảnh báo rủi ro vi phạm thanh toán không dùng tiền mặt và tự trích xuất bảng kê để kế toán đưa vào chỉ tiêu B4 khi quyết toán thuế TNDN.
+            Phần mềm quét định khoản Nợ TK chi phí / Có TK 111. Hệ thống tự động gom các hóa đơn cùng ngày của cùng một MST người bán có tổng giá trị từ 5 triệu đồng trở lên, tự trích xuất bảng kê đưa vào chỉ tiêu B4 khi quyết toán thuế TNDN.
           </div>
         </div>
       </div>
@@ -1647,6 +1592,48 @@
       }
     }
 
+    window.activePriceRaw = 899000;
+    const pricingCards = document.querySelectorAll('.pricing-card');
+    const qrCodeDisplay = document.getElementById('qrCodeDisplay');
+    const labelSelectedPlan = document.getElementById('labelSelectedPlan');
+    const valTransferAmount = document.getElementById('valTransferAmount');
+    const valTransferMemo = document.getElementById('valTransferMemo');
+
+    pricingCards.forEach(card => {
+      card.addEventListener('click', () => {
+        pricingCards.forEach(c => {
+          c.classList.remove('is-selected');
+          const btn = c.querySelector('.btn-tier-select');
+          if (btn) {
+            btn.classList.remove('primary');
+            btn.classList.add('ghost');
+            btn.innerText = 'Chọn Gói Này';
+          }
+        });
+
+        card.classList.add('is-selected');
+        const btn = card.querySelector('.btn-tier-select');
+        if (btn) {
+          btn.classList.remove('ghost');
+          btn.classList.add('primary');
+          btn.innerText = '✓ Đang Chọn Gói Này';
+        }
+
+        const price = parseInt(card.getAttribute('data-price'), 10);
+        const planTitle = card.getAttribute('data-plan-title');
+        const memo = card.getAttribute('data-memo');
+        window.activePriceRaw = price;
+
+        if (labelSelectedPlan) labelSelectedPlan.innerText = planTitle + ' (' + price.toLocaleString('vi-VN') + ' đ)';
+        if (valTransferAmount) valTransferAmount.innerText = price.toLocaleString('vi-VN') + ' đ';
+        if (valTransferMemo) valTransferMemo.innerText = memo + ' [SDT]';
+
+        if (qrCodeDisplay) {
+          const encodedMemo = encodeURIComponent(memo);
+          qrCodeDisplay.src = 'https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=' + price + '&addInfo=' + encodedMemo + '&accountName=THINH%20LYNX';
+        }
+      });
+    });
   </script>
 </body>
 </html>

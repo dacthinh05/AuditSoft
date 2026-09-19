@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thịnh Lynx Ecosystem — Bộ Ba Tự Động Hóa Kế Toán &amp; Kiểm Toán (InvoiceDesk • TaxInsight • AuditSoft)</title>
   
-  <meta name="description" content="Khép kín chu trình 3 bước cho Kế toán dịch vụ &amp; Kiểm toán viên: Tải HĐĐT TCT hàng loạt (InvoiceDesk v2.7.14), tải tờ khai eTax không cần USB Token (TaxInsight v3.3.4) và soát xét sổ NKC, lọc chi tiền mặt >= 5tr NĐ 181/2025, lập 15 giấy làm việc VACPA (AuditSoft NKC v1.6.1). Xử lý 100% offline nội bộ.">
-  <meta name="keywords" content="hóa đơn điện tử, tải tờ khai thuế hàng loạt, etax tự động, kiểm toán nkc, soát xét bctc, bốc mẫu vsa 530, nghị định 181 2025, kế toán dịch vụ, thịnh lynx, auditsoft">
-  <meta name="author" content="Thịnh Lynx (Nguyễn Đắc Thịnh - 0817.567.008)">
+  <meta name="description" content="Hệ sinh thái tự động hóa Kế toán & Kiểm toán: Tải HĐĐT TCT hàng loạt (InvoiceDesk v2.7.14), tải hồ sơ eTax không cần Token (TaxInsight v3.3.4), soát xét sổ NKC & 15 GLV VACPA (AuditSoft NKC v1.6.1). 100% Offline.">
+  <meta name="keywords" content="hóa đơn điện tử, tải tờ khai thuế không cần token, kiểm toán nkc, nghị định 181 2025, 15 giấy làm việc vacpa, thịnh lynx">
+  <meta name="author" content="Thịnh Lynx (0817.567.008)">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Thịnh Lynx Ecosystem — Bộ Ba Giải Pháp Tự Động Hóa Kế Toán &amp; Kiểm Toán">
+  <meta property="og:title" content="Thịnh Lynx Ecosystem — Bộ Ba Tự Động Hóa Kế Toán &amp; Kiểm Toán">
   <meta property="og:description" content="Giải phóng 90% thao tác gõ captcha, cắm token và dò sổ thủ công. Dữ liệu xử lý an toàn 100% offline trên máy tính cá nhân.">
   <meta property="og:image" content="https://raw.githubusercontent.com/dacthinh05/AuditSoft/main/icon.svg">
   <meta property="og:locale" content="vi_VN">
@@ -1033,6 +1033,13 @@
       padding-top: 12px;
       border-top: 1px solid var(--border-subtle);
     }
+    .dataflow-img {
+      width: 100%;
+      height: auto;
+      max-height: 520px;
+      display: block;
+      margin: 0 auto;
+    }
   </style>
 </head>
 <body>
@@ -1041,7 +1048,7 @@
   <div class="topbar">
     <div class="container topbar-inner">
       <span class="topbar-badge">Cập nhật 2026</span>
-      <span>Đã tích hợp module rà soát <strong>chi tiền mặt từ 5 triệu</strong> (Nghị định 181/2025/NĐ-CP) và <strong>đối chiếu tờ khai Hải quan</strong>.</span>
+      <span>Đã tích hợp rà soát <strong>chi tiền mặt từ 5 triệu</strong> (Nghị định 181/2025/NĐ-CP) và <strong>đối chiếu tờ khai Hải quan</strong>.</span>
       <a href="#pricing">
         <span>Xem bảng giá &amp; ưu đãi</span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1315,20 +1322,20 @@
     </div>
   </header>
 
-  <!-- Hero Section (Humanized) -->
+  <!-- Hero Section (Condensed & Humanized) -->
   <section class="hero-section">
     <div class="container">
       <div class="hero-kicker">
-        Dành Riêng Cho Kế Toán Dịch Vụ &amp; Kiểm Toán Viên Mùa Báo Cáo Tài Chính
+        Dành Riêng Cho Kế Toán Dịch Vụ &amp; Kiểm Toán Viên Mùa Quyết Toán
       </div>
 
       <h1 class="hero-title">
-        Dừng việc thức trắng đêm gõ captcha và soát sổ thủ công.
-        <span class="emphasis">Tự động hóa trọn vẹn từ Thuế đến 15 Giấy làm việc VACPA</span>
+        Tự động hóa trọn vẹn quy trình Kế toán &amp; Kiểm toán.
+        <span class="emphasis">Từ Hóa Đơn, Tờ Khai Thuế đến 15 Giấy Làm Việc VACPA</span>
       </h1>
 
       <p class="hero-description">
-        Tôi là Thịnh Lynx. Bộ ba công cụ này được viết từ chính những đêm tăng ca mỏi mắt tải từng file hóa đơn, cắm rút hàng chục chiếc USB Token và dò từng dòng sổ sách cho hàng chục công ty. Không lý thuyết xa vời: Máy tính sẽ làm thay bạn những việc lặp lại vô nghĩa, xử lý 100% offline an toàn trên máy tính cá nhân.
+        Bộ ba công cụ độc lập giải phóng bạn khỏi cảnh gõ captcha, cắm rút USB Token và đối chiếu sổ sách thủ công. Xử lý an toàn 100% offline nội bộ trên máy tính cá nhân.
       </p>
 
       <div class="hero-actions-row">
@@ -1338,7 +1345,7 @@
         </a>
         <a href="#roi" class="btn-action-secondary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>Tính Số Giờ Bạn Tiết Kiệm Được</span>
+          <span>Tính Số Giờ Tiết Kiệm Được</span>
         </a>
       </div>
 
@@ -1362,7 +1369,7 @@
         </div>
       </div>
 
-      <!-- 3 DEDICATED TOOL BENTO CARDS (LINKS TO DEDICATED LANDING PAGES) -->
+      <!-- 3 DEDICATED TOOL BENTO CARDS (INTERLINKED) -->
       <div id="ecosystem" class="bento-features-grid" style="text-align: left; margin-top: 40px;">
         <!-- Tool 1: InvoiceDesk -->
         <a href="tools/invoicedesk.html" class="tool-spotlight-card">
@@ -1375,7 +1382,7 @@
               <span style="font-size: 11.5px; color: var(--accent-blue); font-weight: 700;">Hóa Đơn Điện Tử TCT</span>
             </div>
           </div>
-          <p>Tự động quét &amp; tải hàng nghìn HĐĐT Tổng Cục Thuế. Phân loại 6 trạng thái, tải XML &amp; PDF gốc, rà soát MST đóng cửa, bỏ trốn.</p>
+          <p>Quét &amp; tải hàng nghìn HĐĐT Tổng Cục Thuế. Phân loại 6 trạng thái, tải XML/PDF gốc, cảnh báo người bán bỏ trốn, đóng MST.</p>
           <div class="tool-card-action">
             <span>Khám phá tính năng InvoiceDesk chi tiết</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1488,7 +1495,7 @@
               <span style="font-size: 11.5px; color: var(--accent-emerald); font-weight: 700;">Hồ Sơ Thuế Tokenless</span>
             </div>
           </div>
-          <p>Tải trọn bộ Tờ khai &amp; Giấy nộp tiền C1-02/NS cho 50–100 công ty không cần cắm USB Token. Soát xét luồng GTGT [22]-[43] và quyết toán TNCN.</p>
+          <p>Tải trọn bộ Tờ khai &amp; Giấy nộp tiền C1-02/NS cho 50–100 công ty không cần cắm Token. Soát xét luồng GTGT [22]-[43] và quyết toán TNCN.</p>
           <div class="tool-card-action" style="color: var(--accent-emerald);">
             <span>Khám phá tính năng TaxInsight chi tiết</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1734,7 +1741,7 @@
               <span style="font-size: 11.5px; color: var(--primary); font-weight: 700;">Soát Xét &amp; 15 GLV VACPA</span>
             </div>
           </div>
-          <p>So khớp 2 sổ NKC (B360), lọc chi tiền mặt &ge; 5tr NĐ 181/2025 đưa vào B4, đối chiếu Hải quan, bốc mẫu VSA 530, tự động sinh 15 GLV VACPA.</p>
+          <p>So khớp 2 sổ NKC (B360), lọc chi tiền mặt &ge; 5tr NĐ 181/2025 đưa vào B4, đối chiếu Hải quan, bốc mẫu VSA 530, sinh 15 GLV VACPA.</p>
           <div class="tool-card-action" style="color: var(--primary);">
             <span>Khám phá tính năng AuditSoft chi tiết</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1759,151 +1766,61 @@
     </div>
   </section>
 
-  <!-- Real Architectural Dataflow Section (REPLACES FAKE DUMMY CONSOLE) -->
+  <!-- Real Architectural Dataflow Section (Isolated <img> avoids SVG CSS leaks) -->
   <section id="architecture" class="section-spacing" style="background: var(--bg-canvas);">
     <div class="container">
       <div class="section-header-center">
         <span class="section-kicker">Kiến Trúc Kỹ Thuật Độc Quyền</span>
         <h2 class="section-title">Sơ Đồ Luồng Dữ Liệu &amp; Chu Trình Kiểm Toán Thực Tế</h2>
-        <p class="section-subtitle">Minh bạch 100% quy trình tiếp nhận, động cơ phân tích tự động và các biểu mẫu bàn giao đầu ra theo chuẩn mực kế toán Việt Nam.</p>
+        <p class="section-subtitle">Minh bạch 3 giai đoạn: Tiếp nhận dữ liệu $ightarrow$ Động cơ Phân tích &amp; Rà soát $ightarrow$ Kho bàn giao 15 GLV VACPA.</p>
       </div>
 
       <div class="dataflow-architecture-card">
-        <svg class="ak-diagram-svg" viewBox="0 0 820 620" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AuditSoft — Sơ Đồ Luồng Dữ Liệu &amp; Chu Trình Kiểm Toán"><title>AuditSoft — Sơ Đồ Luồng Dữ Liệu &amp; Chu Trình Kiểm Toán</title><defs><style>
-      svg {
-        --ak-bg: #ffffff; --ak-surface: #f8fafc; --ak-surface-border: #e2e8f0;
-        --ak-text-primary: #0f172a; --ak-text-secondary: #475569; --ak-text-muted: #94a3b8;
-        --ak-accent: #2563eb; --ak-node-bg: #ffffff; --ak-node-border: #cbd5e1;
-        --ak-edge-stroke: #64748b; --ak-edge-active: #2563eb;
-        --ak-font-sans: system-ui, -apple-system, sans-serif;
-        font-family: var(--ak-font-sans);
-      }
-      svg { --ak-bg: #090d16; --ak-text-primary: #f8fafc; --ak-text-secondary: #94a3b8; --ak-node-bg: #0f172a; --ak-node-border: #334155; --ak-edge-stroke: #475569; --ak-edge-active: #38bdf8; }
-      svg { --ak-accent: #06b6d4; --ak-edge-stroke: #0ea5e9; --ak-edge-active: #38bdf8; }
-      
-      
-    </style><marker id="ak-arrowhead-f8d397a3" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="var(--ak-edge-stroke)" />
-    </marker>
-  </defs><g class="ak-stage" data-stage-id="stage-ingest">
-        <rect x="48" y="60" width="174" height="252" rx="8" fill="var(--ak-surface)" stroke="var(--ak-surface-border)" stroke-width="1" stroke-dasharray="4 2" />
-        <text x="135" y="80" font-size="11" font-weight="600" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">1. TIẾP NHẬN DỮ LIỆU</text>
-      </g><g class="ak-stage" data-stage-id="stage-analysis">
-        <rect x="288" y="60" width="174" height="540" rx="8" fill="var(--ak-surface)" stroke="var(--ak-surface-border)" stroke-width="1" stroke-dasharray="4 2" />
-        <text x="375" y="80" font-size="11" font-weight="600" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">2. ĐỘNG CƠ PHÂN TÍCH &amp; RÀ SOÁT</text>
-      </g><g class="ak-stage" data-stage-id="stage-deliverables">
-        <rect x="528" y="60" width="174" height="252" rx="8" fill="var(--ak-surface)" stroke="var(--ak-surface-border)" stroke-width="1" stroke-dasharray="4 2" />
-        <text x="615" y="80" font-size="11" font-weight="600" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">3. KHO BÀN GIAO HỒ SƠ</text>
-      </g><g class="ak-edge" data-from="node_nkc" data-to="node_recon" data-edge-id="edge-node_nkc-node_recon-0">
-        <path d="M 210 128 C 255 128, 255 128, 300 128" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="255" y="122" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Bút toán NKC trước &amp; sau</text></g><g class="ak-edge" data-from="node_nkc" data-to="node_analytics" data-edge-id="edge-node_nkc-node_analytics-1">
-        <path d="M 210 128 C 255 128, 255 224, 300 224" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="255" y="170" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Phát sinh doanh thu, chi phí</text></g><g class="ak-edge" data-from="node_nkc" data-to="node_taxrisk" data-edge-id="edge-node_nkc-node_taxrisk-2">
-        <path d="M 210 128 C 255 128, 255 320, 300 320" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="255" y="218" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Dòng phát sinh cần rà soát</text></g><g class="ak-edge" data-from="node_nkc" data-to="node_closeout" data-edge-id="edge-node_nkc-node_closeout-3">
-        <path d="M 210 128 C 255 128, 255 512, 300 512" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="255" y="314" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Số dư &amp; phát sinh TK</text></g><g class="ak-edge" data-from="node_tax" data-to="node_taxrisk" data-edge-id="edge-node_tax-node_taxrisk-4">
-        <path d="M 210 224 C 255 224, 255 320, 300 320" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="255" y="266" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Đối chiếu chéo hóa đơn &amp; thuế</text></g><g class="ak-edge" data-from="node_recon" data-to="node_sampling" data-edge-id="edge-node_recon-node_sampling-5">
-        <path d="M 450 128 C 510 168, 240 456, 300 416" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="375" y="266" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Bút toán chênh lệch cần bốc mẫu</text></g><g class="ak-edge" data-from="node_analytics" data-to="node_sampling" data-edge-id="edge-node_analytics-node_sampling-6">
-        <path d="M 450 224 C 510 264, 240 456, 300 416" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="375" y="314" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Khoản mục rủi ro đột biến</text></g><g class="ak-edge" data-from="node_sampling" data-to="node_b410" data-edge-id="edge-node_sampling-node_b410-7">
-        <path d="M 450 416 C 495 416, 495 224, 540 224" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="495" y="314" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Sai sót kiểm toán phát hiện</text></g><g class="ak-edge" data-from="node_closeout" data-to="node_wp" data-edge-id="edge-node_closeout-node_wp-8">
-        <path d="M 450 512 C 495 512, 495 128, 540 128" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="495" y="314" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Số dư chốt đổ vào GLV</text></g><g class="ak-edge" data-from="node_sampling" data-to="node_wp" data-edge-id="edge-node_sampling-node_wp-9">
-        <path d="M 450 416 C 495 416, 495 128, 540 128" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="495" y="266" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Mẫu kiểm toán sang GLV chi tiết</text></g><g class="ak-edge" data-from="node_b410" data-to="node_wp" data-edge-id="edge-node_b410-node_wp-10">
-        <path d="M 690 224 C 750 264, 480 168, 540 128" fill="none" stroke="var(--ak-edge-stroke)" stroke-width="2" marker-end="url(#ak-arrowhead-f8d397a3)" /><text x="615" y="170" font-size="10" font-weight="500" fill="var(--ak-text-secondary)" text-anchor="middle" font-family="var(--ak-font-sans)" style="stroke:none;stroke-width:0;">Tổng hợp B410 vào hồ sơ kiểm toán</text></g><g class="ak-node" data-node-id="node_nkc" data-label="Sổ NKC &amp; BCTC" data-role="source" data-desc="Nạp Sổ Nhật Ký Chung, CĐPS và Báo cáo KQKD trước/sau kiểm toán" tabindex="0">
-        <rect x="60" y="100" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="135" y="124" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Sổ NKC &amp; BCTC</text>
-        <text x="135" y="142" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">source</text>
-      </g><g class="ak-node" data-node-id="node_tax" data-label="Tờ Khai Thuế XML" data-role="source" data-desc="Nạp gói tờ khai thuế điện tử XML (GTGT, TNCN, TNDN) đối chiếu chéo số liệu" tabindex="0">
-        <rect x="60" y="196" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="135" y="220" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Tờ Khai Thuế XML</text>
-        <text x="135" y="238" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">source</text>
-      </g><g class="ak-node" data-node-id="node_recon" data-label="Đối Chiếu 2 Sổ NKC" data-role="transform" data-desc="So khớp tự động từng dòng phát sinh AJE, bóc tách chênh lệch số liệu" tabindex="0">
-        <rect x="300" y="100" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="375" y="124" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Đối Chiếu 2 Sổ NKC</text>
-        <text x="375" y="142" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">transform</text>
-      </g><g class="ak-node" data-node-id="node_analytics" data-label="Phân Tích VSA 520" data-role="transform" data-desc="Xu hướng 12 tháng, biên lãi gộp, bóc tách EBITDA và mô hình Beneish/Altman" tabindex="0">
-        <rect x="300" y="196" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="375" y="220" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Phân Tích VSA 520</text>
-        <text x="375" y="238" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">transform</text>
-      </g><g class="ak-node" data-node-id="node_taxrisk" data-label="Rà Soát Rủi Ro &amp; B4" data-role="filter" data-desc="Quét tiền mặt NĐ 181, phát hiện gian lận JET VSA 240, liên kết VSA 550" tabindex="0">
-        <rect x="300" y="292" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="375" y="316" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Rà Soát Rủi Ro &amp; B4</text>
-        <text x="375" y="334" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">filter</text>
-      </g><g class="ak-node" data-node-id="node_sampling" data-label="Chọn Mẫu VSA 530" data-role="filter" data-desc="Bỏ kết chuyển 911, chọn mẫu khoản mục lớn, phương pháp chọn mẫu tiền tệ MUS" tabindex="0">
-        <rect x="300" y="388" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="375" y="412" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Chọn Mẫu VSA 530</text>
-        <text x="375" y="430" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">filter</text>
-      </g><g class="ak-node" data-node-id="node_closeout" data-label="Chốt Số Dư CĐPS" data-role="transform" data-desc="Đối chiếu số dư đầu kỳ, phát sinh cả năm và số dư cuối kỳ giữa NKC &amp; CĐPS" tabindex="0">
-        <rect x="300" y="484" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="375" y="508" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Chốt Số Dư CĐPS</text>
-        <text x="375" y="526" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">transform</text>
-      </g><g class="ak-node" data-node-id="node_wp" data-label="15 Giấy Làm Việc VACPA" data-role="sink" data-desc="Tự động điền số liệu từ NKC vào 15 file giấy làm việc chuẩn mẫu VACPA" tabindex="0">
-        <rect x="540" y="100" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="615" y="124" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">15 Giấy Làm Việc VACPA</text>
-        <text x="615" y="142" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">sink</text>
-      </g><g class="ak-node" data-node-id="node_b410" data-label="Tổng Hợp B410 Master" data-role="store" data-desc="Hợp nhất tự động toàn bộ bảng sai sót B410 chi tiết của KTV thành file Master" tabindex="0">
-        <rect x="540" y="196" width="150" height="56" rx="8" fill="var(--ak-node-bg)" stroke="var(--ak-node-border)" stroke-width="1.5" />
-        <text x="615" y="220" font-size="12" font-weight="600" fill="var(--ak-text-primary)" text-anchor="middle" font-family="var(--ak-font-sans)">Tổng Hợp B410 Master</text>
-        <text x="615" y="238" font-size="10" fill="var(--ak-text-muted)" text-anchor="middle" font-family="var(--ak-font-sans)">store</text>
-      </g></svg>
+        <img src="assets/auditsoft-dataflow.svg" alt="Sơ Đồ Luồng Dữ Liệu Kiểm Toán Thực Tế" class="dataflow-img" />
       </div>
     </div>
   </section>
 
-  <!-- Real-world Pain Points Section (Humanized) -->
+  <!-- Real-world Pain Points Section (Condensed 60%) -->
   <section id="pain-points" class="section-spacing">
     <div class="container">
       <div class="section-header-center">
         <span class="section-kicker">Thực Trạng Mùa Báo Cáo Tài Chính</span>
-        <h2 class="section-title">Những công việc thủ công đang ngốn hàng trăm giờ mỗi kỳ quyết toán</h2>
-        <p class="section-subtitle">
-          Áp lực lớn nhất của Kế toán dịch vụ và Kiểm toán viên là khối lượng thao tác thủ công lặp đi lặp lại khiến bạn không còn thời gian để tư vấn số liệu cho khách hàng.
-        </p>
+        <h2 class="section-title">Những Công Việc Đang Ngốn Hàng Trăm Giờ Của Bạn</h2>
+        <p class="section-subtitle">Loại bỏ hoàn toàn các thao tác thủ công lặp lại để bạn tập trung tư vấn số liệu cho khách hàng.</p>
       </div>
 
       <div class="bento-features-grid" style="grid-template-columns: repeat(2, 1fr);">
-        <!-- Pain 1 -->
         <div class="bento-card">
           <div class="bento-card-icon" style="color: var(--accent-danger);">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/></svg>
           </div>
-          <h4>Cực hình gõ captcha và tải lẻ từng hóa đơn</h4>
-          <p>Quản lý từ 30 đến 50 công ty, mỗi kỳ thuế phải đăng nhập hàng chục lần vào trang Thuế. Bạn phải ngồi gõ từng mã captcha méo mó, tải tay từng file XML hóa đơn mua vào, bán ra. Vừa mất tập trung lại rất dễ tải sót kỳ.</p>
-          <div style="margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-subtle); font-size: 13px; color: var(--accent-danger); font-weight: 600;">
-            Ước tính lãng phí: 40 đến 60 giờ làm việc mỗi tháng
-          </div>
+          <h4>Tải lẻ từng HĐĐT &amp; gõ captcha</h4>
+          <p>Quản lý 30–50 công ty, mỗi kỳ phải gõ hàng trăm mã captcha và bấm tải lẻ từng file XML hóa đơn. Lãng phí 40–60 giờ làm việc mỗi tháng.</p>
         </div>
 
-        <!-- Pain 2 -->
         <div class="bento-card">
           <div class="bento-card-icon" style="color: var(--accent-danger);">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           </div>
-          <h4>Cạm bẫy phạt thuế và Nghị định 181/2025</h4>
-          <p>Nghị định 181 siết chặt chi tiền mặt từ 5 triệu đồng không được tính chi phí được trừ khi quyết toán TNDN. Kèm theo rủi ro hóa đơn doanh nghiệp bỏ trốn. Dò bằng mắt thường trên hàng chục nghìn dòng NKC rất dễ lọt lưới.</p>
-          <div style="margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-subtle); font-size: 13px; color: var(--accent-danger); font-weight: 600;">
-            Rủi ro: Bị loại chi phí và truy thu tiền thuế khi thanh tra
-          </div>
+          <h4>Bẫy phạt thuế Nghị định 181/2025</h4>
+          <p>Siết chặt chi tiền mặt từ 5 triệu đồng và rủi ro hóa đơn doanh nghiệp bỏ trốn. Rất khó bao quát hết trên hàng chục nghìn dòng sổ NKC.</p>
         </div>
 
-        <!-- Pain 3 -->
         <div class="bento-card">
           <div class="bento-card-icon" style="color: var(--accent-danger);">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
           </div>
-          <h4>Ác mộng đối chiếu công nợ và tờ khai hải quan</h4>
-          <p>Hàng nhập khẩu hạch toán có 331 nhưng không ghi số tờ khai, hoặc lệch ngày chuyển khoản. Dò từng tờ khai ECUS với sổ chi tiết 331 bằng VLOOKUP thường xuyên bị lệch do tỷ giá ngân hàng khác tỷ giá hải quan.</p>
-          <div style="margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-subtle); font-size: 13px; color: var(--accent-danger); font-weight: 600;">
-            Hậu quả: Số liệu BCTC không khớp với dữ liệu Hải quan
-          </div>
+          <h4>Lệch tỷ giá 331 &amp; tờ khai hải quan</h4>
+          <p>Hàng nhập khẩu về kho hạch toán lệch ngày hoặc lệch tỷ giá giữa ECUS và sổ chi tiết 331, làm sai lệch số liệu báo cáo tài chính.</p>
         </div>
 
-        <!-- Pain 4 -->
         <div class="bento-card">
           <div class="bento-card-icon" style="color: var(--accent-danger);">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           </div>
-          <h4>Bẫy phí thuê bao phần mềm hàng năm đắt đỏ</h4>
-          <p>Nhiều công cụ trên thị trường tính phí theo thuê bao hàng năm, giới hạn số lượng hóa đơn, số MST và bắt buộc tải dữ liệu lên máy chủ của họ. Tiềm ẩn nguy cơ lộ số liệu tài chính của khách hàng.</p>
-          <div style="margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-subtle); font-size: 13px; color: var(--accent-danger); font-weight: 600;">
-            Thiệt hại: Đội chi phí hàng năm và mất quyền kiểm soát dữ liệu
-          </div>
+          <h4>Bẫy phí thuê bao hàng năm đắt đỏ</h4>
+          <p>Nhiều phần mềm thu phí gia hạn hàng năm, giới hạn số lượng MST và bắt nạp dữ liệu lên đám mây, tiềm ẩn rủi ro lộ số liệu khách hàng.</p>
         </div>
       </div>
     </div>
@@ -1920,7 +1837,7 @@
             <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">Kéo thanh trượt để thấy ngay số giờ công và số tiền bạn tiết kiệm được mỗi năm.</p>
 
             <div class="roi-slider-title-row">
-              <span class="label">Quy mô doanh nghiệp nhận dịch vụ:</span>
+              <span class="label">Quy mô doanh nghiệp:</span>
               <span id="sliderCompanyDisplay" class="val">30 Doanh Nghiệp</span>
             </div>
             <input type="range" id="companyRangeSlider" class="custom-range-slider" min="5" max="100" value="30" step="5">
@@ -1931,10 +1848,6 @@
               <button type="button" class="preset-pill is-active" onclick="setPreset(30)">30 CT</button>
               <button type="button" class="preset-pill" onclick="setPreset(50)">50 CT</button>
               <button type="button" class="preset-pill" onclick="setPreset(100)">100 CT</button>
-            </div>
-
-            <div style="font-size: 12px; color: var(--text-dim); line-height: 1.5;">
-              * Tính toán dựa trên mức lương kế toán cơ bản 65.000 đ/giờ và trung bình 3.6 giờ lãng phí mỗi công ty/tháng cho các khâu gõ captcha, tải tờ khai và copy sổ sách.
             </div>
           </div>
 
@@ -1963,7 +1876,6 @@
       <div class="section-header-center">
         <span class="section-kicker">Hiệu Suất Thực Tế</span>
         <h2 class="section-title">So Sánh: Làm Thủ Công vs Dùng Hệ Sinh Thái Thịnh Lynx</h2>
-        <p class="section-subtitle">Sự khác biệt rõ ràng giữa việc tăng ca thâu đêm và làm việc thảnh thơi có công cụ chuyên nghiệp.</p>
       </div>
 
       <div class="comparison-wrapper">
@@ -1984,7 +1896,7 @@
             <tr>
               <td><strong>Tải tờ khai thuế &amp; Thông báo eTax</strong></td>
               <td>Cắm rút hàng chục USB Token mỗi đêm</td>
-              <td class="col-solution">1 Click tải trọn bộ hồ sơ không cần cắm token (TaxInsight)</td>
+              <td class="col-solution">1 Click tải trọn bộ hồ sơ không cần token (TaxInsight)</td>
             </tr>
             <tr>
               <td><strong>Rà soát chi phí &ge; 5tr (NĐ 181/2025)</strong></td>
@@ -2001,92 +1913,81 @@
               <td>Tốn 2 – 3 ngày copy paste số liệu vào mẫu</td>
               <td class="col-solution">Tự động sinh 15 file Excel chuẩn mẫu trong 30 giây (AuditSoft)</td>
             </tr>
-            <tr>
-              <td><strong>Năng lực nhận thêm khách hàng</strong></td>
-              <td>Quá tải ở mức 10 – 15 công ty</td>
-              <td class="col-solution">Tự tin nhận 50 – 100 công ty chỉ với 1 kế toán</td>
-            </tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <!-- Pricing Section & Dynamic VietQR -->
+  <!-- Pricing Section & Dynamic VietQR (STANDARDIZED REAL SOURCE-CODE PRICES) -->
   <section id="pricing" class="section-spacing" style="background: var(--bg-canvas);">
     <div class="container">
       <div class="section-header-center">
-        <span class="section-kicker">Chi Phí Đầu Tư Minh Bạch</span>
-        <h2 class="section-title">Bảng Giá Bản Quyền &amp; Ưu Đãi Combo Mùa BCTC 2026</h2>
-        <p class="section-subtitle">Bấm chọn gói bạn mong muốn. Cổng thanh toán VietQR MB Bank bên dưới sẽ tự động cập nhật số tiền tức thì.</p>
-        <div style="display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 6px 16px; border-radius: var(--radius-sm); background: var(--accent-amber-light); border: 1px solid var(--accent-amber); color: var(--accent-amber); font-size: 13px; font-weight: 700;">
-          <span>Ưu đãi mùa quyết toán: Tặng kèm tài liệu hướng dẫn &amp; template đối chiếu công nợ chuẩn mực</span>
-        </div>
+        <span class="section-kicker">Bảng Giá Chính Thức</span>
+        <h2 class="section-title">Chi Phí Bản Quyền Minh Bạch &amp; Ưu Đãi Mùa Quyết Toán</h2>
+        <p class="section-subtitle">Chọn gói mong muốn. Cổng VietQR MB Bank bên dưới sẽ tự động cập nhật số tiền tức thì.</p>
       </div>
 
       <div class="pricing-grid">
-        <!-- Tier 1: Single -->
-        <div class="pricing-card" data-plan-id="single" data-plan-title="Gói Đơn Lẻ (InvoiceDesk hoặc TaxInsight)" data-price="1490000" data-memo="TOOL LYNX">
-          <div class="tier-name">Gói Đơn Lẻ</div>
-          <div class="tier-desc">Phù hợp nhu cầu cần giải quyết riêng từng bài toán Hóa đơn hoặc Tờ khai thuế.</div>
+        <!-- Tier 1: Single Tool -->
+        <div class="pricing-card" data-plan-id="single" data-plan-title="Gói Đơn Lẻ (InvoiceDesk hoặc TaxInsight)" data-price="490000" data-memo="TOOL LYNX">
+          <div class="tier-name">Gói Đơn Lẻ (1 Tool)</div>
+          <div class="tier-desc">Chọn 1 trong 2: InvoiceDesk (Hóa đơn) hoặc TaxInsight (Tờ khai eTax).</div>
           
           <div class="tier-price-row">
-            <span class="tier-price-val">1.490.000 đ</span>
-            <span class="tier-price-orig">2.500.000 đ</span>
+            <span class="tier-price-val">490.000 đ</span>
+            <span class="tier-price-orig">1.490.000 đ</span>
             <span class="tier-price-period">/ 1 Năm</span>
           </div>
 
           <ul class="tier-feature-list">
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Chọn 1 bản quyền: InvoiceDesk hoặc TaxInsight</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Kích hoạt theo Machine ID máy tính cá nhân</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Bản quyền 1 máy tính / 1 năm</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Không giới hạn số lượng công ty &amp; MST</span></li>
             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Cập nhật tính năng &amp; biểu mẫu mới liên tục</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Hỗ trợ kỹ thuật 1-1 trực tiếp qua Zalo</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Hỗ trợ kỹ thuật 1-1 qua Zalo</span></li>
           </ul>
 
           <button type="button" class="btn-tier-select ghost">Chọn Gói Này</button>
         </div>
 
         <!-- Tier 2: Combo Duo -->
-        <div class="pricing-card hero-tier is-selected" data-plan-id="duo" data-plan-title="Combo Khai Thuế Thần Tốc (InvoiceDesk + TaxInsight)" data-price="2990000" data-memo="COMBO DUO">
-          <div class="tier-badge">Được Chọn Nhiều Nhất</div>
+        <div class="pricing-card hero-tier is-selected" data-plan-id="duo" data-plan-title="Combo Khai Thuế Thần Tốc (InvoiceDesk + TaxInsight)" data-price="990000" data-memo="COMBO DUO">
+          <div class="tier-badge">Khuyên Dùng</div>
           <div class="tier-name">Combo Khai Thuế Thần Tốc</div>
-          <div class="tier-desc">InvoiceDesk (v2.7.14) + TaxInsight — Bộ đôi hoàn hảo cho Kế toán dịch vụ.</div>
+          <div class="tier-desc">Trọn bộ 2 Tool: InvoiceDesk (v2.7.14) + TaxInsight (v3.3.4).</div>
           
           <div class="tier-price-row">
-            <span class="tier-price-val">2.990.000 đ</span>
-            <span class="tier-price-orig">4.800.000 đ</span>
+            <span class="tier-price-val">990.000 đ</span>
+            <span class="tier-price-orig">2.980.000 đ</span>
             <span class="tier-price-period">/ 1 Năm</span>
           </div>
 
           <ul class="tier-feature-list">
             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Trọn bộ 2 bản quyền:</strong> InvoiceDesk &amp; TaxInsight</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Không giới hạn số lượng công ty &amp; MST quản lý</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Cài đặt &amp; chạy thử trực tiếp qua UltraViewer 1-1</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Tặng thêm 1 key máy phụ khi mở rộng văn phòng</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Bảo hành chuyển đổi key miễn phí khi thay laptop</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Không giới hạn số lượng công ty &amp; MST</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Cài đặt &amp; chạy thử qua UltraViewer 1-1</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Bảo hành chuyển key miễn phí khi đổi laptop</span></li>
           </ul>
 
           <button type="button" class="btn-tier-select primary">✓ Đang Chọn Gói Này</button>
         </div>
 
-        <!-- Tier 3: Combo Trio -->
-        <div class="pricing-card" data-plan-id="trio" data-plan-title="Combo Trợ Lý Toàn Diện VIP (Cả 3 Tool)" data-price="4990000" data-memo="COMBO TRIO">
+        <!-- Tier 3: Combo Trio VIP -->
+        <div class="pricing-card" data-plan-id="trio" data-plan-title="Combo Trợ Lý Toàn Diện VIP (Cả 3 Tool)" data-price="1990000" data-memo="COMBO TRIO">
           <div class="tier-name">Combo Trợ Lý Toàn Diện VIP</div>
-          <div class="tier-desc">InvoiceDesk + TaxInsight + AuditSoft NKC v1.6.1 — Dành cho Kế toán trưởng &amp; KTV.</div>
+          <div class="tier-desc">Cả 3 Tool: InvoiceDesk + TaxInsight + AuditSoft NKC v1.6.1.</div>
           
           <div class="tier-price-row">
-            <span class="tier-price-val">4.990.000 đ</span>
-            <span class="tier-price-orig">8.500.000 đ</span>
+            <span class="tier-price-val">1.990.000 đ</span>
+            <span class="tier-price-orig">4.990.000 đ</span>
             <span class="tier-price-period">/ 1 Năm</span>
           </div>
 
           <ul class="tier-feature-list">
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Trọn bộ 3 bản quyền VIP:</strong> Full tính năng</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Mở khóa 15 Giấy làm việc VACPA &amp; Đối chiếu B360 tự động</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Chốt đối chiếu công nợ 331/131 &amp; Xuất thư xác nhận Word</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Đối chiếu tờ khai Hải quan D150/G100 &amp; Gộp file Excel</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Module quét chi tiền mặt > 5tr &amp; B4 Quyết toán TNDN</span></li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Ưu tiên hỗ trợ kỹ thuật trực tiếp từ tác giả (Thịnh Lynx)</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Trọn bộ 3 bản quyền VIP:</strong> Full 100% tính năng</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Mở khóa 15 Giấy làm việc VACPA &amp; Đối chiếu B360</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Rà soát chi tiền mặt &ge; 5tr NĐ 181 &amp; Đối chiếu Hải quan</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Ưu tiên hỗ trợ kỹ thuật trực tiếp 1-1 từ Thịnh Lynx</span></li>
           </ul>
 
           <button type="button" class="btn-tier-select ghost">Chọn Combo 3 Tool VIP</button>
@@ -2102,59 +2003,44 @@
 
         <div class="vietqr-grid">
           <div class="qr-frame">
-            <img id="qrCodeDisplay" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=2990000&addInfo=COMBO%20DUO&accountName=THINH%20LYNX" alt="VietQR MB Bank" class="qr-img">
+            <img id="qrCodeDisplay" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=990000&addInfo=COMBO%20DUO&accountName=THINH%20LYNX" alt="VietQR MB Bank" class="qr-img">
             <span class="qr-caption">Quét Mã Tự Động Điền Số Tiền</span>
           </div>
 
           <div class="bank-info-stack">
             <div class="bank-row">
               <span class="lbl">Gói đang chọn:</span>
-              <span id="labelSelectedPlan" class="val" style="color: var(--primary);">Combo Khai Thuế Thần Tốc (2.990.000 đ)</span>
+              <span id="labelSelectedPlan" class="val" style="color: var(--primary);">Combo Khai Thuế Thần Tốc (990.000 đ)</span>
             </div>
-
             <div class="bank-row">
-              <span class="lbl">Ngân hàng thụ hưởng:</span>
+              <span class="lbl">Ngân hàng:</span>
               <span class="val">MB BANK (Ngân hàng Quân Đội)</span>
             </div>
-
             <div class="bank-row">
               <span class="lbl">Số tài khoản MB:</span>
               <div class="val">
                 <span id="valAccountNumber" class="table-cell-mono">0817567008</span>
-                <button type="button" class="btn-copy-mini" onclick="copyValue('0817567008', 'Số tài khoản')">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                  <span>Chép STK</span>
-                </button>
+                <button type="button" class="btn-copy-mini" onclick="copyValue('0817567008', 'Số tài khoản')">Chép STK</button>
               </div>
             </div>
-
             <div class="bank-row">
               <span class="lbl">Chủ tài khoản:</span>
               <span class="val">NGUYEN DAC THINH (THINH LYNX)</span>
             </div>
-
             <div class="bank-row">
               <span class="lbl">Số tiền chuyển:</span>
               <div class="val">
-                <span id="valTransferAmount" class="table-cell-mono" style="color: var(--accent-emerald);">2.990.000 đ</span>
-                <button type="button" class="btn-copy-mini" onclick="copyValue(window.activePriceRaw.toString(), 'Số tiền')">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                  <span>Chép Số Tiền</span>
-                </button>
+                <span id="valTransferAmount" class="table-cell-mono" style="color: var(--accent-emerald);">990.000 đ</span>
+                <button type="button" class="btn-copy-mini" onclick="copyValue(window.activePriceRaw.toString(), 'Số tiền')">Chép Tiền</button>
               </div>
             </div>
-
             <div class="bank-row">
               <span class="lbl">Nội dung CK:</span>
               <div class="val">
                 <span id="valTransferMemo" class="table-cell-mono" style="color: var(--accent-amber);">COMBO DUO SĐT</span>
-                <button type="button" class="btn-copy-mini" onclick="copyValue(document.getElementById('valTransferMemo').innerText, 'Nội dung chuyển khoản')">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                  <span>Chép Memo</span>
-                </button>
+                <button type="button" class="btn-copy-mini" onclick="copyValue(document.getElementById('valTransferMemo').innerText, 'Nội dung chuyển khoản')">Chép Memo</button>
               </div>
             </div>
-
             <div style="font-size: 12.5px; color: var(--text-dim); margin-top: 4px; line-height: 1.5;">
               Sau khi chuyển khoản, bạn gửi ảnh biên lai qua Zalo <strong>0817.567.008</strong> (Thịnh Lynx) để nhận mã kích hoạt và được hỗ trợ cài đặt UltraViewer tức thì.
             </div>
@@ -2170,7 +2056,6 @@
       <div class="section-header-center">
         <span class="section-kicker">Giải Đáp Thắc Mắc</span>
         <h2 class="section-title">Câu Hỏi Thường Gặp</h2>
-        <p class="section-subtitle">Giải đáp minh bạch về cơ chế bảo mật dữ liệu, chính sách cập nhật và chế độ bảo hành bản quyền.</p>
       </div>
 
       <div class="faq-list">
@@ -2180,7 +2065,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="faq-body">
-            Tuyệt đối không! Cả 3 phần mềm đều là Desktop Application (chạy trực tiếp trên máy tính cá nhân của bạn). Dữ liệu hóa đơn, tờ khai XML và sổ sách được tải về và xử lý 100% trên ổ cứng nội bộ của bạn, không gửi qua bất kỳ máy chủ trung gian nào, bảo đảm an toàn tuyệt đối bí mật kinh doanh.
+            Tuyệt đối không! Cả 3 phần mềm đều là Desktop Application (chạy trực tiếp trên máy tính cá nhân của bạn). Dữ liệu được tải về và xử lý 100% trên ổ cứng nội bộ của bạn, không gửi qua bất kỳ máy chủ trung gian nào.
           </div>
         </div>
 
@@ -2190,7 +2075,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="faq-body">
-            Tác giả (Thịnh Lynx) trực tiếp vận hành, bảo trì và phát triển phần mềm liên tục. Bất kỳ khi nào Thuế Điện Tử (eTax) hoặc Tổng Cục Thuế thay đổi quy tắc, bản cập nhật vá lỗi sẽ được phát hành miễn phí cho khách hàng trong vòng 24 giờ.
+            Tác giả trực tiếp vận hành và cập nhật liên tục. Bất kỳ khi nào Cổng Thuế thay đổi quy tắc, bản cập nhật vá lỗi sẽ được phát hành miễn phí cho khách hàng trong vòng 24 giờ.
           </div>
         </div>
 
@@ -2200,17 +2085,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="faq-body">
-            Không mất! Khách hàng được cam kết bảo hành hỗ trợ cấp lại key hoặc chuyển đổi bản quyền sang máy tính mới miễn phí nhanh chóng qua Zalo 0817.567.008.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button type="button" class="faq-header" aria-expanded="false" onclick="toggleFaq(this)">
-            <span>4. Tôi chưa rành máy tính thì có được hướng dẫn cài đặt không?</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="faq-body">
-            Có! Tác giả trực tiếp hỗ trợ cài đặt và chạy thử dữ liệu thực tế qua UltraViewer / TeamViewer 1-1 cho đến khi bạn sử dụng thành thạo và hoàn toàn yên tâm.
+            Không mất! Khách hàng được cam kết hỗ trợ cấp lại key hoặc chuyển đổi bản quyền sang máy tính mới miễn phí nhanh chóng qua Zalo 0817.567.008.
           </div>
         </div>
       </div>
@@ -2232,16 +2107,13 @@
     </div>
   </footer>
 
-  <!-- Floating Contact Widget -->
   <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="floating-zalo" title="Chat Zalo với tác giả Thịnh Lynx">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
     <span>Tư Vấn &amp; Cài Đặt: 0817.567.008</span>
   </a>
 
-  <!-- Toast Notification -->
   <div id="toastPopup" class="toast-popup">✓ Đã sao chép thành công!</div>
 
-  <!-- Interactive JavaScript -->
   <script>
 
     const themeToggleBtn = document.getElementById('themeToggleBtn');
@@ -2309,7 +2181,7 @@
       }
     }
 
-    // 4. ROI Calculator
+    // ROI Calculator
     const companyRangeSlider = document.getElementById('companyRangeSlider');
     const sliderCompanyDisplay = document.getElementById('sliderCompanyDisplay');
     const statMonthlyHours = document.getElementById('statMonthlyHours');
@@ -2327,7 +2199,7 @@
       if (statAnnualMoney) statAnnualMoney.innerText = annualMoneyMillions.toFixed(1) + ' tr';
 
       const dailySaving = (monthlyHours * 65000) / 30;
-      const days = Math.max(1, Math.round(2990000 / dailySaving));
+      const days = Math.max(1, Math.round(990000 / dailySaving));
       if (statPaybackPeriod) statPaybackPeriod.innerText = 'Hoàn vốn trong ' + days + ' ngày làm việc';
     }
 
@@ -2361,8 +2233,8 @@
       calculateRoi(30);
     }
 
-    // 5. Pricing Tier Selection & Dynamic VietQR Generation
-    window.activePriceRaw = 2990000;
+    // Pricing Tier Selection & Dynamic VietQR Generation
+    window.activePriceRaw = 990000;
     const pricingCards = document.querySelectorAll('.pricing-card');
     const qrCodeDisplay = document.getElementById('qrCodeDisplay');
     const labelSelectedPlan = document.getElementById('labelSelectedPlan');
