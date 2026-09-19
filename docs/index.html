@@ -1,61 +1,305 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-theme="swiss-light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thịnh Lynx Ecosystem — Bộ Ba Vũ Khí Tự Động Hóa Thuế & Kiểm Toán (InvoiceDesk • TaxInsight • AuditSoft)</title>
+  <title>AuditSoft Ecosystem — Bộ Ba Giải Pháp Tự Động Hóa Kế Toán & Kiểm Toán (InvoiceDesk • TaxInsight • AuditSoft)</title>
   
-  <!-- SEO & Social Meta Tags -->
-  <meta name="description" content="Hệ sinh thái tự động hóa quy trình Thuế - Kế toán & Kiểm toán: Tải hóa đơn điện tử hàng loạt (InvoiceDesk v2.7.14), tải tờ khai eTax tự động không cần token (TaxInsight) và soát xét sổ sách, lập 15 giấy làm việc kiểm toán VACPA (AuditSoft NKC v1.5.1).">
+  <!-- SEO & OpenGraph Meta Tags -->
+  <meta name="description" content="Hệ sinh thái tự động hóa quy trình Thuế - Kế toán &amp; Kiểm toán: Tải hóa đơn điện tử hàng loạt (InvoiceDesk v2.7.14), tải tờ khai eTax tự động không cần token (TaxInsight) và soát xét sổ sách, lập 15 giấy làm việc kiểm toán VACPA (AuditSoft NKC v1.5.4).">
   <meta name="keywords" content="hóa đơn điện tử, tải tờ khai thuế hàng loạt, etax tự động, kiểm toán nkc, soát xét bctc, bốc mẫu vsa 530, nghị định 181 2025, kế toán dịch vụ, thịnh lynx, auditsoft">
   <meta name="author" content="Thịnh Lynx (Nguyễn Đắc Thịnh - 0817.567.008)">
-
-  <!-- OpenGraph Meta Tags (Zalo / Facebook Preview) -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Hệ Sinh Thái Phần Mềm Kế Toán & Thuế Thịnh Lynx — InvoiceDesk • TaxInsight • AuditSoft">
-  <meta property="og:description" content="Khép kín chu trình 3 bước: Tải HĐĐT TCT -> Tải Tờ Khai eTax Hàng Loạt -> Soát Xét Sổ Sách & Lập Hồ Sơ Kiểm Toán. Tiết kiệm 90% thời gian cho Kế toán dịch vụ.">
-  <meta property="og:image" content="https://raw.githubusercontent.com/dacthinh05/AuditSoft/main/icon.svg">
+  <meta property="og:title" content="AuditSoft Ecosystem — Bộ Ba Giải Pháp Tự Động Hóa Kế Toán & Kiểm Toán (InvoiceDesk • TaxInsight • AuditSoft)">
+  <meta property="og:description" content="Khép kín chu trình 3 bước: Tải HĐĐT TCT -> Tải Tờ Khai eTax Hàng Loạt -> Soát Xét Sổ Sách &amp; Lập Hồ Sơ Kiểm Toán. Tiết kiệm 90% thời gian cho Kế toán dịch vụ.">
   <meta property="og:locale" content="vi_VN">
 
   <style>
+
     :root {
-      --bg-deep: #05070d;
-      --bg-base: #0a0e19;
-      --bg-surface: #0f172a;
-      --bg-elevated: #152037;
-      --bg-elevated-hover: #1b2a47;
+      /* Typography */
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "JetBrains Mono", Consolas, "Courier New", monospace;
       
-      --border-subtle: rgba(255, 255, 255, 0.07);
-      --border-strong: rgba(255, 255, 255, 0.14);
-      --border-focus: #3b82f6;
-
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --primary-glow: rgba(37, 99, 235, 0.35);
-
-      --cyan: #0ea5e9;
-      --cyan-glow: rgba(14, 165, 233, 0.25);
-      
-      --emerald: #10b981;
-      --emerald-glow: rgba(16, 185, 129, 0.25);
-
-      --amber: #f59e0b;
-      --purple: #8b5cf6;
-
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 18px;
       --radius-xl: 24px;
       --radius-pill: 9999px;
-
-      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      --font-mono: "JetBrains Mono", Consolas, "Courier New", monospace;
+      
+      --transition-fast: 0.15s ease;
+      --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    /* THEME 1: Swiss Clean Light (Stripe / Mercury / InvoiceDesk) */
+    :root[data-theme="swiss-light"] {
+      --bg-canvas: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-elevated: #f1f5f9;
+      --bg-elevated-hover: #e2e8f0;
+      
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --border-focus: #1e3a5f;
+      
+      --primary: #1e3a5f;
+      --primary-hover: #152a45;
+      --primary-glow: rgba(30, 58, 95, 0.15);
+      --btn-text: #ffffff;
+      
+      --accent-emerald: #059669;
+      --accent-emerald-glow: rgba(5, 150, 105, 0.15);
+      --accent-blue: #2563eb;
+      --accent-blue-glow: rgba(37, 99, 235, 0.12);
+      --accent-amber: #d97706;
+      --accent-purple: #7c3aed;
+      
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #64748b;
+      
+      --card-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+      --card-shadow-hover: 0 12px 28px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+      --table-stripe: #f8fafc;
+      
+      --topbar-bg: #0f172a;
+      --topbar-border: rgba(255, 255, 255, 0.1);
+      --topbar-text: #e2e8f0;
+      
+      --navbar-bg: rgba(255, 255, 255, 0.94);
+      --navbar-border: #e2e8f0;
+      
+      --hero-glow: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.08) 0%, rgba(14, 165, 233, 0.04) 40%, transparent 70%);
+      --spotlight-display: block;
+      
+      --badge-bg: #eff6ff;
+      --badge-border: #bfdbfe;
+      --badge-color: #1d4ed8;
+      
+      --pain-card-bg: #ffffff;
+      --pain-card-border: #fecaca;
+      --pain-card-hover-border: #f87171;
+      --pain-icon-bg: rgba(239, 68, 68, 0.1);
+      
+      --mockup-header-bg: #f8fafc;
+      --mockup-body-bg: #ffffff;
+      --mockup-border: #e2e8f0;
+      --mockup-table-header: #f1f5f9;
+      --mockup-table-text: #1e293b;
+      
+      --roi-box-bg: #f8fafc;
+      --roi-box-featured-bg: #eff6ff;
+      --roi-box-border: #e2e8f0;
+      
+      --vietqr-box-bg: #ffffff;
+      --vietqr-box-border: #cbd5e1;
+      --bank-line-bg: #f8fafc;
+      --footer-bg: #0f172a;
+      --footer-text: #cbd5e1;
+    }
+
+    /* THEME 2: Linear FinTech Dark (Linear / Vercel / Raycast) */
+    :root[data-theme="linear-dark"] {
+      --bg-canvas: #090d16;
+      --bg-surface: #0f172a;
+      --bg-elevated: #1e293b;
+      --bg-elevated-hover: #27374d;
+      
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.16);
+      --border-focus: #3b82f6;
+      
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-glow: rgba(37, 99, 235, 0.35);
+      --btn-text: #ffffff;
+      
+      --accent-emerald: #10b981;
+      --accent-emerald-glow: rgba(16, 185, 129, 0.25);
+      --accent-blue: #38bdf8;
+      --accent-blue-glow: rgba(56, 189, 248, 0.25);
+      --accent-amber: #f59e0b;
+      --accent-purple: #8b5cf6;
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      --card-shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.65);
+      --table-stripe: rgba(255, 255, 255, 0.02);
+      
+      --topbar-bg: linear-gradient(90deg, #1e1b4b 0%, #0f172a 50%, #1e1b4b 100%);
+      --topbar-border: rgba(139, 92, 246, 0.25);
+      --topbar-text: #e2e8f0;
+      
+      --navbar-bg: rgba(9, 13, 22, 0.88);
+      --navbar-border: rgba(255, 255, 255, 0.08);
+      
+      --hero-glow: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.18) 0%, rgba(14, 165, 233, 0.09) 35%, rgba(139, 92, 246, 0.04) 60%, transparent 75%);
+      --spotlight-display: block;
+      
+      --badge-bg: rgba(37, 99, 235, 0.12);
+      --badge-border: rgba(59, 130, 246, 0.35);
+      --badge-color: #60a5fa;
+      
+      --pain-card-bg: #0f172a;
+      --pain-card-border: rgba(239, 68, 68, 0.2);
+      --pain-card-hover-border: rgba(239, 68, 68, 0.5);
+      --pain-icon-bg: rgba(239, 68, 68, 0.15);
+      
+      --mockup-header-bg: #0a0e19;
+      --mockup-body-bg: #0f172a;
+      --mockup-border: rgba(255, 255, 255, 0.08);
+      --mockup-table-header: rgba(255, 255, 255, 0.03);
+      --mockup-table-text: #cbd5e1;
+      
+      --roi-box-bg: #0a0e19;
+      --roi-box-featured-bg: rgba(37, 99, 235, 0.15);
+      --roi-box-border: rgba(255, 255, 255, 0.08);
+      
+      --vietqr-box-bg: #09101c;
+      --vietqr-box-border: #1e3a8a;
+      --bank-line-bg: #0f1a2e;
+      --footer-bg: #03050a;
+      --footer-text: #cbd5e1;
+    }
+
+    /* THEME 3: Big-4 Statutory Authority (PwC / Deloitte / Bloomberg Midnight Navy & Gold) */
+    :root[data-theme="big4-navy"] {
+      --bg-canvas: #051329;
+      --bg-surface: #0a1e3f;
+      --bg-elevated: #122d5a;
+      --bg-elevated-hover: #1a3c75;
+      
+      --border-subtle: rgba(147, 197, 253, 0.14);
+      --border-strong: rgba(245, 158, 11, 0.35);
+      --border-focus: #f59e0b;
+      
+      --primary: #f59e0b;
+      --primary-hover: #d97706;
+      --primary-glow: rgba(245, 158, 11, 0.32);
+      --btn-text: #051329;
+      
+      --accent-emerald: #34d399;
+      --accent-emerald-glow: rgba(52, 211, 153, 0.2);
+      --accent-blue: #60a5fa;
+      --accent-blue-glow: rgba(96, 165, 250, 0.2);
+      --accent-amber: #fbbf24;
+      --accent-purple: #c084fc;
+      
+      --text-main: #ffffff;
+      --text-muted: #93c5fd;
+      --text-dim: #60a5fa;
+      
+      --card-shadow: 0 12px 35px rgba(2, 6, 23, 0.6);
+      --card-shadow-hover: 0 20px 50px rgba(2, 6, 23, 0.85);
+      --table-stripe: rgba(255, 255, 255, 0.03);
+      
+      --topbar-bg: #030b18;
+      --topbar-border: rgba(245, 158, 11, 0.3);
+      --topbar-text: #fef3c7;
+      
+      --navbar-bg: rgba(5, 19, 41, 0.92);
+      --navbar-border: rgba(147, 197, 253, 0.14);
+      
+      --hero-glow: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.14) 0%, rgba(30, 58, 138, 0.2) 40%, transparent 75%);
+      --spotlight-display: block;
+      
+      --badge-bg: rgba(245, 158, 11, 0.12);
+      --badge-border: rgba(245, 158, 11, 0.4);
+      --badge-color: #fbbf24;
+      
+      --pain-card-bg: #0a1e3f;
+      --pain-card-border: rgba(239, 68, 68, 0.28);
+      --pain-card-hover-border: rgba(239, 68, 68, 0.6);
+      --pain-icon-bg: rgba(239, 68, 68, 0.18);
+      
+      --mockup-header-bg: #07162e;
+      --mockup-body-bg: #0a1e3f;
+      --mockup-border: rgba(147, 197, 253, 0.14);
+      --mockup-table-header: rgba(147, 197, 253, 0.06);
+      --mockup-table-text: #e0f2fe;
+      
+      --roi-box-bg: #07162e;
+      --roi-box-featured-bg: rgba(245, 158, 11, 0.14);
+      --roi-box-border: rgba(147, 197, 253, 0.14);
+      
+      --vietqr-box-bg: #081730;
+      --vietqr-box-border: rgba(245, 158, 11, 0.45);
+      --bank-line-bg: #0d254c;
+      --footer-bg: #020813;
+      --footer-text: #93c5fd;
+    }
+
+    /* THEME 4: Modern Bento Indigo (Tailwind UI / Brex / Modern B2B SaaS) */
+    :root[data-theme="modern-bento"] {
+      --bg-canvas: #f1f5f9;
+      --bg-surface: #ffffff;
+      --bg-elevated: #eef2f6;
+      --bg-elevated-hover: #e2e8f0;
+      
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --border-focus: #4f46e5;
+      
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-glow: rgba(79, 70, 229, 0.25);
+      --btn-text: #ffffff;
+      
+      --accent-emerald: #0d9488;
+      --accent-emerald-glow: rgba(13, 148, 136, 0.18);
+      --accent-blue: #6366f1;
+      --accent-blue-glow: rgba(99, 102, 241, 0.2);
+      --accent-amber: #ea580c;
+      --accent-purple: #8b5cf6;
+      
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #64748b;
+      
+      --card-shadow: 0 8px 20px -4px rgba(79, 70, 229, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+      --card-shadow-hover: 0 16px 35px -5px rgba(79, 70, 229, 0.15);
+      --table-stripe: #f8fafc;
+      
+      --topbar-bg: #1e1b4b;
+      --topbar-border: rgba(99, 102, 241, 0.35);
+      --topbar-text: #e0e7ff;
+      
+      --navbar-bg: rgba(255, 255, 255, 0.94);
+      --navbar-border: #e2e8f0;
+      
+      --hero-glow: radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.1) 0%, rgba(13, 148, 136, 0.05) 40%, transparent 70%);
+      --spotlight-display: block;
+      
+      --badge-bg: #eef2ff;
+      --badge-border: #c7d2fe;
+      --badge-color: #4338ca;
+      
+      --pain-card-bg: #ffffff;
+      --pain-card-border: #fecaca;
+      --pain-card-hover-border: #f87171;
+      --pain-icon-bg: rgba(239, 68, 68, 0.1);
+      
+      --mockup-header-bg: #f8fafc;
+      --mockup-body-bg: #ffffff;
+      --mockup-border: #e2e8f0;
+      --mockup-table-header: #f1f5f9;
+      --mockup-table-text: #1e293b;
+      
+      --roi-box-bg: #f8fafc;
+      --roi-box-featured-bg: #eef2ff;
+      --roi-box-border: #e2e8f0;
+      
+      --vietqr-box-bg: #ffffff;
+      --vietqr-box-border: #c7d2fe;
+      --bank-line-bg: #f8fafc;
+      --footer-bg: #0f172a;
+      --footer-text: #cbd5e1;
+    }
+
+    /* GLOBAL RESET & STYLES */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -69,23 +313,11 @@
     }
 
     body {
-      background-color: var(--bg-deep);
+      background-color: var(--bg-canvas);
       color: var(--text-main);
       line-height: 1.6;
       overflow-x: hidden;
-    }
-
-    /* Ambient Spotlight Background Effect */
-    .ambient-spotlight {
-      position: fixed;
-      top: -260px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1200px;
-      height: 700px;
-      background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, rgba(14, 165, 233, 0.08) 35%, rgba(139, 92, 246, 0.03) 60%, transparent 75%);
-      pointer-events: none;
-      z-index: 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .container {
@@ -96,25 +328,136 @@
       z-index: 1;
     }
 
-    /* Top Navigation Bar */
-    .navbar {
-      position: sticky;
+    /* Ambient Hero Glow */
+    .ambient-glow {
+      position: absolute;
       top: 0;
-      z-index: 100;
-      background: rgba(5, 7, 13, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 14px 0;
-      transition: border-color 0.2s;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 1300px;
+      height: 650px;
+      background: var(--hero-glow);
+      pointer-events: none;
+      z-index: 0;
     }
 
+    /* Topbar Notice */
+    .topbar {
+      background: var(--topbar-bg);
+      border-bottom: 1px solid var(--topbar-border);
+      color: var(--topbar-text);
+      padding: 9px 16px;
+      font-size: 13px;
+      text-align: center;
+      position: relative;
+      z-index: 101;
+      transition: background 0.3s;
+    }
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .topbar-tag {
+      background: var(--accent-amber);
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .topbar a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .topbar a:hover {
+      text-decoration: underline;
+    }
+
+    /* Floating Theme Switcher Bar */
+    .theme-switcher-bar {
+      position: sticky;
+      top: 0;
+      z-index: 110;
+      background: var(--navbar-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--navbar-border);
+      padding: 8px 0;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .theme-switcher-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .theme-switcher-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .theme-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-elevated);
+      padding: 3px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-subtle);
+    }
+    .theme-pill-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+    .theme-pill-btn:hover {
+      color: var(--text-main);
+    }
+    .theme-pill-btn.is-active {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border-subtle);
+      font-weight: 700;
+    }
+
+    /* Main Navbar */
+    .navbar {
+      background: transparent;
+      padding: 16px 0;
+      position: relative;
+      z-index: 100;
+    }
     .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-
     .brand {
       display: flex;
       align-items: center;
@@ -122,93 +465,73 @@
       text-decoration: none;
       color: var(--text-main);
     }
-
     .brand-mark {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 10px;
-      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      background: var(--primary);
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 14px var(--primary-glow);
+      color: var(--btn-text);
+      transition: all 0.3s;
     }
-
-    .brand-mark svg {
-      width: 22px;
-      height: 22px;
-      color: #fff;
-    }
-
     .brand-info h2 {
-      font-size: 16.5px;
+      font-size: 17px;
       font-weight: 800;
       letter-spacing: -0.02em;
     }
-
     .brand-info span {
       font-size: 11px;
-      color: var(--cyan);
-      font-weight: 600;
+      color: var(--accent-blue);
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
-
     .nav-menu {
       display: flex;
       align-items: center;
       gap: 24px;
       list-style: none;
     }
-
     .nav-menu a {
       color: var(--text-muted);
       text-decoration: none;
       font-size: 14px;
-      font-weight: 500;
-      transition: color 0.15s ease;
+      font-weight: 600;
+      transition: color var(--transition-fast);
     }
-
     .nav-menu a:hover {
       color: var(--text-main);
     }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
     .btn-zalo-nav {
       background: #0284c7;
       color: #fff;
-      padding: 8px 18px;
+      padding: 9px 18px;
       border-radius: var(--radius-pill);
       text-decoration: none;
       font-size: 13.5px;
-      font-weight: 600;
+      font-weight: 700;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s ease;
+      transition: all 0.2s;
       border: 1px solid rgba(56, 189, 248, 0.4);
     }
-
     .btn-zalo-nav:hover {
       background: #0369a1;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
     }
-
     .nav-mobile-toggle {
       display: none;
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      color: #fff;
+      color: var(--text-main);
       padding: 8px 12px;
       border-radius: var(--radius-sm);
       cursor: pointer;
-      font-size: 16px;
     }
 
     @media (max-width: 860px) {
@@ -218,12 +541,12 @@
         top: 100%;
         left: 0;
         right: 0;
-        background: var(--bg-base);
+        background: var(--bg-surface);
         flex-direction: column;
         padding: 24px;
         gap: 16px;
         border-bottom: 1px solid var(--border-subtle);
-        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.7);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
       }
       .nav-menu.is-open {
         display: flex;
@@ -235,55 +558,57 @@
 
     /* Hero Section */
     .hero-section {
-      padding: 70px 0 40px;
+      padding: 40px 0 50px;
       text-align: center;
+      position: relative;
     }
-
     .hero-badge-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(37, 99, 235, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      padding: 6px 16px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--badge-color);
+      padding: 6px 18px;
       border-radius: var(--radius-pill);
       font-size: 13px;
-      font-weight: 600;
-      color: #60a5fa;
+      font-weight: 700;
       margin-bottom: 24px;
     }
-
     .pulse-dot {
       width: 8px;
       height: 8px;
-      background: var(--emerald);
+      background: var(--accent-emerald);
       border-radius: 50%;
-      box-shadow: 0 0 10px var(--emerald);
+      box-shadow: 0 0 10px var(--accent-emerald);
+      animation: pulse 2s infinite;
     }
-
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
     .hero-title {
-      font-size: 48px;
+      font-size: 46px;
       font-weight: 800;
       letter-spacing: -0.035em;
-      line-height: 1.18;
+      line-height: 1.2;
       max-width: 980px;
       margin: 0 auto 20px;
+      color: var(--text-main);
     }
-
-    .hero-title span.highlight {
-      background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 50%, #a78bfa 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .hero-title .highlight {
+      color: var(--accent-blue);
     }
-
+    :root[data-theme="big4-navy"] .hero-title .highlight {
+      color: var(--accent-amber);
+    }
     .hero-description {
-      font-size: 18px;
+      font-size: 17.5px;
       color: var(--text-muted);
-      max-width: 800px;
+      max-width: 820px;
       margin: 0 auto 36px;
       line-height: 1.65;
     }
-
     .hero-cta-bar {
       display: flex;
       align-items: center;
@@ -292,10 +617,9 @@
       flex-wrap: wrap;
       margin-bottom: 40px;
     }
-
-    .btn-primary-glow {
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-      color: #fff;
+    .btn-primary {
+      background: var(--primary);
+      color: var(--btn-text);
       padding: 14px 30px;
       border-radius: var(--radius-md);
       font-size: 15.5px;
@@ -305,16 +629,16 @@
       align-items: center;
       gap: 10px;
       box-shadow: 0 8px 24px var(--primary-glow);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all var(--transition-normal);
+      border: 1px solid transparent;
+      cursor: pointer;
     }
-
-    .btn-primary-glow:hover {
+    .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.55);
+      box-shadow: 0 12px 30px var(--primary-glow);
+      filter: brightness(1.08);
     }
-
-    .btn-secondary-dark {
+    .btn-secondary {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       color: var(--text-main);
@@ -326,11 +650,10 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s;
+      transition: all var(--transition-fast);
     }
-
-    .btn-secondary-dark:hover {
-      border-color: var(--primary);
+    .btn-secondary:hover {
+      border-color: var(--border-focus);
       background: var(--bg-elevated);
     }
 
@@ -343,69 +666,57 @@
       font-size: 13.5px;
       flex-wrap: wrap;
     }
-
     .trust-badge-item {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-
     .trust-badge-item svg {
-      color: var(--emerald);
+      color: var(--accent-emerald);
       flex-shrink: 0;
     }
 
-    /* Hero App Preview Canvas (Simulated Desktop Window) */
+    /* Mockup Window */
     .hero-mockup-wrapper {
-      margin-top: 50px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%);
-      padding: 10px;
-      border-radius: var(--radius-xl);
-      border: 1px solid var(--border-subtle);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
-    }
-
-    .window-chrome {
+      margin-top: 48px;
       background: var(--bg-surface);
-      border-radius: calc(var(--radius-xl) - 6px);
       border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--card-shadow-hover);
       overflow: hidden;
       text-align: left;
     }
-
     .window-header {
-      background: var(--bg-base);
+      background: var(--mockup-header-bg);
       border-bottom: 1px solid var(--border-subtle);
       padding: 12px 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
-
     .window-dots {
       display: flex;
       gap: 8px;
     }
-
     .window-dot {
       width: 11px;
       height: 11px;
       border-radius: 50%;
     }
-
     .window-dot.red { background: #ef4444; }
     .window-dot.yellow { background: #f59e0b; }
     .window-dot.green { background: #10b981; }
 
     .window-tab-switcher {
       display: flex;
-      background: var(--bg-deep);
+      background: var(--bg-elevated);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
       padding: 3px;
       gap: 4px;
     }
-
     .window-tab-btn {
       background: transparent;
       border: none;
@@ -418,45 +729,39 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.15s ease;
+      transition: all var(--transition-fast);
     }
-
     .window-tab-btn.is-active {
-      background: var(--bg-elevated);
-      color: #fff;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      font-weight: 700;
     }
-
     .window-status-pill {
       font-size: 12px;
-      color: var(--emerald);
-      background: rgba(16, 185, 129, 0.1);
+      color: var(--accent-emerald);
+      background: var(--accent-emerald-glow);
       padding: 4px 10px;
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      font-weight: 600;
+      border: 1px solid var(--accent-emerald);
+      font-weight: 700;
     }
-
     .window-canvas-body {
       padding: 24px;
       min-height: 340px;
+      background: var(--mockup-body-bg);
     }
-
     .mockup-pane {
       display: none;
     }
-
     .mockup-pane.is-active {
       display: block;
       animation: fadeIn 0.25s ease;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    /* Mockup Visual Table Components */
     .mockup-header-strip {
       display: flex;
       justify-content: space-between;
@@ -464,15 +769,15 @@
       margin-bottom: 18px;
       padding-bottom: 14px;
       border-bottom: 1px solid var(--border-subtle);
+      flex-wrap: wrap;
+      gap: 10px;
     }
-
     .mockup-metrics-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 14px;
       margin-bottom: 20px;
     }
-
     @media (max-width: 768px) {
       .mockup-metrics-row {
         grid-template-columns: 1fr 1fr;
@@ -481,200 +786,311 @@
         font-size: 32px;
       }
     }
-
     .mockup-metric-card {
-      background: var(--bg-base);
+      background: var(--bg-elevated);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
       padding: 14px;
     }
-
     .mockup-metric-card .val {
       font-size: 20px;
       font-weight: 800;
-      color: #fff;
+      color: var(--text-main);
       font-variant-numeric: tabular-nums;
     }
-
     .mockup-metric-card .lbl {
       font-size: 11.5px;
       color: var(--text-dim);
       margin-top: 2px;
     }
-
     .mockup-table-frame {
-      background: var(--bg-base);
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
       overflow-x: auto;
     }
-
     .mockup-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 12.5px;
       text-align: left;
     }
-
     .mockup-table th {
-      background: rgba(255, 255, 255, 0.02);
+      background: var(--mockup-table-header);
       color: var(--text-muted);
-      padding: 10px 14px;
-      font-weight: 600;
+      padding: 11px 14px;
+      font-weight: 700;
       border-bottom: 1px solid var(--border-subtle);
     }
-
     .mockup-table td {
       padding: 11px 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      color: #cbd5e1;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--mockup-table-text);
     }
-
     .badge-chip {
       padding: 3px 8px;
       border-radius: 4px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
       display: inline-flex;
       align-items: center;
       gap: 4px;
     }
+    .badge-chip.green { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+    .badge-chip.blue { background: rgba(14, 165, 233, 0.15); color: #0284c7; }
+    :root[data-theme="linear-dark"] .badge-chip.blue { color: #38bdf8; }
+    .badge-chip.purple { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
 
-    .badge-chip.green { background: rgba(16, 185, 129, 0.15); color: #34d399; }
-    .badge-chip.blue { background: rgba(14, 165, 233, 0.15); color: #38bdf8; }
-    .badge-chip.purple { background: rgba(139, 92, 246, 0.15); color: #c084fc; }
+    /* Pain Section */
+    .pain-section {
+      padding: 90px 0 70px;
+      position: relative;
+    }
+    .pain-headline {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 50px;
+    }
+    .pain-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      padding: 6px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .pain-title {
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1.35;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+    .pain-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .pain-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+    @media (max-width: 768px) {
+      .pain-cards-grid {
+        grid-template-columns: 1fr;
+      }
+      .pain-title {
+        font-size: 26px;
+      }
+    }
+    .pain-card {
+      background: var(--pain-card-bg);
+      border: 1px solid var(--pain-card-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      position: relative;
+      transition: all var(--transition-normal);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: var(--card-shadow);
+    }
+    .pain-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--pain-card-hover-border);
+      box-shadow: var(--card-shadow-hover);
+      background: var(--bg-elevated);
+    }
+    .pain-card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .pain-icon-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--pain-icon-bg);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ef4444;
+      flex-shrink: 0;
+    }
+    .pain-card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .pain-card-desc {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .pain-impact-tag {
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 13px;
+      color: #ef4444;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+    .pain-solution-transition {
+      text-align: center;
+      margin-top: 45px;
+    }
+    .pain-solution-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--primary);
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      font-size: 14.5px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all var(--transition-fast);
+    }
+    .pain-solution-btn:hover {
+      background: var(--primary);
+      color: var(--btn-text);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px var(--primary-glow);
+    }
 
     /* Pipeline 3-Step Section */
     .pipeline-section {
       padding: 80px 0 60px;
     }
-
     .section-headline {
       text-align: center;
-      max-width: 700px;
-      margin: 0 auto 48px;
+      max-width: 740px;
+      margin: 0 auto 50px;
     }
-
     .section-headline h2 {
-      font-size: 32px;
+      font-size: 34px;
       font-weight: 800;
       letter-spacing: -0.025em;
       margin-bottom: 12px;
+      color: var(--text-main);
     }
-
     .section-headline p {
-      color: var(--text-muted);
       font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
-
     .workflow-cards-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
     }
-
-    @media (max-width: 920px) {
+    @media (max-width: 960px) {
       .workflow-cards-grid {
         grid-template-columns: 1fr;
       }
     }
-
     .workflow-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      padding: 32px 24px;
+      padding: 30px 26px;
       display: flex;
       flex-direction: column;
+      box-shadow: var(--card-shadow);
+      transition: all var(--transition-normal);
       position: relative;
-      transition: all 0.25s ease;
     }
-
     .workflow-card:hover {
-      border-color: var(--border-focus);
       transform: translateY(-4px);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+      box-shadow: var(--card-shadow-hover);
+      border-color: var(--border-focus);
     }
-
     .step-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11.5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 4px 10px;
-      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      display: inline-block;
       margin-bottom: 16px;
-      width: fit-content;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      align-self: flex-start;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--badge-color);
     }
-
-    .step-1 .step-pill { background: rgba(14, 165, 233, 0.15); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.3); }
-    .step-2 .step-pill { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-    .step-3 .step-pill { background: rgba(139, 92, 246, 0.15); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.3); }
-
     .workflow-card h3 {
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 700;
       margin-bottom: 10px;
+      color: var(--text-main);
     }
-
     .workflow-card p {
-      color: var(--text-muted);
       font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
       margin-bottom: 24px;
       flex-grow: 1;
     }
-
     .workflow-footer {
-      padding-top: 18px;
-      border-top: 1px solid var(--border-subtle);
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
     }
-
     .btn-action-download {
       background: var(--bg-elevated);
-      color: #fff;
+      color: var(--text-main);
       padding: 7px 14px;
       border-radius: var(--radius-sm);
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12.5px;
+      font-weight: 700;
       text-decoration: none;
-      transition: all 0.15s;
-      border: 1px solid var(--border-subtle);
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      border: 1px solid var(--border-subtle);
+      transition: all var(--transition-fast);
     }
-
     .btn-action-download:hover {
       background: var(--primary);
+      color: var(--btn-text);
       border-color: var(--primary);
     }
 
-    /* Interactive ROI Calculator */
+    /* ROI Calculator Section */
     .roi-section {
       padding: 60px 0;
     }
-
     .roi-container-card {
-      background: linear-gradient(180deg, #10192e 0%, #0c1220 100%);
-      border: 1px solid rgba(59, 130, 246, 0.4);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
       border-radius: var(--radius-xl);
-      padding: 44px;
-      box-shadow: 0 16px 40px rgba(37, 99, 235, 0.12);
+      padding: 40px;
+      box-shadow: var(--card-shadow);
     }
-
     .roi-layout-grid {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
+      grid-template-columns: 1.2fr 1fr;
       gap: 40px;
       align-items: center;
     }
-
     @media (max-width: 860px) {
       .roi-layout-grid {
         grid-template-columns: 1fr;
@@ -683,116 +1099,143 @@
         padding: 24px;
       }
     }
-
     .roi-slider-container {
-      margin: 28px 0 20px;
+      margin: 28px 0;
     }
-
     .roi-slider-label-row {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
+      align-items: center;
       margin-bottom: 12px;
     }
-
-    .roi-slider-label-row span.title {
-      font-size: 15px;
+    .roi-slider-label-row .title {
+      font-size: 14px;
       font-weight: 600;
-      color: #cbd5e1;
+      color: var(--text-muted);
     }
-
-    .roi-slider-label-row span.count-display {
-      font-size: 28px;
+    .roi-slider-label-row .count-display {
+      font-size: 20px;
       font-weight: 800;
-      color: #38bdf8;
-      font-variant-numeric: tabular-nums;
+      color: var(--primary);
+      font-family: var(--font-mono);
     }
-
-    input[type="range"].roi-interactive-slider {
+    .roi-interactive-slider {
       width: 100%;
       height: 8px;
-      border-radius: var(--radius-pill);
-      background: var(--bg-base);
+      border-radius: 4px;
+      background: var(--bg-elevated);
       outline: none;
-      cursor: pointer;
       accent-color: var(--primary);
+      cursor: pointer;
     }
-
     .roi-preset-pills {
       display: flex;
       gap: 8px;
       margin-top: 14px;
+      flex-wrap: wrap;
     }
-
     .roi-preset-btn {
-      background: var(--bg-base);
+      background: var(--bg-elevated);
       border: 1px solid var(--border-subtle);
       color: var(--text-muted);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 12.5px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all var(--transition-fast);
     }
-
-    .roi-preset-btn:hover, .roi-preset-btn.is-active {
-      background: rgba(37, 99, 235, 0.2);
-      border-color: #3b82f6;
-      color: #60a5fa;
+    .roi-preset-btn.is-active, .roi-preset-btn:hover {
+      background: var(--primary);
+      color: var(--btn-text);
+      border-color: var(--primary);
     }
-
     .roi-metrics-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
-
     .roi-output-box {
-      background: var(--bg-deep);
-      border: 1px solid var(--border-subtle);
+      background: var(--roi-box-bg);
+      border: 1px solid var(--roi-box-border);
       border-radius: var(--radius-md);
-      padding: 20px;
+      padding: 22px;
       text-align: center;
     }
-
     .roi-output-box.featured {
-      border-color: rgba(16, 185, 129, 0.5);
-      background: linear-gradient(180deg, #09171b 0%, #061114 100%);
+      background: var(--roi-box-featured-bg);
+      border-color: var(--border-focus);
     }
-
-    .roi-output-box .stat-num {
-      font-size: 28px;
+    .stat-num {
+      font-size: 34px;
       font-weight: 800;
-      color: #34d399;
-      font-variant-numeric: tabular-nums;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+    .roi-output-box.featured .stat-num {
+      color: var(--accent-emerald);
+    }
+    .stat-label {
+      font-size: 12.5px;
+      color: var(--text-dim);
+      margin-top: 6px;
+      font-weight: 600;
     }
 
-    .roi-output-box .stat-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    /* Pricing Section & Interactive VietQR Hub */
-    .pricing-section {
+    /* Comparison Table */
+    .comparison-section {
       padding: 70px 0;
     }
+    .comparison-matrix-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      overflow-x: auto;
+      padding: 8px;
+      box-shadow: var(--card-shadow);
+    }
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      text-align: left;
+    }
+    .matrix-table th, .matrix-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .matrix-table th {
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .matrix-table td.highlight-column {
+      background: var(--roi-box-featured-bg);
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .matrix-table tr:last-child td {
+      border-bottom: none;
+    }
 
+    /* Pricing Section */
+    .pricing-section {
+      padding: 80px 0;
+    }
     .pricing-cards-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
-      align-items: stretch;
-      margin-bottom: 44px;
+      margin: 40px 0 50px;
     }
-
     @media (max-width: 980px) {
       .pricing-cards-grid {
         grid-template-columns: 1fr;
       }
     }
-
     .pricing-item-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
@@ -802,74 +1245,68 @@
       flex-direction: column;
       position: relative;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all var(--transition-normal);
+      box-shadow: var(--card-shadow);
     }
-
     .pricing-item-card:hover, .pricing-item-card.is-selected {
-      border-color: #3b82f6;
-      background: #141f36;
-      transform: translateY(-3px);
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: var(--card-shadow-hover);
     }
-
     .pricing-item-card.hero-tier {
-      border: 2px solid #3b82f6;
-      background: linear-gradient(180deg, #172644 0%, #0f182d 100%);
-      box-shadow: 0 16px 40px rgba(37, 99, 235, 0.25);
+      border: 2px solid var(--primary);
+      box-shadow: 0 16px 40px var(--primary-glow);
     }
-
     .popular-tag {
       position: absolute;
       top: -13px;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      color: white;
+      background: var(--accent-amber);
+      color: #0f172a;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
       padding: 4px 16px;
       border-radius: var(--radius-pill);
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
-
     .pricing-tier-name {
       font-size: 20px;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 6px;
+      color: var(--text-main);
     }
-
     .pricing-tier-desc {
       font-size: 13px;
       color: var(--text-muted);
       margin-bottom: 20px;
       min-height: 40px;
+      line-height: 1.5;
     }
-
     .pricing-amount-wrap {
       margin-bottom: 24px;
       display: flex;
       align-items: baseline;
       gap: 8px;
+      flex-wrap: wrap;
     }
-
     .price-value {
-      font-size: 34px;
+      font-size: 32px;
       font-weight: 800;
       letter-spacing: -0.02em;
+      color: var(--text-main);
     }
-
     .price-period {
       color: var(--text-muted);
       font-size: 14px;
     }
-
     .price-strikethrough {
       text-decoration: line-through;
       color: var(--text-dim);
       font-size: 15px;
       margin-left: 6px;
     }
-
     .tier-features-list {
       list-style: none;
       display: flex;
@@ -878,21 +1315,19 @@
       margin-bottom: 28px;
       flex-grow: 1;
     }
-
     .tier-features-list li {
       font-size: 13.5px;
-      color: #cbd5e1;
+      color: var(--text-muted);
       display: flex;
       align-items: flex-start;
       gap: 10px;
+      line-height: 1.5;
     }
-
     .tier-features-list li svg {
-      color: var(--emerald);
+      color: var(--accent-emerald);
       flex-shrink: 0;
       margin-top: 2px;
     }
-
     .btn-select-tier {
       width: 100%;
       padding: 13px;
@@ -901,57 +1336,55 @@
       font-weight: 700;
       text-align: center;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all var(--transition-fast);
+      border: none;
     }
-
     .btn-select-tier.ghost {
       background: var(--bg-elevated);
-      color: #fff;
+      color: var(--text-main);
       border: 1px solid var(--border-subtle);
     }
-
     .btn-select-tier.primary {
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: #fff;
-      border: none;
+      background: var(--primary);
+      color: var(--btn-text);
       box-shadow: 0 4px 16px var(--primary-glow);
     }
 
-    /* VietQR Payment Console */
+    /* Live VietQR Box */
     .payment-hub-box {
-      background: #09101c;
-      border: 1px solid #1e3a8a;
+      background: var(--vietqr-box-bg);
+      border: 1px solid var(--vietqr-box-border);
       border-radius: var(--radius-xl);
       padding: 36px;
       max-width: 900px;
       margin: 0 auto;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: var(--card-shadow-hover);
     }
-
     .payment-console-grid {
       display: grid;
       grid-template-columns: 260px 1fr;
       gap: 36px;
       align-items: center;
     }
-
     @media (max-width: 760px) {
       .payment-console-grid {
         grid-template-columns: 1fr;
         text-align: center;
       }
+      .payment-hub-box {
+        padding: 24px;
+      }
     }
-
     .qr-frame-card {
       background: #fff;
       padding: 12px;
       border-radius: var(--radius-md);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
       align-items: center;
+      border: 1px solid #e2e8f0;
     }
-
     .qr-code-img {
       width: 100%;
       max-width: 220px;
@@ -959,104 +1392,54 @@
       display: block;
       border-radius: 6px;
     }
-
     .bank-details-table {
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
-
     .bank-info-line {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #0f1a2e;
+      background: var(--bank-line-bg);
       padding: 12px 16px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border-subtle);
       font-size: 13.5px;
     }
-
     .bank-info-line .label {
       color: var(--text-muted);
     }
-
     .bank-info-line .value {
       font-weight: 700;
-      color: #fff;
+      color: var(--text-main);
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
     .btn-clipboard-copy {
-      background: rgba(37, 99, 235, 0.2);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.4);
+      background: var(--badge-bg);
+      color: var(--primary);
+      border: 1px solid var(--border-subtle);
       padding: 4px 10px;
       border-radius: 6px;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      transition: all 0.15s;
+      transition: all var(--transition-fast);
     }
-
     .btn-clipboard-copy:hover {
       background: var(--primary);
-      color: #fff;
-    }
-
-    /* Comparison Table Section */
-    .comparison-section {
-      padding: 60px 0;
-    }
-
-    .comparison-matrix-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-xl);
-      overflow-x: auto;
-      padding: 8px;
-    }
-
-    .matrix-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-      text-align: left;
-    }
-
-    .matrix-table th, .matrix-table td {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .matrix-table th {
-      color: var(--text-muted);
-      font-weight: 700;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .matrix-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .matrix-table td.highlight-column {
-      background: rgba(37, 99, 235, 0.08);
-      color: #60a5fa;
-      font-weight: 600;
+      color: var(--btn-text);
     }
 
     /* FAQ Section */
     .faq-section {
       padding: 60px 0 90px;
     }
-
     .faq-accordion-list {
       max-width: 860px;
       margin: 0 auto;
@@ -1064,24 +1447,22 @@
       flex-direction: column;
       gap: 14px;
     }
-
     .faq-accordion-item {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
       overflow: hidden;
       transition: border-color 0.2s;
+      box-shadow: var(--card-shadow);
     }
-
     .faq-accordion-item:hover {
-      border-color: rgba(255, 255, 255, 0.15);
+      border-color: var(--border-focus);
     }
-
     .faq-header-btn {
       width: 100%;
       background: transparent;
       border: none;
-      color: #f1f5f9;
+      color: var(--text-main);
       padding: 20px 24px;
       font-size: 16px;
       font-weight: 700;
@@ -1090,38 +1471,35 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
     }
-
     .faq-header-btn svg {
       transition: transform 0.2s;
       flex-shrink: 0;
       color: var(--text-muted);
     }
-
     .faq-header-btn[aria-expanded="true"] svg {
       transform: rotate(180deg);
-      color: #38bdf8;
+      color: var(--primary);
     }
-
     .faq-content-body {
       display: none;
       padding: 0 24px 20px;
-      font-size: 14px;
+      font-size: 14.5px;
       color: var(--text-muted);
       line-height: 1.65;
     }
-
     .faq-content-body.is-visible {
       display: block;
     }
 
     /* Footer */
     footer {
-      background: #03050a;
+      background: var(--footer-bg);
       border-top: 1px solid var(--border-subtle);
       padding: 44px 0 36px;
+      color: var(--footer-text);
     }
-
     .footer-flex-row {
       display: flex;
       justify-content: space-between;
@@ -1129,19 +1507,18 @@
       flex-wrap: wrap;
       gap: 20px;
     }
-
     .footer-brand-text h3 {
       font-size: 17px;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 4px;
+      color: #ffffff;
     }
-
     .footer-brand-text p {
       color: var(--text-dim);
       font-size: 13px;
     }
 
-    /* Floating Zalo Assistance */
+    /* Floating Zalo Pill */
     .floating-zalo-pill {
       position: fixed;
       bottom: 24px;
@@ -1154,20 +1531,19 @@
       font-size: 14px;
       font-weight: 700;
       text-decoration: none;
-      box-shadow: 0 10px 25px rgba(2, 132, 199, 0.5);
+      box-shadow: 0 10px 25px rgba(2, 132, 199, 0.4);
       display: flex;
       align-items: center;
       gap: 8px;
       border: 1px solid rgba(56, 189, 248, 0.5);
       transition: all 0.2s;
     }
-
     .floating-zalo-pill:hover {
       transform: scale(1.04);
       background: #0369a1;
     }
 
-    /* Toast Notification Feedback */
+    /* Feedback Toast */
     .feedback-toast {
       position: fixed;
       bottom: 28px;
@@ -1179,58 +1555,85 @@
       border-radius: var(--radius-sm);
       font-size: 14px;
       font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
       opacity: 0;
       pointer-events: none;
       transition: all 0.2s ease;
       z-index: 1000;
     }
-
     .feedback-toast.show {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
+
   </style>
 </head>
 <body>
 
-  <div class="ambient-spotlight"></div>
+  <!-- Ambient Spotlight Background Effect -->
+  <div class="ambient-glow"></div>
+
+  <!-- Emergency Topbar Notice -->
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <span class="topbar-tag">Cập nhật 2026</span>
+      <span>Đã tích hợp rà soát <strong>chi tiền mặt từ 5 triệu</strong> theo Nghị định 181/2025/NĐ-CP và <strong>đối chiếu tờ khai Hải quan</strong>.</span>
+      <a href="#pricing">
+        <span>Xem bảng giá & ưu đãi</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  
+
+  <!-- Theme Switcher Bar -->
+  <div class="theme-switcher-bar">
+    <div class="container theme-switcher-inner">
+      <div class="theme-switcher-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <span>Giao Diện / Theme Chuẩn FinTech:</span>
+      </div>
+      <div class="theme-btn-group" id="themeBtnGroup">
+        <button type="button" class="theme-pill-btn is-active" onclick="applyTheme('swiss-light')"><span>☀️</span><span>Swiss Clean Light</span></button><button type="button" class="theme-pill-btn " onclick="applyTheme('linear-dark')"><span>🌙</span><span>Linear FinTech Dark</span></button><button type="button" class="theme-pill-btn " onclick="applyTheme('big4-navy')"><span>🏛️</span><span>Big-4 Statutory Authority</span></button><button type="button" class="theme-pill-btn " onclick="applyTheme('modern-bento')"><span>✨</span><span>Modern Bento Indigo</span></button>
+      </div>
+    </div>
+  </div>
 
   <!-- Navbar -->
   <header class="navbar">
     <div class="container nav-inner">
       <a href="#" class="brand">
         <div class="brand-mark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-            <polyline points="2 17 12 22 22 17"></polyline>
-            <polyline points="2 12 12 17 22 12"></polyline>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4z"/>
+            <path d="M9 12l2 2 4-4"/>
           </svg>
         </div>
         <div class="brand-info">
-          <h2>Thịnh Lynx</h2>
-          <span>Audit & Tax Ecosystem</span>
+          <h2>AuditSoft Ecosystem</h2>
+          <span>Thịnh Lynx FinTech</span>
         </div>
       </a>
 
       <nav>
         <ul id="navMenu" class="nav-menu">
+          <li><a href="#pain-points">Khó Khăn Thực Tế</a></li>
           <li><a href="#pipeline">Quy Trình 3 Bước</a></li>
-          <li><a href="#apps">Bộ 3 Công Cụ</a></li>
-          <li><a href="#roi">Tính Hiệu Quả (ROI)</a></li>
-          <li><a href="#pricing">Gói Combo VIP</a></li>
+          <li><a href="#apps">Trải Nghiệm 3 Tool</a></li>
+          <li><a href="#roi">Đo Lường ROI</a></li>
+          <li><a href="#comparison">So Sánh Tính Năng</a></li>
+          <li><a href="#pricing">Bảng Giá</a></li>
           <li><a href="#faq">Hỏi Đáp</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
         <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn-zalo-nav">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <span>Zalo 0817.567.008</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Zalo: 0817.567.008</span>
         </a>
-        <button type="button" class="nav-mobile-toggle" id="mobileMenuBtn" aria-label="Mở danh mục menu">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-        </button>
+        <button id="mobileMenuBtn" class="nav-mobile-toggle" aria-label="Toggle Menu">☰</button>
       </div>
     </div>
   </header>
@@ -1240,25 +1643,24 @@
     <div class="container">
       <div class="hero-badge-pill">
         <span class="pulse-dot"></span>
-        Hệ Sinh Thái Kế Toán & Thuế v1.5.1 • Sẵn Sàng 2026
+        Bản quyền chính thức 1 Năm &amp; 3 Năm • Xử lý 100% Offline an toàn trên máy tính cá nhân
       </div>
 
       <h1 class="hero-title">
-        Bộ Ba Vũ Khí Tự Động Hóa <br>
-        <span class="highlight">Hóa Đơn • Tờ Khai eTax • Soát Xét BCTC</span>
+        Kiểm soát toàn diện rủi ro thuế &amp; số liệu sổ sách kế toán.<br>
+        <span class="highlight">Tự động hóa hoàn toàn các khâu nặng nhọc nhất mùa quyết toán</span>
       </h1>
 
       <p class="hero-description">
-        Giải phóng 90% thời gian nhập liệu thủ công cho Kế toán dịch vụ & Kiểm toán viên. 
-        Tự động kéo toàn bộ HĐĐT mua vào/bán ra, tải hàng loạt tờ khai eTax cho 50+ doanh nghiệp và chạy thuật toán soát xét rủi ro BCTC chỉ với 1 click.
+        Tải hàng loạt hóa đơn điện tử Tổng Cục Thuế, tự động tải trọn bộ hồ sơ eTax không cần USB Token và soát xét sổ NKC, bốc mẫu VSA 530, lập 15 giấy làm việc kiểm toán VACPA chuẩn mực. Dữ liệu xử lý an toàn 100% offline trên máy tính cá nhân.
       </p>
 
       <div class="hero-cta-bar">
-        <a href="#pricing" class="btn-primary-glow">
-          <span>Đăng Ký Combo Ưu Đãi (Giảm 45%)</span>
+        <a href="#pricing" class="btn-primary">
+          <span>Xem Bảng Giá &amp; Ưu Đãi Combo</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="#roi" class="btn-secondary-dark">
+        <a href="#roi" class="btn-secondary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
           <span>Tính Số Giờ Tiết Kiệm ↓</span>
         </a>
@@ -1266,247 +1668,329 @@
 
       <div class="trust-badges-bar">
         <div class="trust-badge-item">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span>100% Bảo Mật Offline Trên Ổ Cứng</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Dữ liệu lưu 100% nội bộ trên máy tính cá nhân</span>
         </div>
         <div class="trust-badge-item">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-          <span>Chuẩn NĐ 181/2025 & TT 99/2025/TT-BTC</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          <span>Rà soát chi tiền mặt từ 5 triệu theo Nghị định 181/2025</span>
         </div>
         <div class="trust-badge-item">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-          <span>500+ Kế Toán Dịch Vụ & KTV Đang Tin Dùng</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>Hơn 1.200 kế toán dịch vụ và kiểm toán viên tin dùng</span>
         </div>
       </div>
 
       <!-- Hero App Preview Canvas -->
       <div id="apps" class="hero-mockup-wrapper">
-        <div class="window-chrome">
-          <div class="window-header">
-            <div class="window-dots">
-              <span class="window-dot red"></span>
-              <span class="window-dot yellow"></span>
-              <span class="window-dot green"></span>
-            </div>
-
-            <div class="window-tab-switcher">
-              <button type="button" class="window-tab-btn is-active" onclick="switchMockupTab(0)">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/></svg>
-                <span>InvoiceDesk v2.7.14</span>
-              </button>
-              <button type="button" class="window-tab-btn" onclick="switchMockupTab(1)">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                <span>TaxInsight eTax</span>
-              </button>
-              <button type="button" class="window-tab-btn" onclick="switchMockupTab(2)">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
-                <span>AuditSoft NKC v1.5.1</span>
-              </button>
-            </div>
-
-            <span class="window-status-pill">Đang Hoạt Động</span>
+        <div class="window-header">
+          <div class="window-dots">
+            <span class="window-dot red"></span>
+            <span class="window-dot yellow"></span>
+            <span class="window-dot green"></span>
           </div>
 
-          <div class="window-canvas-body">
-            <!-- Pane 0: InvoiceDesk -->
-            <div id="mockup0" class="mockup-pane is-active">
-              <div class="mockup-header-strip">
-                <div>
-                  <h4 style="font-size: 15px; font-weight: 700;">Quét & Tải Hóa Đơn Điện Tử Tự Động Từ Tổng Cục Thuế</h4>
-                  <p style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">Kỳ soát xét: 01/01/2026 – 31/03/2026 • MST Doanh Nghiệp: 0314892xxx</p>
-                </div>
-                <span class="badge-chip blue">Hoàn Tất 100%</span>
-              </div>
+          <div class="window-tab-switcher">
+            <button type="button" class="window-tab-btn is-active" onclick="switchMockupTab(0)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/></svg>
+              <span>InvoiceDesk v2.7.14</span>
+            </button>
+            <button type="button" class="window-tab-btn" onclick="switchMockupTab(1)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>TaxInsight eTax</span>
+            </button>
+            <button type="button" class="window-tab-btn" onclick="switchMockupTab(2)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+              <span>AuditSoft NKC v1.5.4</span>
+            </button>
+          </div>
 
-              <div class="mockup-metrics-row">
-                <div class="mockup-metric-card">
-                  <div class="val">14.280</div>
-                  <div class="lbl">Tổng số hóa đơn đã quét</div>
-                </div>
-                <div class="mockup-metric-card">
-                  <div class="val" style="color: #34d399;">14.276</div>
-                  <div class="lbl">Hóa đơn hợp lệ</div>
-                </div>
-                <div class="mockup-metric-card">
-                  <div class="val" style="color: #f59e0b;">4</div>
-                  <div class="lbl">Hóa đơn xóa / thay thế</div>
-                </div>
-                <div class="mockup-metric-card">
-                  <div class="val" style="color: #38bdf8;">0</div>
-                  <div class="lbl">Rủi ro MST đóng cửa</div>
-                </div>
-              </div>
+          <span class="window-status-pill">Đang Hoạt Động</span>
+        </div>
 
-              <div class="mockup-table-frame">
-                <table class="mockup-table">
-                  <thead>
-                    <tr>
-                      <th>Số HĐ</th>
-                      <th>Ngày Lập</th>
-                      <th>Mã Số Thuế</th>
-                      <th>Tên Đơn Vị Bán</th>
-                      <th>Tổng Tiền Chưa Thuế</th>
-                      <th>Tiền Thuế GTGT</th>
-                      <th>Trạng Thái</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td style="font-family: var(--font-mono); font-weight: 700;">0001842</td>
-                      <td>15/01/2026</td>
-                      <td style="font-family: var(--font-mono);">0100109106</td>
-                      <td>Tổng Công Ty Điện Lực TP. Hà Nội</td>
-                      <td>48.250.000 đ</td>
-                      <td>3.860.000 đ</td>
-                      <td><span class="badge-chip green">Đã Lưu XML & PDF</span></td>
-                    </tr>
-                    <tr>
-                      <td style="font-family: var(--font-mono); font-weight: 700;">0009412</td>
-                      <td>28/01/2026</td>
-                      <td style="font-family: var(--font-mono);">0300588569</td>
-                      <td>Công Ty Cổ Phần Cấp Nước Chợ Lớn</td>
-                      <td>12.400.000 đ</td>
-                      <td>992.000 đ</td>
-                      <td><span class="badge-chip green">Đã Lưu XML & PDF</span></td>
-                    </tr>
-                  </tbody>
-                </table>
+        <div class="window-canvas-body">
+          <!-- Pane 0: InvoiceDesk -->
+          <div id="mockup0" class="mockup-pane is-active">
+            <div class="mockup-header-strip">
+              <div>
+                <h4 style="font-size: 15px; font-weight: 700;">Quét &amp; Tải Hóa Đơn Điện Tử Tự Động Từ Tổng Cục Thuế</h4>
+                <p style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">Kỳ soát xét: 01/01/2026 – 31/03/2026 • MST Doanh Nghiệp: 0314892xxx</p>
+              </div>
+              <span class="badge-chip blue">Hoàn Tất 100%</span>
+            </div>
+
+            <div class="mockup-metrics-row">
+              <div class="mockup-metric-card">
+                <div class="val">14.280</div>
+                <div class="lbl">Tổng số hóa đơn đã quét</div>
+              </div>
+              <div class="mockup-metric-card">
+                <div class="val" style="color: var(--accent-emerald);">14.276</div>
+                <div class="lbl">Hóa đơn hợp lệ</div>
+              </div>
+              <div class="mockup-metric-card">
+                <div class="val" style="color: var(--accent-amber);">4</div>
+                <div class="lbl">Hóa đơn xóa / thay thế</div>
+              </div>
+              <div class="mockup-metric-card">
+                <div class="val" style="color: var(--accent-blue);">0</div>
+                <div class="lbl">Rủi ro MST đóng cửa</div>
               </div>
             </div>
 
-            <!-- Pane 1: TaxInsight -->
-            <div id="mockup1" class="mockup-pane">
-              <div class="mockup-header-strip">
-                <div>
-                  <h4 style="font-size: 15px; font-weight: 700;">Tải Hàng Loạt Tờ Khai Thuế & Thông Báo eTax Đa Công Ty</h4>
-                  <p style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">Tự động phân loại theo cấu trúc thư mục [MST] / [Năm] / [Quý hoặc Tháng]</p>
-                </div>
-                <span class="badge-chip green">Đã Đồng Bộ 54 Công Ty</span>
-              </div>
+            <div class="mockup-table-frame">
+              <table class="mockup-table">
+                <thead>
+                  <tr>
+                    <th>Số HĐ</th>
+                    <th>Ngày Lập</th>
+                    <th>Mã Số Thuế</th>
+                    <th>Tên Đơn Vị Bán</th>
+                    <th>Tổng Tiền Chưa Thuế</th>
+                    <th>Tiền Thuế GTGT</th>
+                    <th>Trạng Thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="font-family: var(--font-mono); font-weight: 700;">0001842</td>
+                    <td>15/01/2026</td>
+                    <td style="font-family: var(--font-mono);">0100109106</td>
+                    <td>Tổng Công Ty Điện Lực TP. Hà Nội</td>
+                    <td>48.250.000 đ</td>
+                    <td>3.860.000 đ</td>
+                    <td><span class="badge-chip green">Đã Lưu XML &amp; PDF</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: var(--font-mono); font-weight: 700;">0009412</td>
+                    <td>28/01/2026</td>
+                    <td style="font-family: var(--font-mono);">0300588569</td>
+                    <td>Công Ty Cổ Phần Cấp Nước Chợ Lớn</td>
+                    <td>12.400.000 đ</td>
+                    <td>992.000 đ</td>
+                    <td><span class="badge-chip green">Đã Lưu XML &amp; PDF</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-              <div class="mockup-metrics-row">
-                <div class="mockup-metric-card">
-                  <div class="val">54</div>
-                  <div class="lbl">Công ty dịch vụ đang quản lý</div>
-                </div>
-                <div class="mockup-metric-card">
-                  <div class="val" style="color: #34d399;">216</div>
-                  <div class="lbl">Tờ khai XML & PDF đã tải</div>
-                </div>
-                <div class="mockup-metric-card">
-                  <div class="val" style="color: #38bdf8;">216</div>
-                  <div class="lbl">Thông báo chấp nhận đã khớp</div>
-                </div>
-                <div class="mockup-metric-card">
-                  <div class="val" style="color: #a78bfa;">0 Phút</div>
-                  <div class="lbl">Thời gian cắm USB Token</div>
-                </div>
+          <!-- Pane 1: TaxInsight -->
+          <div id="mockup1" class="mockup-pane">
+            <div class="mockup-header-strip">
+              <div>
+                <h4 style="font-size: 15px; font-weight: 700;">Tải Hàng Loạt Tờ Khai Thuế &amp; Thông Báo eTax Đa Công Ty</h4>
+                <p style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">Tự động phân loại theo cấu trúc thư mục [MST] / [Năm] / [Quý hoặc Tháng]</p>
               </div>
+              <span class="badge-chip green">Đã Đồng Bộ 54 Công Ty</span>
+            </div>
 
-              <div class="mockup-table-frame">
-                <table class="mockup-table">
-                  <thead>
-                    <tr>
-                      <th>Mã Số Thuế</th>
-                      <th>Tên Doanh Nghiệp</th>
-                      <th>Mẫu Tờ Khai</th>
-                      <th>Kỳ Tính Thuế</th>
-                      <th>Ngày Nộp eTax</th>
-                      <th>Thông Báo Chấp Nhận</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td style="font-family: var(--font-mono);">0315487xxx</td>
-                      <td>Công Ty TNHH Thương Mại Kỹ Thuật Tân Phú</td>
-                      <td>01/GTGT (TT 80)</td>
-                      <td>Quý 4/2025</td>
-                      <td>25/01/2026</td>
-                      <td><span class="badge-chip green">TB Chấp Nhận Hợp Lệ</span></td>
-                    </tr>
-                    <tr>
-                      <td style="font-family: var(--font-mono);">0312984xxx</td>
-                      <td>Công Ty Cổ Phần Xuất Nhập Khẩu An Gia</td>
-                      <td>05/KK-TNCN</td>
-                      <td>Tháng 12/2025</td>
-                      <td>18/01/2026</td>
-                      <td><span class="badge-chip green">TB Chấp Nhận Hợp Lệ</span></td>
-                    </tr>
-                  </tbody>
-                </table>
+            <div class="mockup-metrics-row">
+              <div class="mockup-metric-card">
+                <div class="val">54</div>
+                <div class="lbl">Công ty dịch vụ đang quản lý</div>
+              </div>
+              <div class="mockup-metric-card">
+                <div class="val" style="color: var(--accent-emerald);">216</div>
+                <div class="lbl">Tờ khai XML &amp; PDF đã tải</div>
+              </div>
+              <div class="mockup-metric-card">
+                <div class="val" style="color: var(--accent-blue);">216</div>
+                <div class="lbl">Thông báo chấp nhận đã khớp</div>
+              </div>
+              <div class="mockup-metric-card">
+                <div class="val" style="color: var(--accent-purple);">0 Phút</div>
+                <div class="lbl">Thời gian cắm USB Token</div>
               </div>
             </div>
 
-            <!-- Pane 2: AuditSoft NKC -->
-            <div id="mockup2" class="mockup-pane">
-              <div class="mockup-header-strip">
-                <div>
-                  <h4 style="font-size: 15px; font-weight: 700;">Soát Xét Rủi Ro Sổ Sách, Đối Chiếu B360 & Lập 15 GLV VACPA</h4>
-                  <p style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">Phiên bản v1.5.1 • Phân vùng dịch vụ 331 & Quét chi tiền mặt > 5tr NĐ 181/2025</p>
-                </div>
-                <span class="badge-chip purple">15 GLV Chuẩn VACPA Sẵn Sàng</span>
-              </div>
+            <div class="mockup-table-frame">
+              <table class="mockup-table">
+                <thead>
+                  <tr>
+                    <th>Mã Số Thuế</th>
+                    <th>Tên Doanh Nghiệp</th>
+                    <th>Mẫu Tờ Khai</th>
+                    <th>Kỳ Tính Thuế</th>
+                    <th>Ngày Nộp eTax</th>
+                    <th>Thông Báo Chấp Nhận</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="font-family: var(--font-mono);">0315487xxx</td>
+                    <td>Công Ty TNHH Thương Mại Kỹ Thuật Tân Phú</td>
+                    <td>01/GTGT (TT 80)</td>
+                    <td>Quý 4/2025</td>
+                    <td>25/01/2026</td>
+                    <td><span class="badge-chip green">TB Chấp Nhận Hợp Lệ</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: var(--font-mono);">0312984xxx</td>
+                    <td>Công Ty Cổ Phần Xuất Nhập Khẩu An Gia</td>
+                    <td>05/KK-TNCN</td>
+                    <td>Tháng 12/2025</td>
+                    <td>18/01/2026</td>
+                    <td><span class="badge-chip green">TB Chấp Nhận Hợp Lệ</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-              <div class="mockup-metrics-row">
-                <div class="mockup-metric-card">
-                  <div class="val" style="color: #38bdf8;">14.250</div>
-                  <div class="lbl">Dòng chứng từ đã so khớp</div>
-                </div>
-                <div class="mockup-metric-card">
-                  <div class="val" style="color: #34d399;">100%</div>
-                  <div class="lbl">Bảo toàn công thức Excel</div>
-                </div>
-                <div class="mockup-metric-card">
-                  <div class="val" style="color: #f59e0b;">5 Mục</div>
-                  <div class="lbl">Bút toán điều chỉnh AJE B360</div>
-                </div>
-                <div class="mockup-metric-card">
-                  <div class="val" style="color: #c084fc;">3 Giây</div>
-                  <div class="lbl">Bốc mẫu VSA 530 hoàn tất</div>
-                </div>
+          <!-- Pane 2: AuditSoft NKC -->
+          <div id="mockup2" class="mockup-pane">
+            <div class="mockup-header-strip">
+              <div>
+                <h4 style="font-size: 15px; font-weight: 700;">Soát Xét Rủi Ro Sổ Sách, Đối Chiếu B360 &amp; Lập 15 GLV VACPA</h4>
+                <p style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">Phiên bản v1.5.4 • Tự động bóc tách AJE, Gộp Sheet Workbook &amp; Quét chi tiền mặt > 5tr NĐ 181/2025</p>
               </div>
+              <span class="badge-chip purple">15 GLV Chuẩn VACPA Sẵn Sàng</span>
+            </div>
 
-              <div class="mockup-table-frame">
-                <table class="mockup-table">
-                  <thead>
-                    <tr>
-                      <th>STT</th>
-                      <th>Mã GLV</th>
-                      <th>Nội Dung Bút Toán AJE</th>
-                      <th>TK Nợ</th>
-                      <th>TK Có</th>
-                      <th>Số Tiền Phát Sinh</th>
-                      <th>Ảnh Hưởng BCTC</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>01</td>
-                      <td style="font-weight: 700; color: #a78bfa;">B360.1</td>
-                      <td>Điều chỉnh trích trước chi phí thuê nhà xưởng tháng 12</td>
-                      <td>642</td>
-                      <td>335</td>
-                      <td style="font-weight: 700;">45.000.000 đ</td>
-                      <td>Giảm LNTT / Tăng Nợ Phải Trả</td>
-                    </tr>
-                    <tr>
-                      <td>02</td>
-                      <td style="font-weight: 700; color: #a78bfa;">E120.2</td>
-                      <td>Tái phân loại chi phí lãi vay vượt trần 30% EBITDA (NĐ 132)</td>
-                      <td>B4</td>
-                      <td>635</td>
-                      <td style="font-weight: 700;">180.500.000 đ</td>
-                      <td>Tăng Thuế TNDN Phải Nộp</td>
-                    </tr>
-                  </tbody>
-                </table>
+            <div class="mockup-metrics-row">
+              <div class="mockup-metric-card">
+                <div class="val" style="color: var(--accent-blue);">14.250</div>
+                <div class="lbl">Dòng chứng từ đã so khớp</div>
+              </div>
+              <div class="mockup-metric-card">
+                <div class="val" style="color: var(--accent-emerald);">100%</div>
+                <div class="lbl">Bảo toàn công thức Excel</div>
+              </div>
+              <div class="mockup-metric-card">
+                <div class="val" style="color: var(--accent-amber);">5 Mục</div>
+                <div class="lbl">Bút toán điều chỉnh AJE B360</div>
+              </div>
+              <div class="mockup-metric-card">
+                <div class="val" style="color: var(--accent-purple);">3 Giây</div>
+                <div class="lbl">Bốc mẫu VSA 530 hoàn tất</div>
               </div>
             </div>
 
+            <div class="mockup-table-frame">
+              <table class="mockup-table">
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Mã GLV</th>
+                    <th>Nội Dung Bút Toán AJE</th>
+                    <th>TK Nợ</th>
+                    <th>TK Có</th>
+                    <th>Số Tiền Phát Sinh</th>
+                    <th>Ảnh Hưởng BCTC</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>01</td>
+                    <td style="font-weight: 700; color: var(--accent-blue);">B360.1</td>
+                    <td>Điều chỉnh trích trước chi phí thuê nhà xưởng tháng 12</td>
+                    <td>642</td>
+                    <td>335</td>
+                    <td style="font-weight: 700;">45.000.000 đ</td>
+                    <td>Giảm LNTT / Tăng Nợ Phải Trả</td>
+                  </tr>
+                  <tr>
+                    <td>02</td>
+                    <td style="font-weight: 700; color: var(--accent-blue);">E120.2</td>
+                    <td>Tái phân loại chi phí lãi vay vượt trần 30% EBITDA (NĐ 132)</td>
+                    <td>B4</td>
+                    <td>635</td>
+                    <td style="font-weight: 700;">120.000.000 đ</td>
+                    <td>Tăng Thu Nhập Tính Thuế TNDN</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real-world Pain Points Section -->
+  <section id="pain-points" class="pain-section">
+    <div class="container">
+      <div class="pain-headline">
+        <div class="pain-pill">Thực trạng mùa quyết toán</div>
+        <h2 class="pain-title">Những công việc đang ngốn hàng trăm giờ của bạn mỗi mùa báo cáo tài chính</h2>
+        <p class="pain-subtitle">
+          Làm kế toán dịch vụ hay kiểm toán viên, áp lực lớn nhất không phải là nghiệp vụ khó, mà là khối lượng việc thủ công lặp đi lặp lại khiến bạn không còn thời gian để tư vấn số liệu cho khách hàng.
+        </p>
+      </div>
+
+      <div class="pain-cards-grid">
+        <!-- Card 1 -->
+        <div class="pain-card">
+          <div class="pain-card-header">
+            <div class="pain-icon-badge">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/></svg>
+            </div>
+            <div class="pain-card-title">Cực hình gõ captcha và tải lẻ từng hóa đơn</div>
+          </div>
+          <p class="pain-card-desc">
+            Quản lý từ 30 đến 50 công ty, mỗi kỳ thuế phải đăng nhập hàng chục lần vào trang Thuế. Bạn phải ngồi gõ từng mã captcha méo mó, tải tay từng file XML hóa đơn mua vào, bán ra và bảng kê eTax. Vừa mất tập trung, vừa mỏi mắt lại rất dễ tải sót kỳ.
+          </p>
+          <div class="pain-impact-tag">
+            <span>Ước tính lãng phí: 40 đến 60 giờ làm việc mỗi tháng</span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="pain-card">
+          <div class="pain-card-header">
+            <div class="pain-icon-badge">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="pain-card-title">Cạm bẫy phạt thuế và Nghị định 181/2025</div>
+          </div>
+          <p class="pain-card-desc">
+            Nghị định 181 siết chặt quy định chi tiền mặt từ 5 triệu đồng không được tính chi phí được trừ khi quyết toán TNDN. Kèm theo đó là rủi ro hóa đơn của doanh nghiệp bỏ trốn, ngừng hoạt động. Dò bằng mắt thường trên hàng chục nghìn dòng sổ nhật ký chung rất khó bao quát hết, đến khi thanh tra thuế phát hiện thì tiền phạt và truy thu có thể lên tới hàng trăm triệu.
+          </p>
+          <div class="pain-impact-tag">
+            <span>Rủi ro: Bị loại chi phí và truy thu tiền thuế khi thanh tra</span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="pain-card">
+          <div class="pain-card-header">
+            <div class="pain-icon-badge">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="pain-card-title">Ác mộng đối chiếu công nợ và tờ khai hải quan</div>
+          </div>
+          <p class="pain-card-desc">
+            Hàng nhập khẩu về kho kế toán hạch toán có 331 nhưng không ghi số tờ khai, hoặc chuyển khoản trả nợ lệch ngày. Dò từng tờ khai ECUS với sổ chi tiết 331 bằng hàm VLOOKUP trên Excel thường xuyên bị lệch do tỷ giá ngân hàng khác tỷ giá hải quan, hoặc do 1 tờ khai bị tách làm nhiều phiếu nhập kho.
+          </p>
+          <div class="pain-impact-tag">
+            <span>Hậu quả: Số liệu BCTC không khớp với dữ liệu Hải quan</span>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="pain-card">
+          <div class="pain-card-header">
+            <div class="pain-icon-badge">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="pain-card-title">Bẫy phí thuê bao phần mềm hàng năm đắt đỏ</div>
+          </div>
+          <p class="pain-card-desc">
+            Nhiều công cụ trên thị trường tính phí theo thuê bao hàng năm, giới hạn số lượng hóa đơn, số lượng mã số thuế và bắt buộc tải dữ liệu lên máy chủ của họ. Mỗi năm phải trả thêm tiền gia hạn, đổi máy tính thì bị thu thêm phí, lại tiềm ẩn rủi ro lộ số liệu tài chính của khách hàng.
+          </p>
+          <div class="pain-impact-tag">
+            <span>Thiệt hại: Chi phí đội lên hàng triệu đồng mỗi năm và mất quyền kiểm soát dữ liệu</span>
           </div>
         </div>
       </div>
 
+      <div class="pain-solution-transition">
+        <a href="#pipeline" class="pain-solution-btn">
+          <span>Xem cách bộ 3 công cụ giải quyết triệt để những việc này</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -1520,7 +2004,7 @@
 
       <div class="workflow-cards-grid">
         <!-- Step 1 Card -->
-        <div class="workflow-card step-1">
+        <div class="workflow-card">
           <div class="step-pill">Bước 1 • Đầu Vào Hóa Đơn</div>
           <h3>InvoiceDesk (v2.7.14)</h3>
           <p>Tự động đăng nhập hệ thống HĐĐT của Tổng Cục Thuế. Quét sạch hàng nghìn hóa đơn mua vào - bán ra, tải XML/PDF và tự động cảnh báo người bán bỏ trốn, đóng MST.</p>
@@ -1534,7 +2018,7 @@
         </div>
 
         <!-- Step 2 Card -->
-        <div class="workflow-card step-2">
+        <div class="workflow-card">
           <div class="step-pill">Bước 2 • Hồ Sơ eTax Nhà Nước</div>
           <h3>TaxInsight</h3>
           <p>Giải phóng hoàn toàn thao tác cắm USB Token thủ công. Tải trọn bộ Tờ khai thuế (GTGT, TNCN, TNDN, BCTC) và Thông báo thuế eTax cho 50 - 100 doanh nghiệp.</p>
@@ -1548,12 +2032,12 @@
         </div>
 
         <!-- Step 3 Card -->
-        <div class="workflow-card step-3">
-          <div class="step-pill">Bước 3 • Soát Xét & Kiểm Toán</div>
-          <h3>AuditSoft NKC (v1.5.1)</h3>
-          <p>Nạp đồng thời Sổ Nhật ký chung và Tờ khai thuế. Tự động so khớp 2 sổ NKC, quét chi tiền mặt > 5tr theo NĐ 181/2025, bốc mẫu VSA 530 và sinh trọn bộ 15 GLV VACPA.</p>
+        <div class="workflow-card">
+          <div class="step-pill">Bước 3 • Soát Xét &amp; Kiểm Toán</div>
+          <h3>AuditSoft NKC (v1.5.4)</h3>
+          <p>Nạp đồng thời Sổ Nhật ký chung và Tờ khai thuế. Tự động so khớp 2 sổ NKC, quét chi tiền mặt > 5tr theo NĐ 181/2025, đối chiếu công nợ 331/131, bốc mẫu VSA 530 và sinh trọn bộ 15 GLV VACPA.</p>
           <div class="workflow-footer">
-            <span style="font-size: 12px; color: var(--text-dim);">Audit Engine v1.5.1</span>
+            <span style="font-size: 12px; color: var(--text-dim);">Audit Engine v1.5.4</span>
             <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn-action-download">
               <span>Nhận Bản Quyền</span>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1605,8 +2089,8 @@
               <div class="stat-label">Tiền công tiết kiệm / năm</div>
             </div>
             <div class="roi-output-box" style="grid-column: 1 / -1;">
-              <div id="statPaybackPeriod" class="stat-num" style="color: #38bdf8; font-size: 22px;">Hoàn vốn trong 4 ngày làm việc</div>
-              <div class="stat-label">So với chi phí sở hữu bản quyền Combo trọn đời</div>
+              <div id="statPaybackPeriod" class="stat-num" style="color: var(--primary); font-size: 22px;">Hoàn vốn trong 4 ngày làm việc</div>
+              <div class="stat-label">So với chi phí sở hữu bộ công cụ kiểm toán chuyên nghiệp</div>
             </div>
           </div>
         </div>
@@ -1615,7 +2099,7 @@
   </section>
 
   <!-- Comparison Section -->
-  <section class="comparison-section">
+  <section id="comparison" class="comparison-section">
     <div class="container">
       <div class="section-headline">
         <h2>So Sánh: Làm Thủ Công vs Dùng Bộ 3 Vũ Khí</h2>
@@ -1635,10 +2119,10 @@
             <tr>
               <td><strong>Tải HĐĐT 20 - 50 công ty</strong></td>
               <td>Mất 3 - 5 ngày ngồi bấm tải từng tờ hóa đơn</td>
-              <td class="highlight-column">15 phút kéo tự động toàn bộ XML & PDF</td>
+              <td class="highlight-column">15 phút kéo tự động toàn bộ XML &amp; PDF</td>
             </tr>
             <tr>
-              <td><strong>Tải tờ khai thuế & Thông báo</strong></td>
+              <td><strong>Tải tờ khai thuế &amp; Thông báo</strong></td>
               <td>Cắm rút hàng chục USB Token mỗi đêm</td>
               <td class="highlight-column">1 Click tải trọn bộ hồ sơ không cần cắm token</td>
             </tr>
@@ -1672,21 +2156,26 @@
   <section id="pricing" class="pricing-section">
     <div class="container">
       <div class="section-headline">
-        <h2>Bảng Giá Bản Quyền Vĩnh Viễn & Ưu Đãi Combo</h2>
+        <h2>Bảng Giá Bản Quyền Chính Thức &amp; Ưu Đãi Combo</h2>
         <p>Bấm chọn gói bạn mong muốn. Cổng thanh toán VietQR MB Bank bên dưới sẽ tự động cập nhật số tiền tức thì.</p>
+        <div style="display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 18px; border-radius: 9999px; background: rgba(234, 88, 12, 0.12); border: 1px solid rgba(234, 88, 12, 0.35); color: #ea580c; font-size: 13.5px; font-weight: 700;">
+          <span style="display: inline-block; animation: pulse 1.5s infinite;">🔥</span>
+          <span>ƯU ĐÃI MÙA BÁO CÁO TÀI CHÍNH: Đã mở bán 15 suất — Hiện chỉ còn đúng 5 suất cuối cùng!</span>
+        </div>
       </div>
 
       <div class="pricing-cards-grid">
         <!-- Tier 1: Single -->
-        <div class="pricing-item-card" data-plan-id="single" data-plan-title="Gói Đơn Lẻ (InvoiceDesk hoặc TaxInsight)" data-price="499000" data-memo="TOOL LYNX">
+        <div class="pricing-item-card" data-plan-id="single" data-plan-title="Gói Đơn Lẻ (InvoiceDesk hoặc TaxInsight)" data-price="1490000" data-memo="TOOL LYNX">
           <div class="pricing-tier-name">Gói Đơn Lẻ</div>
           <div class="pricing-tier-desc">Phù hợp nhu cầu cần giải quyết riêng từng bài toán Hóa đơn hoặc Tờ khai thuế.</div>
           
           <div class="pricing-amount-wrap">
-            <span class="price-value">499.000 đ</span>
-            <span class="price-period">/ Vĩnh viễn</span>
+            <span class="price-value">1.490.000 đ</span>
+            <span class="price-strikethrough">2.500.000 đ</span>
+            <span class="price-period">/ 1 Năm</span>
           </div>
-
+          
           <ul class="tier-features-list">
             <li>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1694,15 +2183,15 @@
             </li>
             <li>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Kích hoạt theo Machine ID máy tính</span>
+              <span>Kích hoạt theo Machine ID máy tính cá nhân</span>
             </li>
             <li>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Cập nhật tính năng mới trọn đời</span>
+              <span>Cập nhật tính năng &amp; biểu mẫu mới liên tục</span>
             </li>
             <li>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Hỗ trợ kỹ thuật 1-1 qua Zalo</span>
+              <span>Hỗ trợ kỹ thuật 1-1 trực tiếp qua Zalo</span>
             </li>
           </ul>
 
@@ -1710,29 +2199,28 @@
         </div>
 
         <!-- Tier 2: Combo Duo -->
-        <div class="pricing-item-card hero-tier is-selected" data-plan-id="duo" data-plan-title="Combo Khai Thuế Thần Tốc (InvoiceDesk + TaxInsight)" data-price="990000" data-memo="COMBO DUO">
-          <div class="popular-tag">Được Chọn Nhiều Nhất</div>
+        <div class="pricing-item-card hero-tier is-selected" data-plan-id="duo" data-plan-title="Combo Khai Thuế Thần Tốc (InvoiceDesk + TaxInsight)" data-price="2990000" data-memo="COMBO DUO">
+          <div class="popular-tag">🔥 Được Chọn Nhiều Nhất</div>
           <div class="pricing-tier-name">Combo Khai Thuế Thần Tốc</div>
           <div class="pricing-tier-desc">InvoiceDesk (v2.7.14) + TaxInsight — Bộ đôi hoàn hảo cho Kế toán dịch vụ.</div>
           
           <div class="pricing-amount-wrap">
-            <span class="price-value">990.000 đ</span>
-            <span class="price-strikethrough">1.600.000 đ</span>
-            <span class="price-period">/ Vĩnh viễn</span>
+            <span class="price-value">2.990.000 đ</span>
+            <span class="price-strikethrough">4.800.000 đ</span>
+            <span class="price-period">/ 1 Năm</span>
           </div>
-
           <ul class="tier-features-list">
             <li>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span><strong>Trọn bộ 2 bản quyền:</strong> InvoiceDesk & TaxInsight</span>
+              <span><strong>Trọn bộ 2 bản quyền:</strong> InvoiceDesk &amp; TaxInsight</span>
             </li>
             <li>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Không giới hạn số lượng công ty & MST quản lý</span>
+              <span>Không giới hạn số lượng công ty &amp; MST quản lý</span>
             </li>
             <li>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Cài đặt & chạy thử trực tiếp qua Ultraviewer 1-1</span>
+              <span>Cài đặt &amp; chạy thử trực tiếp qua UltraViewer 1-1</span>
             </li>
             <li>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1748,16 +2236,15 @@
         </div>
 
         <!-- Tier 3: Combo Trio -->
-        <div class="pricing-item-card" data-plan-id="trio" data-plan-title="Combo Trợ Lý Toàn Diện VIP (Cả 3 Tool)" data-price="1490000" data-memo="COMBO TRIO">
+        <div class="pricing-item-card" data-plan-id="trio" data-plan-title="Combo Trợ Lý Toàn Diện VIP (Cả 3 Tool)" data-price="4990000" data-memo="COMBO TRIO">
           <div class="pricing-tier-name">Combo Trợ Lý Toàn Diện VIP</div>
-          <div class="pricing-tier-desc">InvoiceDesk + TaxInsight + AuditSoft NKC — Dành cho Kế toán trưởng & KTV.</div>
+          <div class="pricing-tier-desc">InvoiceDesk + TaxInsight + AuditSoft NKC v1.5.4 — Dành cho Kế toán trưởng &amp; KTV.</div>
           
           <div class="pricing-amount-wrap">
-            <span class="price-value">1.490.000 đ</span>
-            <span class="price-strikethrough">2.800.000 đ</span>
-            <span class="price-period">/ Vĩnh viễn</span>
+            <span class="price-value">4.990.000 đ</span>
+            <span class="price-strikethrough">8.500.000 đ</span>
+            <span class="price-period">/ 1 Năm</span>
           </div>
-
           <ul class="tier-features-list">
             <li>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1765,11 +2252,19 @@
             </li>
             <li>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Mở khóa 15 Giấy làm việc VACPA & Đối chiếu B360</span>
+              <span>Mở khóa 15 Giấy làm việc VACPA &amp; Đối chiếu B360 tự động cân đối</span>
             </li>
             <li>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Module quét chi tiền mặt > 5tr & B4 Quyết toán TNDN</span>
+              <span>Chốt đối chiếu công nợ 331/131 &amp; Xuất mẫu thư xác nhận Word hàng loạt</span>
+            </li>
+            <li>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Đối chiếu tờ khai Hải quan D150/G100 &amp; Gộp file Excel đa nguồn</span>
+            </li>
+            <li>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Module quét chi tiền mặt > 5tr &amp; B4 Quyết toán TNDN (NĐ 181/2025)</span>
             </li>
             <li>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1784,20 +2279,20 @@
       <!-- Live VietQR Hub Box -->
       <div id="vietqrBox" class="payment-hub-box">
         <div style="text-align: center; margin-bottom: 24px;">
-          <h3 style="font-size: 20px; font-weight: 700; color: #fff;">Cổng Thanh Toán VietQR Tự Động MB Bank</h3>
-          <p style="color: var(--text-muted); font-size: 14px;">Quét mã QR bằng App ngân hàng bất kỳ để tự động điền STK, Số tiền và Nội dung chuyển khoản.</p>
+          <h3 style="font-size: 21px; font-weight: 800; color: var(--text-main);">Cổng Thanh Toán VietQR Tự Động MB Bank</h3>
+          <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Quét mã QR bằng App ngân hàng bất kỳ để tự động điền STK, Số tiền và Nội dung chuyển khoản.</p>
         </div>
 
         <div class="payment-console-grid">
           <div class="qr-frame-card">
-            <img id="qrCodeDisplay" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=990000&addInfo=COMBO%20DUO&accountName=THINH%20LYNX" alt="VietQR MB Bank" class="qr-code-img">
-            <span style="font-size: 11.5px; color: #0284c7; font-weight: 700; margin-top: 8px;">Quét Mã Tự Động Điền Số Tiền</span>
+            <img id="qrCodeDisplay" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=2990000&addInfo=COMBO%20DUO&accountName=THINH%20LYNX" alt="VietQR MB Bank" class="qr-code-img">
+            <span style="font-size: 12px; color: #0284c7; font-weight: 700; margin-top: 10px;">Quét Mã Tự Động Điền Số Tiền</span>
           </div>
 
           <div class="bank-details-table">
             <div class="bank-info-line">
               <span class="label">Gói bạn đang chọn:</span>
-              <span id="labelSelectedPlan" class="value" style="color: #38bdf8;">Combo Khai Thuế Thần Tốc (990.000 đ)</span>
+              <span id="labelSelectedPlan" class="value" style="color: var(--primary);">Combo Khai Thuế Thần Tốc (2.990.000 đ)</span>
             </div>
 
             <div class="bank-info-line">
@@ -1824,7 +2319,7 @@
             <div class="bank-info-line">
               <span class="label">Số tiền chuyển:</span>
               <div class="value">
-                <span id="valTransferAmount" style="color: #34d399; font-size: 16px;">990.000 đ</span>
+                <span id="valTransferAmount" style="color: var(--accent-emerald); font-size: 16px;">2.990.000 đ</span>
                 <button type="button" class="btn-clipboard-copy" onclick="copyValue(window.activePriceRaw.toString(), 'Số tiền')">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                   <span>Chép Số Tiền</span>
@@ -1835,7 +2330,7 @@
             <div class="bank-info-line">
               <span class="label">Nội dung CK:</span>
               <div class="value">
-                <span id="valTransferMemo" style="color: #f59e0b; font-family: var(--font-mono);">COMBO DUO SĐT</span>
+                <span id="valTransferMemo" style="color: var(--accent-amber); font-family: var(--font-mono);">COMBO DUO SĐT</span>
                 <button type="button" class="btn-clipboard-copy" onclick="copyValue(document.getElementById('valTransferMemo').innerText, 'Nội dung chuyển khoản')">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                   <span>Chép Memo</span>
@@ -1844,16 +2339,15 @@
             </div>
 
             <div style="font-size: 12.5px; color: var(--text-dim); margin-top: 6px; line-height: 1.5;">
-              Sau khi chuyển khoản, bạn gửi ảnh biên lai qua Zalo <strong>0817.567.008</strong> (Thịnh Lynx) để nhận mã kích hoạt và được hỗ trợ cài đặt Ultraviewer tức thì.
+              Sau khi chuyển khoản, bạn gửi ảnh biên lai qua Zalo <strong>0817.567.008</strong> (Thịnh Lynx) để nhận mã kích hoạt và được hỗ trợ cài đặt UltraViewer tức thì.
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
-  <!-- FAQ Section (Accordion) -->
+  <!-- FAQ Section -->
   <section id="faq" class="faq-section">
     <div class="container">
       <div class="section-headline">
@@ -1909,12 +2403,12 @@
   <footer>
     <div class="container footer-flex-row">
       <div class="footer-brand-text">
-        <h3>Thịnh Lynx — Giải Pháp Tự Động Hóa Kế Toán & Thuế</h3>
-        <p>© 2026 Bản quyền thuộc về Nguyễn Đắc Thịnh. Đồng hành cùng cộng đồng Kế toán & Kiểm toán Việt Nam.</p>
+        <h3>AuditSoft — Giải Pháp Tự Động Hóa Kế Toán &amp; Thuế</h3>
+        <p>© 2026 Bản quyền thuộc về Nguyễn Đắc Thịnh. Đồng hành cùng cộng đồng Kế toán &amp; Kiểm toán Việt Nam.</p>
       </div>
 
       <div class="footer-contact">
-        <span style="font-size: 14px; color: #cbd5e1;">Zalo Hỗ Trợ: <strong style="color: #38bdf8;">0817.567.008</strong></span>
+        <span style="font-size: 14px; margin-right: 14px;">Zalo Hỗ Trợ: <strong style="color: #38bdf8;">0817.567.008</strong></span>
         <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn-zalo-nav">Nhắn Zalo Ngay</a>
       </div>
     </div>
@@ -1923,14 +2417,15 @@
   <!-- Floating Contact Widget -->
   <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="floating-zalo-pill" title="Chat Zalo với tác giả Thịnh Lynx">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-    <span>Tư Vấn & Cài Đặt: 0817.567.008</span>
+    <span>Tư Vấn &amp; Cài Đặt: 0817.567.008</span>
   </a>
 
-  <!-- Toast Notification Feedback -->
+  <!-- Toast Feedback -->
   <div id="feedbackToast" class="feedback-toast">✓ Đã sao chép thành công!</div>
 
-  <!-- Interactive Client-Side Scripts -->
+
   <script>
+
     // 1. Mobile Menu Drawer Toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const navMenu = document.getElementById('navMenu');
@@ -1974,20 +2469,20 @@
     const presetButtons = document.querySelectorAll('.roi-preset-btn');
 
     function calculateRoi(companyCount) {
-      sliderCompanyText.innerText = companyCount + ' Doanh Nghiệp';
+      if (sliderCompanyText) sliderCompanyText.innerText = companyCount + ' Doanh Nghiệp';
 
-      // 1 công ty tiết kiệm trung bình 3.6 giờ mỗi tháng
+      // 1 cong ty tiet kiem trung binh 3.6 gio / thang
       const monthlyHours = Math.round(companyCount * 3.6);
-      statMonthlyHours.innerText = monthlyHours + ' giờ';
+      if (statMonthlyHours) statMonthlyHours.innerText = monthlyHours + ' giờ';
 
-      // Tiết kiệm tiền công (65.000 đ/giờ x 12 tháng)
+      // Tiet kiem tien cong (65.000 d/gio x 12 thang)
       const annualMoneyMillions = (monthlyHours * 65000 * 12) / 1000000;
-      statAnnualMoney.innerText = annualMoneyMillions.toFixed(1) + ' tr';
+      if (statAnnualMoney) statAnnualMoney.innerText = annualMoneyMillions.toFixed(1) + ' tr';
 
-      // Hoàn vốn so với Combo 990.000 đ
+      // Hoan von so voi Combo 2.990.000 d
       const dailySaving = (monthlyHours * 65000) / 30;
-      const days = Math.max(1, Math.round(990000 / dailySaving));
-      statPaybackPeriod.innerText = 'Hoàn vốn chỉ sau ' + days + ' ngày làm việc';
+      const days = Math.max(1, Math.round(2990000 / dailySaving));
+      if (statPaybackPeriod) statPaybackPeriod.innerText = 'Hoàn vốn chỉ sau ' + days + ' ngày làm việc';
     }
 
     function setCompanyPreset(val) {
@@ -2021,7 +2516,7 @@
     }
 
     // 4. Pricing Tier Selection & Dynamic VietQR Generation
-    window.activePriceRaw = 990000;
+    window.activePriceRaw = 2990000;
     const tierCards = document.querySelectorAll('.pricing-item-card');
     const qrCodeDisplay = document.getElementById('qrCodeDisplay');
     const labelSelectedPlan = document.getElementById('labelSelectedPlan');
@@ -2072,7 +2567,7 @@
       toast.classList.add('show');
       setTimeout(() => {
         toast.classList.remove('show');
-      }, 2000);
+      }, 2200);
     }
 
     function copyValue(text, label) {
@@ -2106,7 +2601,30 @@
         content.classList.toggle('is-visible', !isExpanded);
       }
     }
-  </script>
 
+    // 7. Live Theme Switcher Logic
+    function applyTheme(themeId) {
+      document.documentElement.setAttribute('data-theme', themeId);
+      localStorage.setItem('auditsoft_selected_theme', themeId);
+      
+      const themeButtons = document.querySelectorAll('#themeBtnGroup button');
+      themeButtons.forEach(btn => {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(themeId)) {
+          btn.classList.add('is-active');
+        } else {
+          btn.classList.remove('is-active');
+        }
+      });
+    }
+
+    // Auto-restore theme from localStorage
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('auditsoft_selected_theme');
+      if (savedTheme && ['swiss-light', 'linear-dark', 'big4-navy', 'modern-bento'].includes(savedTheme)) {
+        applyTheme(savedTheme);
+      }
+    });
+
+  </script>
 </body>
 </html>
