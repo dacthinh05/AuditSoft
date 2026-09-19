@@ -1,16 +1,13 @@
 {
-  "version": "1.6.0",
-  "releaseDate": "2026-09-18",
-  "title": "AuditSoft v1.6.0 — Chuẩn Hóa 15 Giấy Làm Việc VACPA, Chống Tràn Ô '###' & Khử Nhân Đôi Số Dư",
+  "version": "1.6.1",
+  "releaseDate": "2026-09-19",
+  "title": "AuditSoft v1.6.1 — Tối Ưu Nút Xác Nhận Công Nợ (E252/D352) & Tinh Gọn Bảng Đối Chiếu",
   "changelog": [
-    "Tự động chống tràn ô '###' trên Microsoft Excel: cơ chế auto-fit đảm bảo độ rộng cột tiền tệ tối thiểu 18-22 ký tự, hiển thị hoàn hảo các số tiền hàng chục, hàng trăm tỷ đồng",
-    "Khắc phục đứt gãy liên kết công thức Master A-B-H: tự động điền mã TK cấp 1 và cấp 2 trên sheet bcdsps-Truoc DC, kích hoạt tính toán tự động toàn bộ BCTC B01, B02, B03",
-    "Triển khai thuật toán Leaf-Node Rollup: loại bỏ hoàn toàn tình trạng nhân đôi số dư đa cấp (chỉ cộng nút lá trên cây tài khoản con)",
-    "Làm sạch bảng phân tích đối ứng: loại trừ 100% tài khoản kết chuyển 911 khỏi các biểu mẫu đối ứng G190, G290, G490; đồng bộ hóa chi phí bán hàng 6421 và quản lý 6422 theo Thông tư 133",
-    "Bảo tồn nguyên vẹn đường viền bảng (borders) khi khử công thức chia cho 0 và chuẩn hóa thứ tự XML Schema ECMA-376"
+    "Tối ưu giao diện nút xác nhận đối chiếu công nợ E252/D352: giảm padding xuống 1.5px 8px, đồng bộ kích thước pill chuẩn compact grid, tránh dày cộm và bảo đảm không làm đẩy chiều cao dòng",
+    "Tích hợp nút hủy xác nhận (✕) trực tiếp vào trong badge Khớp/Lệch, loại bỏ layout shift và giúp bảng đối chiếu thanh thoát, chuyên nghiệp"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.6.0/AuditSoft-1.6.0-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.6.0/AuditSoft-1.6.0-Portable.exe",
-  "sha256": "9d6f4b3cf59a6cb7712fc60bf7b37feaa854467f872d32656310cca771ecb159",
-  "signature": "W0Kp_aF63ZNRzceaM1KF7UcOvKMsNMyP5RXgguGzptWH_UUPio-U53EYB1HXZgRO13DtznseRjk5F05iU0WwAw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.6.1/AuditSoft-1.6.1-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.6.1/AuditSoft-1.6.1-Portable.exe",
+  "sha256": "23f5dd5c91045683bb90ad692d8e4809141b861610745b9bd9912bc0371f68f7",
+  "signature": "rK7zZpZyaknN2ulIboCjOWQqRZg9jFeFLcO1qBWEiNtClOTgr59Jg6iYxDqpLaAMNmmrI-fC9Q39eX17KbLzAg"
 }
