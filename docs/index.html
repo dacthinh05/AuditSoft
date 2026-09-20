@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thịnh Lynx Ecosystem — Khép Lại Mùa Quyết Toán Không Tăng Ca</title>
+  <title>Thịnh Lynx Ecosystem — Bộ Ba Công Cụ Kế Toán &amp; Kiểm Toán Offline</title>
   
-  <meta name="description" content="Bộ ba tự động hóa Kế toán & Kiểm toán: Tự động kéo HĐĐT Cổng Thuế (InvoiceDesk v2.7.14), tải tờ khai không cần Token (TaxInsight v3.3.4) và xuất trọn bộ 15 Giấy làm việc VACPA (AuditSoft NKC v1.6.1). 100% Offline an toàn.">
+  <meta name="description" content="Bộ ba công cụ Kế toán &amp; Kiểm toán Offline: Kéo HĐĐT Cổng Thuế (InvoiceDesk v2.7.14), tải tờ khai không cần Token (TaxInsight v3.3.4) và xuất trọn bộ 15 Giấy làm việc VACPA (AuditSoft NKC v1.8.0). 100% Offline an toàn.">
   <meta name="keywords" content="hóa đơn điện tử, tải tờ khai thuế không cần token, kiểm toán nkc, nghị định 181 2025, 15 giấy làm việc vacpa, thịnh lynx">
   <meta name="author" content="Thịnh Lynx (0817.567.008)">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Thịnh Lynx Ecosystem — Khép Lại Mùa Quyết Toán Không Tăng Ca">
-  <meta property="og:description" content="Thao tác 3 bước khép kín: Tự động kéo HĐĐT Cổng Thuế, tải tờ khai không cần Token và xuất trọn bộ 15 Giấy làm việc VACPA.">
+  <meta property="og:title" content="Thịnh Lynx Ecosystem — Bộ Ba Công Cụ Kế Toán &amp; Kiểm Toán Offline">
+  <meta property="og:description" content="Chuẩn hóa dữ liệu HĐĐT, tờ khai Cổng thuế và lập hồ sơ kiểm toán VACPA. 100% Offline an toàn.">
   <meta property="og:image" content="https://raw.githubusercontent.com/dacthinh05/AuditSoft/main/icon.svg">
   <meta property="og:locale" content="vi_VN">
 
@@ -1585,12 +1585,12 @@
       </div>
 
       <h1 class="hero-title">
-        Khép lại mùa quyết toán không tăng ca.
-        <span class="emphasis">Tự động kéo HĐĐT, tải tờ khai không cần Token và xuất 15 Giấy làm việc VACPA</span>
+        Bộ ba công cụ Kế toán &amp; Kiểm toán Offline.
+        <span class="emphasis">Chuẩn hóa dữ liệu HĐĐT, tờ khai Cổng thuế và lập hồ sơ kiểm toán VACPA</span>
       </h1>
 
       <p class="hero-description">
-        Dành riêng cho Kế toán dịch vụ và Kiểm toán viên. Chấm dứt cảnh thức trắng đêm gõ captcha, cắm rút USB Token và dò sổ thủ công. Máy tính làm thay bạn mọi khâu lặp lại vô nghĩa, xử lý 100% offline an toàn trên máy tính cá nhân.
+        Giải pháp chuyên biệt cho Kế toán dịch vụ và Kiểm toán viên. Tự động hóa toàn bộ thao tác thu thập hóa đơn, tải hồ sơ thuế eTax và soát xét sổ NKC. Xử lý 100% offline an toàn trên máy tính cá nhân.
       </p>
 
       <div class="hero-actions-row">
@@ -1686,7 +1686,7 @@
             </div>
             <div class="stage-item-pill">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Bốc mẫu kiểm toán chuẩn mực VSA 530 trong 3 giây</span>
+              <span>Bốc mẫu kiểm toán phát sinh chuẩn mực VSA 530</span>
             </div>
           </div>
         </div>
@@ -2098,10 +2098,9 @@
 </svg>
             </div>
             <div>
-              <h4>AuditSoft NKC <span class="tool-version-pill">v1.6.1</span></h4>
+              <h4>AuditSoft NKC <span class="tool-version-pill">v1.8.0</span></h4>
               <span style="font-size: 11.5px; color: var(--primary); font-weight: 700;">Soát Xét &amp; 15 GLV VACPA</span>
             </div>
-          </div>
           <p>So khớp 2 sổ NKC (B360), lọc chi tiền mặt &ge; 5tr NĐ 181/2025 đưa vào B4, đối chiếu Hải quan, bốc mẫu VSA 530, tự động sinh 15 GLV VACPA.</p>
           <div class="tool-card-action" style="color: var(--primary);">
             <span>Khám phá tính năng AuditSoft chi tiết</span>
@@ -2140,17 +2139,17 @@
 
         <!-- Sheet Selector Tabs -->
         <div class="excel-sheet-selector-tabs">
-          <button type="button" class="excel-tab-btn is-active" onclick="switchExcelSheet('d300', 'D18', '=SUM(D6:D17)', this)">
-            <span>📊 Sheet D300 (Phải Thu 131)</span>
+          <button type="button" class="excel-tab-btn is-active" onclick="switchExcelSheet('d300', this)">
+            <span>Sheet D300 (Phải Thu 131)</span>
           </button>
-          <button type="button" class="excel-tab-btn" onclick="switchExcelSheet('e200', 'E14', '=SUM(E6:E13)-F14', this)">
-            <span>📋 Sheet E200 (Phải Trả 331 &amp; Hải Quan)</span>
+          <button type="button" class="excel-tab-btn" onclick="switchExcelSheet('e200', this)">
+            <span>Sheet E200 (Phải Trả 331 &amp; Hải Quan)</span>
           </button>
-          <button type="button" class="excel-tab-btn" onclick="switchExcelSheet('g200', 'C16', '=SUMIFS(NKC!E:E, NKC!C:C, ">=5000000")', this)">
-            <span>⚠️ Sheet G200 (Chi Tiền Mặt &ge; 5Tr NĐ 181)</span>
+          <button type="button" class="excel-tab-btn" onclick="switchExcelSheet('g200', this)">
+            <span>Sheet G200 (Chi Tiền Mặt &ge; 5Tr NĐ 181)</span>
           </button>
-          <button type="button" class="excel-tab-btn" onclick="switchExcelSheet('b360', 'F12', '=SUM(F6:F11)', this)">
-            <span>⚖️ Sheet B360 (Tổng Hợp Bút Toán AJE)</span>
+          <button type="button" class="excel-tab-btn" onclick="switchExcelSheet('b360', this)">
+            <span>Sheet B360 (Tổng Hợp Bút Toán AJE)</span>
           </button>
         </div>
 
@@ -2440,7 +2439,7 @@
             <tr>
               <td><strong>Tải tờ khai thuế &amp; Thông báo eTax</strong></td>
               <td>Cắm rút hàng chục USB Token mỗi đêm</td>
-              <td class="col-solution">1 Click tải trọn bộ hồ sơ không cần token (TaxInsight)</td>
+              <td class="col-solution">Tự động tải trọn bộ hồ sơ không cần token (TaxInsight)</td>
             </tr>
             <tr>
               <td><strong>Rà soát chi phí &ge; 5tr (NĐ 181/2025)</strong></td>
@@ -2495,10 +2494,10 @@
         </div>
 
         <!-- Tier 2: Combo Duo -->
-        <div class="pricing-card hero-tier is-selected" data-plan-id="duo" data-plan-title="Combo Khai Thuế Thần Tốc (InvoiceDesk + TaxInsight)" data-price="990000" data-memo="COMBO DUO">
+        <div class="pricing-card hero-tier is-selected" data-plan-id="duo" data-plan-title="Combo Thuế (InvoiceDesk + TaxInsight)" data-price="990000" data-memo="COMBO DUO">
           <div class="tier-badge">Khuyên Dùng</div>
-          <div class="tier-name">Combo Khai Thuế Thần Tốc</div>
-          <div class="tier-desc">Trọn bộ 2 Tool: InvoiceDesk (v2.7.14) + TaxInsight (v3.3.4).</div>
+          <div class="tier-name">Combo Thuế Toàn Diện</div>
+          <div class="tier-desc">Trọn bộ 2 phần mềm: InvoiceDesk (v2.7.14) + TaxInsight (v3.3.4).</div>
           
           <div class="tier-price-row">
             <span class="tier-price-val">990.000 đ</span>
@@ -2516,10 +2515,10 @@
           <button type="button" class="btn-tier-select primary">✓ Đang Chọn Gói Này</button>
         </div>
 
-        <!-- Tier 3: Combo Trio VIP -->
-        <div class="pricing-card" data-plan-id="trio" data-plan-title="Combo Trợ Lý Toàn Diện VIP (Cả 3 Tool)" data-price="1990000" data-memo="COMBO TRIO">
-          <div class="tier-name">Combo Trợ Lý Toàn Diện VIP</div>
-          <div class="tier-desc">Cả 3 Tool: InvoiceDesk + TaxInsight + AuditSoft NKC v1.6.1.</div>
+        <!-- Tier 3: Combo 3 Tool -->
+        <div class="pricing-card" data-plan-id="trio" data-plan-title="Combo Trọn Bộ 3 Phần Mềm" data-price="1990000" data-memo="COMBO TRIO">
+          <div class="tier-name">Combo Trọn Bộ 3 Phần Mềm</div>
+          <div class="tier-desc">Trọn bộ 3 công cụ: InvoiceDesk + TaxInsight + AuditSoft NKC v1.8.0.</div>
           
           <div class="tier-price-row">
             <span class="tier-price-val">1.990.000 đ</span>
@@ -2528,13 +2527,13 @@
           </div>
 
           <ul class="tier-feature-list">
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Trọn bộ 3 bản quyền VIP:</strong> Full 100% tính năng</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Trọn bộ 3 bản quyền:</strong> Đầy đủ tính năng</span></li>
             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Mở khóa 15 Giấy làm việc VACPA &amp; Đối chiếu B360</span></li>
             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Rà soát chi tiền mặt &ge; 5tr NĐ 181 &amp; Đối chiếu Hải quan</span></li>
             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Ưu tiên hỗ trợ kỹ thuật trực tiếp 1-1 từ Thịnh Lynx</span></li>
           </ul>
 
-          <button type="button" class="btn-tier-select ghost">Chọn Combo 3 Tool VIP</button>
+          <button type="button" class="btn-tier-select ghost">Chọn Gói Trọn Bộ</button>
         </div>
       </div>
 
@@ -2554,7 +2553,7 @@
           <div class="bank-info-stack">
             <div class="bank-row">
               <span class="lbl">Gói đang chọn:</span>
-              <span id="labelSelectedPlan" class="val" style="color: var(--primary);">Combo Khai Thuế Thần Tốc (990.000 đ)</span>
+              <span id="labelSelectedPlan" class="val" style="color: var(--primary);">Combo Thuế Toàn Diện (990.000 đ)</span>
             </div>
             <div class="bank-row">
               <span class="lbl">Ngân hàng:</span>
@@ -2609,7 +2608,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="faq-body">
-            Tuyệt đối không! Cả 3 phần mềm đều là Desktop Application (chạy trực tiếp trên máy tính cá nhân của bạn). Dữ liệu được tải về và xử lý 100% trên ổ cứng nội bộ của bạn, không gửi qua bất kỳ máy chủ trung gian nào.
+            Không. Cả 3 phần mềm đều là Desktop Application chạy trực tiếp trên máy tính của bạn. Dữ liệu được tải về và xử lý nội bộ trên máy tính cá nhân, không chuyển tiếp qua bất kỳ máy chủ bên ngoài nào.
           </div>
         </div>
 
@@ -2727,7 +2726,14 @@
 
 
     // Excel Sheet Inspector Switcher
-    function switchExcelSheet(sheetId, cellRef, formula, btn) {
+    const EXCEL_SHEET_META = {
+      d300: { cell: 'D18', formula: '=SUM(D6:D17)' },
+      e200: { cell: 'E14', formula: '=SUM(E6:E13)-F14' },
+      g200: { cell: 'C16', formula: '=SUMIFS(NKC!E:E, NKC!C:C, ">=5000000")' },
+      b360: { cell: 'F12', formula: '=SUM(F6:F11)' }
+    };
+
+    function switchExcelSheet(sheetId, btn) {
       const tabs = document.querySelectorAll('.excel-tab-btn');
       tabs.forEach(t => t.classList.remove('is-active'));
       if (btn) btn.classList.add('is-active');
@@ -2738,10 +2744,13 @@
       const targetPane = document.getElementById('excelPane-' + sheetId);
       if (targetPane) targetPane.classList.add('is-active');
 
-      const refElem = document.getElementById('excelCellRef');
-      const formulaElem = document.getElementById('excelFormulaText');
-      if (refElem) refElem.innerText = cellRef;
-      if (formulaElem) formulaElem.innerText = formula;
+      const meta = EXCEL_SHEET_META[sheetId];
+      if (meta) {
+        const refElem = document.getElementById('excelCellRef');
+        const formulaElem = document.getElementById('excelFormulaText');
+        if (refElem) refElem.innerText = meta.cell;
+        if (formulaElem) formulaElem.innerText = meta.formula;
+      }
     }
 
     // ROI Calculator
