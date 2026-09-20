@@ -1,15 +1,15 @@
 {
-  "version": "1.8.0",
-  "releaseDate": "2026-09-19",
-  "title": "AuditSoft v1.8.0 — Commercial Pilot Edition",
+  "version": "1.8.1",
+  "releaseDate": "2026-09-20",
+  "title": "AuditSoft v1.8.1 — Cập nhật Đối Chiếu TGNH & Thư Xác Nhận VSA 505",
   "changelog": [
-    "Trung tâm ngoại lệ & bút toán điều chỉnh VSA 450 (Finding Hub)",
-    "Lưu trữ & mở lại dự án kiểm toán chuẩn .auditsoft (Ctrl + S)",
-    "Xuất trọn gói hồ sơ kiểm toán 1-chạm theo cây 4 nhánh VACPA",
-    "Bộ công cụ pilot thực chiến & hướng dẫn 5 bước"
+    "Hoàn thiện Bảng đối chiếu tiền gửi ngân hàng & đánh giá lại CLTG (GLV D146)",
+    "Hỗ trợ trích xuất và soạn thảo Thư xác nhận số dư ngân hàng chuẩn VSA 505 (tách riêng từng ngân hàng)",
+    "Xuất file Excel Giấy làm việc D146 chuẩn VACPA tự động",
+    "Tối ưu giao diện bảng số liệu, tăng kích thước số hiển thị và tinh gọn menu bên trái"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.0/AuditSoft-1.8.0-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.0/AuditSoft-1.8.0-Portable.exe",
-  "sha256": "d34657f89fb0ab7c331bfb321c184ea0bbcb43323593ce38632f273ee4f4161a",
-  "signature": "wVNhNpM6rHc3pQm_n_upLS3RejS6-sXFVAXOf8wXUTQ_wctXizPjeyIlbiynGho8DGjLGyoV5EIgKfJXbQgFAA"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.1/AuditSoft-1.8.1-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.1/AuditSoft-1.8.1-Portable.exe",
+  "sha256": "99c71e07197879abae5f03f07dc5f35e688167fce00a3feca9676d0e00a05154",
+  "signature": "7vzCneW05lA8uYKyUVHae0OzwOIq8BkVCY_QqQrr5GJQnUh8i5qJ7BVHKhNaKi8ohamP5pT29hx1uvGQeKYqBA"
 }
