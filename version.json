@@ -1,15 +1,15 @@
 {
-  "version": "1.8.1",
+  "version": "1.8.3",
   "releaseDate": "2026-09-20",
-  "title": "AuditSoft v1.8.1 — Cập nhật Đối Chiếu TGNH & Thư Xác Nhận VSA 505",
+  "title": "AuditSoft v1.8.3 — Nâng Cấp Tự Động Hóa Đối Chiếu Bán - Xuất Kho G152 & Bảo Toàn Hồ Sơ Dự Án",
   "changelog": [
-    "Hoàn thiện Bảng đối chiếu tiền gửi ngân hàng & đánh giá lại CLTG (GLV D146)",
-    "Hỗ trợ trích xuất và soạn thảo Thư xác nhận số dư ngân hàng chuẩn VSA 505 (tách riêng từng ngân hàng)",
-    "Xuất file Excel Giấy làm việc D146 chuẩn VACPA tự động",
-    "Tối ưu giao diện bảng số liệu, tăng kích thước số hiển thị và tinh gọn menu bên trái"
+    "Nâng cấp bộ nhận diện cột thông minh cho module Đối chiếu Bán - Xuất kho (G 152): tự động bóc tách đa dạng form MISA, FAST, Bravo, SAP, ERP tiếng Anh",
+    "Bổ sung tính năng xem trước và tùy chỉnh cấu hình ánh xạ cột thủ công (Universal Column Mapping Modal) cho Sổ bán hàng và Báo cáo tồn kho",
+    "Nâng cấp cơ chế lưu trữ hồ sơ dự án (.auditsoft): bảo toàn 100% dữ liệu kiểm toán kho, thuế và bảo hiểm xã hội",
+    "Chuẩn hóa công thức tỷ lệ chênh lệch khi phát sinh hàng bán trả lại lớn hơn doanh số"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.1/AuditSoft-1.8.1-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.1/AuditSoft-1.8.1-Portable.exe",
-  "sha256": "99c71e07197879abae5f03f07dc5f35e688167fce00a3feca9676d0e00a05154",
-  "signature": "7vzCneW05lA8uYKyUVHae0OzwOIq8BkVCY_QqQrr5GJQnUh8i5qJ7BVHKhNaKi8ohamP5pT29hx1uvGQeKYqBA"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.3/AuditSoft-1.8.3-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.3/AuditSoft-1.8.3-Portable.exe",
+  "sha256": "78811c162f94d16dbe2ad4339267c064ce20c1934ccfdafa24288d772e26ed7d",
+  "signature": "mbnisdVdOkNsfjc6hW8o-lfol3vpbkD5Y0szWkDkiAes1_9ZLIDek7lmm-VX672gxQ0xBHWiIkEP-RS5mJ77Dw"
 }
