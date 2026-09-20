@@ -1,15 +1,16 @@
 {
-  "version": "1.8.3",
+  "version": "1.8.4",
   "releaseDate": "2026-09-20",
-  "title": "AuditSoft v1.8.3 — Nâng Cấp Tự Động Hóa Đối Chiếu Bán - Xuất Kho G152 & Bảo Toàn Hồ Sơ Dự Án",
+  "title": "AuditSoft v1.8.4 — Tinh Gọn Dung Lượng 1.7GB, Tối Ưu Hóa Giao Diện & Đồng Bộ Toàn Diện 24 Module Kiểm Toán",
   "changelog": [
-    "Nâng cấp bộ nhận diện cột thông minh cho module Đối chiếu Bán - Xuất kho (G 152): tự động bóc tách đa dạng form MISA, FAST, Bravo, SAP, ERP tiếng Anh",
-    "Bổ sung tính năng xem trước và tùy chỉnh cấu hình ánh xạ cột thủ công (Universal Column Mapping Modal) cho Sổ bán hàng và Báo cáo tồn kho",
-    "Nâng cấp cơ chế lưu trữ hồ sơ dự án (.auditsoft): bảo toàn 100% dữ liệu kiểm toán kho, thuế và bảo hiểm xã hội",
-    "Chuẩn hóa công thức tỷ lệ chênh lệch khi phát sinh hàng bán trả lại lớn hơn doanh số"
+    "Tinh gọn cấu hình đóng gói Vite (emptyOutDir: true), giảm dung lượng bundle và tối ưu tốc độ khởi động ứng dụng",
+    "Đồng bộ chuẩn xác số hiệu phiên bản trên thanh Header, Modal bản quyền và toàn bộ hệ sinh thái",
+    "Nâng cấp chính sách bảo mật CSP tương thích mượt mà giữa môi trường phát triển và kiểm toán thực tế",
+    "Khử triệt để các cảnh báo nạp module trên trình duyệt cho 6 Phụ lục kiểm toán độc lập (Audit Working Annexes)",
+    "Rà soát & kiểm thử tự động thành công 100% trên toàn bộ 24 module giao diện kiểm toán"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.3/AuditSoft-1.8.3-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.3/AuditSoft-1.8.3-Portable.exe",
-  "sha256": "78811c162f94d16dbe2ad4339267c064ce20c1934ccfdafa24288d772e26ed7d",
-  "signature": "mbnisdVdOkNsfjc6hW8o-lfol3vpbkD5Y0szWkDkiAes1_9ZLIDek7lmm-VX672gxQ0xBHWiIkEP-RS5mJ77Dw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.4/AuditSoft-1.8.4-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.4/AuditSoft-1.8.4-Portable.exe",
+  "sha256": "77054756792c8f3a5679d2606c7ffbf3564692a87a018e1f6210cb958a067e52",
+  "signature": "PJQZLuT4I944Sk3VJJ8oHQj1shSls20mC-k5Kpbpb7-fZBSKB4YYm3s2zmZbUTuNHTqIeKif5yLosegHSGHZAw"
 }
