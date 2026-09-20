@@ -1,13 +1,15 @@
 {
-  "version": "1.6.1",
+  "version": "1.8.0",
   "releaseDate": "2026-09-19",
-  "title": "AuditSoft v1.6.1 — Tối Ưu Nút Xác Nhận Công Nợ (E252/D352) & Tinh Gọn Bảng Đối Chiếu",
+  "title": "AuditSoft v1.8.0 — Commercial Pilot Edition",
   "changelog": [
-    "Tối ưu giao diện nút xác nhận đối chiếu công nợ E252/D352: giảm padding xuống 1.5px 8px, đồng bộ kích thước pill chuẩn compact grid, tránh dày cộm và bảo đảm không làm đẩy chiều cao dòng",
-    "Tích hợp nút hủy xác nhận (✕) trực tiếp vào trong badge Khớp/Lệch, loại bỏ layout shift và giúp bảng đối chiếu thanh thoát, chuyên nghiệp"
+    "Trung tâm ngoại lệ & bút toán điều chỉnh VSA 450 (Finding Hub)",
+    "Lưu trữ & mở lại dự án kiểm toán chuẩn .auditsoft (Ctrl + S)",
+    "Xuất trọn gói hồ sơ kiểm toán 1-chạm theo cây 4 nhánh VACPA",
+    "Bộ công cụ pilot thực chiến & hướng dẫn 5 bước"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.6.1/AuditSoft-1.6.1-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.6.1/AuditSoft-1.6.1-Portable.exe",
-  "sha256": "23f5dd5c91045683bb90ad692d8e4809141b861610745b9bd9912bc0371f68f7",
-  "signature": "rK7zZpZyaknN2ulIboCjOWQqRZg9jFeFLcO1qBWEiNtClOTgr59Jg6iYxDqpLaAMNmmrI-fC9Q39eX17KbLzAg"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.0/AuditSoft-1.8.0-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.0/AuditSoft-1.8.0-Portable.exe",
+  "sha256": "d34657f89fb0ab7c331bfb321c184ea0bbcb43323593ce38632f273ee4f4161a",
+  "signature": "wVNhNpM6rHc3pQm_n_upLS3RejS6-sXFVAXOf8wXUTQ_wctXizPjeyIlbiynGho8DGjLGyoV5EIgKfJXbQgFAA"
 }
