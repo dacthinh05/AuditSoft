@@ -1,15 +1,14 @@
 {
-  "version": "1.8.6",
+  "version": "1.8.7",
   "releaseDate": "2026-09-21",
-  "title": "AuditSoft v1.8.6 — Khắc Phục Bóc Tách Tờ Khai Thuế GTGT TT80 & Chuẩn Hóa Đối Chiếu Doanh Thu G150",
+  "title": "AuditSoft v1.8.7 — Cơ Chế Safe-Write Chống Khóa File EBUSY & Hoàn Thiện Xuất Excel G150",
   "changelog": [
-    "Cập nhật thuật toán bóc tách XML tờ khai thuế GTGT chuẩn Thông tư 80/2021/TT-BTC, nhận diện chính xác các chỉ tiêu [29] (0%), [30] (5%), [32] (10%), [32a] (không tính thuế) và tương thích ngược TT 156",
-    "Khắc phục triệt để lỗi cộng lặp trùng doanh thu trên Giấy làm việc đối chiếu doanh thu & tờ khai thuế (Mẫu G 150)",
-    "Đồng bộ hóa 100% công thức tính toán giữa phần mềm và công thức Excel, triệt tiêu hoàn toàn hiện tượng lệch âm giả tạo trên Cột Chênh lệch",
-    "Thẩm định chính xác tỷ lệ và số thuế GTGT được giảm theo Nghị quyết Quốc hội (NQ 142/2024, NQ 204/2025/QH15)"
+    "Bổ sung cơ chế ghi tệp an toàn (Safe-Write Fallback): Tự động phát hiện và xử lý lỗi khóa file EBUSY khi tệp Excel đang mở, tự động lưu bản sao _(1) để không làm gián đoạn công việc của KTV",
+    "Khắc phục triệt để lỗi EBUSY trên toàn bộ các cổng xuất báo cáo: Đối chiếu doanh thu G150, Bảng đối chiếu thuế, Ma trận chi phí theo yếu tố, Data Profiler và Audit Analytics",
+    "Chuẩn hóa thông báo lỗi thân thiện bằng tiếng Việt, hướng dẫn KTV đóng tệp trong Microsoft Excel nếu không thể ghi đè"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.6/AuditSoft-1.8.6-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.6/AuditSoft-1.8.6-Portable.exe",
-  "sha256": "e0bb26ea2189edb87e750e720805060fb07654bc93a02bf249213aec4516d1c7",
-  "signature": "qArprNwk9_QMsi-0eG8_RTkRwc5qGATab7UfRRH59M8ijQOsM5Xv_jS8SczQPHSZVb96nu8Ndp5Nu5IjVg8yBg"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.7/AuditSoft-1.8.7-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.7/AuditSoft-1.8.7-Portable.exe",
+  "sha256": "c48586417cc3f9a82052a24d151c3f62628f0a91f2294f479a079933c2059e7e",
+  "signature": "CPdbu5bEGF6F24OBlsUzzwv5GY3JkymdReyNdN5XodDbNPEjZU_FjUPGOZvL3EGM29bGMfUMWFLCMsd7ZDG5DQ"
 }
