@@ -1,16 +1,15 @@
 {
-  "version": "1.8.5",
+  "version": "1.8.6",
   "releaseDate": "2026-09-21",
-  "title": "AuditSoft v1.8.5 — Bóc Tách Công Nợ Đa Tiền Tệ & Chuẩn Hóa Nghiệp Vụ Dự Phòng TK 331",
+  "title": "AuditSoft v1.8.6 — Khắc Phục Bóc Tách Tờ Khai Thuế GTGT TT80 & Chuẩn Hóa Đối Chiếu Doanh Thu G150",
   "changelog": [
-    "Khắc phục triệt để lỗi gán nhầm nguyên tệ ngoại tệ cho các nhà cung cấp VNĐ trên sổ Tổng hợp/Chi tiết đa tiền tệ (MISA Loại tiền: Tổng hợp)",
-    "Loại bỏ 100% cảnh báo sai lệch đánh giá lại tỷ giá cuối kỳ (R06-L1) trên đồng nội tệ VNĐ",
-    "Nhận diện chính xác đối tác ngoại tệ thực tế và rủi ro còn số dư chênh lệch tỷ giá VNĐ sau khi tất toán nguyên tệ (R11)",
-    "Tinh chỉnh giao diện Chốt công nợ chuẩn mực VSA 540 & Thông tư 48/2019/TT-BTC: TK 331 nợ phải trả không trích lập dự phòng khó đòi, hiển thị Ma trận tuổi nợ quá hạn đánh giá rủi ro thanh khoản",
-    "Trình bày chuyên nghiệp cột Gốc ngoại tệ kèm ký hiệu tiền tệ thực tế theo từng đối tác"
+    "Cập nhật thuật toán bóc tách XML tờ khai thuế GTGT chuẩn Thông tư 80/2021/TT-BTC, nhận diện chính xác các chỉ tiêu [29] (0%), [30] (5%), [32] (10%), [32a] (không tính thuế) và tương thích ngược TT 156",
+    "Khắc phục triệt để lỗi cộng lặp trùng doanh thu trên Giấy làm việc đối chiếu doanh thu & tờ khai thuế (Mẫu G 150)",
+    "Đồng bộ hóa 100% công thức tính toán giữa phần mềm và công thức Excel, triệt tiêu hoàn toàn hiện tượng lệch âm giả tạo trên Cột Chênh lệch",
+    "Thẩm định chính xác tỷ lệ và số thuế GTGT được giảm theo Nghị quyết Quốc hội (NQ 142/2024, NQ 204/2025/QH15)"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.5/AuditSoft-1.8.5-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.5/AuditSoft-1.8.5-Portable.exe",
-  "sha256": "54e26d7b4eb3ab15f2c0bb85772923963eb074ca5789288e75408a25325c5adc",
-  "signature": "dH7BS1MU5FbFbw4czp9RcdJiqfV3kgo7OOPZH86ChNShD5-d_5y2pKq5BV_PFQWOOz6Q6M12IyjFSbm1X9_JCA"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.6/AuditSoft-1.8.6-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.6/AuditSoft-1.8.6-Portable.exe",
+  "sha256": "e0bb26ea2189edb87e750e720805060fb07654bc93a02bf249213aec4516d1c7",
+  "signature": "qArprNwk9_QMsi-0eG8_RTkRwc5qGATab7UfRRH59M8ijQOsM5Xv_jS8SczQPHSZVb96nu8Ndp5Nu5IjVg8yBg"
 }
