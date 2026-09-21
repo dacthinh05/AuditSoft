@@ -1,14 +1,14 @@
 {
-  "version": "1.8.7",
+  "version": "1.8.8",
   "releaseDate": "2026-09-21",
-  "title": "AuditSoft v1.8.7 — Cơ Chế Safe-Write Chống Khóa File EBUSY & Hoàn Thiện Xuất Excel G150",
+  "title": "AuditSoft v1.8.8 — Chuẩn Hóa Phân Loại Tờ Khai Thuế GTGT, TNCN, TNDN & Báo Cáo Tài Chính",
   "changelog": [
-    "Bổ sung cơ chế ghi tệp an toàn (Safe-Write Fallback): Tự động phát hiện và xử lý lỗi khóa file EBUSY khi tệp Excel đang mở, tự động lưu bản sao _(1) để không làm gián đoạn công việc của KTV",
-    "Khắc phục triệt để lỗi EBUSY trên toàn bộ các cổng xuất báo cáo: Đối chiếu doanh thu G150, Bảng đối chiếu thuế, Ma trận chi phí theo yếu tố, Data Profiler và Audit Analytics",
-    "Chuẩn hóa thông báo lỗi thân thiện bằng tiếng Việt, hướng dẫn KTV đóng tệp trong Microsoft Excel nếu không thể ghi đè"
+    "Thắt chặt chốt chặn nhận diện tờ khai thuế: Loại bỏ triệt để hiện tượng nhận nhầm tệp Quyết toán thuế TNDN và Báo cáo tài chính vào nhóm thuế GTGT (khử sạch dòng rác Năm 2025 trên bảng E380)",
+    "Ngăn chặn nhận nhầm tờ khai thuế TNDN (02/TNDN) vào nhóm thuế TNCN, phân tách rõ ràng giữa tờ khai khấu trừ định kỳ (05/KK-TNCN) và tờ khai quyết toán năm (05/QTT-TNCN)",
+    "Bổ sung cơ chế lọc và theo dõi an toàn các tệp TNDN/BCTC trong quá trình quét nạp hàng loạt thư mục hồ sơ thuế, hiển thị huy hiệu thống kê minh bạch"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.7/AuditSoft-1.8.7-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.7/AuditSoft-1.8.7-Portable.exe",
-  "sha256": "c48586417cc3f9a82052a24d151c3f62628f0a91f2294f479a079933c2059e7e",
-  "signature": "CPdbu5bEGF6F24OBlsUzzwv5GY3JkymdReyNdN5XodDbNPEjZU_FjUPGOZvL3EGM29bGMfUMWFLCMsd7ZDG5DQ"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.8/AuditSoft-1.8.8-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.8/AuditSoft-1.8.8-Portable.exe",
+  "sha256": "f24d436b3983294e1819bc436daf784cdb32ccb55672ab3098a63d0dcbc83910",
+  "signature": "MB6lXdzn_M6-IR57Z_A6Oyp2bXN76dXWSn_w-I-qSgwxaxcA8bz1S4Xs7md1cukwkPp3QZ4szqHu8etHqtLjCw"
 }
