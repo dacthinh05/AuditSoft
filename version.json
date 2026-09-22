@@ -1,14 +1,16 @@
 {
-  "version": "1.8.9",
-  "releaseDate": "2026-09-21",
-  "title": "AuditSoft v1.8.9 — Hoàn Thiện Bóc Tách Nợ Lương Đầu Kỳ (TK 334) & Ma Trận Rà Soát Chi Phí Gia Công (G450)",
+  "version": "1.9.0",
+  "releaseDate": "2026-09-22",
+  "title": "AuditSoft v1.9.0 — Phân Tầng Cấu Thành Công Nợ (131/331), Hyperlink 2 Chiều & Tối Ưu Đột Biến NKC",
   "changelog": [
-    "Hoàn thiện thuật toán bóc tách thanh toán nợ lương đầu kỳ (TK 334 / GLV E 490): Ưu tiên nhận diện chính xác các khoản Lương tháng 13, Thưởng Tết, Lương T12 chi trong Quý 1 vào dòng Chi trả nợ đầu kỳ, loại trừ nhầm lẫn từ khóa Lương tháng 1",
-    "Tối ưu Ma trận rà soát chi phí 12 tháng (G 450 - VSA 520): Hỗ trợ nhận diện toàn diện chi phí gia công dịch vụ mua ngoài cả khi hạch toán qua TK 6277 lẫn đi thẳng vào TK 632 (đối ứng 331/111/112), tự động loại trừ 100% bút toán kết chuyển 154/911 và xuất kho 156",
-    "Đồng bộ hóa Modal Drill-down chi tiết chứng từ phát sinh và xuất Excel hai sheet (Pivot + Chi tiết) chuẩn kiểm toán"
+    "Tái cấu trúc 3 tầng tin cậy kiểm toán cho phân hệ Chốt công nợ (TK 131, 331) theo VSA 505: Chốt chắc chắn (sai số ≤ 50đ) -> Còn một phần -> Tồn đầu kỳ & Cấn trừ cũ",
+    "Tích hợp nút điều hướng Hyperlink 2 chiều siêu tốc giữa Bảng tổng hợp và Bảng chi tiết (Excel mũi tên ↓ / ↩ và giao diện UI cuộn mượt và highlight dòng)",
+    "Đột phá hiệu năng thuật toán ghép cặp đột biến tài khoản & dời ngày NKC từ O(N^2) xuống O(N) bằng Map voucher index (xử lý 60.000 dòng trong 1,5s thay vì 12 phút)",
+    "Chuẩn hóa nhận diện tiêu đề CĐPS (khắc phục lỗi bỏ sót dòng đầu tiền mặt 111/1111 trên các tệp dữ liệu thực tế)",
+    "Bổ sung cột Mặt hàng / Bản chất chính và cải tiến thanh điều khiển công nợ"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.9/AuditSoft-1.8.9-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.9/AuditSoft-1.8.9-Portable.exe",
-  "sha256": "0d8909e4e84874dd532b539903db41013fb14a36baf7ace0bbc7c2ceb9657986",
-  "signature": "nEujRjjCNpKLcdvedK9bmTEA1rF5auY4CbbzG1_LGIM9sOnVoH8jKGw1HkG6F8AevCHa4Qm19KfS58Itny0sCw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.0/AuditSoft-1.9.0-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.0/AuditSoft-1.9.0-Portable.exe",
+  "sha256": "ed4eef225a44f7e0d213215e12e7af40c4473edbdfbc90864e28d4722855f2bf",
+  "signature": "zAlf3PDoMwLuIY-xSWo2AqBhaKjmtSu18S7WGoM4S041wTxNDlracF6mbQ_7KPw8bZqqxFW74WmO-82Mj3RQAw"
 }
