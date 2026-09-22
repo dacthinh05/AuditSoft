@@ -1,16 +1,19 @@
 {
-  "version": "1.9.0",
+  "version": "1.9.1",
   "releaseDate": "2026-09-22",
-  "title": "AuditSoft v1.9.0 — Phân Tầng Cấu Thành Công Nợ (131/331), Hyperlink 2 Chiều & Tối Ưu Đột Biến NKC",
+  "title": "AuditSoft v1.9.1 — Chuẩn Hóa Tiêu Đề Người Thực Hiện (Đắc Thịnh) B410 & Khắc Phục Tách Tên KTV",
   "changelog": [
+    "Chuẩn hóa hiển thị dòng Người thực hiện trên B410 Master: nhận diện chính xác tên KTV 'Đắc Thịnh' (bao gồm lọc bỏ hậu tố số điện thoại '- ĐT: 0817 567 008')",
+    "Khắc phục thuật toán bóc tách tên KTV từ Header 2 ô liền kề (G3 nhãn / H3 tên KTV) và tên tệp ghép, loại bỏ hoàn toàn tình trạng nuốt dồn chuỗi công ty/đợt/năm",
+    "Bảo toàn nguyên vẹn tên KTV 2 từ (như 'Đắc Thịnh') khi sinh tên tệp làm việc tự động",
     "Tái cấu trúc 3 tầng tin cậy kiểm toán cho phân hệ Chốt công nợ (TK 131, 331) theo VSA 505: Chốt chắc chắn (sai số ≤ 50đ) -> Còn một phần -> Tồn đầu kỳ & Cấn trừ cũ",
     "Tích hợp nút điều hướng Hyperlink 2 chiều siêu tốc giữa Bảng tổng hợp và Bảng chi tiết (Excel mũi tên ↓ / ↩ và giao diện UI cuộn mượt và highlight dòng)",
     "Đột phá hiệu năng thuật toán ghép cặp đột biến tài khoản & dời ngày NKC từ O(N^2) xuống O(N) bằng Map voucher index (xử lý 60.000 dòng trong 1,5s thay vì 12 phút)",
     "Chuẩn hóa nhận diện tiêu đề CĐPS (khắc phục lỗi bỏ sót dòng đầu tiền mặt 111/1111 trên các tệp dữ liệu thực tế)",
     "Bổ sung cột Mặt hàng / Bản chất chính và cải tiến thanh điều khiển công nợ"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.0/AuditSoft-1.9.0-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.0/AuditSoft-1.9.0-Portable.exe",
-  "sha256": "ed4eef225a44f7e0d213215e12e7af40c4473edbdfbc90864e28d4722855f2bf",
-  "signature": "zAlf3PDoMwLuIY-xSWo2AqBhaKjmtSu18S7WGoM4S041wTxNDlracF6mbQ_7KPw8bZqqxFW74WmO-82Mj3RQAw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.1/AuditSoft-1.9.1-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.1/AuditSoft-1.9.1-Portable.exe",
+  "sha256": "b5adc4a9a4d04fe5433f6b233624f0c12807f47ff134a50dc4ac3513c925e6a4",
+  "signature": "HQY7NzQJRntazi4Y6tv9QDBBI99cIptr-0BZWTvWQ0YhzdC7GDUPJOENPO67VDeMgIg1bjpZXoSxg2tsC79WBg"
 }
