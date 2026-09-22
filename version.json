@@ -1,14 +1,14 @@
 {
-  "version": "1.8.8",
+  "version": "1.8.9",
   "releaseDate": "2026-09-21",
-  "title": "AuditSoft v1.8.8 — Chuẩn Hóa Phân Loại Tờ Khai Thuế GTGT, TNCN, TNDN & Báo Cáo Tài Chính",
+  "title": "AuditSoft v1.8.9 — Hoàn Thiện Bóc Tách Nợ Lương Đầu Kỳ (TK 334) & Ma Trận Rà Soát Chi Phí Gia Công (G450)",
   "changelog": [
-    "Thắt chặt chốt chặn nhận diện tờ khai thuế: Loại bỏ triệt để hiện tượng nhận nhầm tệp Quyết toán thuế TNDN và Báo cáo tài chính vào nhóm thuế GTGT (khử sạch dòng rác Năm 2025 trên bảng E380)",
-    "Ngăn chặn nhận nhầm tờ khai thuế TNDN (02/TNDN) vào nhóm thuế TNCN, phân tách rõ ràng giữa tờ khai khấu trừ định kỳ (05/KK-TNCN) và tờ khai quyết toán năm (05/QTT-TNCN)",
-    "Bổ sung cơ chế lọc và theo dõi an toàn các tệp TNDN/BCTC trong quá trình quét nạp hàng loạt thư mục hồ sơ thuế, hiển thị huy hiệu thống kê minh bạch"
+    "Hoàn thiện thuật toán bóc tách thanh toán nợ lương đầu kỳ (TK 334 / GLV E 490): Ưu tiên nhận diện chính xác các khoản Lương tháng 13, Thưởng Tết, Lương T12 chi trong Quý 1 vào dòng Chi trả nợ đầu kỳ, loại trừ nhầm lẫn từ khóa Lương tháng 1",
+    "Tối ưu Ma trận rà soát chi phí 12 tháng (G 450 - VSA 520): Hỗ trợ nhận diện toàn diện chi phí gia công dịch vụ mua ngoài cả khi hạch toán qua TK 6277 lẫn đi thẳng vào TK 632 (đối ứng 331/111/112), tự động loại trừ 100% bút toán kết chuyển 154/911 và xuất kho 156",
+    "Đồng bộ hóa Modal Drill-down chi tiết chứng từ phát sinh và xuất Excel hai sheet (Pivot + Chi tiết) chuẩn kiểm toán"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.8/AuditSoft-1.8.8-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.8/AuditSoft-1.8.8-Portable.exe",
-  "sha256": "f24d436b3983294e1819bc436daf784cdb32ccb55672ab3098a63d0dcbc83910",
-  "signature": "MB6lXdzn_M6-IR57Z_A6Oyp2bXN76dXWSn_w-I-qSgwxaxcA8bz1S4Xs7md1cukwkPp3QZ4szqHu8etHqtLjCw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.9/AuditSoft-1.8.9-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.8.9/AuditSoft-1.8.9-Portable.exe",
+  "sha256": "0d8909e4e84874dd532b539903db41013fb14a36baf7ace0bbc7c2ceb9657986",
+  "signature": "nEujRjjCNpKLcdvedK9bmTEA1rF5auY4CbbzG1_LGIM9sOnVoH8jKGw1HkG6F8AevCHa4Qm19KfS58Itny0sCw"
 }
