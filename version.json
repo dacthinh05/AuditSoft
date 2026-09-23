@@ -1,19 +1,18 @@
 {
-  "version": "1.9.1",
-  "releaseDate": "2026-09-22",
-  "title": "AuditSoft v1.9.1 — Chuẩn Hóa Tiêu Đề Người Thực Hiện (Đắc Thịnh) B410 & Khắc Phục Tách Tên KTV",
+  "version": "1.9.2",
+  "releaseDate": "2026-09-23",
+  "title": "AuditSoft v1.9.2 — Chuẩn Hóa Mức Trọng Yếu A710 & Tổng Thể Chọn Mẫu VSA 530",
   "changelog": [
-    "Chuẩn hóa hiển thị dòng Người thực hiện trên B410 Master: nhận diện chính xác tên KTV 'Đắc Thịnh' (bao gồm lọc bỏ hậu tố số điện thoại '- ĐT: 0817 567 008')",
-    "Khắc phục thuật toán bóc tách tên KTV từ Header 2 ô liền kề (G3 nhãn / H3 tên KTV) và tên tệp ghép, loại bỏ hoàn toàn tình trạng nuốt dồn chuỗi công ty/đợt/năm",
-    "Bảo toàn nguyên vẹn tên KTV 2 từ (như 'Đắc Thịnh') khi sinh tên tệp làm việc tự động",
-    "Tái cấu trúc 3 tầng tin cậy kiểm toán cho phân hệ Chốt công nợ (TK 131, 331) theo VSA 505: Chốt chắc chắn (sai số ≤ 50đ) -> Còn một phần -> Tồn đầu kỳ & Cấn trừ cũ",
-    "Tích hợp nút điều hướng Hyperlink 2 chiều siêu tốc giữa Bảng tổng hợp và Bảng chi tiết (Excel mũi tên ↓ / ↩ và giao diện UI cuộn mượt và highlight dòng)",
-    "Đột phá hiệu năng thuật toán ghép cặp đột biến tài khoản & dời ngày NKC từ O(N^2) xuống O(N) bằng Map voucher index (xử lý 60.000 dòng trong 1,5s thay vì 12 phút)",
-    "Chuẩn hóa nhận diện tiêu đề CĐPS (khắc phục lỗi bỏ sót dòng đầu tiền mặt 111/1111 trên các tệp dữ liệu thực tế)",
-    "Bổ sung cột Mặt hàng / Bản chất chính và cải tiến thanh điều khiển công nợ"
+    "MỨC TRỌNG YẾU TỔNG THỂ (OM) luôn tính đúng công thức ô (e) = (c) x (d) của Mẫu A710 — không còn bị ghi đè bởi giá trị OM tồn đọng trong cấu hình (lỗi OM hiển thị 1.000.000.000 đ thay vì 1.462.988.258 đ)",
+    "Giá trị tổng thể lấy mẫu phân hành Doanh thu TK 511 = DOANH THU THUẦN: đã trừ các khoản giảm trừ doanh thu TK 521 và hàng bán bị trả lại hạch toán thẳng vào 511 (146.298.825.825 đ thay vì 148.333.735.825 đ)",
+    "Bút toán đảo / ghi đỏ (số tiền âm) làm GIẢM tổng thể thay vì bị cộng thêm do lấy trị tuyệt đối khi gộp chứng từ và tính tổng thể",
+    "Tiêu chí cơ sở Doanh thu của A710 thống nhất theo Doanh thu thuần (Mã 10 KQKD / CĐPS: Có 511 − Nợ 521)",
+    "Kỳ kiểm toán trên Giấy làm việc A810 lấy theo Hồ sơ đang mở thay vì cố định 01/01 - 31/12/2025",
+    "Sửa lỗi hiển thị nhãn tỷ lệ trên thẻ KPI: TRỌNG YẾU THỰC HIỆN 75% OM và NGƯỠNG BỎ QUA 4% PM (trước đây in sai 0,75% và 0,04%)",
+    "Chuẩn hóa hiển thị Người thực hiện B410 và tự động liên kết số liệu B02 KQKD / CĐPS / CĐKT từ phân hệ Tiếp nhận dữ liệu"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.1/AuditSoft-1.9.1-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.1/AuditSoft-1.9.1-Portable.exe",
-  "sha256": "b5adc4a9a4d04fe5433f6b233624f0c12807f47ff134a50dc4ac3513c925e6a4",
-  "signature": "HQY7NzQJRntazi4Y6tv9QDBBI99cIptr-0BZWTvWQ0YhzdC7GDUPJOENPO67VDeMgIg1bjpZXoSxg2tsC79WBg"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.2/AuditSoft-1.9.2-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.2/AuditSoft-1.9.2-Portable.exe",
+  "sha256": "d988eeba743af11e4fcb46438d64ec6a81e2d3b8e1e4b589d6fb90f420d6e822",
+  "signature": "Azg4Pg9aKj5adgfy-X8Zz-id7baiGZXoy0LJWCel8DdGMgNoizVct711nOIZRBlg5f8cenvOA4MaWkYgrqjSBA"
 }
