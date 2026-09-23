@@ -1,18 +1,16 @@
 {
-  "version": "1.9.2",
+  "version": "1.9.3",
   "releaseDate": "2026-09-23",
-  "title": "AuditSoft v1.9.2 — Chuẩn Hóa Mức Trọng Yếu A710 & Tổng Thể Chọn Mẫu VSA 530",
+  "title": "AuditSoft v1.9.3 — Chuẩn Hóa Toàn Diện Bút Toán Điều Chỉnh B360 & Khắc Phục Đảo Dấu Chênh Lệch",
   "changelog": [
-    "MỨC TRỌNG YẾU TỔNG THỂ (OM) luôn tính đúng công thức ô (e) = (c) x (d) của Mẫu A710 — không còn bị ghi đè bởi giá trị OM tồn đọng trong cấu hình (lỗi OM hiển thị 1.000.000.000 đ thay vì 1.462.988.258 đ)",
-    "Giá trị tổng thể lấy mẫu phân hành Doanh thu TK 511 = DOANH THU THUẦN: đã trừ các khoản giảm trừ doanh thu TK 521 và hàng bán bị trả lại hạch toán thẳng vào 511 (146.298.825.825 đ thay vì 148.333.735.825 đ)",
-    "Bút toán đảo / ghi đỏ (số tiền âm) làm GIẢM tổng thể thay vì bị cộng thêm do lấy trị tuyệt đối khi gộp chứng từ và tính tổng thể",
-    "Tiêu chí cơ sở Doanh thu của A710 thống nhất theo Doanh thu thuần (Mã 10 KQKD / CĐPS: Có 511 − Nợ 521)",
-    "Kỳ kiểm toán trên Giấy làm việc A810 lấy theo Hồ sơ đang mở thay vì cố định 01/01 - 31/12/2025",
-    "Sửa lỗi hiển thị nhãn tỷ lệ trên thẻ KPI: TRỌNG YẾU THỰC HIỆN 75% OM và NGƯỠNG BỎ QUA 4% PM (trước đây in sai 0,75% và 0,04%)",
-    "Chuẩn hóa hiển thị Người thực hiện B410 và tự động liên kết số liệu B02 KQKD / CĐPS / CĐKT từ phân hệ Tiếp nhận dữ liệu"
+    "Chuẩn hóa thuật toán B360: Mỗi dòng bút toán AJE chi tiết tự động tính toán độc lập ảnh hưởng CĐKT & KQKD chuẩn mực theo mẫu VACPA (không còn ghép cọc cạch hàng thứ i với chỉ tiêu CĐKT khác biệt)",
+    "Bảo toàn 100% nghiệp vụ Đổi Tài Khoản (ACCOUNT_MUTATED) và các chứng từ chi tiết khi đối chiếu 2 sổ NKC xuất B360 bằng cách nạp trực tiếp filteredRows",
+    "Khắc phục triệt để lỗi đảo dấu chênh lệch âm: hiển thị chuẩn xác nhãn 'Sau ĐC GIẢM tiền' kèm cảnh báo màu đỏ và số tiền dạng kế toán (Số tiền)",
+    "Bổ sung Preflight Alert Banner: Cảnh báo ngay lập tức cho KTV khi một sổ NKC bị 0 dòng hợp lệ do cấu hình sai Cột Số Tiền khi nạp file",
+    "Khử khoảng trắng không đều trong Số chứng từ khi ghép cặp Heuristic (tránh trật khóa do PC 01 vs PC01)"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.2/AuditSoft-1.9.2-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.2/AuditSoft-1.9.2-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.3/AuditSoft-1.9.3-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.3/AuditSoft-1.9.3-Portable.exe",
   "sha256": "d988eeba743af11e4fcb46438d64ec6a81e2d3b8e1e4b589d6fb90f420d6e822",
   "signature": "Azg4Pg9aKj5adgfy-X8Zz-id7baiGZXoy0LJWCel8DdGMgNoizVct711nOIZRBlg5f8cenvOA4MaWkYgrqjSBA"
 }
