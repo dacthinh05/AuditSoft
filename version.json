@@ -1,16 +1,18 @@
 {
-  "version": "1.9.3",
+  "version": "1.9.4",
   "releaseDate": "2026-09-23",
-  "title": "AuditSoft v1.9.3 — Chuẩn Hóa Toàn Diện Bút Toán Điều Chỉnh B360 & Khắc Phục Đảo Dấu Chênh Lệch",
+  "title": "AuditSoft v1.9.4 — Tự Động Cấn Trừ Bút Toán Đảo Chiều (Netting) & Tối Ưu Trình Bày Xuất Excel",
   "changelog": [
+    "Bổ sung tính năng Cấn trừ bút toán đảo chiều (Netting Opposite Pairs) trên biểu B360: Tự động triệt tiêu các cặp hạch toán ngược chiều (như hoàn nhập/trích lại thuế TNDN 821 ↔ 3334) thành 1 dòng duy nhất Net số chênh lệch, bảo toàn tuyệt đối cân đối CĐKT và KQKD.",
+    "Tối ưu trình bày tệp Excel xuất ra: Mặc định ẩn cột Khóa dò (cột C) để giao diện thanh thoát; tự động ẩn các sheet phụ kỹ thuật (NKC Truoc DC, NKC Sau DC, Loi du lieu khi 0 lỗi) giúp KTV và khách hàng tập trung trực tiếp vào Báo cáo chênh lệch và B360.",
     "Chuẩn hóa thuật toán B360: Mỗi dòng bút toán AJE chi tiết tự động tính toán độc lập ảnh hưởng CĐKT & KQKD chuẩn mực theo mẫu VACPA (không còn ghép cọc cạch hàng thứ i với chỉ tiêu CĐKT khác biệt)",
     "Bảo toàn 100% nghiệp vụ Đổi Tài Khoản (ACCOUNT_MUTATED) và các chứng từ chi tiết khi đối chiếu 2 sổ NKC xuất B360 bằng cách nạp trực tiếp filteredRows",
     "Khắc phục triệt để lỗi đảo dấu chênh lệch âm: hiển thị chuẩn xác nhãn 'Sau ĐC GIẢM tiền' kèm cảnh báo màu đỏ và số tiền dạng kế toán (Số tiền)",
     "Bổ sung Preflight Alert Banner: Cảnh báo ngay lập tức cho KTV khi một sổ NKC bị 0 dòng hợp lệ do cấu hình sai Cột Số Tiền khi nạp file",
     "Khử khoảng trắng không đều trong Số chứng từ khi ghép cặp Heuristic (tránh trật khóa do PC 01 vs PC01)"
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.3/AuditSoft-1.9.3-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.3/AuditSoft-1.9.3-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.4/AuditSoft-1.9.4-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.4/AuditSoft-1.9.4-Portable.exe",
   "sha256": "590882f182c1e24ade260516472c409340c4fd39f0997c292cea00b560885c1f",
-  "signature": "tc5AnONmSEaHaD11iTWGSa5L5P9sAiveyzqPwzu5rzsz7QfEkcSytfgTcHGZRyIruOE6jy4a6fEulgGJMBBxDg"
+  "signature": "1lBXRgzD9_hKPtFHOa3MV0kz_jqWKCVkTdu2yetNr0xGQMYDqbyXbm88dcKRetCQ6rRyBE11Gf6R9CKBDZauCA"
 }
