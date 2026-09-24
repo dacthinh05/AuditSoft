@@ -1,15 +1,16 @@
 {
-  "version": "1.9.6",
+  "version": "1.9.7",
   "releaseDate": "2026-09-24",
-  "title": "AuditSoft v1.9.6 — Tự Động Bóc Tách Tờ Khai Thuế Lỗi Font Qua Local RapidOCR & Hỗ Trợ Nạp Thư Mục",
+  "title": "AuditSoft v1.9.7 — Chuẩn Hóa Cột Thuế Suất 0%, 5%, 10% TT80 & Bất Đồng Bộ Hóa OCR Chống Đơ Máy",
   "changelog": [
-    "Tích hợp động cơ Local RapidOCR (Offline ONNX) tự động giải mã và bóc tách dữ liệu 100% các tệp PDF tờ khai thuế bị lỗi font Type 3 do in qua máy in ảo cũ (Ghostscript/PScript5).",
-    "Hỗ trợ nạp trực tiếp cả thư mục tờ khai thuế qua IPC File Guard và Dropzone, tự động duyệt đệ quy toàn bộ tệp bên trong.",
-    "Tự động phân loại Giấy nộp tiền vào NSNN (Mẫu C1-02/NS) và Thông báo thuế vào danh sách tệp bỏ qua hợp lệ (ignoredFiles).",
-    "Nâng cấp PdfTaxParser bóc tách chính xác 100% tên công ty, MST, kỳ kê khai và toàn bộ chỉ tiêu thuế GTGT (01/GTGT), TNCN (05/KK-TNCN) từ cả văn bản OCR và tên file chuẩn của Tổng cục Thuế."
+    "Khắc phục triệt để lỗi đảo nhầm cột giữa thuế suất 0% và 5%/10% khi bóc tách tờ khai thuế GTGT: Chuẩn hóa cột 0% lấy từ [29], cột 5% lấy từ [30], cột 10% lấy từ [32] chuẩn Thông tư 80/2021/TT-BTC, đối chiếu doanh thu G150 khớp 100% từng đồng.",
+    "Khắc phục triệt để hiện tượng đứng máy / đơ ứng dụng khi nạp nhiều tệp PDF: Chuyển toàn bộ luồng bóc tách sang bất đồng bộ (extractPdfTextAsync), không bao giờ phong tỏa Main Process.",
+    "Tích hợp thanh tiến trình thời gian thực trên giao diện: Hiển thị chi tiết 'Đang xử lý X/N: [Tên tệp]...' giúp KTV theo dõi tiến độ nạp dữ liệu trực quan.",
+    "Tối ưu hiệu năng OCR: Giới hạn quét tối đa 2 trang đầu (bỏ qua phụ lục chi tiết hóa đơn phía sau) ở độ phân giải 100 DPI, tăng tốc độ xử lý gấp gần 3 lần và tiết kiệm 60% RAM.",
+    "Hỗ trợ nạp cả thư mục tờ khai thuế qua IPC File Guard và tự động lọc Giấy nộp tiền NSNN (Mẫu C1-02/NS) vào danh sách tệp bỏ qua hợp lệ."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.6/AuditSoft-1.9.6-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.6/AuditSoft-1.9.6-Portable.exe",
-  "sha256": "96276e19e43046845b68fbebeda55d6598f5cadae47e95662e84a854cefe3265",
-  "signature": "O7UiHRamTgcMRe0-A7nSj8G3NstMDC_NanZQJJmlDcNTVStqPd9fz3tBK4TJreo27iwy4mwjdywSjs-n-f8ZAw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.7/AuditSoft-1.9.7-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.7/AuditSoft-1.9.7-Portable.exe",
+  "sha256": "c3e23448b443d19f60c38a8de1b763b74fe1883764686898975c0182882861c1",
+  "signature": "L9qEAahXVzsE7JvqT_Um5LadiDvoO0hTYOCtLb7w42T2vQnkUZ2Y6B_eH6JyYyfBq2u8MyDi3pP2-VOokZIwAQ"
 }
