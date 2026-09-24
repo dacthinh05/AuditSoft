@@ -1,18 +1,16 @@
 {
-  "version": "1.9.4",
-  "releaseDate": "2026-09-23",
-  "title": "AuditSoft v1.9.4 — Tự Động Cấn Trừ Bút Toán Đảo Chiều (Netting) & Tối Ưu Trình Bày Xuất Excel",
+  "version": "1.9.5",
+  "releaseDate": "2026-09-24",
+  "title": "AuditSoft v1.9.5 — Nhận Diện Cột Thông Minh, Điểm Tin Cậy & Gợi Ý Chọn Cột Đa Ứng Viên",
   "changelog": [
-    "Bổ sung tính năng Cấn trừ bút toán đảo chiều (Netting Opposite Pairs) trên biểu B360: Tự động triệt tiêu các cặp hạch toán ngược chiều (như hoàn nhập/trích lại thuế TNDN 821 ↔ 3334) thành 1 dòng duy nhất Net số chênh lệch, bảo toàn tuyệt đối cân đối CĐKT và KQKD.",
-    "Tối ưu trình bày tệp Excel xuất ra: Mặc định ẩn cột Khóa dò (cột C) để giao diện thanh thoát; tự động ẩn các sheet phụ kỹ thuật (NKC Truoc DC, NKC Sau DC, Loi du lieu khi 0 lỗi) giúp KTV và khách hàng tập trung trực tiếp vào Báo cáo chênh lệch và B360.",
-    "Chuẩn hóa thuật toán B360: Mỗi dòng bút toán AJE chi tiết tự động tính toán độc lập ảnh hưởng CĐKT & KQKD chuẩn mực theo mẫu VACPA (không còn ghép cọc cạch hàng thứ i với chỉ tiêu CĐKT khác biệt)",
-    "Bảo toàn 100% nghiệp vụ Đổi Tài Khoản (ACCOUNT_MUTATED) và các chứng từ chi tiết khi đối chiếu 2 sổ NKC xuất B360 bằng cách nạp trực tiếp filteredRows",
-    "Khắc phục triệt để lỗi đảo dấu chênh lệch âm: hiển thị chuẩn xác nhãn 'Sau ĐC GIẢM tiền' kèm cảnh báo màu đỏ và số tiền dạng kế toán (Số tiền)",
-    "Bổ sung Preflight Alert Banner: Cảnh báo ngay lập tức cho KTV khi một sổ NKC bị 0 dòng hợp lệ do cấu hình sai Cột Số Tiền khi nạp file",
-    "Khử khoảng trắng không đều trong Số chứng từ khi ghép cặp Heuristic (tránh trật khóa do PC 01 vs PC01)"
+    "Tích hợp cơ chế chấm điểm và xếp hạng Top 3 ứng viên cột (Field Candidates) kèm điểm số (%) và lý do so khớp chi tiết trong Universal Ingestion Engine.",
+    "Trực quan hóa gợi ý chọn cột trên UniversalColumnMappingModal: Quick-pick Micro Chips một chạm, dropdown phân nhóm thông minh (<optgroup>), và badge màu sắc phản ánh độ tin cậy của từng cột.",
+    "Bảo toàn giao diện 100% (Zero UI Regression): Kiểm soát chặt chẽ bố cục lưới 4 cột, minWidth: 0, text-overflow ellipsis và tooltip tránh tràn chữ trên mọi độ phân giải.",
+    "Chuẩn hóa hàm getExcelColumnLabel hỗ trợ đầy đủ dải cột từ A..Z đến AA..ZZ trong dropdown và bảng Live Data Preview.",
+    "Tự động ghi nhớ cấu hình cột đã chọn vào IngestionTemplateStore theo MST doanh nghiệp, tự động hóa 100% cho các lần nạp sau."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.4/AuditSoft-1.9.4-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.4/AuditSoft-1.9.4-Portable.exe",
-  "sha256": "24643d284f93fdf2d70af08da1024a90332f82f679de56605c0e99ed870c87db",
-  "signature": "_wSQ0k1xZRYHkd6lTSL-yAZ3QFz8JYY4QYrE_DW5sUTCsddsjQyJpPMlX3NEKS_y8vpGtmTVwAssA40PbnPPDQ"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.5/AuditSoft-1.9.5-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.5/AuditSoft-1.9.5-Portable.exe",
+  "sha256": "a6ed9805f8dd431fe7e518987d1fd2901c921e1ebb6436fac809dd6ab3e79359",
+  "signature": "BcIeH2V20T7x2lXhOYYHonm7xxXxJ8ct93WK1mQ5XaHIf1Uc1joFiVhYvR7bSM0swfJGsobUwwWTovq-f9cEDQ"
 }
