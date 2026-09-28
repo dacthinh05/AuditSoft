@@ -1,8 +1,10 @@
 {
-  "version": "2.0.0",
+  "version": "2.0.1",
   "releaseDate": "2026-09-28",
-  "title": "AuditSoft v2.0.0 — Đại Tu Working Paper Studio, 6 Phụ Lục Độc Lập & Roll-Forward Thông Minh",
+  "title": "AuditSoft v2.0.1 — Tối Ưu Thẻ Hồ Sơ Sidebar, Chống Tràn Niên Độ & Hoàn Thiện Switch Company",
   "changelog": [
+    "Khắc phục triệt để lỗi tràn dòng và cắt xén niên độ kiểm toán trên thẻ Hồ Sơ Đang Mở ở Sidebar Footer, bảo đảm hiển thị đầy đủ ngày tháng (31/12/YYYY).",
+    "Tối ưu hóa bố cục 2 nút hành động 'Sửa ADD' và 'Đổi Cty' thành hàng riêng biệt với icon vector SVG sắc nét, chuẩn click target và hover độc lập.",
     "Đại tu toàn diện phân hệ #06 Working Paper Studio: tự động kết nối dữ liệu từ CĐSPS, NKC, Kho, TSCĐ, BHXH và Công nợ vào 6 Phụ lục kiểm toán độc lập.",
     "Hoàn thiện 100% ruột bảng tính và công thức ExcelJS cho 6 Phụ lục: D146 (Ngân hàng & Ngoại tệ TT 99), D552 (Giá xuất kho), D530 (Dự phòng NRV), E250.2 (Tuổi nợ FIFO), E490 (Lương & C12 BHXH 2 sheet), D700 (Khấu hao TT 45).",
     "Nâng cấp nút Xuất Tất Cả 6 Phụ Lục thành cơ chế 1-chạm: chỉ cần chọn thư mục lưu 1 lần duy nhất, tự động ghi toàn bộ 6 file và mở Windows Explorer.",
@@ -10,8 +12,8 @@
     "Chuẩn hóa động cơ Roll-Forward: phân định chuẩn xác bản chất Dư Nợ (TK 1, 2) và Dư Có (TK 3, 4, 214, 229), bảo toàn 100% công thức Excel cũ của KTV.",
     "Đồng bộ động nút hành động chính trên Header theo tab đang chọn, loại bỏ hoàn toàn lỗi thiếu thư mục GLV MAU."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.0/AuditSoft-2.0.0-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.0/AuditSoft-2.0.0-Portable.exe",
-  "sha256": "4044ca5503da8a2a33665522fa8c7d164d958e3c7bb3b578b2d6578b60999162",
-  "signature": "U4wcelFh8tYP1ZrntnoOc9SpIIM52Gl6jH7CL35I6pjWbSq0GjyFJ5MebnBAl_nhl5FYlKzeLTno-YzM8gMtCQ"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.1/AuditSoft-2.0.1-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.1/AuditSoft-2.0.1-Portable.exe",
+  "sha256": "0371a0c0b9f249e2273a6fbf72f53d5b2ade45dcb24e5daec469289773a9d14b",
+  "signature": "7R_u-i8UkcQAsBqWKhjKvusAg9c8bXxtUvIqaAGwN4YIzJrq8IN63PswiDJpfC6kKOmq0UoeF36nrTVClf1JAw"
 }
