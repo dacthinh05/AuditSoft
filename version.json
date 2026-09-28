@@ -1,16 +1,16 @@
 {
-  "version": "1.9.7",
-  "releaseDate": "2026-09-24",
-  "title": "AuditSoft v1.9.7 — Chuẩn Hóa Cột Thuế Suất 0%, 5%, 10% TT80 & Bất Đồng Bộ Hóa OCR Chống Đơ Máy",
+  "version": "1.9.8",
+  "releaseDate": "2026-09-28",
+  "title": "AuditSoft v1.9.8 — Tự Động Phân Loại Mẫu 05/GTGT Vãng Lai Ngoại Tỉnh & Chống Nhảy Số Bảng Đối Chiếu E380",
   "changelog": [
-    "Khắc phục triệt để lỗi đảo nhầm cột giữa thuế suất 0% và 5%/10% khi bóc tách tờ khai thuế GTGT: Chuẩn hóa cột 0% lấy từ [29], cột 5% lấy từ [30], cột 10% lấy từ [32] chuẩn Thông tư 80/2021/TT-BTC, đối chiếu doanh thu G150 khớp 100% từng đồng.",
-    "Khắc phục triệt để hiện tượng đứng máy / đơ ứng dụng khi nạp nhiều tệp PDF: Chuyển toàn bộ luồng bóc tách sang bất đồng bộ (extractPdfTextAsync), không bao giờ phong tỏa Main Process.",
-    "Tích hợp thanh tiến trình thời gian thực trên giao diện: Hiển thị chi tiết 'Đang xử lý X/N: [Tên tệp]...' giúp KTV theo dõi tiến độ nạp dữ liệu trực quan.",
-    "Tối ưu hiệu năng OCR: Giới hạn quét tối đa 2 trang đầu (bỏ qua phụ lục chi tiết hóa đơn phía sau) ở độ phân giải 100 DPI, tăng tốc độ xử lý gấp gần 3 lần và tiết kiệm 60% RAM.",
-    "Hỗ trợ nạp cả thư mục tờ khai thuế qua IPC File Guard và tự động lọc Giấy nộp tiền NSNN (Mẫu C1-02/NS) vào danh sách tệp bỏ qua hợp lệ."
+    "Khắc phục triệt để lỗi nhảy số không nhất quán khi kéo thả tệp tờ khai thuế XML: Tự động nhận diện và phân loại Mẫu 05/GTGT (thuế GTGT vãng lai ngoại tỉnh xây dựng/BĐS) vào danh sách tệp bỏ qua hợp lệ, không để ghi đè làm sai lệch Mẫu 01/GTGT của Trụ sở chính.",
+    "Bảo toàn số liệu chuẩn xác 100% trên Bảng Đối Chiếu Thuế Mẫu E380: Triệt tiêu hoàn toàn hiện tượng Chỉ tiêu [22] và dòng Đầu năm bị nhảy thành số 1, Chỉ tiêu [25] bị gán nhầm số thuế vãng lai của tỉnh khác.",
+    "Tất định hóa cơ chế hợp nhất dữ liệu tờ khai (mergeTaxData): Đảm bảo thứ tự kéo thả tệp trong Windows Explorer không làm thay đổi kết quả đối chiếu.",
+    "Bổ sung chip thông tin minh bạch trên giao diện: Thống kê số lượng tệp vãng lai/BCTC được tự động lọc bỏ kèm giải thích rõ ràng.",
+    "Bổ sung tùy chọn Làm mới / Nạp lại tờ khai thuế ngay trên thanh công cụ."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.7/AuditSoft-1.9.7-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.7/AuditSoft-1.9.7-Portable.exe",
-  "sha256": "c3e23448b443d19f60c38a8de1b763b74fe1883764686898975c0182882861c1",
-  "signature": "L9qEAahXVzsE7JvqT_Um5LadiDvoO0hTYOCtLb7w42T2vQnkUZ2Y6B_eH6JyYyfBq2u8MyDi3pP2-VOokZIwAQ"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.8/AuditSoft-1.9.8-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.8/AuditSoft-1.9.8-Portable.exe",
+  "sha256": "07efb3a12af8e5f7c26ecc38d6f1d96ed75f8cc4845abd259305f4d450e52cee",
+  "signature": "FfwQtyXmnk4Fo7Zvo3Yk9Vih4CgVq4h3io99nuKW0D6IEEO1yrRx-sWQrYEYyIHtn3RO-BouM_FfhuXlKLmLDg"
 }
