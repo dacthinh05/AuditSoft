@@ -1,15 +1,16 @@
 {
-  "version": "1.9.11",
+  "version": "1.9.12",
   "releaseDate": "2026-09-28",
-  "title": "AuditSoft v1.9.11 — Khắc Phục Triệt Để Trùng Lặp Số Tiền Thuế Vãng Lai 05/GTGT Khi Có Nhiều Hợp Đồng Thi Công",
+  "title": "AuditSoft v1.9.12 — Dọn Dẹp Trùng Lặp Giao Diện Chốt Số Dư CĐPS & Chuẩn Hóa Hiển Thị Kế Toán",
   "changelog": [
-    "Khắc phục triệt để hiện tượng lặp lại số tiền Doanh thu và Thuế vãng lai 1% khi 1 tờ khai Mẫu 05/GTGT có nhiều hợp đồng thi công cùng địa bàn.",
-    "Chuẩn hóa phụ lục 05_GTGT_VangLai: Mỗi dòng đại diện chuẩn xác cho 1 Tờ khai thuế nộp NSNN, tự động gom danh mục các hợp đồng thi công cùng kỳ và cộng tổng giá trị gói thầu.",
-    "Đảm bảo công thức hàm SUM cột Doanh thu [21] và Thuế [25] trong Excel luôn khớp 100% từng đồng với số tổng cộng cả năm (162.98 tỷ và 1.63 tỷ).",
-    "Cập nhật hiển thị badge thông minh trên bảng B.1.2: Phân định rõ số lượng tờ khai thuế và tổng số lượng hợp đồng thi công thực tế."
+    "Khắc phục triệt để hiện tượng trùng lặp 3 tầng thông tin chênh lệch CĐPS trên bảng đối chiếu Sổ NKC vs CĐPS (cột Số dư cuối kỳ và cột Trạng thái).",
+    "Bảo toàn các cờ đỏ kiểm toán nghiệp vụ (Bất động cả năm, Dư Nợ ngược chiều, Lỗ lũy kế...) ngay cả khi tài khoản bị lệch số dư CĐPS, không còn bị ngắt sớm.",
+    "Khử lặp từ tuổi nợ 'Tuổi: > 1 năm / Đầu kỳ' (loại bỏ hoàn toàn đuôi lặp '(Đầu kỳ)').",
+    "Chuẩn hóa hiển thị số dư cho tài khoản Lưỡng tính và Dư ngược chiều theo nguyên lý kế toán chuẩn (1.629.891.888 Nợ thay vì -1.629.891.888 Nợ).",
+    "Tinh gọn thanh công cụ Toolbar: Lược bỏ nút lọc thừa, chuyển hóa thẻ KPI 'LỆCH SỐ DƯ' thành interactive active toggle trực quan."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.11/AuditSoft-1.9.11-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.11/AuditSoft-1.9.11-Portable.exe",
-  "sha256": "76454465a706a46edd0e7676ef1eb49dbca15956c4cf711d0cf562c7be32f70f",
-  "signature": "do2dEcsYu1rvzmKafJLSOhGJafLdZm4BrC9s3BAiqvD_2Tt2X1L5ZNIqQALxX0e-1atfV6l8CoPFvBOpQvoOBg"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.12/AuditSoft-1.9.12-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.12/AuditSoft-1.9.12-Portable.exe",
+  "sha256": "68ed4f651b61c059d1d16aebec8f5fd0be3c13f469515803390066995fe4b1d9",
+  "signature": "FQpPy9wTeefkyihXwz7q0VVOxzJSuk7OlxttGX1NYKMyLXo4mfGG7ugC_tmlMIAr82bJBWnqbHeKdN3-na2KAw"
 }
