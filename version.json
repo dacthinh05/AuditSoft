@@ -1,15 +1,15 @@
 {
-  "version": "1.9.10",
+  "version": "1.9.11",
   "releaseDate": "2026-09-28",
-  "title": "AuditSoft v1.9.10 — Chuẩn Hóa Cột Thuế Vãng Lai 05/GTGT Trên Mẫu E380 & Triệt Tiêu Lệch Âm Giả Tạo",
+  "title": "AuditSoft v1.9.11 — Khắc Phục Triệt Để Trùng Lặp Số Tiền Thuế Vãng Lai 05/GTGT Khi Có Nhiều Hợp Đồng Thi Công",
   "changelog": [
-    "Bổ sung cột Thuế vãng lai 1% (Mẫu 05/GTGT) vào Bảng đối chiếu Thuế GTGT Mẫu E380 trên giao diện UI và xuất Excel trọn bộ E380_GTGT.",
-    "Tự động tổng hợp số thuế vãng lai theo từng tháng/quý từ 100% tờ khai 05/GTGT nộp các tỉnh.",
-    "Khắc phục triệt để lỗi lệch âm giả tạo giữa Tờ khai 01/GTGT và Sổ cái TK 33311 (loại trừ hiểu nhầm cấn trừ khi doanh nghiệp còn số dư được khấu trừ [43]).",
-    "Tự động điền thuế vãng lai vào Cột L (Cấn trừ thuế vãng lai) khi tạo Giấy làm việc kiểm toán E300 (Sheet E 380)."
+    "Khắc phục triệt để hiện tượng lặp lại số tiền Doanh thu và Thuế vãng lai 1% khi 1 tờ khai Mẫu 05/GTGT có nhiều hợp đồng thi công cùng địa bàn.",
+    "Chuẩn hóa phụ lục 05_GTGT_VangLai: Mỗi dòng đại diện chuẩn xác cho 1 Tờ khai thuế nộp NSNN, tự động gom danh mục các hợp đồng thi công cùng kỳ và cộng tổng giá trị gói thầu.",
+    "Đảm bảo công thức hàm SUM cột Doanh thu [21] và Thuế [25] trong Excel luôn khớp 100% từng đồng với số tổng cộng cả năm (162.98 tỷ và 1.63 tỷ).",
+    "Cập nhật hiển thị badge thông minh trên bảng B.1.2: Phân định rõ số lượng tờ khai thuế và tổng số lượng hợp đồng thi công thực tế."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.10/AuditSoft-1.9.10-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.10/AuditSoft-1.9.10-Portable.exe",
-  "sha256": "33c95daa0b3c8382deeafa715e251712c3608367aef57bf20c3a20bbb8282cea",
-  "signature": "uxqplyeRe0QmGdHFXUVDp5dj8MhVaewP0eQ7_82XR-2BOd15qNbSwmu3nPWY0270qlMfkgY2y0zfP1gI9TQ2CQ"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.11/AuditSoft-1.9.11-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.11/AuditSoft-1.9.11-Portable.exe",
+  "sha256": "76454465a706a46edd0e7676ef1eb49dbca15956c4cf711d0cf562c7be32f70f",
+  "signature": "do2dEcsYu1rvzmKafJLSOhGJafLdZm4BrC9s3BAiqvD_2Tt2X1L5ZNIqQALxX0e-1atfV6l8CoPFvBOpQvoOBg"
 }
