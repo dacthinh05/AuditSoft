@@ -1,16 +1,17 @@
 {
-  "version": "1.9.12",
+  "version": "2.0.0",
   "releaseDate": "2026-09-28",
-  "title": "AuditSoft v1.9.12 — Dọn Dẹp Trùng Lặp Giao Diện Chốt Số Dư CĐPS & Chuẩn Hóa Hiển Thị Kế Toán",
+  "title": "AuditSoft v2.0.0 — Đại Tu Working Paper Studio, 6 Phụ Lục Độc Lập & Roll-Forward Thông Minh",
   "changelog": [
-    "Khắc phục triệt để hiện tượng trùng lặp 3 tầng thông tin chênh lệch CĐPS trên bảng đối chiếu Sổ NKC vs CĐPS (cột Số dư cuối kỳ và cột Trạng thái).",
-    "Bảo toàn các cờ đỏ kiểm toán nghiệp vụ (Bất động cả năm, Dư Nợ ngược chiều, Lỗ lũy kế...) ngay cả khi tài khoản bị lệch số dư CĐPS, không còn bị ngắt sớm.",
-    "Khử lặp từ tuổi nợ 'Tuổi: > 1 năm / Đầu kỳ' (loại bỏ hoàn toàn đuôi lặp '(Đầu kỳ)').",
-    "Chuẩn hóa hiển thị số dư cho tài khoản Lưỡng tính và Dư ngược chiều theo nguyên lý kế toán chuẩn (1.629.891.888 Nợ thay vì -1.629.891.888 Nợ).",
-    "Tinh gọn thanh công cụ Toolbar: Lược bỏ nút lọc thừa, chuyển hóa thẻ KPI 'LỆCH SỐ DƯ' thành interactive active toggle trực quan."
+    "Đại tu toàn diện phân hệ #06 Working Paper Studio: tự động kết nối dữ liệu từ CĐSPS, NKC, Kho, TSCĐ, BHXH và Công nợ vào 6 Phụ lục kiểm toán độc lập.",
+    "Hoàn thiện 100% ruột bảng tính và công thức ExcelJS cho 6 Phụ lục: D146 (Ngân hàng & Ngoại tệ TT 99), D552 (Giá xuất kho), D530 (Dự phòng NRV), E250.2 (Tuổi nợ FIFO), E490 (Lương & C12 BHXH 2 sheet), D700 (Khấu hao TT 45).",
+    "Nâng cấp nút Xuất Tất Cả 6 Phụ Lục thành cơ chế 1-chạm: chỉ cần chọn thư mục lưu 1 lần duy nhất, tự động ghi toàn bộ 6 file và mở Windows Explorer.",
+    "Khắc phục triệt để lỗi trắng số 0 đồng khi Xuất Trọn Gói Hồ Sơ (1-Click) bằng cách tiêm đầy đủ số dư CĐSPS và bút toán NKC.",
+    "Chuẩn hóa động cơ Roll-Forward: phân định chuẩn xác bản chất Dư Nợ (TK 1, 2) và Dư Có (TK 3, 4, 214, 229), bảo toàn 100% công thức Excel cũ của KTV.",
+    "Đồng bộ động nút hành động chính trên Header theo tab đang chọn, loại bỏ hoàn toàn lỗi thiếu thư mục GLV MAU."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.12/AuditSoft-1.9.12-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.12/AuditSoft-1.9.12-Portable.exe",
-  "sha256": "68ed4f651b61c059d1d16aebec8f5fd0be3c13f469515803390066995fe4b1d9",
-  "signature": "FQpPy9wTeefkyihXwz7q0VVOxzJSuk7OlxttGX1NYKMyLXo4mfGG7ugC_tmlMIAr82bJBWnqbHeKdN3-na2KAw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.0/AuditSoft-2.0.0-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.0/AuditSoft-2.0.0-Portable.exe",
+  "sha256": "33d39d1a173a86f873bb9e9179839f1b4c9dd023f8ea76fb351778a4af01f2d6",
+  "signature": "PTO5fAusTUQYO9-Eqgvr3TXQRIf2JSo4ngHqeao8xfSwEszcd_PGqpl3WXKl-AqUKXbqyWT-RLx1dumcGXZcDA"
 }
