@@ -1,16 +1,15 @@
 {
-  "version": "1.9.8",
+  "version": "1.9.9",
   "releaseDate": "2026-09-28",
-  "title": "AuditSoft v1.9.8 — Tự Động Phân Loại Mẫu 05/GTGT Vãng Lai Ngoại Tỉnh & Chống Nhảy Số Bảng Đối Chiếu E380",
+  "title": "AuditSoft v1.9.9 — Xuất Gộp Trọn Bộ Hồ Sơ Thuế 4 Sheet, Bóc Tách Hợp Đồng Thuế Vãng Lai & Khớp Tuyệt Đối Sổ Sách",
   "changelog": [
-    "Khắc phục triệt để lỗi nhảy số không nhất quán khi kéo thả tệp tờ khai thuế XML: Tự động nhận diện và phân loại Mẫu 05/GTGT (thuế GTGT vãng lai ngoại tỉnh xây dựng/BĐS) vào danh sách tệp bỏ qua hợp lệ, không để ghi đè làm sai lệch Mẫu 01/GTGT của Trụ sở chính.",
-    "Bảo toàn số liệu chuẩn xác 100% trên Bảng Đối Chiếu Thuế Mẫu E380: Triệt tiêu hoàn toàn hiện tượng Chỉ tiêu [22] và dòng Đầu năm bị nhảy thành số 1, Chỉ tiêu [25] bị gán nhầm số thuế vãng lai của tỉnh khác.",
-    "Tất định hóa cơ chế hợp nhất dữ liệu tờ khai (mergeTaxData): Đảm bảo thứ tự kéo thả tệp trong Windows Explorer không làm thay đổi kết quả đối chiếu.",
-    "Bổ sung chip thông tin minh bạch trên giao diện: Thống kê số lượng tệp vãng lai/BCTC được tự động lọc bỏ kèm giải thích rõ ràng.",
-    "Bổ sung tùy chọn Làm mới / Nạp lại tờ khai thuế ngay trên thanh công cụ."
+    "Tích hợp tính năng 1-Click Xuất Trọn Bộ Hồ Sơ Thuế (E380 + G150 + E381) vào cùng 1 file Excel duy nhất gồm 4 Sheet chuẩn mực VACPA: E380 (Thuế GTGT), G150 (Doanh thu), E381 (Thuế TNCN) và 05_GTGT (Bảng kê Thuế vãng lai ngoại tỉnh).",
+    "Bóc tách tự động và chi tiết 100% hợp đồng thi công Mẫu 05/GTGT: Trích xuất số hợp đồng, ngày ký, chủ đầu tư, MST, địa điểm thi công, doanh thu và thuế 1% nộp các tỉnh.",
+    "Chuẩn hóa công thức đối chiếu Sổ cái Thuế GTGT: Khớp tuyệt đối 100% phát sinh Có TK 33311 (bảo toàn 15.980.483.996 đ) và nhận diện đầy đủ thuế GTGT hàng nhập khẩu Nợ 1331 / Có 33312.",
+    "Nâng cấp toàn diện giao diện Nút bấm trên Dark Theme: Bổ sung gradient xanh công nghệ rực rỡ cho nút chính (.btn-primary), nâng độ nổi cho nút phụ (.btn-secondary) và làm mới các nút nạp nhanh phần hành (.btn-cycle-upload)."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.8/AuditSoft-1.9.8-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.8/AuditSoft-1.9.8-Portable.exe",
-  "sha256": "07efb3a12af8e5f7c26ecc38d6f1d96ed75f8cc4845abd259305f4d450e52cee",
-  "signature": "FfwQtyXmnk4Fo7Zvo3Yk9Vih4CgVq4h3io99nuKW0D6IEEO1yrRx-sWQrYEYyIHtn3RO-BouM_FfhuXlKLmLDg"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.9/AuditSoft-1.9.9-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v1.9.9/AuditSoft-1.9.9-Portable.exe",
+  "sha256": "ce20f226e89fa593c812d4b4dac70926a0c42c301ce249ba022e26ad29855049",
+  "signature": "f_B6NeQGVwNRuzhF1G1c8sjSDVFGqT0Xmd3ssdgv1Vli8ZWApwV9iS3WD95HjT7GXhabxlSK5utFb8KJt_GWCA"
 }
