@@ -1,19 +1,16 @@
 {
-  "version": "2.0.1",
-  "releaseDate": "2026-09-28",
-  "title": "AuditSoft v2.0.1 — Tối Ưu Thẻ Hồ Sơ Sidebar, Chống Tràn Niên Độ & Hoàn Thiện Switch Company",
+  "version": "2.0.2",
+  "releaseDate": "2026-09-29",
+  "title": "AuditSoft v2.0.2 — Tự Động Nhận Diện Sổ Tổng Hợp Đối Tượng (Mã ĐTPN), Khớp NKC & Tùy Chỉnh Cột Linh Hoạt",
   "changelog": [
-    "Khắc phục triệt để lỗi tràn dòng và cắt xén niên độ kiểm toán trên thẻ Hồ Sơ Đang Mở ở Sidebar Footer, bảo đảm hiển thị đầy đủ ngày tháng (31/12/YYYY).",
-    "Tối ưu hóa bố cục 2 nút hành động 'Sửa ADD' và 'Đổi Cty' thành hàng riêng biệt với icon vector SVG sắc nét, chuẩn click target và hover độc lập.",
-    "Đại tu toàn diện phân hệ #06 Working Paper Studio: tự động kết nối dữ liệu từ CĐSPS, NKC, Kho, TSCĐ, BHXH và Công nợ vào 6 Phụ lục kiểm toán độc lập.",
-    "Hoàn thiện 100% ruột bảng tính và công thức ExcelJS cho 6 Phụ lục: D146 (Ngân hàng & Ngoại tệ TT 99), D552 (Giá xuất kho), D530 (Dự phòng NRV), E250.2 (Tuổi nợ FIFO), E490 (Lương & C12 BHXH 2 sheet), D700 (Khấu hao TT 45).",
-    "Nâng cấp nút Xuất Tất Cả 6 Phụ Lục thành cơ chế 1-chạm: chỉ cần chọn thư mục lưu 1 lần duy nhất, tự động ghi toàn bộ 6 file và mở Windows Explorer.",
-    "Khắc phục triệt để lỗi trắng số 0 đồng khi Xuất Trọn Gói Hồ Sơ (1-Click) bằng cách tiêm đầy đủ số dư CĐSPS và bút toán NKC.",
-    "Chuẩn hóa động cơ Roll-Forward: phân định chuẩn xác bản chất Dư Nợ (TK 1, 2) và Dư Có (TK 3, 4, 214, 229), bảo toàn 100% công thức Excel cũ của KTV.",
-    "Đồng bộ động nút hành động chính trên Header theo tab đang chọn, loại bỏ hoàn toàn lỗi thiếu thư mục GLV MAU."
+    "Bổ sung động cơ nhận diện thông minh detectDtpnHeader: Tự động phát hiện 100% các cột Mã ĐTPN, Tên đối tượng pháp nhân, Ms_dn, Địa chỉ, cùng hệ thống cặp số dư/phát sinh VND và USD ngoại tệ.",
+    "Khớp trực tiếp chi tiết phát sinh từ Sổ NKC (cột MÃ KH): Tự động liên kết chính xác mã đối tác giữa Sổ Tổng Hợp và bút toán NKC mà không cần xuất thêm Sổ Chi Tiết từ phần mềm kế toán.",
+    "Tích hợp khu vực nạp Sổ Tổng Hợp ngoại vi (131/331 BS) ngay tại Tab NKC & CĐPS trên giao diện DebtAuditPage, hiển thị số lượng đối tác đã nhận diện và nút gỡ bỏ nhanh.",
+    "Bổ sung nút 'Tùy chỉnh cột' mở UniversalColumnMappingModal: Cho phép KTV xem trước bảng tính, tự chọn dòng tiêu đề và cấu hình lại ánh xạ cột linh hoạt theo từng mẫu biểu đặc thù.",
+    "Bảo toàn giao diện (Zero UI Regression): Hoàn thiện bố cục responsive, tương thích hoàn hảo Light/Dark theme, không che khuất bảng điều khiển hay các nút thao tác chính."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.1/AuditSoft-2.0.1-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.1/AuditSoft-2.0.1-Portable.exe",
-  "sha256": "0371a0c0b9f249e2273a6fbf72f53d5b2ade45dcb24e5daec469289773a9d14b",
-  "signature": "7R_u-i8UkcQAsBqWKhjKvusAg9c8bXxtUvIqaAGwN4YIzJrq8IN63PswiDJpfC6kKOmq0UoeF36nrTVClf1JAw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.2/AuditSoft-2.0.2-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.2/AuditSoft-2.0.2-Portable.exe",
+  "sha256": "94777c02981b8c2061d9ae0fa1a3d0d249ee80e753b50b8331ce0e9b6e169246",
+  "signature": "Ms_vC_xVqmRWx_GK6iq6PmekkpbF4eEVn_mruwUoLSWxfPNs3F1B8-A91ujiXH1ZKpQbYIwrosJpJzPKNezZAw"
 }
