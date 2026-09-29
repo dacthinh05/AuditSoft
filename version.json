@@ -1,16 +1,18 @@
 {
-  "version": "2.0.2",
+  "version": "2.0.3",
   "releaseDate": "2026-09-29",
-  "title": "AuditSoft v2.0.2 — Tự Động Nhận Diện Sổ Tổng Hợp Đối Tượng (Mã ĐTPN), Khớp NKC & Tùy Chỉnh Cột Linh Hoạt",
+  "title": "AuditSoft v2.0.3 — Hỗ Trợ Chốt Công Nợ Theo Kỳ/Tháng & Kéo Thả Sổ Ngoại Vi Linh Hoạt",
   "changelog": [
-    "Bổ sung động cơ nhận diện thông minh detectDtpnHeader: Tự động phát hiện 100% các cột Mã ĐTPN, Tên đối tượng pháp nhân, Ms_dn, Địa chỉ, cùng hệ thống cặp số dư/phát sinh VND và USD ngoại tệ.",
-    "Khớp trực tiếp chi tiết phát sinh từ Sổ NKC (cột MÃ KH): Tự động liên kết chính xác mã đối tác giữa Sổ Tổng Hợp và bút toán NKC mà không cần xuất thêm Sổ Chi Tiết từ phần mềm kế toán.",
-    "Tích hợp khu vực nạp Sổ Tổng Hợp ngoại vi (131/331 BS) ngay tại Tab NKC & CĐPS trên giao diện DebtAuditPage, hiển thị số lượng đối tác đã nhận diện và nút gỡ bỏ nhanh.",
-    "Bổ sung nút 'Tùy chỉnh cột' mở UniversalColumnMappingModal: Cho phép KTV xem trước bảng tính, tự chọn dòng tiêu đề và cấu hình lại ánh xạ cột linh hoạt theo từng mẫu biểu đặc thù.",
-    "Bảo toàn giao diện (Zero UI Regression): Hoàn thiện bố cục responsive, tương thích hoàn hảo Light/Dark theme, không che khuất bảng điều khiển hay các nút thao tác chính."
+    "Hỗ trợ kéo thả trực tiếp tệp Sổ Tổng Hợp ngoại vi (131/331 BS) vào ô nạp tệp và tự động phân tích.",
+    "Khắc phục triệt để lỗi nút 'Tùy chỉnh cột' mở ngay bảng ánh xạ cột độc lập với trạng thái báo cáo.",
+    "Bổ sung thanh chọn nhanh kỳ khóa sổ As of date: Q1 (31/03), 6T Bán niên (30/06), Q3 (30/09), Cả năm (31/12).",
+    "Tự động đồng bộ mốc khóa sổ theo Kỳ hồ sơ kiểm toán (30/06/2026) giúp tuổi nợ bóc tách chính xác theo kỳ.",
+    "Tự động chốt và khớp toàn bộ 238 nhà cung cấp (TK 331) và 36 khách hàng (TK 131) với Sổ Cái & Bảng CĐPS."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.2/AuditSoft-2.0.2-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.2/AuditSoft-2.0.2-Portable.exe",
-  "sha256": "94777c02981b8c2061d9ae0fa1a3d0d249ee80e753b50b8331ce0e9b6e169246",
-  "signature": "Ms_vC_xVqmRWx_GK6iq6PmekkpbF4eEVn_mruwUoLSWxfPNs3F1B8-A91ujiXH1ZKpQbYIwrosJpJzPKNezZAw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.3/AuditSoft-2.0.3-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.3/AuditSoft-2.0.3-Portable.exe",
+  "required": false,
+  "minSupportedVersion": "1.0.0",
+  "sha256": "80652f2fcd5f29844e0f7e6e8a86f6f5cb5f8d91bb604854f908669d331a5419",
+  "signature": "Sz-QFKMVVkHo9aF6ZDgm4n1Cf71Im-tELRRH4juMrnDvQSL1cVIqiDprCecBuKQpIt3svQmDX_vP_mAUrpchDg"
 }
