@@ -1,907 +1,373 @@
 <!DOCTYPE html>
-<html lang="vi" data-theme="dark">
+<html lang="vi" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AuditSoft NKC — Hệ Thống Trợ Lý Kiểm Toán &amp; Soát Xét BCTC Chuyên Nghiệp</title>
-  <meta name="description" content="AuditSoft NKC: Soát xét 2 sổ NKC (B360), tự động quét chi tiền mặt >= 5 triệu theo Nghị định 181/2025/NĐ-CP, bốc mẫu kiểm toán VSA 530 và lập 15 Giấy làm việc VACPA. Xử lý 100% Offline bảo mật.">
-  <meta name="keywords" content="auditsoft, kiểm toán nkc, soát xét bctc, bốc mẫu vsa 530, nghị định 181 chi tiền mặt 5 triệu, 15 giấy làm việc vacpa">
-  <meta name="author" content="Thịnh Lynx (0817.567.008)">
-
+  <title>AuditSoft NKC (v2.0.3) — Trợ Lý Kiểm Toán So Khớp 2 Sổ NKC & Lập 12 Giấy Làm Việc VACPA</title>
+  <meta name="description" content="AuditSoft NKC v2.0.3: So khớp 2 sổ NKC (B360) dưới 3 giây, bốc mẫu kiểm toán VSA 530 (MUS, phân tầng), tự động lập 12 Giấy làm việc VACPA có công thức sống và quét thuế Nghị định 181/2025.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --font-mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
-
-      --bg-base: #030712;
-      --bg-surface: #0a0f1d;
-      --bg-card: rgba(15, 23, 42, 0.65);
-      --bg-card-hover: rgba(30, 41, 59, 0.75);
-      --bg-elevated: #0f172a;
-      --bg-elevated-hover: #1e293b;
-
-      --border-hairline: rgba(255, 255, 255, 0.08);
-      --border-strong: rgba(255, 255, 255, 0.15);
-      --border-focus: #0284c7;
-
-      --primary: #0284c7;
-      --primary-hover: #0369a1;
-      --primary-glow: rgba(2, 132, 199, 0.3);
-
-      --accent-emerald: #10b981;
-      --accent-emerald-glow: rgba(16, 185, 129, 0.25);
-      --accent-amber: #f59e0b;
-      --accent-amber-glow: rgba(245, 158, 11, 0.25);
-      --accent-red: #ef4444;
-      --accent-red-glow: rgba(239, 68, 68, 0.25);
-      --accent-blue: #38bdf8;
-
-      --text-display: #ffffff;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-
-      --radius-xs: 4px;
-      --radius-sm: 6px;
-      --radius-md: 8px;
-      --radius-lg: 12px;
-
-      --trans: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
-    html { scroll-behavior: smooth; }
-    body {
-      background-color: var(--bg-base);
-      color: var(--text-main);
-      line-height: 1.6;
-      overflow-x: hidden;
-      background-image: 
-        radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
-        radial-gradient(900px circle at 50% -15%, rgba(2, 132, 199, 0.2), transparent 70%);
-      background-size: 24px 24px, 100% 100%;
-      background-position: 0 0, center top;
-      background-repeat: repeat, no-repeat;
-    }
-
-    .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-    .container { width: 100%; max-width: 1220px; margin: 0 auto; padding: 0 24px; }
-
-    /* Top Ambient Banner */
-    .top-pill-wrap { padding: 12px 0 0; text-align: center; }
-    .top-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid var(--border-hairline);
-      backdrop-filter: blur(12px);
-      padding: 4px 14px;
-      border-radius: var(--radius-sm);
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .top-pill strong { color: var(--accent-blue); font-weight: 600; }
-    .top-pill .pulse-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--accent-emerald);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--accent-emerald);
-    }
-
-    /* Navbar */
-    .site-nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(3, 7, 18, 0.8);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-hairline);
-      height: 64px;
-    }
-    .nav-flex { display: flex; align-items: center; justify-content: space-between; height: 100%; }
-    .brand-group { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-display); }
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      background: linear-gradient(135deg, #0284c7, #1e3a8a);
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 16px;
-      color: #fff;
-      box-shadow: 0 0 16px rgba(2, 132, 199, 0.35);
-    }
-    .brand-title { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; }
-    .brand-tag { font-family: var(--font-mono); font-size: 10px; color: var(--accent-blue); font-weight: 600; display: block; }
-    
-    .nav-links { display: flex; gap: 24px; list-style: none; }
-    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 13.5px; font-weight: 600; transition: color var(--trans); }
-    .nav-links a:hover { color: var(--text-display); }
-
-    .nav-cta { display: flex; align-items: center; gap: 10px; }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 8px 16px;
-      border-radius: var(--radius-sm);
-      font-size: 13px;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: all var(--trans);
-      white-space: nowrap;
-    }
-    .btn-primary {
-      background: var(--primary);
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 20px rgba(2, 132, 199, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    }
-    .btn-primary:hover {
-      background: var(--primary-hover);
-      box-shadow: 0 0 28px rgba(2, 132, 199, 0.5);
-      transform: translateY(-1px);
-    }
-    .btn-ghost {
-      background: rgba(255, 255, 255, 0.04);
-      border-color: var(--border-hairline);
-      color: var(--text-main);
-    }
-    .btn-ghost:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: var(--border-strong);
-      color: var(--text-display);
-    }
-
-    /* Hero Section */
-    .hero { padding: 60px 0 40px; text-align: center; }
-    .hero-kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(2, 132, 199, 0.1);
-      border: 1px solid rgba(2, 132, 199, 0.3);
-      padding: 4px 12px;
-      border-radius: var(--radius-xs);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--accent-blue);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 20px;
-    }
-    .hero-headline {
-      font-size: clamp(36px, 5.2vw, 62px);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1.06;
-      background: linear-gradient(180deg, #FFFFFF 30%, rgba(255, 255, 255, 0.65) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 18px;
-      max-width: 960px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .hero-subtext {
-      font-size: clamp(14px, 1.8vw, 16.5px);
-      color: var(--text-muted);
-      max-width: 780px;
-      margin: 0 auto 30px;
-      line-height: 1.6;
-    }
-    .hero-actions { display: flex; justify-content: center; gap: 14px; margin-bottom: 48px; flex-wrap: wrap; }
-
-    /* 3D Floating Desktop App Mockup */
-    .mockup-wrapper {
-      perspective: 1200px;
-      margin-bottom: 70px;
-    }
-    .app-window {
-      background: #090e1c;
-      border: 1px solid var(--border-hairline);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      box-shadow: 
-        0 0 0 1px rgba(255, 255, 255, 0.08),
-        0 30px 70px -15px rgba(0, 0, 0, 0.95),
-        0 0 90px -20px rgba(2, 132, 199, 0.3);
-      text-align: left;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-    .app-window:hover {
-      box-shadow: 
-        0 0 0 1px rgba(255, 255, 255, 0.15),
-        0 35px 80px -15px rgba(0, 0, 0, 0.98),
-        0 0 120px -20px rgba(2, 132, 199, 0.4);
-    }
-    .window-titlebar {
-      height: 40px;
-      background: rgba(15, 23, 42, 0.9);
-      border-bottom: 1px solid var(--border-hairline);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      font-size: 11.5px;
-      font-family: var(--font-mono);
-    }
-    .traffic-lights { display: flex; gap: 6px; align-items: center; }
-    .traffic-dot { width: 11px; height: 11px; border-radius: 50%; }
-    .traffic-dot.red { background: #ff5f56; }
-    .traffic-dot.amber { background: #ffbd2e; }
-    .traffic-dot.green { background: #27c93f; }
-    .window-title { color: var(--text-muted); font-size: 11.5px; display: flex; align-items: center; gap: 8px; }
-    .window-chip {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: var(--accent-emerald);
-      padding: 2px 8px;
-      border-radius: var(--radius-xs);
-      font-size: 10.5px;
-      font-weight: 700;
-    }
-
-    /* Metric Strip inside App */
-    .app-metric-strip {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      background: rgba(10, 15, 29, 0.95);
-      border-bottom: 1px solid var(--border-hairline);
-    }
-    .metric-cell {
-      padding: 12px 18px;
-      border-right: 1px solid var(--border-hairline);
-    }
-    .metric-cell:last-child { border-right: none; }
-    .metric-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); margin-bottom: 2px; }
-    .metric-num { font-size: 18px; font-weight: 700; color: var(--text-display); }
-    .metric-sub { font-size: 10px; font-family: var(--font-mono); font-weight: 600; color: var(--accent-emerald); }
-    .metric-sub.alert { color: var(--accent-amber); }
-
-    /* Accounting Data Grid */
-    .app-grid-viewport { overflow-x: auto; background: #070b16; }
-    .accounting-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    .accounting-table th {
-      background: #0d1424;
-      color: var(--text-muted);
-      font-weight: 600;
-      font-size: 10.5px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 10px 16px;
-      border-bottom: 1px solid var(--border-hairline);
-      white-space: nowrap;
-    }
-    .accounting-table td {
-      padding: 9px 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      white-space: nowrap;
-      height: 38px;
-      color: var(--text-main);
-    }
-    .accounting-table tr:hover td { background: rgba(255, 255, 255, 0.025); }
-    .accounting-table tr.alert-row td { background: rgba(245, 158, 11, 0.08); }
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 7px;
-      border-radius: var(--radius-xs);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-    }
-    .tag-emerald { background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.3); }
-    .tag-amber { background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); border: 1px solid rgba(245, 158, 11, 0.3); }
-    .tag-blue { background: rgba(2, 132, 199, 0.12); color: var(--accent-blue); border: 1px solid rgba(2, 132, 199, 0.3); }
-    .text-right { text-align: right; }
-    .text-center { text-align: center; }
-
-    /* Bento Grid Section */
-    .section-head { margin-bottom: 36px; text-align: left; }
-    .section-kicker { font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; display: block; }
-    .section-title { font-size: clamp(26px, 3.5vw, 36px); font-weight: 800; letter-spacing: -0.03em; color: var(--text-display); margin-bottom: 8px; }
-
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 60px;
-    }
-    .bento-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-hairline);
-      border-radius: var(--radius-md);
-      padding: 22px;
-      backdrop-filter: blur(12px);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: all var(--trans);
-      position: relative;
-      overflow: hidden;
-    }
-    .bento-card:hover {
-      border-color: var(--border-strong);
-      background: var(--bg-card-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-    }
-    .bento-card.span-2 { grid-column: span 2; }
-    .bento-header { margin-bottom: 14px; }
-    .bento-tag { font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; margin-bottom: 6px; display: block; }
-    .bento-title { font-size: 16.5px; font-weight: 700; color: var(--text-display); margin-bottom: 6px; line-height: 1.3; }
-
-    /* Tactile Mini-UI Widgets inside Bento */
-    .mini-widget {
-      background: rgba(3, 7, 18, 0.85);
-      border: 1px solid var(--border-hairline);
-      border-radius: var(--radius-sm);
-      padding: 12px;
-      margin-top: 16px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-    }
-    .diff-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
-    .diff-row:last-child { border-bottom: none; }
-    
-    /* Interactive Slider Widget */
-    .slider-box { display: flex; flex-direction: column; gap: 8px; }
-    .slider-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); }
-    .slider-input {
-      width: 100%;
-      height: 6px;
-      background: #1e293b;
-      border-radius: 3px;
-      outline: none;
-      -webkit-appearance: none;
-      cursor: pointer;
-    }
-    .slider-input::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: var(--accent-blue);
-      box-shadow: 0 0 10px var(--accent-blue);
-      cursor: pointer;
-    }
-    .slider-output-strip {
-      background: rgba(2, 132, 199, 0.1);
-      border: 1px solid rgba(2, 132, 199, 0.25);
-      padding: 6px 10px;
-      border-radius: var(--radius-xs);
-      display: flex;
-      justify-content: space-between;
-      color: var(--accent-blue);
-      font-weight: 700;
-    }
-
-    /* Specs Section */
-    .specs-strip {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      background: rgba(15, 23, 42, 0.4);
-      border: 1px solid var(--border-hairline);
-      border-radius: var(--radius-md);
-      padding: 24px;
-      margin-bottom: 60px;
-    }
-    .spec-box h4 { font-size: 14.5px; font-weight: 700; color: var(--text-display); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-    .spec-box p { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
-
-    /* Apple Card / Stripe Terminal VietQR */
-    .checkout-terminal {
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(3, 7, 18, 0.95) 100%);
-      border: 1px solid var(--border-hairline);
-      border-radius: var(--radius-lg);
-      padding: 32px;
-      margin-bottom: 60px;
-      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8);
-    }
-    .terminal-flex { display: grid; grid-template-columns: 1.15fr 1fr; gap: 32px; align-items: center; }
-    
-    /* Titanium Card Representation */
-    .titanium-card {
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #020617 100%);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: var(--radius-md);
-      padding: 24px;
-      position: relative;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 16px 36px rgba(0, 0, 0, 0.6);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 220px;
-    }
-    .card-top { display: flex; justify-content: space-between; align-items: center; }
-    .emv-chip {
-      width: 36px;
-      height: 28px;
-      background: linear-gradient(135deg, #d97706, #fde68a);
-      border-radius: 4px;
-      border: 1px solid rgba(0,0,0,0.3);
-    }
-    .card-network { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-muted); }
-    .card-acc {
-      font-family: var(--font-mono);
-      font-size: 22px;
-      letter-spacing: 0.15em;
-      font-weight: 700;
-      color: #ffffff;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-      margin: 18px 0;
-    }
-    .card-holder { display: flex; justify-content: space-between; font-size: 11px; font-family: var(--font-mono); color: var(--text-dim); text-transform: uppercase; }
-    .card-holder .name { color: var(--text-main); font-weight: 600; }
-
-    /* Plan Selector Buttons */
-    .tier-selector { display: flex; gap: 8px; margin-bottom: 20px; }
-    .tier-btn {
-      flex: 1;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-hairline);
-      border-radius: var(--radius-sm);
-      padding: 10px;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 600;
-      transition: all var(--trans);
-      text-align: center;
-    }
-    .tier-btn:hover { background: rgba(255, 255, 255, 0.08); }
-    .tier-btn.active {
-      background: rgba(2, 132, 199, 0.15);
-      border-color: var(--primary);
-      color: var(--text-display);
-      box-shadow: 0 0 14px rgba(2, 132, 199, 0.25);
-    }
-    .tier-price { font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--accent-blue); margin-top: 4px; display: block; }
-
-    /* QR Frame */
-    .qr-container {
-      background: #ffffff;
-      border-radius: var(--radius-md);
-      padding: 16px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      display: inline-block;
-      max-width: 240px;
-      margin: 0 auto;
-    }
-    .qr-img { width: 200px; height: 200px; display: block; }
-    .qr-instruction { font-size: 11px; color: #475569; font-weight: 600; margin-top: 8px; }
-
-    /* FAQ */
-    .faq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 60px; }
-    .faq-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border-hairline);
-      border-radius: var(--radius-md);
-      padding: 18px 22px;
-    }
-    .faq-q { font-size: 14px; font-weight: 700; color: var(--text-display); margin-bottom: 8px; }
-    .faq-a { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
-
-    /* Footer */
-    footer { border-top: 1px solid var(--border-hairline); padding: 32px 0 48px; font-size: 12.5px; color: var(--text-dim); }
-    .footer-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-    .footer-links a { color: var(--text-muted); text-decoration: none; margin-left: 18px; font-weight: 500; }
-    .footer-links a:hover { color: var(--text-display); }
-
-    @media (max-width: 900px) {
-      .bento-grid { grid-template-columns: 1fr; }
-      .bento-card.span-2 { grid-column: span 1; }
-      .app-metric-strip { grid-template-columns: repeat(2, 1fr); }
-      .terminal-flex { grid-template-columns: 1fr; }
-      .specs-strip { grid-template-columns: 1fr; }
-      .faq-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-    }
-  </style>
+  <link rel="stylesheet" href="../assets/theme.css">
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('lynx_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
 </head>
 <body>
-
-  <!-- Top Ambient Banner -->
-  <div class="top-pill-wrap">
-    <div class="top-pill">
-      <span class="pulse-dot"></span>
-      <span>Phiên bản v1.7.0 Chính Thức • Đã tích hợp rà soát <strong>Nghị định 181/2025/NĐ-CP</strong> &amp; <strong>VSA 530</strong></span>
-    </div>
-  </div>
-
-  <!-- Navbar -->
-  <nav class="site-nav">
-    <div class="container nav-flex">
-      <a href="../index.html" class="brand-group">
-        <div class="brand-mark">A</div>
-        <div>
-          <div class="brand-title">AuditSoft NKC</div>
-          <span class="brand-tag">v1.7.0 STABLE</span>
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="nav-brand">
+        <div class="nav-brand-logo" style="background: #1E3A8A; color: #FFFFFF;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         </div>
+        <span>Thịnh Lynx Ecosystem</span>
       </a>
 
-      <ul class="nav-links">
-        <li><a href="#demo">Giao Diện Thật</a></li>
-        <li><a href="#features">Năng Lực Kiểm Toán</a></li>
-        <li><a href="#specs">Bảo Mật Offline</a></li>
-        <li><a href="#pricing">Bảng Giá &amp; VietQR</a></li>
-        <li><a href="#faq">Hỏi Đáp</a></li>
+      <ul class="nav-menu">
+        <li><a href="../index.html" class="nav-link ">Trang Chủ</a></li>
+        <li><a href="#" class="nav-link active">AuditSoft NKC</a></li>
+        <li><a href="invoicedesk.html" class="nav-link ">InvoiceDesk</a></li>
+        <li><a href="taxinsight.html" class="nav-link ">TaxInsight</a></li>
+        <li><a href="../index.html#pricing" class="nav-link">Bảng Giá Combo</a></li>
+        <li><a href="../index.html#faq" class="nav-link">Hỏi Đáp</a></li>
       </ul>
 
-      <div class="nav-cta">
-        <a href="../index.html" class="btn btn-ghost">← 3 Công Cụ</a>
-        <a href="#pricing" class="btn btn-primary">Tải Bản Quyền .EXE</a>
+      <div class="nav-actions">
+        <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Đổi giao diện Sáng/Tối" title="Đổi giao diện Sáng / Tối">
+          <svg id="themeIconSun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Zalo: 0817.567.008</span>
+        </a>
+        <a href="../index.html#pricing" class="btn btn-primary btn-sm">
+          <span>Mua Bản Quyền</span>
+        </a>
       </div>
     </div>
-  </nav>
+  </header>
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-badge-wrap">
+          <span class="badge badge-warning">PHIÊN BẢN v2.0.3 MỚI NHẤT • CHUẨN MỰC VSA 530 • VACPA</span>
+        </div>
+        <h1>AuditSoft NKC: So Khớp 2 Sổ NKC (B360), Bốc Mẫu VSA 530 & Lập 12 Giấy Làm Việc VACPA Dưới 5 Giây</h1>
+        <p class="lead">
+          Được thiết kế riêng cho các công ty kiểm toán độc lập, chuyên gia soát xét nội bộ và Kế toán trưởng mùa quyết toán. Không còn phải mất hàng tuần viết hàm VLOOKUP hay SUMIFS thủ công để tìm chênh lệch giữa 2 sổ kế toán hoặc bốc mẫu kiểm toán.
+        </p>
+        <div class="hero-actions">
+          <a href="#pricing" class="btn btn-primary btn-lg">Mua Bản Quyền AuditSoft</a>
+          <a href="#features" class="btn btn-outline btn-lg">Xem 4 Tính Năng Lõi</a>
+          <a href="../index.html" class="btn btn-outline btn-lg">&larr; Về Trang Chủ Hệ Sinh Thái</a>
+        </div>
 
-  <!-- Hero Section -->
-  <section class="hero">
+        <div class="metrics-strip">
+          <div class="metric-item">
+            <div class="metric-value">&lt; 3 Giây</div>
+            <div class="metric-label">Xử lý 1,000,000 dòng phát sinh sổ Nhật ký chung</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">4 Phương Pháp</div>
+            <div class="metric-label">Bốc mẫu VSA 530: MUS, Phân tầng, Ngẫu nhiên & Trọng yếu</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">12 Giấy Làm Việc</div>
+            <div class="metric-label">Xuất file Excel chuẩn VACPA (B360, D146, E300, D553...)</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">Nghị định 181</div>
+            <div class="metric-label">Tự động phát hiện chi tiền mặt &ge; 5 triệu trong một ngày</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 Core Features -->
+    <section id="features" class="section" style="background-color: var(--bg-surface); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge section-tag">CÔNG NĂNG VƯỢT TRỘI</span>
+          <h2>4 Năng Lực Kiểm Toán Thực Chiến Đột Phá</h2>
+          <p>Thuật toán độc quyền giúp chuyển hóa khối lượng công việc kiểm toán của cả tuần thành vài cú nhấp chuột.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+              <div style="background: rgba(30, 58, 138, 0.1); color: var(--accent-primary); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800;">1</div>
+              <h3 style="margin-bottom: 0;">So Khớp 2 Sổ NKC Cực Nhanh (Mẫu B360)</h3>
+            </div>
+            <p>Tự động đối chiếu chéo giữa 2 sổ Nhật ký chung bất kỳ (Sổ nội bộ vs Sổ thuế, Sổ trước kiểm toán vs Sổ sau kiểm toán). Nhận diện chính xác:</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 16px;">
+              <li>&bull; Lệch số tiền phát sinh Nợ / Có</li>
+              <li>&bull; Sai lệch định khoản tài khoản đối ứng</li>
+              <li>&bull; Bút toán có ở sổ này nhưng thiếu ở sổ kia</li>
+              <li>&bull; Trùng lặp số hóa đơn hoặc sai lệch ngày chứng từ</li>
+            </ul>
+            <span class="badge badge-success">Engine Worker Thread tốc độ cao</span>
+          </div>
+
+          <div class="card">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+              <div style="background: rgba(180, 83, 9, 0.1); color: var(--accent-secondary); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800;">2</div>
+              <h3 style="margin-bottom: 0;">Động Cơ Bốc Mẫu Kiểm Toán Chuẩn VSA 530</h3>
+            </div>
+            <p>Hỗ trợ đầy đủ các kỹ thuật chọn mẫu theo Chuẩn mực Kiểm toán Việt Nam VSA 530:</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 16px;">
+              <li>&bull; Chọn mẫu theo đơn vị tiền tệ (Monetary Unit Sampling - MUS)</li>
+              <li>&bull; Chọn mẫu phân tầng theo ngưỡng trọng yếu (Performance Materiality)</li>
+              <li>&bull; Chọn mẫu ngẫu nhiên có trọng số hoặc chọn mẫu hệ thống</li>
+              <li>&bull; Tự động kết xuất Giấy làm việc giải trình cơ sở chọn mẫu và rủi ro kỳ vọng</li>
+            </ul>
+            <span class="badge badge-warning">Đúng chuẩn mực kiểm toán quốc tế</span>
+          </div>
+
+          <div class="card">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+              <div style="background: rgba(5, 150, 105, 0.1); color: var(--accent-success); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800;">3</div>
+              <h3 style="margin-bottom: 0;">Bộ 12 Giấy Làm Việc VACPA Có Công Thức Sống</h3>
+            </div>
+            <p>Tự động hóa hoàn toàn việc lập hồ sơ kiểm toán năm:</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 16px;">
+              <li>&bull; <strong>E300:</strong> Soát xét chi phí & nhận diện rủi ro thuế TNDN</li>
+              <li>&bull; <strong>D146:</strong> So khớp tài khoản tiền gửi ngân hàng 112 với sao kê</li>
+              <li>&bull; <strong>D553/D555:</strong> Kiểm kê tồn kho & kiểm tra cutoff xuất nhập kho</li>
+              <li>&bull; <strong>C12:</strong> Đối chiếu số liệu bảo hiểm xã hội bắt buộc</li>
+            </ul>
+            <span class="badge badge-success">File .xlsx công thức SUM/VLOOKUP sống</span>
+          </div>
+
+          <div class="card">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+              <div style="background: rgba(220, 38, 38, 0.1); color: var(--accent-danger); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800;">4</div>
+              <h3 style="margin-bottom: 0;">Quét Vi Phạm Nghị Định 181/2025/NĐ-CP</h3>
+            </div>
+            <p>Ngăn ngừa rủi ro bị cơ quan thuế bóc tách chi phí hợp lý khi quyết toán:</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 0.9375rem; color: var(--text-main); margin-bottom: 16px;">
+              <li>&bull; Quét phát hiện các khoản chi tiền mặt &ge; 5 triệu đồng/ngày cùng một NCC</li>
+              <li>&bull; Cảnh báo các giao dịch chia nhỏ hóa đơn để né chuyển khoản ngân hàng</li>
+              <li>&bull; Đối chiếu thuế suất VAT đầu ra G150 theo từng mức 0%, 5%, 8%, 10%</li>
+            </ul>
+            <span class="badge" style="background: rgba(220, 38, 38, 0.1); color: var(--accent-danger); border-color: rgba(220, 38, 38, 0.25);">Cập nhật Nghị định mới nhất</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge section-tag">ĐẦU TƯ BẢN QUYỀN</span>
+          <h2>Sở Hữu AuditSoft NKC v2.0.3 Trọn Đời</h2>
+          <p>Giá đầu tư tiết kiệm gấp nhiều lần so với chi phí nhân sự đối chiếu thủ công mùa quyết toán.</p>
+        </div>
+
+        <div style="max-width: 600px; margin: 0 auto;">
+          <div class="pricing-card featured" style="text-align: center;">
+            <div class="featured-pill">BẢN QUYỀN VĨNH VIỄN THEO MÁY</div>
+            <span class="badge badge-warning" style="align-self: center;">AUDITSOFT NKC PRO</span>
+            <div class="price-val mono" style="color: var(--accent-primary);">1.490.000 VNĐ</div>
+            <div class="price-unit">Đầu tư một lần • Sử dụng trọn đời theo máy</div>
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 20px 0;">
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.9375rem; text-align: left; margin-bottom: 24px;">
+              <li>&check; So khớp 2 sổ NKC (B360) không giới hạn số lượng dòng</li>
+              <li>&check; Đầy đủ 4 thuật toán bốc mẫu kiểm toán VSA 530</li>
+              <li>&check; Tự động kết xuất trọn bộ 12 Giấy làm việc chuẩn mẫu VACPA</li>
+              <li>&check; Tích hợp module quét chi tiền mặt Nghị định 181/2025</li>
+              <li>&check; Miễn phí cập nhật mẫu biểu và nâng cấp trong 12 tháng</li>
+              <li>&check; Hỗ trợ kỹ thuật 1-1 qua Zalo khi vào mùa kiểm toán cao điểm</li>
+            </ul>
+            <button class="btn btn-primary btn-lg" onclick="location.href='#vietqr';">Quét Mã VietQR Mua Ngay</button>
+          </div>
+        </div>
+
+              <!-- VietQR Automated Payment Frame -->
+      <div id="vietqr" class="card" style="margin-top: 48px; border: 2px solid var(--accent-primary);">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
+          <div>
+            <span class="badge badge-success" style="margin-bottom: 8px;">CỔNG THANH TOÁN VIETQR CHÍNH THỨC</span>
+            <h3 style="margin-bottom: 4px;">Quét Mã VietQR Chuyển Khoản Tự Động MB Bank</h3>
+            <p style="font-size: 0.9375rem; margin-bottom: 0;">Mã QR tự động điền chính xác Số tài khoản, Số tiền và Cú pháp kích hoạt bản quyền.</p>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="planSelectorGroup">
+            <button type="button" class="btn btn-sm btn-outline plan-pill active" onclick="setVietQRPlan('combo_all', 2190000, 'COMBO HE SINH THAI', 'Combo Trọn Bộ 3 Tool (2.190.000 đ)')">Combo 3 Tool</button>
+            <button type="button" class="btn btn-sm btn-outline plan-pill" onclick="setVietQRPlan('auditsoft', 1490000, 'AUDITSOFT PRO', 'AuditSoft NKC v2.0.3 (1.490.000 đ)')">AuditSoft</button>
+            <button type="button" class="btn btn-sm btn-outline plan-pill" onclick="setVietQRPlan('invoicedesk', 690000, 'INVOICEDESK PRO', 'InvoiceDesk v2.7.14 (690.000 đ)')">InvoiceDesk</button>
+            <button type="button" class="btn btn-sm btn-outline plan-pill" onclick="setVietQRPlan('taxinsight', 590000, 'TAXINSIGHT PRO', 'TaxInsight v3.3.4 (590.000 đ)')">TaxInsight</button>
+            <button type="button" class="btn btn-sm btn-outline plan-pill" onclick="setVietQRPlan('combo_tax', 990000, 'COMBO THUE DUO', 'Combo Thuế 2 Tool (990.000 đ)')">Combo Thuế</button>
+          </div>
+        </div>
+
+        <div class="vietqr-box">
+          <div style="text-align: center;">
+            <img id="qrImage" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=2190000&addInfo=COMBO%20HE%20SINH%20THAI&accountName=THINH%20LYNX" alt="Mã VietQR MB Bank" class="vietqr-img">
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px; margin-bottom: 0;">Quét bằng app ngân hàng bất kỳ</p>
+          </div>
+
+          <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+            <div>
+              <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Ngân hàng thụ hưởng:</span>
+              <strong style="color: var(--text-main);">MB BANK (Ngân hàng TMCP Quân Đội)</strong>
+            </div>
+            <div>
+              <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Chủ tài khoản:</span>
+              <strong style="color: var(--text-main);">THINH LYNX (NGUYEN DUC THINH)</strong>
+            </div>
+            <div>
+              <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Số tài khoản MB:</span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <strong class="mono" style="font-size: 1.15rem; color: var(--accent-primary);">0817567008</strong>
+                <button type="button" class="btn btn-sm btn-outline" style="padding: 2px 8px; min-height: 26px;" onclick="navigator.clipboard.writeText('0817567008'); alert('Đã sao chép STK: 0817567008');">Copy</button>
+              </div>
+            </div>
+            <div>
+              <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Số tiền thanh toán:</span>
+              <strong id="qrAmountDisplay" class="mono" style="font-size: 1.15rem; color: var(--accent-success);">2.190.000 VNĐ</strong>
+            </div>
+            <div style="grid-column: span 2;">
+              <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Nội dung chuyển khoản (bắt buộc):</span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <strong id="qrMemoDisplay" class="mono" style="font-size: 1rem; color: var(--accent-secondary); background: var(--bg-surface); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border-color);">COMBO HE SINH THAI [SĐT CỦA BẠN]</strong>
+                <button type="button" class="btn btn-sm btn-outline" style="padding: 2px 8px; min-height: 26px;" onclick="copyQrMemo()">Copy Cú Pháp</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 16px; font-size: 0.875rem; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+          <span>Sau khi chuyển khoản, vui lòng nhắn tin Zalo <strong>0817.567.008</strong> kèm Machine ID để nhận mã kích hoạt bản quyền trong 5 phút.</span>
+          <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary">Xác Nhận Qua Zalo</a>
+        </div>
+      </div>
+
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
     <div class="container">
-      <span class="hero-kicker">Chuẩn Mực Kiểm Toán Số Lập Lịch Trình Tự Động</span>
-      <h1 class="hero-headline">Soát xét 2 sổ NKC, chốt CĐPS và lập 15 Giấy làm việc VACPA.</h1>
-      <p class="hero-subtext">Xử lý 100% Offline. Bóc tách bút toán AJE và bốc mẫu VSA 530 trong 2 giây.</p>
-
-      <div class="hero-actions">
-        <a href="#pricing" class="btn btn-primary">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>Tải Bản Cài Đặt Windows (v1.7.0)</span>
-        </a>
-        <a href="#demo" class="btn btn-ghost">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-          <span>Khám Phá Giao Diện Thật</span>
-        </a>
-      </div>
-
-      <!-- 3D Floating Desktop App Mockup -->
-      <div id="demo" class="mockup-wrapper">
-        <div class="app-window">
-          <!-- Titlebar -->
-          <div class="window-titlebar">
-            <div class="traffic-lights">
-              <span class="traffic-dot red"></span>
-              <span class="traffic-dot amber"></span>
-              <span class="traffic-dot green"></span>
-            </div>
-            <div class="window-title">
-              <span>AuditSoft Engine — [Cty CP Cơ Khí An Lập - Niên độ 2025] - B360 Soát xét NKC</span>
-            </div>
-            <div>
-              <span class="window-chip">● OFFLINE SECURED</span>
-            </div>
-          </div>
-
-          <!-- App Metric Strip -->
-          <div class="app-metric-strip">
-            <div class="metric-cell">
-              <div class="metric-label">Số Dòng NKC Đã Quét</div>
-              <div class="metric-num num">148,250 <span style="font-size: 11px; font-weight: normal; color: var(--text-dim);">dòng</span></div>
-              <div class="metric-sub">Tốc độ: 1.8 giây</div>
-            </div>
-            <div class="metric-cell">
-              <div class="metric-label">Lệch Cân Đối Nợ - Có</div>
-              <div class="metric-num num" style="color: var(--accent-emerald);">0 đ</div>
-              <div class="metric-sub">✓ KHỚP 100% SỔ CÁI</div>
-            </div>
-            <div class="metric-cell">
-              <div class="metric-label">Nghi Ngờ Chi Tiền Mặt &ge; 5Tr (NĐ 181)</div>
-              <div class="metric-num num" style="color: var(--accent-amber);">14 <span style="font-size: 11px; font-weight: normal;">khoản</span></div>
-              <div class="metric-sub alert">Tổng: 384.500.000 đ (B4 TNDN)</div>
-            </div>
-            <div class="metric-cell">
-              <div class="metric-label">Mẫu Bốc VSA 530 Đã Chọn</div>
-              <div class="metric-num num" style="color: var(--accent-blue);">42 <span style="font-size: 11px; font-weight: normal;">khoản mục</span></div>
-              <div class="metric-sub">Bảo toàn Seed ngẫu nhiên</div>
-            </div>
-          </div>
-
-          <!-- Accounting Data Grid (38px row height) -->
-          <div class="app-grid-viewport">
-            <table class="accounting-table">
-              <thead>
-                <tr>
-                  <th style="width: 90px;">Ngày GS</th>
-                  <th style="width: 100px;">Số CT</th>
-                  <th>Diễn Giải Nghiệp Vụ</th>
-                  <th class="text-center" style="width: 60px;">TK Nợ</th>
-                  <th class="text-center" style="width: 60px;">TK Có</th>
-                  <th class="text-right" style="width: 140px;">Số Tiền (VND)</th>
-                  <th class="text-center" style="width: 130px;">Trạng Thái VSA</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="alert-row">
-                  <td class="num">28/12/2025</td>
-                  <td class="num" style="font-weight: 600;">PC-1289</td>
-                  <td>Chi tiền mặt tiếp khách hội nghị khách hàng đại lý</td>
-                  <td class="text-center num">6427</td>
-                  <td class="text-center num" style="color: var(--accent-amber); font-weight: 700;">1111</td>
-                  <td class="text-right num" style="font-weight: 700; color: var(--accent-amber);">24,500,000</td>
-                  <td class="text-center"><span class="tag tag-amber">CẢNH BÁO NĐ 181</span></td>
-                </tr>
-                <tr>
-                  <td class="num">30/12/2025</td>
-                  <td class="num" style="font-weight: 600;">BN-0492</td>
-                  <td>Chuyển khoản thanh toán tiền hàng NCC Thép Việt</td>
-                  <td class="text-center num">3311</td>
-                  <td class="text-center num">1121</td>
-                  <td class="text-right num" style="font-weight: 600;">850,000,000</td>
-                  <td class="text-center"><span class="tag tag-emerald">✓ KHỚP SAO KÊ</span></td>
-                </tr>
-                <tr>
-                  <td class="num">31/12/2025</td>
-                  <td class="num" style="font-weight: 600;">PKT-082</td>
-                  <td>Trích khấu hao TSCĐ phân xưởng cơ khí Tháng 12</td>
-                  <td class="text-center num">6274</td>
-                  <td class="text-center num">2141</td>
-                  <td class="text-right num" style="font-weight: 600;">142,300,000</td>
-                  <td class="text-center"><span class="tag tag-emerald">✓ KHỚP D792</span></td>
-                </tr>
-                <tr>
-                  <td class="num">31/12/2025</td>
-                  <td class="num" style="font-weight: 600;">KC-001</td>
-                  <td>Kết chuyển giá vốn hàng bán sang xác định KQKD</td>
-                  <td class="text-center num">911</td>
-                  <td class="text-center num">632</td>
-                  <td class="text-right num" style="font-weight: 600;">18,420,500,000</td>
-                  <td class="text-center"><span class="tag tag-blue">KẾT CHUYỂN 911</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Bento Grid 6 Core Capabilities -->
-  <section id="features" class="container">
-    <div class="section-head">
-      <span class="section-kicker">Năng Lực Kiểm Toán Đột Phá</span>
-      <h2 class="section-title">Năng Lực Kiểm Toán</h2>
-    </div>
-    <div class="bento-grid">
-      <!-- Bento 1: B360 (Span 2) -->
-      <div class="bento-card span-2">
-        <div class="bento-header">
-          <span class="bento-tag">Nghiệp Vụ Cốt Lõi • VSA 500</span>
-          <h3 class="bento-title">Đối Chiếu 2 Sổ NKC Trước &amp; Sau Điều Chỉnh (B360)</h3>
-        </div>
-        <div class="mini-widget">
-          <div class="diff-row">
-            <span style="color: var(--text-muted);">Sổ NKC Trước ĐC (Bản 1):</span>
-            <span class="num">148,250 dòng • 248.5 Tỷ đ</span>
-          </div>
-          <div class="diff-row">
-            <span style="color: var(--text-muted);">Sổ NKC Sau ĐC (Bản 2):</span>
-            <span class="num">148,238 dòng • 247.9 Tỷ đ</span>
-          </div>
-          <div class="diff-row" style="padding-top: 8px;">
-            <span style="color: var(--accent-red); font-weight: 700;">PHÁT HIỆN LỆCH:</span>
-            <span class="tag tag-amber num">12 bút toán lệch tiền (600.000.000 đ)</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bento 2: Nghị định 181/2025 -->
-      <div class="bento-card">
-        <div class="bento-header">
-          <span class="bento-tag" style="color: var(--accent-amber);">Tuân Thủ Mới Nhất 2026</span>
-          <h3 class="bento-title">Quét Chi Tiền Mặt &ge; 5Tr (NĐ 181/2025)</h3>
-        </div>
-        <div class="mini-widget">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-            <span style="color: var(--text-muted);">Bộ lọc NĐ 181/2025:</span>
-            <span style="color: var(--accent-emerald); font-weight: 700;">ĐANG BẬT</span>
-          </div>
-          <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); padding: 6px; border-radius: var(--radius-xs); color: var(--accent-amber);">
-            ⚠ 14 hóa đơn tiền mặt bị loại chi phí
-          </div>
-        </div>
-      </div>
-
-      <!-- Bento 3: Bốc mẫu VSA 530 (Interactive Slider) -->
-      <div class="bento-card">
-        <div class="bento-header">
-          <span class="bento-tag">Phương Pháp Luận • VSA 530</span>
-          <h3 class="bento-title">Bốc Mẫu Kiểm Toán Tự Động (MUS)</h3>
-        </div>
-        <div class="mini-widget slider-box">
-          <div class="slider-labels">
-            <span>Mức Trọng Yếu (PM):</span>
-            <span id="pmDisplay" class="num" style="color: var(--text-display); font-weight: 700;">500 Tr đ</span>
-          </div>
-          <input type="range" min="100" max="1000" step="50" value="500" class="slider-input" id="pmSlider">
-          <div class="slider-output-strip">
-            <span>Cỡ Mẫu Khuyến Nghị:</span>
-            <span id="sampleDisplay" class="num">42 Mẫu</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bento 4: Xuất 15 GLV VACPA (Span 2) -->
-      <div class="bento-card span-2">
-        <div class="bento-header">
-          <span class="bento-tag" style="color: var(--accent-emerald);">Kết Xuất Hồ Sơ</span>
-          <h3 class="bento-title">Tự Động Sinh 15 Giấy Làm Việc Chuẩn Mẫu VACPA</h3>
-        </div>
-        <div class="mini-widget" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
-          <div style="background: rgba(255,255,255,0.03); padding: 8px; border-radius: 4px; border: 1px solid var(--border-hairline);">
-            <div style="color: var(--accent-emerald); font-weight: 700;">✓ D110 Tiền mặt</div>
-            <div style="font-size: 10px; color: var(--text-dim);">Khớp sao kê &amp; tiền quỹ</div>
-          </div>
-          <div style="background: rgba(255,255,255,0.03); padding: 8px; border-radius: 4px; border: 1px solid var(--border-hairline);">
-            <div style="color: var(--accent-emerald); font-weight: 700;">✓ D140 Phải thu 131</div>
-            <div style="font-size: 10px; color: var(--text-dim);">Tuổi nợ FIFO &amp; Thư XN</div>
-          </div>
-          <div style="background: rgba(255,255,255,0.03); padding: 8px; border-radius: 4px; border: 1px solid var(--border-hairline);">
-            <div style="color: var(--accent-emerald); font-weight: 700;">✓ D790 Tài sản cố định</div>
-            <div style="font-size: 10px; color: var(--text-dim);">Khấu hao &amp; phân bổ 242</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Technical Invariants -->
-  <section id="specs" class="container">
-    <div class="specs-strip" style="grid-template-columns: repeat(3, 1fr); padding: 14px 18px; margin-bottom: 40px;">
-      <div class="spec-box" style="display: flex; align-items: center; gap: 8px;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-emerald)" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span style="font-size: 13px; font-weight: 700; color: var(--text-display);">100% Offline • Dữ liệu cục bộ</span>
-      </div>
-      <div class="spec-box" style="display: flex; align-items: center; gap: 8px;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        <span style="font-size: 13px; font-weight: 700; color: var(--text-display);">Bảo toàn công thức Excel gốc</span>
-      </div>
-      <div class="spec-box" style="display: flex; align-items: center; gap: 8px;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-amber)" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        <span style="font-size: 13px; font-weight: 700; color: var(--text-display);">Tốc độ 150.000 dòng / giây</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Apple Card / Stripe Terminal VietQR -->
-  <section id="pricing" class="container">
-    <div class="section-head text-center" style="text-align: center; margin-bottom: 28px;">
-      <span class="section-kicker">Chi Phí Đầu Tư Minh Bạch</span>
-      <h2 class="section-title">Bản Quyền Chính Thức AuditSoft NKC v1.7.0</h2>
-    </div>
-
-    <div class="checkout-terminal">
-      <div class="terminal-flex">
-        <!-- Left: Plan Selector & Titanium Card -->
+      <div class="footer-grid">
         <div>
-          <div class="tier-selector">
-            <button class="tier-btn active" onclick="selectTier('standard', 890000, 'AS-STD')">
-              <div>Bản 1 Năm</div>
-              <span class="tier-price num">890.000 đ</span>
-            </button>
-            <button class="tier-btn" onclick="selectTier('lifetime', 1990000, 'AS-PRO')">
-              <div>Vĩnh Viễn (Khuyên Dùng)</div>
-              <span class="tier-price num">1.990.000 đ</span>
-            </button>
-            <button class="tier-btn" onclick="selectTier('combo', 2490000, 'COMBO-VIP')">
-              <div>Combo 3 Tool VIP</div>
-              <span class="tier-price num">2.490.000 đ</span>
-            </button>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+            <div class="nav-brand-logo" style="background: #1E3A8A; color: #FFFFFF; width: 30px; height: 30px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <strong style="font-size: 1.15rem; color: var(--text-main);">Thịnh Lynx Ecosystem</strong>
           </div>
-
-          <!-- Titanium Dark Bank Card Mockup -->
-          <div class="titanium-card">
-            <div class="card-top">
-              <div class="emv-chip"></div>
-              <div class="card-network">MB BANK • NAPAS 247</div>
-            </div>
-            <div>
-              <div style="font-size: 10.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em;">Số Tài Khoản Quân Đội</div>
-              <div class="card-acc num">0817 567 008</div>
-            </div>
-            <div class="card-holder">
-              <div>
-                <span style="font-size: 9px; display: block;">Chủ Tài Khoản</span>
-                <span class="name">NGUYEN DAC THINH</span>
-              </div>
-              <div style="text-align: right;">
-                <span style="font-size: 9px; display: block;">Nội Dung Chuyển Khoản</span>
-                <span id="cardMemo" class="num" style="color: var(--accent-amber); font-weight: 700;">AS-STD SĐT</span>
-              </div>
-            </div>
+          <p style="font-size: 0.9375rem; line-height: 1.6; margin-bottom: 16px;">
+            Bộ ba công cụ Kế toán & Kiểm toán độc lập chuyên biệt. Kiến trúc 100% Offline bảo mật tuyệt đối dữ liệu tài chính doanh nghiệp trên máy tính của bạn.
+          </p>
+          <div style="display: flex; gap: 8px;">
+            <span class="badge badge-success">100% OFFLINE</span>
+            <span class="badge">CHUẨN MỰC VACPA</span>
           </div>
         </div>
 
-        <!-- Right: Dynamic VietQR Frame -->
-        <div style="text-align: center;">
-          <div class="qr-container">
-            <img id="qrDisplay" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=890000&addInfo=AS-STD&accountName=NGUYEN%20DAC%20THINH" alt="VietQR MB Bank" class="qr-img">
-            <div class="qr-instruction">Quét Mã Bằng App Ngân Hàng</div>
-          </div>
-          <div style="margin-top: 14px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
-            Sau khi chuyển khoản, bạn chụp màn hình gửi Zalo <strong>0817.567.008</strong> để nhận key kích hoạt tức thì.
-          </div>
+        <div>
+          <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Bộ Ba Công Cụ</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.9375rem;">
+            <li><a href="../tools/auditsoft.html" class="nav-link">AuditSoft NKC v2.0.3</a></li>
+            <li><a href="../tools/invoicedesk.html" class="nav-link">InvoiceDesk v2.7.14</a></li>
+            <li><a href="../tools/taxinsight.html" class="nav-link">TaxInsight v3.3.4</a></li>
+            <li><a href="../index.html#pipeline" class="nav-link">Sơ Đồ Luồng 3 Bước</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Pháp Lý & Chuẩn Mực</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.9375rem; color: var(--text-muted);">
+            <li>Nghị định 181/2025/NĐ-CP (Chi TM >= 5tr)</li>
+            <li>Thông tư 200/2014/TT-BTC & 133/2016</li>
+            <li>Chuẩn mực Kiểm toán Việt Nam VSA 530</li>
+            <li>Bộ mẫu 12 Giấy làm việc VACPA</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Hỗ Trợ & Bản Quyền</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.9375rem;">
+            <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link">Zalo Kỹ Thuật: 0817.567.008</a></li>
+            <li><a href="../index.html#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
+            <li><a href="../index.html#vietqr" class="nav-link">Cổng Thanh Toán VietQR</a></li>
+            <li><a href="../index.html#faq" class="nav-link">Câu Hỏi Thường Gặp</a></li>
+          </ul>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- FAQ Section -->
-  <section id="faq" class="container">
-    <div class="section-head">
-      <span class="section-kicker">Hỏi Đáp Nhanh</span>
-      <h2 class="section-title">Câu hỏi thường gặp của Kiểm toán viên</h2>
-    </div>
-
-    <div class="faq-grid">
-      <div class="faq-item">
-        <div class="faq-q">1. Dữ liệu kế toán khách hàng có bị rò rỉ ra ngoài không?</div>
-        <div class="faq-a">Tuyệt đối không. AuditSoft chạy 100% offline nội bộ trên máy của bạn. Không có bất kỳ API nào tải dữ liệu tài chính lên Internet.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">2. Khi đổi máy tính hoặc cài lại Windows thì bản quyền có mất không?</div>
-        <div class="faq-a">Không mất. Tác giả hỗ trợ cấp lại mã kích hoạt hoặc chuyển key sang laptop mới miễn phí trọn đời qua Zalo 0817.567.008.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">3. File Excel xuất ra có dùng được trên máy tính của khách hàng không?</div>
-        <div class="faq-a">Dùng bình thường. File xuất ra định dạng .xlsx chuẩn quốc tế, giữ nguyên liên kết công thức và mở được trên mọi bản Excel từ 2013 đến 365.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">4. Phần mềm có hỗ trợ đọc dữ liệu kế toán MISA, FAST, Bravo không?</div>
-        <div class="faq-a">Hỗ trợ toàn bộ. Chỉ cần xuất sổ NKC ra file Excel là AuditSoft tự động nhận diện cột Ngày, Chứng từ, Diễn giải, TK Nợ/Có và Số tiền.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container footer-flex">
-      <div>
-        <strong>AuditSoft NKC v1.7.0</strong> — Hệ thống trợ lý kiểm toán chuyên nghiệp. Bản quyền thuộc về Nguyễn Đắc Thịnh.
-      </div>
-      <div class="footer-links">
-        <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer">Zalo: 0817.567.008</a>
-        <a href="../index.html">Cổng 3 Công Cụ</a>
+      <div class="footer-bottom">
+        <div>
+          © 2026 Thịnh Lynx Team. Bản quyền thuộc về tác giả. Thiết kế tinh gọn theo triết lý <a href="https://vuhung16au.github.io/prompt-driven-ui/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-primary); text-decoration: none; font-weight: 600;">Prompt-Driven UI</a>.
+        </div>
+        <div style="display: flex; gap: 16px;">
+          <span>Phiên bản v2.0.3</span>
+          <span>•</span>
+          <span>Bảo hành trọn đời theo máy</span>
+        </div>
       </div>
     </div>
   </footer>
 
+  <!-- Script: Theme Toggle & VietQR Logic -->
   <script>
-    const pmSlider = document.getElementById('pmSlider');
-    const pmDisplay = document.getElementById('pmDisplay');
-    const sampleDisplay = document.getElementById('sampleDisplay');
-
-    if (pmSlider) {
-      pmSlider.addEventListener('input', (e) => {
-        const val = Number(e.target.value);
-        pmDisplay.textContent = val + ' Tr đ';
-        const calculatedSamples = Math.round(18000 / val) + 6;
-        sampleDisplay.textContent = calculatedSamples + ' Mẫu';
+    // Theme Toggle Controller
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const nextTheme = (currentTheme === 'light') ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        localStorage.setItem('lynx_theme', nextTheme);
       });
     }
 
-    function selectTier(tier, amount, memo) {
-      document.querySelectorAll('.tier-btn').forEach(b => b.classList.remove('active'));
-      event.currentTarget.classList.add('active');
+    // Dynamic VietQR Plan Selector
+    function setVietQRPlan(planKey, amount, memoPrefix, planLabel) {
+      const qrImage = document.getElementById('qrImage');
+      const qrAmountDisplay = document.getElementById('qrAmountDisplay');
+      const qrMemoDisplay = document.getElementById('qrMemoDisplay');
+      const planPills = document.querySelectorAll('.plan-pill');
 
-      document.getElementById('cardMemo').textContent = memo + ' SĐT';
-      const qrUrl = `https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(memo)}&accountName=NGUYEN%20DAC%20THINH`;
-      document.getElementById('qrDisplay').src = qrUrl;
+      if (planPills) {
+        planPills.forEach(p => p.classList.remove('active'));
+        if (event && event.target) event.target.classList.add('active');
+      }
+
+      if (qrImage) {
+        const encodedMemo = encodeURIComponent(memoPrefix);
+        qrImage.src = `https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=${amount}&addInfo=${encodedMemo}&accountName=THINH%20LYNX`;
+      }
+
+      if (qrAmountDisplay) {
+        qrAmountDisplay.textContent = new Intl.NumberFormat('vi-VN').format(amount) + ' VNĐ';
+      }
+
+      if (qrMemoDisplay) {
+        qrMemoDisplay.textContent = `${memoPrefix} [SĐT CỦA BẠN]`;
+      }
     }
+
+    function copyQrMemo() {
+      const qrMemoDisplay = document.getElementById('qrMemoDisplay');
+      if (qrMemoDisplay) {
+        navigator.clipboard.writeText(qrMemoDisplay.textContent.trim());
+        alert('Đã sao chép nội dung: ' + qrMemoDisplay.textContent.trim());
+      }
+    }
+
+    // Smooth Accordion for FAQ
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        const answer = item.querySelector('.faq-answer');
+        const isOpen = answer.style.display === 'block';
+        document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
+        if (!isOpen) answer.style.display = 'block';
+      });
+    });
   </script>
 </body>
 </html>
