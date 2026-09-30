@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" data-theme="light">
+<html lang="vi" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../assets/theme.css">
   <script>
     (function() {
-      const savedTheme = localStorage.getItem('lynx_theme') || 'light';
+      const savedTheme = localStorage.getItem('lynx_theme') || 'dark';
       document.documentElement.setAttribute('data-theme', savedTheme);
     })();
   </script>
@@ -19,8 +19,9 @@
   <header class="navbar">
     <div class="container nav-container">
       <a href="../index.html" class="nav-brand">
+        <span class="nav-brand-dot"></span>
         <span>Thịnh Lynx</span>
-        <span class="nav-brand-badge">FINTECH & AUDIT</span>
+        <span class="badge" style="font-size: 0.6875rem; padding: 2px 10px;">FINTECH &amp; AUDIT</span>
       </a>
 
       <ul class="nav-menu">
@@ -33,7 +34,7 @@
       </ul>
 
       <div class="nav-actions">
-        <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Đổi giao diện Sáng/Tối" title="Đổi giao diện Sáng (Prompt 23) / Tối (Prompt 44)">
+        <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Đổi giao diện Sáng/Tối" title="Đổi giao diện Sáng / Tối">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         </button>
         <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
@@ -48,25 +49,18 @@
   <main>
     <section class="hero">
       <div class="container">
-        <div class="section-label-container">
-          <span class="section-label-line"></span>
-          <span class="small-caps section-label-text">PHIÊN BẢN v2.7.14 ỔN ĐỊNH • CỔNG TỔNG CỤC THUẾ • 100% OFFLINE</span>
-          <span class="section-label-line"></span>
-        </div>
+        <div class="hero-left" style="max-width: 880px; margin: 0 auto; text-align: center; align-items: center;">
+          <span class="badge">PHIÊN BẢN v2.7.14 ỔN ĐỊNH • CỔNG TỔNG CỤC THUẾ • 100% OFFLINE</span>
+          <h1 style="font-size: 3.25rem; line-height: 1.15;">InvoiceDesk: Tải Hàng Nghìn HĐĐT Từ Cổng Thuế Trong 1 Click</h1>
+          <p class="lead" style="text-align: center;">
+            Chấm dứt hoàn toàn cơn ác mộng đăng nhập Cổng HĐĐT mỗi ngày để tải từng hóa đơn lẻ. InvoiceDesk tự động chạy ngầm, tải trọn vẹn XML gốc, file PDF bản thể hiện và trích xuất bảng kê Excel chi tiết đến từng dòng hàng hóa cho cả chiều Mua vào và Bán ra.
+          </p>
 
-        <h1 class="hero-title">
-          InvoiceDesk:<br>
-          <em>Tải Hàng Nghìn HĐĐT Từ Cổng Thuế Trong 1 Click</em>
-        </h1>
-
-        <p class="lead">
-          Chấm dứt hoàn toàn cơn ác mộng đăng nhập Cổng HĐĐT mỗi ngày để tải từng hóa đơn lẻ. InvoiceDesk tự động chạy ngầm, tải trọn vẹn XML gốc, file PDF bản thể hiện và trích xuất bảng kê Excel chi tiết đến từng dòng hàng hóa cho cả chiều Mua vào và Bán ra.
-        </p>
-
-        <div class="hero-actions">
-          <a href="#pricing" class="btn btn-primary btn-lg">Mua Bản Quyền InvoiceDesk</a>
-          <a href="#comparison" class="btn btn-secondary btn-lg">So Sánh Thủ Công vs Tool</a>
-          <a href="../index.html" class="btn btn-outline btn-lg">&larr; Về Trang Chủ Hệ Sinh Thái</a>
+          <div class="hero-actions" style="justify-content: center;">
+            <a href="#pricing" class="btn btn-primary btn-lg">Mua Bản Quyền InvoiceDesk</a>
+            <a href="#comparison" class="btn btn-secondary btn-lg">So Sánh Thủ Công vs Tool</a>
+            <a href="../index.html" class="btn btn-secondary btn-lg">&larr; Về Trang Chủ Hệ Sinh Thái</a>
+          </div>
         </div>
 
         <div class="metrics-strip">
@@ -93,38 +87,33 @@
     <!-- Key Pain Points Solved -->
     <section class="section" style="background-color: var(--bg-surface); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
       <div class="container">
-        <div class="section-label-container">
-          <span class="section-label-line"></span>
-          <span class="small-caps section-label-text">GIẢI PHÁP ĐỘT PHÁ</span>
-          <span class="section-label-line"></span>
-        </div>
-
         <div class="section-header">
+          <span class="badge" style="margin-bottom: 12px;">GIẢI PHÁP ĐỘT PHÁ</span>
           <h2>Chấm Dứt 4 Nỗi Khổ Lớn Nhất Khi Tải Hóa Đơn Thủ Công</h2>
           <p>InvoiceDesk biến công việc tải hóa đơn nhàm chán và dễ sai sót thành quy trình tự động hóa 100%.</p>
         </div>
 
         <div class="grid-2">
-          <div class="card card-featured">
-            <div class="small-caps" style="color: var(--accent-primary); margin-bottom: 8px;">GIẢI PHÁP 01</div>
+          <div class="card">
+            <span class="badge" style="margin-bottom: 12px;">GIẢI PHÁP 01</span>
             <h3>Phá Bỏ Giới Hạn Tra Cứu 31 Ngày Của Cổng Thuế</h3>
             <p>Cổng Thuế chỉ cho phép tra cứu tối đa 31 ngày mỗi lần. Để tải hóa đơn cả năm, bạn phải chia thành 12 lần tra cứu cho hóa đơn mua vào và 12 lần cho bán ra. Với InvoiceDesk, bạn chỉ cần chọn khoảng ngày 01/01 đến 31/12, phần mềm sẽ tự động phân đoạn thông minh và kéo toàn bộ không thiếu một hóa đơn nào.</p>
           </div>
 
-          <div class="card card-featured">
-            <div class="small-caps" style="color: var(--accent-primary); margin-bottom: 8px;">GIẢI PHÁP 02</div>
-            <h3>Tự Động Xử Lý Captcha & Đăng Nhập An Toàn</h3>
+          <div class="card">
+            <span class="badge" style="margin-bottom: 12px;">GIẢI PHÁP 02</span>
+            <h3>Tự Động Xử Lý Captcha &amp; Đăng Nhập An Toàn</h3>
             <p>Không cần căng mắt gõ mã Captcha mỗi khi hết phiên đăng nhập. Thuật toán nhận diện Captcha thông minh tích hợp sẵn trong máy giúp đăng nhập liên tục, tự động làm mới phiên làm việc khi Cổng Thuế quá tải hoặc rớt mạng.</p>
           </div>
 
-          <div class="card card-featured">
-            <div class="small-caps" style="color: var(--accent-primary); margin-bottom: 8px;">GIẢI PHÁP 03</div>
+          <div class="card">
+            <span class="badge" style="margin-bottom: 12px;">GIẢI PHÁP 03</span>
             <h3>Xuất Bảng Kê Excel Chi Tiết Từng Dòng Mặt Hàng</h3>
             <p>Hầu hết các công cụ trên thị trường chỉ xuất bảng kê tổng quát (chỉ có tổng tiền hóa đơn). InvoiceDesk bóc tách sâu từng tệp XML để xuất ra bảng kê Excel chi tiết đến từng dòng tên hàng hóa, quy cách, số lượng, đơn giá, thuế suất và tiền chiết khấu.</p>
           </div>
 
-          <div class="card card-featured">
-            <div class="small-caps" style="color: var(--accent-primary); margin-bottom: 8px;">GIẢI PHÁP 04</div>
+          <div class="card">
+            <span class="badge" style="margin-bottom: 12px;">GIẢI PHÁP 04</span>
             <h3>Kho Lưu Trữ Tập Trung Cục Bộ (Local Desktop Vault)</h3>
             <p>Toàn bộ file XML và PDF được tổ chức ngăn nắp trên ổ cứng theo cấu trúc thư mục chuẩn kế toán: Năm / Tháng / Mua Vào (Bán Ra) / Mã số thuế. Tìm lại hóa đơn bất cứ lúc nào trong chớp mắt mà không lo Cổng Thuế bị nghẽn mạng hay bảo trì.</p>
           </div>
@@ -135,13 +124,8 @@
     <!-- Comparison Table -->
     <section id="comparison" class="section">
       <div class="container">
-        <div class="section-label-container">
-          <span class="section-label-line"></span>
-          <span class="small-caps section-label-text">HIỆU QUẢ THỰC TẾ</span>
-          <span class="section-label-line"></span>
-        </div>
-
         <div class="section-header">
+          <span class="badge" style="margin-bottom: 12px;">HIỆU QUẢ THỰC TẾ</span>
           <h2>So Sánh: Tải Thủ Công Cổng Thuế vs Dùng InvoiceDesk</h2>
         </div>
 
@@ -158,22 +142,22 @@
               <tr>
                 <td><strong>Thời gian xử lý cả năm</strong></td>
                 <td>Mất 3–5 tiếng/doanh nghiệp (phải chia nhỏ từng tháng)</td>
-                <td><strong style="color: var(--accent-success);">Chỉ mất 2–3 phút</strong> (bấm 1 nút chạy ngầm)</td>
+                <td><strong style="color: var(--accent-primary);">Chỉ mất 2–3 phút</strong> (bấm 1 nút chạy ngầm)</td>
               </tr>
               <tr>
                 <td><strong>Nguy cơ sót hóa đơn</strong></td>
                 <td>Rất cao do mạng chập chờn, phân trang nhầm lẫn</td>
-                <td><strong style="color: var(--accent-success);">0%</strong> (có cơ chế đối chiếu tổng số hóa đơn)</td>
+                <td><strong style="color: var(--accent-primary);">0%</strong> (có cơ chế đối chiếu tổng số hóa đơn)</td>
               </tr>
               <tr>
                 <td><strong>Chi tiết hàng hóa trong Excel</strong></td>
                 <td>Chỉ có tổng tiền hóa đơn, không có từng mặt hàng</td>
-                <td><strong style="color: var(--accent-success);">Chi tiết từng dòng mặt hàng</strong>, đơn giá, thuế suất</td>
+                <td><strong style="color: var(--accent-primary);">Chi tiết từng dòng mặt hàng</strong>, đơn giá, thuế suất</td>
               </tr>
               <tr>
                 <td><strong>Lưu trữ XML gốc và PDF</strong></td>
                 <td>Phải tải từng file zip rồi giải nén thủ công từng cái</td>
-                <td><strong style="color: var(--accent-success);">Tự động giải nén</strong> và lưu trữ vào thư mục riêng</td>
+                <td><strong style="color: var(--accent-primary);">Tự động giải nén</strong> và lưu trữ vào thư mục riêng</td>
               </tr>
             </tbody>
           </table>
@@ -183,84 +167,80 @@
         <div style="max-width: 600px; margin: 48px auto 0;">
           <div class="pricing-card featured" style="text-align: center;">
             <div class="featured-pill">BẢN QUYỀN TRỌN ĐỜI THEO MÁY</div>
-            <span class="small-caps" style="color: var(--accent-primary); align-self: center;">INVOICEDESK PRO</span>
-            <div class="price-val" style="color: var(--accent-primary);">690.000 VNĐ</div>
+            <span class="badge" style="align-self: center;">INVOICEDESK PRO</span>
+            <div class="price-val mono" style="color: var(--accent-primary);">690.000 VNĐ</div>
             <div class="price-unit">Đầu tư một lần • Không giới hạn số lượng hóa đơn tải về</div>
             <hr style="border: none; border-top: 1px solid var(--border-color); margin: 20px 0;">
-            <div class="diamond-list" style="margin-bottom: 24px;">
-              <div class="diamond-item">
-                <span class="diamond-bullet">✦</span>
-                <span>Tải hóa đơn mua vào & bán ra cả năm trong 1 lần</span>
-              </div>
-              <div class="diamond-item">
-                <span class="diamond-bullet">✦</span>
-                <span>Tự động vượt giới hạn 31 ngày & tự giải Captcha</span>
-              </div>
-              <div class="diamond-item">
-                <span class="diamond-bullet">✦</span>
+            <ul class="feature-check-list" style="margin-bottom: 28px; text-align: left;">
+              <li class="feature-check-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Tải hóa đơn mua vào &amp; bán ra cả năm trong 1 lần</span>
+              </li>
+              <li class="feature-check-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Tự động vượt giới hạn 31 ngày &amp; tự giải Captcha</span>
+              </li>
+              <li class="feature-check-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                 <span>Xuất XML gốc, PDF hóa đơn và Excel chi tiết từng dòng hàng</span>
-              </div>
-              <div class="diamond-item">
-                <span class="diamond-bullet">✦</span>
+              </li>
+              <li class="feature-check-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                 <span>Quản lý lưu trữ tập trung trên máy tính cục bộ</span>
-              </div>
-              <div class="diamond-item">
-                <span class="diamond-bullet">✦</span>
-                <span>Miễn phí cập nhật theo thay đổi Cổng Thuế trong 12 tháng</span>
-              </div>
-            </div>
+              </li>
+            </ul>
             <button class="btn btn-primary btn-lg" onclick="location.href='#vietqr';">Quét Mã VietQR Mua Ngay</button>
           </div>
         </div>
 
-              <!-- VietQR Automated Payment Frame (Prompt 23 Card Styling) -->
-      <div id="vietqr" class="card card-featured" style="margin-top: 48px;">
+              <!-- VietQR Automated Payment Frame (Prompt 44 FinTech Card) -->
+      <div id="vietqr" class="card" style="margin-top: 56px; border: 2px solid var(--accent-primary);">
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
           <div>
-            <div class="small-caps" style="color: var(--accent-primary); margin-bottom: 4px;">CỔNG THANH TOÁN VIETQR CHÍNH THỨC</div>
-            <h3 style="margin-bottom: 4px;">Quét Mã VietQR Chuyển Khoản Tự Động MB Bank</h3>
+            <span class="badge" style="margin-bottom: 8px;">CỔNG THANH TOÁN VIETQR TỰ ĐỘNG</span>
+            <h3 style="margin-bottom: 4px;">Chuyển Khoản Nhanh Qua MB Bank</h3>
             <p style="font-size: 0.95rem; margin-bottom: 0;">Mã QR tự động điền chính xác Số tài khoản, Số tiền và Cú pháp kích hoạt bản quyền.</p>
           </div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="planSelectorGroup">
-            <button type="button" class="btn btn-sm btn-outline plan-pill active" onclick="setVietQRPlan('combo_all', 2190000, 'COMBO HE SINH THAI', 'Combo Trọn Bộ 3 Tool (2.190.000 đ)')">Combo 3 Tool</button>
-            <button type="button" class="btn btn-sm btn-outline plan-pill" onclick="setVietQRPlan('auditsoft', 1490000, 'AUDITSOFT PRO', 'AuditSoft NKC v2.0.3 (1.490.000 đ)')">AuditSoft</button>
-            <button type="button" class="btn btn-sm btn-outline plan-pill" onclick="setVietQRPlan('invoicedesk', 690000, 'INVOICEDESK PRO', 'InvoiceDesk v2.7.14 (690.000 đ)')">InvoiceDesk</button>
-            <button type="button" class="btn btn-sm btn-outline plan-pill" onclick="setVietQRPlan('taxinsight', 590000, 'TAXINSIGHT PRO', 'TaxInsight v3.3.4 (590.000 đ)')">TaxInsight</button>
-            <button type="button" class="btn btn-sm btn-outline plan-pill" onclick="setVietQRPlan('combo_tax', 990000, 'COMBO THUE DUO', 'Combo Thuế 2 Tool (990.000 đ)')">Combo Thuế</button>
+            <button type="button" class="btn btn-sm btn-secondary plan-pill active" onclick="setVietQRPlan('combo_all', 2190000, 'COMBO HE SINH THAI', 'Combo Trọn Bộ 3 Tool (2.190.000 đ)')">Combo 3 Tool</button>
+            <button type="button" class="btn btn-sm btn-secondary plan-pill" onclick="setVietQRPlan('auditsoft', 1490000, 'AUDITSOFT PRO', 'AuditSoft NKC v2.0.3 (1.490.000 đ)')">AuditSoft</button>
+            <button type="button" class="btn btn-sm btn-secondary plan-pill" onclick="setVietQRPlan('invoicedesk', 690000, 'INVOICEDESK PRO', 'InvoiceDesk v2.7.14 (690.000 đ)')">InvoiceDesk</button>
+            <button type="button" class="btn btn-sm btn-secondary plan-pill" onclick="setVietQRPlan('taxinsight', 590000, 'TAXINSIGHT PRO', 'TaxInsight v3.3.4 (590.000 đ)')">TaxInsight</button>
+            <button type="button" class="btn btn-sm btn-secondary plan-pill" onclick="setVietQRPlan('combo_tax', 990000, 'COMBO THUE DUO', 'Combo Thuế 2 Tool (990.000 đ)')">Combo Thuế</button>
           </div>
         </div>
 
         <div class="vietqr-box">
           <div style="text-align: center;">
             <img id="qrImage" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=2190000&addInfo=COMBO%20HE%20SINH%20THAI&accountName=THINH%20LYNX" alt="Mã VietQR MB Bank" class="vietqr-img">
-            <div class="small-caps" style="color: var(--text-faint); margin-top: 8px;">Quét bằng app ngân hàng</div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; margin-bottom: 0;">Quét bằng app ngân hàng bất kỳ</p>
           </div>
 
           <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
             <div>
-              <span class="small-caps" style="color: var(--text-faint); display: block;">Ngân hàng thụ hưởng:</span>
+              <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Ngân hàng thụ hưởng:</span>
               <strong style="color: var(--text-main); font-size: 1rem;">MB BANK (Ngân hàng TMCP Quân Đội)</strong>
             </div>
             <div>
-              <span class="small-caps" style="color: var(--text-faint); display: block;">Chủ tài khoản:</span>
+              <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Chủ tài khoản:</span>
               <strong style="color: var(--text-main); font-size: 1rem;">THINH LYNX (NGUYEN DUC THINH)</strong>
             </div>
             <div>
-              <span class="small-caps" style="color: var(--text-faint); display: block;">Số tài khoản MB:</span>
+              <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Số tài khoản MB:</span>
               <div style="display: flex; align-items: center; gap: 8px;">
-                <strong class="font-mono" style="font-size: 1.25rem; color: var(--accent-primary);">0817567008</strong>
-                <button type="button" class="btn btn-sm btn-outline" style="padding: 2px 8px; min-height: 26px;" onclick="navigator.clipboard.writeText('0817567008'); alert('Đã sao chép STK: 0817567008');">Copy</button>
+                <strong class="mono" style="font-size: 1.25rem; color: var(--accent-primary);">0817567008</strong>
+                <button type="button" class="btn btn-sm btn-secondary" style="padding: 2px 10px; min-height: 28px;" onclick="navigator.clipboard.writeText('0817567008'); alert('Đã sao chép STK: 0817567008');">Copy</button>
               </div>
             </div>
             <div>
-              <span class="small-caps" style="color: var(--text-faint); display: block;">Số tiền thanh toán:</span>
-              <strong id="qrAmountDisplay" class="font-mono" style="font-size: 1.25rem; color: var(--accent-primary);">2.190.000 VNĐ</strong>
+              <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Số tiền thanh toán:</span>
+              <strong id="qrAmountDisplay" class="mono" style="font-size: 1.25rem; color: var(--accent-primary);">2.190.000 VNĐ</strong>
             </div>
             <div style="grid-column: span 2;">
-              <span class="small-caps" style="color: var(--text-faint); display: block;">Nội dung chuyển khoản (bắt buộc):</span>
+              <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Nội dung chuyển khoản (bắt buộc):</span>
               <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
-                <strong id="qrMemoDisplay" class="font-mono" style="font-size: 1rem; color: var(--text-main); background: var(--bg-surface); padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color);">COMBO HE SINH THAI [SĐT CỦA BẠN]</strong>
-                <button type="button" class="btn btn-sm btn-outline" style="padding: 2px 10px; min-height: 28px;" onclick="copyQrMemo()">Copy Cú Pháp</button>
+                <strong id="qrMemoDisplay" class="mono" style="font-size: 1rem; color: var(--accent-primary); background: var(--bg-canvas); padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-color);">COMBO HE SINH THAI [SĐT CỦA BẠN]</strong>
+                <button type="button" class="btn btn-sm btn-secondary" style="padding: 2px 12px; min-height: 30px;" onclick="copyQrMemo()">Copy Cú Pháp</button>
               </div>
             </div>
           </div>
@@ -280,30 +260,30 @@
       <div class="footer-grid">
         <div>
           <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
-            <strong class="font-serif" style="font-size: 1.4rem; color: var(--text-main);">Thịnh Lynx Ecosystem</strong>
+            <span class="nav-brand-dot"></span>
+            <strong style="font-size: 1.25rem; color: var(--text-main);">Thịnh Lynx Ecosystem</strong>
           </div>
           <p style="font-size: 0.95rem; line-height: 1.65; margin-bottom: 20px;">
             Bộ ba công cụ Kế toán & Kiểm toán độc lập chuyên biệt. Kiến trúc 100% Offline bảo mật tuyệt đối dữ liệu tài chính doanh nghiệp trên máy tính của bạn.
           </p>
           <div style="display: flex; gap: 10px;">
-            <span class="small-caps" style="color: var(--accent-primary);">100% OFFLINE</span>
-            <span style="color: var(--border-color);">•</span>
-            <span class="small-caps" style="color: var(--text-muted);">CHUẨN MỰC VACPA</span>
+            <span class="badge">100% OFFLINE</span>
+            <span class="badge">CHUẨN MỰC VACPA</span>
           </div>
         </div>
 
         <div>
-          <div class="small-caps" style="color: var(--text-main); margin-bottom: 16px;">Bộ Ba Công Cụ</div>
+          <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Bộ Ba Công Cụ</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem;">
             <li><a href="../tools/auditsoft.html" class="nav-link">AuditSoft NKC v2.0.3</a></li>
             <li><a href="../tools/invoicedesk.html" class="nav-link">InvoiceDesk v2.7.14</a></li>
             <li><a href="../tools/taxinsight.html" class="nav-link">TaxInsight v3.3.4</a></li>
-            <li><a href="../index.html#pipeline" class="nav-link">Sơ Đồ Luồng 3 Bước</a></li>
+            <li><a href="../index.html#pipeline" class="nav-link">Quy Trình 3 Bước</a></li>
           </ul>
         </div>
 
         <div>
-          <div class="small-caps" style="color: var(--text-main); margin-bottom: 16px;">Pháp Lý & Chuẩn Mực</div>
+          <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Pháp Lý & Chuẩn Mực</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem; color: var(--text-muted);">
             <li>Nghị định 181/2025/NĐ-CP (Chi TM &ge; 5tr)</li>
             <li>Thông tư 200/2014/TT-BTC & 133/2016</li>
@@ -313,7 +293,7 @@
         </div>
 
         <div>
-          <div class="small-caps" style="color: var(--text-main); margin-bottom: 16px;">Hỗ Trợ Kỹ Thuật</div>
+          <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Hỗ Trợ Kỹ Thuật</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem;">
             <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link">Zalo: 0817.567.008</a></li>
             <li><a href="../index.html#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
@@ -325,10 +305,10 @@
 
       <div class="footer-bottom">
         <div>
-          &copy; 2026 Thịnh Lynx Team. Thiết kế theo phong cách <a href="https://vuhung16au.github.io/prompt-driven-ui/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-primary); text-decoration: none; font-weight: 600;">Prompt-Driven UI</a> (Prompt 23 & 44).
+          &copy; 2026 Thịnh Lynx Team. Thiết kế chuẩn theo phong cách <a href="https://vuhung16au.github.io/prompt-driven-ui/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-primary); text-decoration: none; font-weight: 600;">Prompt-Driven UI</a> (Prompt 44 Dark FinTech).
         </div>
         <div style="display: flex; gap: 16px;">
-          <span class="small-caps">v2.0.3 CHÍNH THỨC</span>
+          <span class="mono" style="color: var(--accent-primary); font-size: 0.8125rem;">v2.0.3 CHÍNH THỨC</span>
           <span>•</span>
           <span>Bảo hành trọn đời theo máy</span>
         </div>
@@ -340,8 +320,8 @@
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     if (themeToggleBtn) {
       themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-        const nextTheme = (currentTheme === 'light') ? 'dark' : 'light';
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        const nextTheme = (currentTheme === 'dark') ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', nextTheme);
         localStorage.setItem('lynx_theme', nextTheme);
       });
