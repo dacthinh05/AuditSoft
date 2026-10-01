@@ -541,6 +541,36 @@ html[data-theme="light"] .navbar {
   color: var(--text-main);
 }
 
+.widget-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+/* Light Mode Adaptations for FinTech Preview Widget */
+html[data-theme="light"] .fintech-preview-widget {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F0F5F3 100%);
+  border-color: var(--border-color);
+  box-shadow: 0 12px 32px rgba(20, 30, 28, 0.08);
+}
+
+html[data-theme="light"] .fintech-preview-widget::before {
+  background: radial-gradient(circle, rgba(21, 128, 61, 0.08) 0%, transparent 70%);
+}
+
+html[data-theme="light"] .widget-metric-card {
+  background-color: #FFFFFF;
+  border-color: var(--border-color);
+  box-shadow: 0 2px 8px rgba(20, 30, 28, 0.03);
+}
+
+html[data-theme="light"] .widget-footer {
+  border-top-color: var(--border-color);
+}
+
 /* Proof Metrics Strip */
 .metrics-strip {
   display: grid;
