@@ -1,10 +1,12 @@
 /*
  * Lynx FinTech & Audit Ecosystem — Prompt 44 Trustworthy Dark FinTech Design System
- * Based on:
- * - Source: Prompt 44 (44-trustworthy-dark-fintech from https://vuhung16au.github.io/prompt-driven-ui/)
- * - Colors: Canvas #192625 • Surface #233130 • Accent Lime #B3F05D • Text #FFFFFF • Muted #A0AAB2
- * - Controls: Rounded-full buttons, 16px radius cards, high-contrast checkmarks, zero-clutter layout
- * - Accessibility: WCAG AAA Contrast (> 10:1), line-height >= 1.4 for Vietnamese diacritics
+ * Fully Responsive & Anti-Wrap Edition
+ * - Source: Prompt 44 (44-trustworthy-dark-fintech)
+ * - Fluid Typography: clamp(), text-wrap: balance, overflow-wrap: break-word
+ * - Responsive Breakpoints: 1280px, 1180px, 1024px, 768px, 640px
+ * - Adaptive Grids: 4-col -> 2x2 grid -> 1-col
+ * - Mobile Navigation: Clean slide-down drawer
+ * - WCAG AAA Contrast & Vietnamese Diacritic Protection
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -78,7 +80,7 @@ html[data-theme="light"] {
   --table-row-zebra: #F5F8F7;
 }
 
-/* Base Reset */
+/* Base Reset & Global Box Sizing */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -90,6 +92,7 @@ html {
   font-size: 16px;
   background-color: var(--bg-canvas);
   color: var(--text-main);
+  overflow-x: hidden;
 }
 
 body {
@@ -102,6 +105,55 @@ body {
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
   overflow-x: hidden;
+  width: 100%;
+}
+
+/* Typography Hierarchy & Fluid Scaling */
+h1 {
+  font-size: clamp(2.25rem, 3.5vw + 0.75rem, 3.25rem);
+  font-weight: 800;
+  line-height: 1.15 !important;
+  letter-spacing: -0.025em;
+  color: var(--text-main);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 2.5vw + 0.5rem, 2.25rem);
+  font-weight: 700;
+  line-height: 1.25 !important;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+  margin-bottom: 0.75rem;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+h3 {
+  font-size: clamp(1.15rem, 1.5vw + 0.4rem, 1.35rem);
+  font-weight: 600;
+  line-height: 1.35 !important;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+  overflow-wrap: break-word;
+}
+
+p {
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  overflow-wrap: break-word;
+}
+
+p.lead {
+  font-size: clamp(1.05rem, 1.2vw + 0.35rem, 1.18rem);
+  line-height: 1.75;
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', Consolas, monospace;
 }
 
 /* Vietnamese Uppercase Diacritic Guard */
@@ -109,71 +161,31 @@ body {
   line-height: 1.35 !important;
 }
 
-.mono {
-  font-family: 'JetBrains Mono', Consolas, monospace;
-}
-
-/* Container */
+/* Responsive Container */
 .container {
   width: 100%;
   max-width: 1240px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
-/* Typography Hierarchy */
-h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  line-height: 1.15 !important;
-  letter-spacing: -0.025em;
-  color: var(--text-main);
-}
-
-h2 {
-  font-size: 2.15rem;
-  font-weight: 700;
-  line-height: 1.25 !important;
-  letter-spacing: -0.02em;
-  color: var(--text-main);
-  margin-bottom: 0.75rem;
-}
-
-h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  line-height: 1.35 !important;
-  color: var(--text-main);
-  margin-bottom: 0.5rem;
-}
-
-p {
-  color: var(--text-muted);
-  margin-bottom: 1.25rem;
-}
-
-p.lead {
-  font-size: 1.15rem;
-  line-height: 1.75;
-  color: var(--text-muted);
-}
-
-/* Top Navigation Bar */
+/* Navigation Bar */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: rgba(25, 38, 37, 0.85);
+  background-color: rgba(25, 38, 37, 0.92);
   border-bottom: 1px solid var(--border-color);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   transition: all 0.2s ease;
+  width: 100%;
 }
 
 html[data-theme="light"] .navbar {
-  background-color: rgba(248, 250, 249, 0.9);
+  background-color: rgba(248, 250, 249, 0.95);
 }
 
 .nav-container {
@@ -181,17 +193,19 @@ html[data-theme="light"] .navbar {
   align-items: center;
   justify-content: space-between;
   height: 72px;
+  gap: 16px;
 }
 
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   text-decoration: none;
   color: var(--text-main);
   font-weight: 800;
   font-size: 1.25rem;
   letter-spacing: -0.02em;
+  flex-shrink: 0;
 }
 
 .nav-brand-dot {
@@ -200,19 +214,20 @@ html[data-theme="light"] .navbar {
   border-radius: 50%;
   background-color: var(--accent-primary);
   box-shadow: 0 0 10px var(--accent-primary);
+  flex-shrink: 0;
 }
 
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 20px;
   list-style: none;
 }
 
 .nav-link {
   text-decoration: none;
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   transition: color 0.15s ease;
   white-space: nowrap;
@@ -225,7 +240,48 @@ html[data-theme="light"] .navbar {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Mobile Hamburger Toggle Button */
+.nav-mobile-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+/* Mobile Drawer Dropdown */
+.nav-mobile-drawer {
+  display: none;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  padding: 20px 24px;
+}
+
+.nav-mobile-drawer.active {
+  display: block;
+}
+
+.nav-mobile-drawer ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.nav-mobile-drawer .nav-link {
+  font-size: 1.05rem;
+  padding: 4px 0;
+  display: block;
 }
 
 /* Theme Switcher Button */
@@ -241,6 +297,7 @@ html[data-theme="light"] .navbar {
   color: var(--text-main);
   cursor: pointer;
   transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
 .theme-toggle-btn:hover {
@@ -249,7 +306,7 @@ html[data-theme="light"] .navbar {
   color: var(--accent-primary);
 }
 
-/* Prompt 44 Buttons: Rounded-full Signature */
+/* Prompt 44 Buttons: Rounded-full & Anti-Overflow Guard */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -258,12 +315,14 @@ html[data-theme="light"] .navbar {
   padding: 12px 24px;
   font-size: 0.95rem;
   font-weight: 600;
-  border-radius: 9999px; /* Pill shape */
+  border-radius: 9999px;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  white-space: nowrap;
   min-height: 44px;
+  white-space: normal; /* Safe against card overflow */
+  text-align: center;
+  max-width: 100%;
 }
 
 .btn-primary {
@@ -293,15 +352,15 @@ html[data-theme="light"] .navbar {
 }
 
 .btn-sm {
-  padding: 8px 18px;
+  padding: 8px 16px;
   font-size: 0.875rem;
   min-height: 38px;
 }
 
 .btn-lg {
-  padding: 16px 36px;
+  padding: 14px 32px;
   font-size: 1.05rem;
-  min-height: 52px;
+  min-height: 50px;
 }
 
 /* Badges */
@@ -318,9 +377,11 @@ html[data-theme="light"] .navbar {
   border: 1px solid var(--badge-border);
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
-/* Prompt 44 Cards: 16px Radius */
+/* Cards */
 .card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
@@ -328,6 +389,7 @@ html[data-theme="light"] .navbar {
   padding: 32px;
   box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
+  overflow: hidden;
 }
 
 .card:hover {
@@ -357,13 +419,13 @@ html[data-theme="light"] .navbar {
 
 /* Hero Section (Prompt 44: 2-Column Split) */
 .hero {
-  padding: 80px 0 64px;
+  padding: 64px 0 56px;
 }
 
 .hero-grid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
-  gap: 48px;
+  gap: 40px;
   align-items: center;
 }
 
@@ -371,12 +433,7 @@ html[data-theme="light"] .navbar {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 24px;
-}
-
-.hero-left h1 {
-  font-size: 3.25rem;
-  line-height: 1.12 !important;
+  gap: 20px;
 }
 
 .hero-actions {
@@ -391,34 +448,36 @@ html[data-theme="light"] .navbar {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   width: 100%;
 }
 
 .hero-check-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--text-main);
+  line-height: 1.5;
 }
 
 .hero-check-item svg {
   color: var(--accent-primary);
   flex-shrink: 0;
+  margin-top: 2px;
 }
 
-/* Right-side FinTech Live Dashboard Widget */
+/* FinTech Live Dashboard Widget */
 .fintech-preview-widget {
   background: linear-gradient(135deg, #233130 0%, #192625 100%);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 32px;
+  padding: 28px;
   box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   position: relative;
   overflow: hidden;
 }
@@ -456,6 +515,7 @@ html[data-theme="light"] .navbar {
   border-radius: 50%;
   background-color: var(--accent-primary);
   animation: pulse-dot 2s infinite;
+  flex-shrink: 0;
 }
 
 @keyframes pulse-dot {
@@ -467,15 +527,16 @@ html[data-theme="light"] .navbar {
   background-color: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
-  padding: 16px 20px;
+  padding: 14px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
 }
 
 .widget-metric-val {
   font-family: 'JetBrains Mono', Consolas, monospace;
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-main);
 }
@@ -504,30 +565,31 @@ html[data-theme="light"] .navbar {
 }
 
 .metric-value {
-  font-size: 2rem;
+  font-size: clamp(1.75rem, 2.5vw, 2.25rem);
   font-weight: 800;
   color: var(--accent-primary);
-  line-height: 1.1 !important;
+  line-height: 1.15 !important;
   margin-bottom: 4px;
 }
 
 .metric-label {
   font-size: 0.875rem;
   color: var(--text-muted);
+  line-height: 1.45;
 }
 
 /* Sections */
 .section {
-  padding: 80px 0;
+  padding: 72px 0;
 }
 
 .section-header {
   text-align: center;
   max-width: 760px;
-  margin: 0 auto 48px;
+  margin: 0 auto 40px;
 }
 
-/* 3-Step FinTech Pipeline Cards */
+/* 3-Step Pipeline Cards */
 .pipeline-step-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
@@ -567,7 +629,7 @@ html[data-theme="light"] .navbar {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 36px 32px;
+  padding: 36px 30px;
   box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
 }
@@ -594,6 +656,7 @@ html[data-theme="light"] .navbar {
   width: 52px;
   height: 52px;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 .product-card-title {
@@ -624,6 +687,7 @@ html[data-theme="light"] .navbar {
   gap: 10px;
   font-size: 0.9375rem;
   color: var(--text-main);
+  line-height: 1.5;
 }
 
 .feature-check-item svg {
@@ -636,10 +700,12 @@ html[data-theme="light"] .navbar {
 .table-wrap {
   width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: 16px;
   box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
 }
 
 table.data-table {
@@ -647,6 +713,7 @@ table.data-table {
   border-collapse: collapse;
   text-align: left;
   font-size: 0.9375rem;
+  min-width: 680px; /* Touch scroll on mobile */
 }
 
 table.data-table th {
@@ -681,7 +748,7 @@ table.data-table tr:hover {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 36px 28px;
+  padding: 36px 26px;
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
@@ -709,15 +776,17 @@ table.data-table tr:hover {
 }
 
 .price-val {
-  font-size: 2.25rem;
+  font-size: clamp(1.85rem, 2.5vw, 2.25rem);
   font-weight: 800;
   color: var(--text-main);
   margin: 16px 0 6px;
+  white-space: nowrap;
 }
 
 .price-unit {
   font-size: 0.875rem;
   color: var(--text-muted);
+  line-height: 1.4;
 }
 
 /* VietQR Frame */
@@ -740,6 +809,19 @@ table.data-table tr:hover {
   border-radius: 8px;
   border: 1px solid var(--border-color);
   object-fit: contain;
+  flex-shrink: 0;
+}
+
+.vietqr-memo-code {
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: clamp(0.875rem, 1.2vw + 0.3rem, 1rem);
+  color: var(--accent-primary);
+  background: var(--bg-canvas);
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 /* FAQ Accordion */
@@ -773,6 +855,7 @@ table.data-table tr:hover {
   align-items: center;
   justify-content: space-between;
   user-select: none;
+  gap: 16px;
 }
 
 .faq-answer {
@@ -787,7 +870,7 @@ table.data-table tr:hover {
   background-color: var(--bg-surface);
   border-top: 1px solid var(--border-color);
   padding: 64px 0 36px;
-  margin-top: 96px;
+  margin-top: 80px;
 }
 
 .footer-grid {
@@ -809,24 +892,112 @@ table.data-table tr:hover {
   gap: 16px;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .hero-grid { grid-template-columns: 1fr; }
-  .grid-3 { grid-template-columns: 1fr; }
-  .grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .metrics-strip { grid-template-columns: repeat(2, 1fr); }
-  .metric-item:nth-child(2) { border-right: none; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
+/* =========================================================
+   RESPONSIVE BREAKPOINTS: 1280px, 1180px, 1024px, 768px, 640px
+   ========================================================= */
+
+/* 1. Large Laptop (1180px - 1280px) */
+@media (max-width: 1280px) {
+  .nav-menu {
+    gap: 14px;
+  }
+  .nav-link {
+    font-size: 0.875rem;
+  }
+  .grid-4 {
+    /* Adaptive 2x2 grid for Pricing on laptops! Eliminates narrow card spills */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
 }
 
+/* 2. Standard Laptop / Small Screen (1024px - 1179px) */
+@media (max-width: 1180px) {
+  .nav-menu {
+    display: none; /* Transition to mobile/tablet menu */
+  }
+  .nav-mobile-toggle {
+    display: inline-flex;
+  }
+  .metrics-strip {
+    /* Adaptive 2x2 grid for Metrics */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .metric-item:nth-child(2) {
+    border-right: none;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+/* 3. Tablet (768px - 1023px) */
+@media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .fintech-preview-widget {
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+/* 4. Small Tablet & Phablet (640px - 767px) */
 @media (max-width: 768px) {
-  .nav-menu { display: none; }
-  .grid-2 { grid-template-columns: 1fr; }
-  .grid-4 { grid-template-columns: 1fr; }
-  .hero-left h1 { font-size: 2.25rem; }
-  .metrics-strip { grid-template-columns: 1fr; }
-  .metric-item { border-right: none; border-bottom: 1px solid var(--border-color); padding: 12px 0; }
-  .metric-item:last-child { border-bottom: none; }
-  .vietqr-box { flex-direction: column; text-align: center; }
-  .footer-grid { grid-template-columns: 1fr; }
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+  .vietqr-box {
+    flex-direction: column;
+    text-align: center;
+  }
+  .vietqr-box > div:last-child {
+    grid-template-columns: 1fr !important;
+  }
+  .card {
+    padding: 24px 20px;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+/* 5. Mobile (under 640px) */
+@media (max-width: 640px) {
+  .metrics-strip {
+    grid-template-columns: 1fr;
+    padding: 20px 16px;
+  }
+  .metric-item {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 14px 0;
+  }
+  .metric-item:last-child {
+    border-bottom: none;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-actions .btn {
+    width: 100%;
+  }
+  .nav-brand span:not(.nav-brand-dot) {
+    font-size: 1.1rem;
+  }
+  .nav-brand .badge {
+    display: none; /* Save space on small phones */
+  }
 }

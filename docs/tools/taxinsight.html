@@ -24,6 +24,7 @@
         <span class="badge" style="font-size: 0.6875rem; padding: 2px 10px;">FINTECH &amp; AUDIT</span>
       </a>
 
+      <!-- Desktop Navigation Menu -->
       <ul class="nav-menu">
         <li><a href="../index.html" class="nav-link ">Trang Chủ</a></li>
         <li><a href="auditsoft.html" class="nav-link ">AuditSoft</a></li>
@@ -33,17 +34,36 @@
         <li><a href="../index.html#faq" class="nav-link">Hỏi Đáp</a></li>
       </ul>
 
+      <!-- Action Buttons -->
       <div class="nav-actions">
         <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Đổi giao diện Sáng/Tối" title="Đổi giao diện Sáng / Tối">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         </button>
-        <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
-          <span>Zalo: 0817.567.008</span>
+        <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="display: inline-flex;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Zalo</span>
         </a>
         <a href="../index.html#pricing" class="btn btn-primary btn-sm">
-          <span>Mua Bản Quyền</span>
+          <span>Mua Ngay</span>
         </a>
+        <button id="navMobileBtn" class="nav-mobile-toggle" aria-label="Menu Điều Hướng Di Động">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
       </div>
+    </div>
+
+    <!-- Mobile Slide-Down Drawer -->
+    <div id="navMobileDrawer" class="nav-mobile-drawer">
+      <ul>
+        <li><a href="../index.html" class="nav-link ">Trang Chủ Hệ Sinh Thái</a></li>
+        <li><a href="auditsoft.html" class="nav-link ">AuditSoft NKC v2.0.3</a></li>
+        <li><a href="invoicedesk.html" class="nav-link ">InvoiceDesk v2.7.14</a></li>
+        <li><a href="#" class="nav-link active">TaxInsight v3.3.4</a></li>
+        <li><a href="../index.html#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
+        <li><a href="../index.html#faq" class="nav-link">Hỏi Đáp Chuyên Gia</a></li>
+        <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary);">Hotline Zalo: 0817.567.008</a></li>
+      </ul>
+      <a href="../index.html#pricing" class="btn btn-primary" style="width: 100%;">Xem Bảng Giá Combo Ưu Đãi</a>
     </div>
   </header>
   <main>
@@ -51,7 +71,7 @@
       <div class="container">
         <div class="hero-left" style="max-width: 880px; margin: 0 auto; text-align: center; align-items: center;">
           <span class="badge">100% KHÔNG CẦN CẮM USB TOKEN • ETAX TỔNG CỤC THUẾ</span>
-          <h1 style="font-size: 3.25rem; line-height: 1.15;">TaxInsight: Tải Trọn Bộ Hồ Sơ eTax Không Cần USB Token</h1>
+          <h1>TaxInsight: Tải Trọn Bộ Hồ Sơ eTax Không Cần USB Token</h1>
           <p class="lead" style="text-align: center;">
             Cứu cánh cho các công ty dịch vụ kế toán đang quản lý 50 - 200 khách hàng. Không cần phải gọi điện xin mã OTP, không cần cắm rút hàng chục chiếc USB chữ ký số mỗi ngày. Chỉ cần một tài khoản tra cứu eTax, phần mềm tự động phân loại và kéo sạch toàn bộ tờ khai và thông báo thuế về máy tính.
           </p>
@@ -159,7 +179,7 @@
           </div>
         </div>
 
-              <!-- VietQR Automated Payment Frame (Prompt 44 FinTech Card) -->
+              <!-- VietQR Automated Payment Frame (Fully Responsive) -->
       <div id="vietqr" class="card" style="margin-top: 56px; border: 2px solid var(--accent-primary);">
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
           <div>
@@ -177,15 +197,15 @@
         </div>
 
         <div class="vietqr-box">
-          <div style="text-align: center;">
+          <div style="text-align: center; flex-shrink: 0;">
             <img id="qrImage" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=2190000&addInfo=COMBO%20HE%20SINH%20THAI&accountName=THINH%20LYNX" alt="Mã VietQR MB Bank" class="vietqr-img">
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; margin-bottom: 0;">Quét bằng app ngân hàng bất kỳ</p>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; margin-bottom: 0;">Quét bằng app ngân hàng</p>
           </div>
 
           <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
             <div>
               <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Ngân hàng thụ hưởng:</span>
-              <strong style="color: var(--text-main); font-size: 1rem;">MB BANK (Ngân hàng TMCP Quân Đội)</strong>
+              <strong style="color: var(--text-main); font-size: 1rem;">MB BANK (Ngân hàng Quân Đội)</strong>
             </div>
             <div>
               <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Chủ tài khoản:</span>
@@ -203,9 +223,9 @@
               <strong id="qrAmountDisplay" class="mono" style="font-size: 1.25rem; color: var(--accent-primary);">2.190.000 VNĐ</strong>
             </div>
             <div style="grid-column: span 2;">
-              <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Nội dung chuyển khoản (bắt buộc):</span>
-              <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
-                <strong id="qrMemoDisplay" class="mono" style="font-size: 1rem; color: var(--accent-primary); background: var(--bg-canvas); padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-color);">COMBO HE SINH THAI [SĐT CỦA BẠN]</strong>
+              <span style="font-size: 0.8125rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nội dung chuyển khoản (bắt buộc):</span>
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <strong id="qrMemoDisplay" class="vietqr-memo-code">COMBO HE SINH THAI [SĐT CỦA BẠN]</strong>
                 <button type="button" class="btn btn-sm btn-secondary" style="padding: 2px 12px; min-height: 30px;" onclick="copyQrMemo()">Copy Cú Pháp</button>
               </div>
             </div>
@@ -213,7 +233,7 @@
         </div>
 
         <div style="margin-top: 20px; font-size: 0.9375rem; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-          <span>Sau khi chuyển khoản, vui lòng nhắn tin Zalo <strong>0817.567.008</strong> kèm Machine ID để nhận mã kích hoạt bản quyền trong 5 phút.</span>
+          <span>Sau khi chuyển khoản, nhắn tin Zalo <strong>0817.567.008</strong> kèm Machine ID để nhận mã kích hoạt trong 5 phút.</span>
           <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary">Xác Nhận Qua Zalo</a>
         </div>
       </div>
@@ -232,7 +252,7 @@
           <p style="font-size: 0.95rem; line-height: 1.65; margin-bottom: 20px;">
             Bộ ba công cụ Kế toán & Kiểm toán độc lập chuyên biệt. Kiến trúc 100% Offline bảo mật tuyệt đối dữ liệu tài chính doanh nghiệp trên máy tính của bạn.
           </p>
-          <div style="display: flex; gap: 10px;">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <span class="badge">100% OFFLINE</span>
             <span class="badge">CHUẨN MỰC VACPA</span>
           </div>
@@ -283,6 +303,7 @@
   </footer>
 
   <script>
+    // Theme Toggle Controller
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     if (themeToggleBtn) {
       themeToggleBtn.addEventListener('click', () => {
@@ -293,6 +314,22 @@
       });
     }
 
+    // Mobile Navigation Drawer Toggle
+    const navMobileBtn = document.getElementById('navMobileBtn');
+    const navMobileDrawer = document.getElementById('navMobileDrawer');
+    if (navMobileBtn && navMobileDrawer) {
+      navMobileBtn.addEventListener('click', () => {
+        navMobileDrawer.classList.toggle('active');
+      });
+      // Close drawer when clicking a link
+      navMobileDrawer.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navMobileDrawer.classList.remove('active');
+        });
+      });
+    }
+
+    // Dynamic VietQR Plan Selector
     function setVietQRPlan(planKey, amount, memoPrefix, planLabel) {
       const qrImage = document.getElementById('qrImage');
       const qrAmountDisplay = document.getElementById('qrAmountDisplay');
@@ -326,6 +363,7 @@
       }
     }
 
+    // FAQ Accordion
     document.querySelectorAll('.faq-question').forEach(q => {
       q.addEventListener('click', () => {
         const item = q.parentElement;
