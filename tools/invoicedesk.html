@@ -6,7 +6,7 @@
   <title>InvoiceDesk v2.9.4 — Tải Hàng Loạt HĐĐT Cổng Thuế Không Giới Hạn 31 Ngày</title>
   <meta name="description" content="Phần mềm tự động đăng nhập Cổng HĐĐT Tổng Cục Thuế, tự giải Captcha, tải trọn vẹn cả năm hóa đơn mua vào & bán ra và xuất bảng kê Excel chi tiết từng mặt hàng.">
   <meta name="keywords" content="tải hóa đơn điện tử, cổng thuế hoadondientu, vượt giới hạn 31 ngày hóa đơn, xuất excel hóa đơn chi tiết, tải xml hóa đơn gốc, invoicedesk">
-  <meta name="author" content="Thịnh Lynx Team">
+  <meta name="author" content="AuditSoft Engineering Team">
   <meta name="robots" content="index, follow">
   
   <!-- Open Graph / Facebook SEO -->
@@ -14,7 +14,7 @@
   <meta property="og:title" content="InvoiceDesk v2.9.4 — Tải Hàng Loạt HĐĐT Cổng Thuế Không Giới Hạn 31 Ngày">
   <meta property="og:description" content="Phần mềm tự động đăng nhập Cổng HĐĐT Tổng Cục Thuế, tự giải Captcha, tải trọn vẹn cả năm hóa đơn mua vào & bán ra và xuất bảng kê Excel chi tiết từng mặt hàng.">
   <meta property="og:locale" content="vi_VN">
-  <meta property="og:site_name" content="Thịnh Lynx Ecosystem">
+  <meta property="og:site_name" content="AuditSoft Suite">
 
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,10 +43,13 @@
 <body>
   <header class="navbar">
     <div class="container nav-container">
-      <a href="../index.html" class="nav-brand nowrap" style="white-space: nowrap;">
+      <a href="../index.html" class="nav-brand nowrap" style="white-space: nowrap; display: inline-flex; align-items: center; gap: 10px; text-decoration: none;">
         <span class="nav-brand-dot"></span>
-        <span style="white-space: nowrap;">Thịnh Lynx</span>
-        <span class="badge" style="font-size: 0.6875rem; padding: 2px 10px; white-space: nowrap;">FINTECH &amp; AUDIT</span>
+        <span style="display: flex; flex-direction: column; line-height: 1.15;">
+          <span style="font-weight: 800; font-size: 1.125rem; color: var(--text-main); letter-spacing: -0.02em;">AuditSoft Suite</span>
+          <span style="font-size: 0.6875rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.02em;">BỘ BA CÔNG CỤ KẾ TOÁN &amp; KIỂM TOÁN OFFLINE</span>
+        </span>
+        <span class="badge" style="font-size: 0.6875rem; padding: 2px 8px; white-space: nowrap;">PRO</span>
       </a>
 
       <!-- Desktop Navigation Menu -->
@@ -86,13 +89,13 @@
     <div id="navMobileDrawer" class="nav-mobile-drawer" style="display: none;">
       <ul>
         <li><a href="../index.html" class="nav-link ">Trang Chủ Hệ Sinh Thái</a></li>
-        <li><a href="auditsoft.html" class="nav-link ">AuditSoft NKC v2.0.3</a></li>
+        <li><a href="auditsoft.html" class="nav-link ">AuditSoft NKC v2.0.4</a></li>
         <li><a href="#" class="nav-link active">InvoiceDesk v2.9.4</a></li>
         <li><a href="taxinsight.html" class="nav-link ">TaxInsight v3.3.7</a></li>
         <li><a href="https://github.com/dacthinh05/InvoiceDesk/releases" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">⚡ Tải Cài Đặt v2.9.4 (GitHub)</a></li>
         <li><a href="../index.html#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
         <li><a href="../index.html#faq" class="nav-link">Hỏi Đáp Chuyên Gia</a></li>
-        <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary);">Hotline Zalo: 0817.567.008</a></li>
+        <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary);">Hotline Kỹ Thuật: 0817.567.008</a></li>
       </ul>
       <a href="../index.html#pricing" class="btn btn-primary" style="width: 100%;">Xem Bảng Giá Combo Ưu Đãi</a>
     </div>
@@ -261,7 +264,7 @@
           </div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="planSelectorGroup">
             <button type="button" class="btn btn-sm btn-secondary plan-pill active" onclick="setVietQRPlan('combo_all', 2190000, 'COMBO HE SINH THAI', 'Combo Trọn Bộ 3 Tool (2.190.000 đ)')">Combo 3 Tool</button>
-            <button type="button" class="btn btn-sm btn-secondary plan-pill" onclick="setVietQRPlan('auditsoft', 1490000, 'AUDITSOFT PRO', 'AuditSoft NKC v2.0.3 (1.490.000 đ)')">AuditSoft</button>
+            <button type="button" class="btn btn-sm btn-secondary plan-pill" onclick="setVietQRPlan('auditsoft', 1490000, 'AUDITSOFT PRO', 'AuditSoft NKC v2.0.4 (1.490.000 đ)')">AuditSoft</button>
             <button type="button" class="btn btn-sm btn-secondary plan-pill" onclick="setVietQRPlan('invoicedesk', 690000, 'INVOICEDESK PRO', 'InvoiceDesk v2.9.4 (690.000 đ)')">InvoiceDesk</button>
             <button type="button" class="btn btn-sm btn-secondary plan-pill" onclick="setVietQRPlan('taxinsight', 590000, 'TAXINSIGHT PRO', 'TaxInsight v3.3.7 (590.000 đ)')">TaxInsight</button>
           </div>
@@ -269,7 +272,7 @@
 
         <div class="vietqr-box">
           <div style="text-align: center; flex-shrink: 0;">
-            <img id="qrImage" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=2190000&addInfo=COMBO%20HE%20SINH%20THAI&accountName=THINH%20LYNX" alt="Mã VietQR MB Bank" class="vietqr-img">
+            <img id="qrImage" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=2190000&addInfo=COMBO%20HE%20SINH%20THAI&accountName=NGUYEN%20DAC%20THINH" alt="Mã VietQR MB Bank" class="vietqr-img">
             <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; margin-bottom: 0;">Quét bằng app ngân hàng</p>
           </div>
 
@@ -280,7 +283,7 @@
             </div>
             <div>
               <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Chủ tài khoản:</span>
-              <strong style="color: var(--text-main); font-size: 1rem;">THINH LYNX (NGUYEN DUC THINH)</strong>
+              <strong style="color: var(--text-main); font-size: 1rem;">NGUYỄN ĐẮC THỊNH</strong>
             </div>
             <div>
               <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Số tài khoản MB:</span>
@@ -318,7 +321,7 @@
         <div>
           <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
             <span class="nav-brand-dot"></span>
-            <strong style="font-size: 1.25rem; color: var(--text-main);">Thịnh Lynx Ecosystem</strong>
+            <strong style="font-size: 1.25rem; color: var(--text-main);">AuditSoft Suite</strong>
           </div>
           <p style="font-size: 0.95rem; line-height: 1.65; margin-bottom: 20px;">
             Bộ ba công cụ Kế toán &amp; Kiểm toán độc lập chuyên biệt. Kiến trúc 100% Offline bảo mật tuyệt đối dữ liệu tài chính doanh nghiệp trên máy tính của bạn.
@@ -332,7 +335,7 @@
         <div>
           <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Bộ Ba Công Cụ</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem;">
-            <li><a href="../tools/auditsoft.html" class="nav-link">AuditSoft NKC v2.0.3</a></li>
+            <li><a href="../tools/auditsoft.html" class="nav-link">AuditSoft NKC v2.0.4</a></li>
             <li><a href="../tools/invoicedesk.html" class="nav-link">InvoiceDesk v2.9.4</a></li>
             <li><a href="../tools/taxinsight.html" class="nav-link">TaxInsight v3.3.7</a></li>
             <li><a href="../index.html#downloads" class="nav-link" style="color: var(--accent-primary);">⚡ Tải Bản Cài Đặt (GitHub)</a></li>
@@ -364,10 +367,10 @@
 
       <div class="footer-bottom">
         <div>
-          &copy; 2026 Thịnh Lynx Team. Thiết kế chuẩn theo phong cách <a href="https://vuhung16au.github.io/prompt-driven-ui/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-primary); text-decoration: none; font-weight: 600;">Prompt-Driven UI</a> (Prompt 44 Dark FinTech).
+          &copy; 2026 AuditSoft Suite. Toàn bộ quyền được bảo lưu.
         </div>
         <div style="display: flex; gap: 16px;">
-          <span class="mono" style="color: var(--accent-primary); font-size: 0.8125rem;">v2.0.3 CHÍNH THỨC</span>
+          <span class="mono" style="color: var(--accent-primary); font-size: 0.8125rem;">v2.0.4 CHÍNH THỨC</span>
           <span>•</span>
           <span>Bảo hành trọn đời theo máy</span>
         </div>
