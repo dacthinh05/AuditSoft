@@ -1001,3 +1001,18 @@ table.data-table tr:hover {
     display: none; /* Save space on small phones */
   }
 }
+
+/* Tiered Pricing Responsive Grid */
+.pricing-tiered-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 32px;
+  align-items: stretch;
+}
+
+@media (max-width: 1024px) {
+  .pricing-tiered-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+}

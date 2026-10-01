@@ -8,6 +8,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="../assets/theme.css">
+  <style>
+    /* Critical Inline Failsafe: Ensures zero drawer leak on desktop regardless of cache */
+    .nav-mobile-drawer { display: none !important; }
+    .nav-mobile-drawer.active { display: block !important; }
+    .nav-mobile-toggle { display: none !important; }
+    .nowrap { white-space: nowrap !important; }
+    @media (max-width: 1024px) {
+      .nav-menu { display: none !important; }
+      .nav-mobile-toggle { display: inline-flex !important; }
+    }
+  </style>
   <script>
     (function() {
       const savedTheme = localStorage.getItem('lynx_theme') || 'dark';
@@ -18,10 +29,10 @@
 <body>
   <header class="navbar">
     <div class="container nav-container">
-      <a href="../index.html" class="nav-brand">
+      <a href="../index.html" class="nav-brand nowrap" style="white-space: nowrap;">
         <span class="nav-brand-dot"></span>
-        <span>Thịnh Lynx</span>
-        <span class="badge" style="font-size: 0.6875rem; padding: 2px 10px;">FINTECH &amp; AUDIT</span>
+        <span style="white-space: nowrap;">Thịnh Lynx</span>
+        <span class="badge" style="font-size: 0.6875rem; padding: 2px 10px; white-space: nowrap;">FINTECH &amp; AUDIT</span>
       </a>
 
       <!-- Desktop Navigation Menu -->
@@ -39,21 +50,21 @@
         <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Đổi giao diện Sáng/Tối" title="Đổi giao diện Sáng / Tối">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         </button>
-        <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="display: inline-flex;">
+        <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="display: inline-flex; white-space: nowrap;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <span>Zalo</span>
+          <span>Zalo: 0817.567.008</span>
         </a>
-        <a href="../index.html#pricing" class="btn btn-primary btn-sm">
-          <span>Mua Ngay</span>
+        <a href="../index.html#pricing" class="btn btn-primary btn-sm nowrap" style="white-space: nowrap;">
+          <span>Mua Bản Quyền</span>
         </a>
-        <button id="navMobileBtn" class="nav-mobile-toggle" aria-label="Menu Điều Hướng Di Động">
+        <button id="navMobileBtn" class="nav-mobile-toggle" style="display: none;" aria-label="Menu Điều Hướng Di Động">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
       </div>
     </div>
 
-    <!-- Mobile Slide-Down Drawer -->
-    <div id="navMobileDrawer" class="nav-mobile-drawer">
+    <!-- Mobile Slide-Down Drawer (Hidden by default via inline style) -->
+    <div id="navMobileDrawer" class="nav-mobile-drawer" style="display: none;">
       <ul>
         <li><a href="../index.html" class="nav-link ">Trang Chủ Hệ Sinh Thái</a></li>
         <li><a href="auditsoft.html" class="nav-link ">AuditSoft NKC v2.0.3</a></li>
@@ -77,9 +88,9 @@
           </p>
 
           <div class="hero-actions" style="justify-content: center;">
-            <a href="#pricing" class="btn btn-primary btn-lg">Mua Bản Quyền InvoiceDesk</a>
-            <a href="#comparison" class="btn btn-secondary btn-lg">So Sánh Thủ Công vs Tool</a>
-            <a href="../index.html" class="btn btn-secondary btn-lg">&larr; Về Trang Chủ Hệ Sinh Thái</a>
+            <a href="#pricing" class="btn btn-primary btn-lg nowrap">Mua Bản Quyền InvoiceDesk</a>
+            <a href="#comparison" class="btn btn-secondary btn-lg nowrap">So Sánh Thủ Công vs Tool</a>
+            <a href="../index.html" class="btn btn-secondary btn-lg nowrap">&larr; Về Trang Chủ Hệ Sinh Thái</a>
           </div>
         </div>
 
@@ -188,7 +199,7 @@
           <div class="pricing-card featured" style="text-align: center;">
             <div class="featured-pill">BẢN QUYỀN TRỌN ĐỜI THEO MÁY</div>
             <span class="badge" style="align-self: center;">INVOICEDESK PRO</span>
-            <div class="price-val mono" style="color: var(--accent-primary);">690.000 VNĐ</div>
+            <div class="price-val mono nowrap" style="color: var(--accent-primary); white-space: nowrap;">690.000&nbsp;VNĐ</div>
             <div class="price-unit">Đầu tư một lần • Không giới hạn số lượng hóa đơn tải về</div>
             <hr style="border: none; border-top: 1px solid var(--border-color); margin: 20px 0;">
             <ul class="feature-check-list" style="margin-bottom: 28px; text-align: left;">
@@ -209,12 +220,12 @@
                 <span>Quản lý lưu trữ tập trung trên máy tính cục bộ</span>
               </li>
             </ul>
-            <button class="btn btn-primary btn-lg" onclick="location.href='#vietqr';">Quét Mã VietQR Mua Ngay</button>
+            <button class="btn btn-primary btn-lg nowrap" style="white-space: nowrap;" onclick="location.href='#vietqr';">Quét Mã VietQR Mua Ngay</button>
           </div>
         </div>
 
               <!-- VietQR Automated Payment Frame (Fully Responsive) -->
-      <div id="vietqr" class="card" style="margin-top: 56px; border: 2px solid var(--accent-primary);">
+      <div id="vietqr" class="card" style="margin-top: 48px; border: 2px solid var(--accent-primary);">
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
           <div>
             <span class="badge" style="margin-bottom: 8px;">CỔNG THANH TOÁN VIETQR TỰ ĐỘNG</span>
@@ -226,7 +237,6 @@
             <button type="button" class="btn btn-sm btn-secondary plan-pill" onclick="setVietQRPlan('auditsoft', 1490000, 'AUDITSOFT PRO', 'AuditSoft NKC v2.0.3 (1.490.000 đ)')">AuditSoft</button>
             <button type="button" class="btn btn-sm btn-secondary plan-pill" onclick="setVietQRPlan('invoicedesk', 690000, 'INVOICEDESK PRO', 'InvoiceDesk v2.7.14 (690.000 đ)')">InvoiceDesk</button>
             <button type="button" class="btn btn-sm btn-secondary plan-pill" onclick="setVietQRPlan('taxinsight', 590000, 'TAXINSIGHT PRO', 'TaxInsight v3.3.4 (590.000 đ)')">TaxInsight</button>
-            <button type="button" class="btn btn-sm btn-secondary plan-pill" onclick="setVietQRPlan('combo_tax', 990000, 'COMBO THUE DUO', 'Combo Thuế 2 Tool (990.000 đ)')">Combo Thuế</button>
           </div>
         </div>
 
@@ -254,7 +264,7 @@
             </div>
             <div>
               <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Số tiền thanh toán:</span>
-              <strong id="qrAmountDisplay" class="mono" style="font-size: 1.25rem; color: var(--accent-primary);">2.190.000 VNĐ</strong>
+              <strong id="qrAmountDisplay" class="mono nowrap" style="font-size: 1.25rem; color: var(--accent-primary); white-space: nowrap;">2.190.000&nbsp;VNĐ</strong>
             </div>
             <div style="grid-column: span 2;">
               <span style="font-size: 0.8125rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nội dung chuyển khoản (bắt buộc):</span>
@@ -348,16 +358,18 @@
       });
     }
 
-    // Mobile Navigation Drawer Toggle
+    // Mobile Navigation Drawer Toggle (Safe against leaks)
     const navMobileBtn = document.getElementById('navMobileBtn');
     const navMobileDrawer = document.getElementById('navMobileDrawer');
     if (navMobileBtn && navMobileDrawer) {
       navMobileBtn.addEventListener('click', () => {
+        const isOpen = navMobileDrawer.style.display === 'block';
+        navMobileDrawer.style.display = isOpen ? 'none' : 'block';
         navMobileDrawer.classList.toggle('active');
       });
-      // Close drawer when clicking a link
       navMobileDrawer.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
+          navMobileDrawer.style.display = 'none';
           navMobileDrawer.classList.remove('active');
         });
       });
@@ -381,7 +393,7 @@
       }
 
       if (qrAmountDisplay) {
-        qrAmountDisplay.textContent = new Intl.NumberFormat('vi-VN').format(amount) + ' VNĐ';
+        qrAmountDisplay.innerHTML = new Intl.NumberFormat('vi-VN').format(amount) + '&nbsp;VNĐ';
       }
 
       if (qrMemoDisplay) {
