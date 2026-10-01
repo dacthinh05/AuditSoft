@@ -1,18 +1,17 @@
 {
-  "version": "2.0.3",
-  "releaseDate": "2026-09-29",
-  "title": "AuditSoft v2.0.3 — Hỗ Trợ Chốt Công Nợ Theo Kỳ/Tháng & Kéo Thả Sổ Ngoại Vi Linh Hoạt",
+  "version": "2.0.5",
+  "releaseDate": "2026-10-01",
+  "title": "AuditSoft v2.0.5 — Nâng cao Trải nghiệm KTV: Smart Ingestion Banners, Review Notes & Cross-Module Deep Linking",
   "changelog": [
-    "Hỗ trợ kéo thả trực tiếp tệp Sổ Tổng Hợp ngoại vi (131/331 BS) vào ô nạp tệp và tự động phân tích.",
-    "Khắc phục triệt để lỗi nút 'Tùy chỉnh cột' mở ngay bảng ánh xạ cột độc lập với trạng thái báo cáo.",
-    "Bổ sung thanh chọn nhanh kỳ khóa sổ As of date: Q1 (31/03), 6T Bán niên (30/06), Q3 (30/09), Cả năm (31/12).",
-    "Tự động đồng bộ mốc khóa sổ theo Kỳ hồ sơ kiểm toán (30/06/2026) giúp tuổi nợ bóc tách chính xác theo kỳ.",
-    "Tự động chốt và khớp toàn bộ 238 nhà cung cấp (TK 331) và 36 khách hàng (TK 131) với Sổ Cái & Bảng CĐPS."
+    "Tích hợp thanh kéo thả và chọn file trực tiếp SubModuleIngestionBanner tại các phân hệ Tiền (112), Lương & BHXH (334), Công nợ (131/331), tự động đồng bộ 2 chiều với Hub Matrix.",
+    "Bổ sung hệ thống Ghi chú soát xét đa cấp (Review Notes & Audit Trail) cho Staff, Senior, Manager, Partner kèm dòng thời gian trực quan trên Finding Hub.",
+    "Mở rộng các trạng thái xét đoán kiểm toán chuyên sâu: NEEDS_EVIDENCE, SENIOR_APPROVED, MANAGER_APPROVED và tự động đồng bộ sang Giấy làm việc B410 khi xuất Dossier.",
+    "Cơ chế liên kết nhảy nhanh 2 chiều (Cross-Module Deep Linking): Từ Giấy làm việc Working Paper nhảy 1-chạm sang Phân hệ chi tiết, từ Finding Hub nhảy 1-chạm tới Bằng chứng gốc."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.3/AuditSoft-2.0.3-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.3/AuditSoft-2.0.3-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.5/AuditSoft-2.0.5-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.5/AuditSoft-2.0.5-Portable.exe",
   "required": false,
   "minSupportedVersion": "1.0.0",
-  "sha256": "80652f2fcd5f29844e0f7e6e8a86f6f5cb5f8d91bb604854f908669d331a5419",
-  "signature": "Sz-QFKMVVkHo9aF6ZDgm4n1Cf71Im-tELRRH4juMrnDvQSL1cVIqiDprCecBuKQpIt3svQmDX_vP_mAUrpchDg"
+  "sha256": "0941c89cfa6b5b09bd1cfe9b459a29bbda7c99a4907c52d711f21e201b5613b0",
+  "signature": "jPSxuy9FG6IxY5EqDeXoqeM5y9fXvg1UsmwByIesXPJrY27ujC6XBi8U7QjOl35zwO0U2ghwzhCyjC0wrmoEAw"
 }
