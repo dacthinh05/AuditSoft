@@ -7,10 +7,10 @@
     "Tối ưu hóa giao diện Sáng / Tối (Light & Dark Theme) sắc nét, chống cấn chữ và bảo vệ mắt.",
     "Nâng cấp bộ cài đặt Windows Setup chính thức và tối ưu hóa hiệu năng khởi động."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.7/AuditSoft-2.0.7-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.7/AuditSoft-2.0.7-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.7/AuditSoft-2.0.7-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.7/AuditSoft-2.0.7-Portable.exe",
   "required": false,
   "minSupportedVersion": "1.0.0",
   "sha256": "168e5d56af9aef42241f31a4d1efabad29c6c30cd9ce531e16f495692825ab94",
-  "signature": "oeuavP7yFRfxRemSqT88ZYCYqEbaBjjd4m89NYv8-aXTiHcDqMct2NmfhIdMqo4sfBrEdCN8PuZ2qFukp1LoBQ"
+  "signature": "DIbHGgGqgXWNXJvuDmDr7QTF3fKwourVt0en-ecmeB_4ao8KrsJ_bUWRL3EObUK0AN1IfkAJHuc6xN0Y8zGbDg"
 }
