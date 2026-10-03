@@ -1,16 +1,16 @@
 {
-  "version": "2.0.6",
+  "version": "2.0.7",
   "releaseDate": "2026-10-03",
-  "title": "AuditSoft v2.0.6 — Cập nhật Landing Page Hệ Sinh Thái & Tối ưu Trải nghiệm Bản quyền",
+  "title": "AuditSoft v2.0.7 — Nhận Diện Thương Hiệu Mới The Dual-Ledger Monogram",
   "changelog": [
-    "Cập nhật liên kết Trang Giới thiệu & Bản quyền chính thức trỏ về https://dacthinh05.github.io/AuditSoft-Releases/.",
-    "Đồng bộ liên kết Landing Page dùng chung qua kiến trúc Single Source of Truth (AUDITSOFT_LANDING_PAGE_URL).",
-    "Tối ưu trải nghiệm truy cập thông tin bản quyền và hệ sinh thái trên giao diện Desktop."
+    "Cập nhật biểu tượng nhận diện thương hiệu mới The Dual-Ledger Monogram (Chuẩn hình học hiện đại 100% vector).",
+    "Tối ưu hóa giao diện Sáng / Tối (Light & Dark Theme) sắc nét, chống cấn chữ và bảo vệ mắt.",
+    "Nâng cấp bộ cài đặt Windows Setup chính thức và tối ưu hóa hiệu năng khởi động."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.6/AuditSoft-2.0.6-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.6/AuditSoft-2.0.6-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.7/AuditSoft-2.0.7-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.7/AuditSoft-2.0.7-Portable.exe",
   "required": false,
   "minSupportedVersion": "1.0.0",
-  "sha256": "2dc4fa5d6cb1b1a42db48c7e138f8b70059491e4742daee4f583be4127588070",
-  "signature": "obKG77SWHcpahe66XbkIebEmOt-7Om-Bl_9J4w2CsqqID7Lf7u7ZU5b9HyyZ5-eCrvo7SIFQ7jTCyxvFji-LBQ"
+  "sha256": "168e5d56af9aef42241f31a4d1efabad29c6c30cd9ce531e16f495692825ab94",
+  "signature": "oeuavP7yFRfxRemSqT88ZYCYqEbaBjjd4m89NYv8-aXTiHcDqMct2NmfhIdMqo4sfBrEdCN8PuZ2qFukp1LoBQ"
 }
