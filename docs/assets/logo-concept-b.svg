@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <!-- Left Pillar Gradient: General Ledger (Blue Financial Stream) -->
+    <linearGradient id="ledgerBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+
+    <!-- Right Pillar Gradient: Detailed Journal (Emerald Audit Stream) -->
+    <linearGradient id="ledgerGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B3F05D" />
+      <stop offset="40%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+
+    <!-- Central Reconcile Diamond Core -->
+    <linearGradient id="coreDiamond" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#A7F3D0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Left Ledger Pillar (Slanted Precision Quadrilateral) -->
+  <path d="M 128 32 
+           L 156 88 
+           L 96 220 
+           L 44 220 
+           C 36 220 32 212 36 204 
+           L 116 38 
+           C 119 34 123 32 128 32 Z" 
+        fill="url(#ledgerBlue)" />
+
+  <!-- Right Ledger Pillar (Intersecting & Anchoring) -->
+  <path d="M 128 32 
+           C 133 32 137 34 140 38 
+           L 220 204 
+           C 224 212 220 220 212 220 
+           L 160 220 
+           L 100 88 
+           L 128 32 Z" 
+        fill="url(#ledgerGreen)" />
+
+  <!-- The B360 Reconcile Core (Central Floating Diamond Key) -->
+  <polygon points="128,102 152,142 128,182 104,142" 
+           fill="url(#coreDiamond)" 
+           stroke="#090D17" 
+           stroke-width="5" 
+           stroke-linejoin="round" />
+
+  <!-- Negative Space Micro Horizontal Lock -->
+  <circle cx="128" cy="142" r="4.5" fill="#047857" />
+</svg>

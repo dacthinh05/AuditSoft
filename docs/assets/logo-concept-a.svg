@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="apexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="60%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="beamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+  </defs>
+
+  <!-- Left Stems & Apex (Continuous Solid Prism) -->
+  <path d="M 128 24 
+           C 133 24 137 27 139 31 
+           L 223 207 
+           C 226 213 222 220 215 220 
+           L 173 220 
+           C 168 220 164 217 162 212 
+           L 142 168 
+           L 114 168 
+           L 94 212 
+           C 92 217 88 220 83 220 
+           L 41 220 
+           C 34 220 30 213 33 207 
+           L 117 31 
+           C 119 27 123 24 128 24 Z 
+           M 128 88 
+           L 102 144 
+           L 154 144 
+           Z" 
+        fill="url(#apexGrad)" 
+        fill-rule="evenodd" />
+
+  <!-- Precision Audit Ruler Bar (Negative-space notched crossbar) -->
+  <rect x="74" y="152" width="108" height="14" rx="4" fill="url(#beamGrad)" />
+  <!-- Precision Measuring Ticks -->
+  <circle cx="128" cy="159" r="2.5" fill="#FFFFFF" />
+  <circle cx="106" cy="159" r="2" fill="#FFFFFF" opacity="0.8" />
+  <circle cx="150" cy="159" r="2" fill="#FFFFFF" opacity="0.8" />
+</svg>

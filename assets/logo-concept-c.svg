@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <!-- Vault Outer Frame Gradient -->
+    <linearGradient id="shieldFrameGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="50%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Inner Core Monogram Gradient -->
+    <linearGradient id="coreApexGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#B3F05D" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+  </defs>
+
+  <!-- Geometric Hexagonal Vault Shield (Outer Boundary) -->
+  <path d="M 128 20 
+           L 214 56 
+           C 218 58 220 62 220 66 
+           L 220 134 
+           C 220 182 178 224 130 236 
+           C 129 236 127 236 126 236 
+           C 78 224 36 182 36 134 
+           L 36 66 
+           C 36 62 38 58 42 56 
+           L 128 20 Z" 
+        fill="none" 
+        stroke="url(#shieldFrameGrad)" 
+        stroke-width="14" 
+        stroke-linejoin="round" />
+
+  <!-- The Architectural 'A' Core (Inner Keystone) -->
+  <path d="M 128 64 
+           L 174 172 
+           L 146 172 
+           L 136 148 
+           L 120 148 
+           L 110 172 
+           L 82 172 
+           L 128 64 Z 
+           M 128 106 
+           L 124 126 
+           L 132 126 
+           Z" 
+        fill="url(#coreApexGrad)" />
+
+  <!-- Central Precision Dataflow Dot -->
+  <circle cx="128" cy="192" r="5" fill="#38BDF8" />
+</svg>
