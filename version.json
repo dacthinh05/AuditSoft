@@ -7,10 +7,10 @@
     "Đồng bộ liên kết Landing Page dùng chung qua kiến trúc Single Source of Truth (AUDITSOFT_LANDING_PAGE_URL).",
     "Tối ưu trải nghiệm truy cập thông tin bản quyền và hệ sinh thái trên giao diện Desktop."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.6/AuditSoft-2.0.6-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.6/AuditSoft-2.0.6-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.6/AuditSoft-2.0.6-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft/releases/download/v2.0.6/AuditSoft-2.0.6-Portable.exe",
   "required": false,
   "minSupportedVersion": "1.0.0",
   "sha256": "2dc4fa5d6cb1b1a42db48c7e138f8b70059491e4742daee4f583be4127588070",
-  "signature": "RXEINbUnrAqIG3yukAQqThzNOVVEsRKLrnve2NU1oncKWYllNRf0ES0_dL6NfVAqQygl3GzLUkWZdwiELfytBQ"
+  "signature": "obKG77SWHcpahe66XbkIebEmOt-7Om-Bl_9J4w2CsqqID7Lf7u7ZU5b9HyyZ5-eCrvo7SIFQ7jTCyxvFji-LBQ"
 }
