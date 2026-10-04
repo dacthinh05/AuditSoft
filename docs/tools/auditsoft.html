@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AuditSoft NKC v2.0.7 — So Khớp 2 Sổ NKC (B360) & Lập 12 Giấy Làm Việc VACPA</title>
+  <title>AuditSoft NKC Pro — So Khớp 2 Sổ NKC (B360) & Lập 12 Giấy Làm Việc VACPA</title>
   <meta name="description" content="Trợ lý kiểm toán toàn diện cho Kế toán trưởng & KTV: So khớp 2 sổ NKC (B360) dưới 3 giây cho 1,000,000 dòng, bốc mẫu VSA 530 (MUS, phân tầng) và lập 12 Giấy làm việc VACPA có công thức sống.">
   <meta name="keywords" content="kiểm toán nkc, b360 đối chiếu 2 sổ, bốc mẫu vsa 530, mus kiểm toán, nghị định 181 chi tiền mặt, giấy làm việc vacpa, phần mềm kiểm toán">
   <meta name="author" content="AuditSoft Engineering Team">
@@ -11,10 +11,11 @@
   
   <!-- Open Graph / Facebook SEO -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="AuditSoft NKC v2.0.7 — So Khớp 2 Sổ NKC (B360) & Lập 12 Giấy Làm Việc VACPA">
+  <meta property="og:title" content="AuditSoft NKC Pro — So Khớp 2 Sổ NKC (B360) & Lập 12 Giấy Làm Việc VACPA">
   <meta property="og:description" content="Trợ lý kiểm toán toàn diện cho Kế toán trưởng & KTV: So khớp 2 sổ NKC (B360) dưới 3 giây cho 1,000,000 dòng, bốc mẫu VSA 530 (MUS, phân tầng) và lập 12 Giấy làm việc VACPA có công thức sống.">
   <meta property="og:locale" content="vi_VN">
   <meta property="og:site_name" content="AuditSoft Suite">
+
 
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,6 +59,8 @@
         <li><a href="#" class="nav-link active">AuditSoft</a></li>
         <li><a href="invoicedesk.html" class="nav-link ">InvoiceDesk</a></li>
         <li><a href="taxinsight.html" class="nav-link ">TaxInsight</a></li>
+        <li><a href="vietstock.html" class="nav-link ">Vietstock TP</a></li>
+        <li><a href="../articles/phan-mem-kiem-toan-so-khop-nkc-auditsoft-suite.html" class="nav-link ">Cẩm Nang NKC</a></li>
         <li><a href="../index.html#downloads" class="nav-link">Bản Cài Đặt</a></li>
         <li><a href="../index.html#pricing" class="nav-link">Bảng Giá</a></li>
         <li><a href="../index.html#faq" class="nav-link">Hỏi Đáp</a></li>
@@ -66,11 +69,12 @@
       <!-- Action Buttons -->
       <div class="nav-actions">
         <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Đổi giao diện Sáng/Tối" title="Đổi giao diện Sáng / Tối">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
         <a href="https://github.com/dacthinh05/AuditSoft/releases" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm nowrap" style="display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          <span>Tải Cài Đặt v2.0.7</span>
+          <span>Tải Bản Mới Nhất</span>
         </a>
         <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="display: inline-flex; white-space: nowrap;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -89,10 +93,12 @@
     <div id="navMobileDrawer" class="nav-mobile-drawer" style="display: none;">
       <ul>
         <li><a href="../index.html" class="nav-link ">Trang Chủ Hệ Sinh Thái</a></li>
-        <li><a href="#" class="nav-link active">AuditSoft NKC v2.0.7</a></li>
-        <li><a href="invoicedesk.html" class="nav-link ">InvoiceDesk v2.9.4</a></li>
-        <li><a href="taxinsight.html" class="nav-link ">TaxInsight v3.3.7</a></li>
-        <li><a href="https://github.com/dacthinh05/AuditSoft/releases" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">⚡ Tải Cài Đặt v2.0.7 (GitHub)</a></li>
+        <li><a href="#" class="nav-link active">AuditSoft NKC Pro</a></li>
+        <li><a href="invoicedesk.html" class="nav-link ">InvoiceDesk Pro</a></li>
+        <li><a href="taxinsight.html" class="nav-link ">TaxInsight Pro</a></li>
+        <li><a href="vietstock.html" class="nav-link " style="color: var(--accent-primary); font-weight: 600;">Vietstock TP Benchmarking</a></li>
+        <li><a href="../articles/phan-mem-kiem-toan-so-khop-nkc-auditsoft-suite.html" class="nav-link " style="color: var(--accent-primary); font-weight: 600;">📖 Cẩm Nang So Khớp NKC B360</a></li>
+        <li><a href="https://github.com/dacthinh05/AuditSoft/releases" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">⚡ Tải Bản Mới Nhất (GitHub)</a></li>
         <li><a href="../index.html#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
         <li><a href="../index.html#faq" class="nav-link">Hỏi Đáp Chuyên Gia</a></li>
         <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary);">Hotline Kỹ Thuật: 0817.567.008</a></li>
@@ -108,7 +114,7 @@
       </div>
       <div class="container hero-centered-content">
         <a href="#features" class="announcement-pill hero-animate-1">
-          <span class="pill-tag">v2.0.7 CHÍNH THỨC</span>
+          <span class="pill-tag">BẢN MỚI NHẤT</span>
           <span>So khớp 2 sổ NKC (B360) &amp; Bốc mẫu VSA 530 dưới 3 giây</span>
           <span class="pill-arrow">→</span>
         </a>
@@ -124,7 +130,7 @@
         <div class="hero-centered-actions hero-animate-4">
           <a href="https://github.com/dacthinh05/AuditSoft-Releases/releases" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg btn-magic-glow nowrap" style="display: inline-flex; align-items: center; gap: 8px;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-            <span>Tải Bản Cài Đặt v2.0.7 (.exe)</span>
+            <span>Tải Bộ Cài Đặt AuditSoft (.exe)</span>
           </a>
           <a href="#pricing" class="btn btn-secondary btn-lg nowrap">Bảng Giá Bản Quyền</a>
           <a href="#features" class="btn btn-secondary btn-lg nowrap">Xem 4 Trụ Cột Lõi</a>
@@ -149,10 +155,10 @@
                 <span class="window-dot yellow"></span>
                 <span class="window-dot green"></span>
               </div>
-              <div class="stage-window-title">AuditSoft Pro v2.0.7 — B360 Ledger Reconciliation &amp; VSA 530 Engine</div>
+              <div class="stage-window-title">AuditSoft Pro — B360 Ledger Reconciliation &amp; VSA 530 Engine</div>
               <div style="font-size: 0.75rem; color: var(--accent-primary); font-family: 'JetBrains Mono', monospace;">● 100% OFFLINE RAM</div>
             </div>
-            <img src="../assets/real-auditsoft-hub.png" alt="Ảnh chụp thực tế màn hình AuditSoft Pro v2.0.7" class="stage-img">
+            <img src="../assets/real-auditsoft-hub.png" alt="Ảnh chụp thực tế màn hình AuditSoft Pro" class="stage-img">
           </div>
         </div>
       </div>
@@ -172,7 +178,7 @@
           <div class="card" style="display: flex; flex-direction: column;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
               <span class="badge">TRỤ CỘT 01</span>
-              <span class="mono" style="font-size: 0.75rem; color: var(--accent-primary);">CHUẨN VSA B360 / B410</span>
+              <span class="meta-tag" style="color: var(--accent-primary);">CHUẨN VSA B360 / B410</span>
             </div>
             <h3 style="margin-bottom: 10px;">So Sánh NKC Trước &amp; Sau Điều Chỉnh</h3>
             <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px;">
@@ -198,7 +204,7 @@
           <div class="card" style="display: flex; flex-direction: column;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
               <span class="badge">TRỤ CỘT 02</span>
-              <span class="mono" style="font-size: 0.75rem; color: var(--accent-primary);">THỦ TỤC PHÂN TÍCH VSA 520</span>
+              <span class="meta-tag" style="color: var(--accent-primary);">THỦ TỤC PHÂN TÍCH VSA 520</span>
             </div>
             <h3 style="margin-bottom: 10px;">Phân Tích BCTC Chuyên Sâu &amp; Tỷ Số</h3>
             <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px;">
@@ -224,7 +230,7 @@
           <div class="card" style="display: flex; flex-direction: column;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
               <span class="badge">TRỤ CỘT 03</span>
-              <span class="mono" style="font-size: 0.75rem; color: var(--accent-primary);">TUÂN THỦ NĐ 181 &amp; VSA 250</span>
+              <span class="meta-tag" style="color: var(--accent-primary);">TUÂN THỦ NĐ 181 &amp; VSA 250</span>
             </div>
             <h3 style="margin-bottom: 10px;">Tìm Rủi Ro Thuế &amp; Bóc Tách Chỉ Tiêu B4</h3>
             <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px;">
@@ -250,7 +256,7 @@
           <div class="card" style="display: flex; flex-direction: column;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
               <span class="badge">TRỤ CỘT 04</span>
-              <span class="mono" style="font-size: 0.75rem; color: var(--accent-primary);">8 CHU TRÌNH PHẦN HÀNH</span>
+              <span class="meta-tag" style="color: var(--accent-primary);">8 CHU TRÌNH PHẦN HÀNH</span>
             </div>
             <h3 style="margin-bottom: 10px;">Kiểm Toán Chuyên Sâu Theo Từng Phần Hành</h3>
             <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px;">
@@ -292,7 +298,7 @@
             <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 14px;">Trải nghiệm trọn vẹn 365 ngày mùa kiểm toán cho 1 thiết bị.</p>
             
             <div style="display: flex; align-items: baseline; flex-wrap: wrap; margin-bottom: 4px;">
-              <span class="price-val mono" style="font-size: 2.15rem; color: var(--text-main);">990.000&nbsp;đ</span>
+              <span class="price-val" style="font-size: 2.15rem; color: var(--text-main);">990.000&nbsp;đ</span>
               <del class="tier-orig-crossed">1.890.000&nbsp;đ</del>
             </div>
             <div class="tier-savings-badge">Tiết kiệm 900.000 đ (48%)</div>
@@ -328,16 +334,16 @@
           </div>
 
           <!-- Tier 2: Early Bird Vĩnh Viễn (Featured Hero Card) -->
-          <div class="pricing-card featured" style="background: linear-gradient(180deg, rgba(25, 38, 37, 0.95) 0%, rgba(18, 26, 25, 0.98) 100%);">
+          <div class="pricing-card featured">
             <div class="featured-pill">🔥 CHỈ CÒN 5 SUẤT CUỐI • ĐẢO NGƯỢC GIÁ</div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="badge" style="background: rgba(179, 240, 93, 0.2); color: var(--accent-primary); border-color: var(--accent-primary);">KHUYÊN DÙNG • TIẾT KIỆM 70%</span>
+              <span class="badge-recommended">KHUYÊN DÙNG • TIẾT KIỆM 70%</span>
             </div>
             <h3 style="font-size: 1.45rem; margin-bottom: 4px; color: var(--text-main);">Early Bird — Vĩnh Viễn</h3>
             <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 14px;">Đầu tư một lần, sở hữu trọn đời. Giá ưu đãi thấp hơn cả mua 1 năm lẻ!</p>
             
             <div style="display: flex; align-items: baseline; flex-wrap: wrap; margin-bottom: 4px;">
-              <span class="price-val mono" style="font-size: 2.35rem; color: var(--accent-primary);">899.000&nbsp;đ</span>
+              <span class="price-val" style="font-size: 2.35rem; color: var(--accent-primary);">899.000&nbsp;đ</span>
               <del class="tier-orig-crossed">2.890.000&nbsp;đ</del>
             </div>
             <div class="tier-savings-badge">Tiết kiệm 1.991.000 đ so với giá gốc</div>
@@ -391,7 +397,7 @@
             <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 14px;">Cố định chi phí cho 3 mùa kiểm toán liên tiếp, chỉ 830.000 đ/năm.</p>
             
             <div style="display: flex; align-items: baseline; flex-wrap: wrap; margin-bottom: 4px;">
-              <span class="price-val mono" style="font-size: 2.15rem; color: var(--text-main);">2.490.000&nbsp;đ</span>
+              <span class="price-val" style="font-size: 2.15rem; color: var(--text-main);">2.490.000&nbsp;đ</span>
               <del class="tier-orig-crossed">5.670.000&nbsp;đ</del>
             </div>
             <div class="tier-savings-badge">Tiết kiệm 3.180.000 đ (Chỉ 830k/năm)</div>
@@ -444,8 +450,8 @@
     <section id="comparison" class="section">
       <div class="container">
         <div class="section-header" style="text-align: center; max-width: 960px; margin: 0 auto 36px;">
-          <span class="section-badge" style="background: rgba(56, 189, 248, 0.12); color: #38BDF8;">BẢNG SO SÁNH HIỆU NĂNG THỰC TẾ</span>
-          <h2>Phương Pháp Thủ Công Đối Đầu AuditSoft NKC v2.0.7</h2>
+          <span class="section-badge section-badge-cyan">BẢNG SO SÁNH HIỆU NĂNG THỰC TẾ</span>
+          <h2>Phương Pháp Thủ Công Đối Đầu AuditSoft NKC Pro</h2>
           <p>Sự khác biệt đột phá giữa quy trình làm việc thủ công truyền thống và giải pháp tự động hóa chuyên biệt.</p>
         </div>
 
@@ -455,33 +461,33 @@
               <tr>
                 <th style="width: 28%;">Hạng Mục So Sánh</th>
                 <th class="col-bad" style="width: 36%;">Thao Tác Thủ Công &amp; Web Cũ</th>
-                <th class="col-good" style="width: 36%;">AuditSoft NKC v2.0.7</th>
+                <th class="col-good" style="width: 36%;">AuditSoft NKC Pro</th>
               </tr>
             </thead>
             <tbody>
             <tr>
               <td style="font-weight: 600; color: var(--text-main);">Tốc độ xử lý dữ liệu lớn</td>
-              <td class="col-bad" style="color: #F87171;">✕ File Excel > 100.000 dòng đơ giật, dễ crash mất file</td>
+              <td class="col-bad">✕ File Excel > 100.000 dòng đơ giật, dễ crash mất file</td>
               <td class="col-good" style="color: var(--accent-primary);">✓ Quét 1.000.000 dòng NKC dưới 3 giây không giật lag</td>
             </tr>
             <tr>
               <td style="font-weight: 600; color: var(--text-main);">So khớp đối chiếu 2 sổ (B360)</td>
-              <td class="col-bad" style="color: #F87171;">✕ Viết hàm VLOOKUP / SUMIFS thủ công cả ngày</td>
+              <td class="col-bad">✕ Viết hàm VLOOKUP / SUMIFS thủ công cả ngày</td>
               <td class="col-good" style="color: var(--accent-primary);">✓ Engine Heuristic đối chiếu chéo tự động từng cặp định khoản</td>
             </tr>
             <tr>
               <td style="font-weight: 600; color: var(--text-main);">Bốc mẫu kiểm toán VSA 530</td>
-              <td class="col-bad" style="color: #F87171;">✕ Chọn mẫu cảm tính hoặc viết hàm ngẫu nhiên đơn sơ</td>
+              <td class="col-bad">✕ Chọn mẫu cảm tính hoặc viết hàm ngẫu nhiên đơn sơ</td>
               <td class="col-good" style="color: var(--accent-primary);">✓ 4 Thuật toán chuẩn mực (MUS, Phân tầng) kèm giải trình</td>
             </tr>
             <tr>
               <td style="font-weight: 600; color: var(--text-main);">Rà soát rủi ro thuế NĐ 181</td>
-              <td class="col-bad" style="color: #F87171;">✕ Dò mắt thường từng phiếu chi, khó phát hiện xé nhỏ</td>
+              <td class="col-bad">✕ Dò mắt thường từng phiếu chi, khó phát hiện xé nhỏ</td>
               <td class="col-good" style="color: var(--accent-primary);">✓ Tự động gom nhóm cùng ngày, bóc tách Chỉ tiêu B4 chuẩn</td>
             </tr>
             <tr>
               <td style="font-weight: 600; color: var(--text-main);">Chất lượng Giấy làm việc</td>
-              <td class="col-bad" style="color: #F87171;">✕ Mẫu biểu rời rạc, mất công định dạng lại font chữ</td>
+              <td class="col-bad">✕ Mẫu biểu rời rạc, mất công định dạng lại font chữ</td>
               <td class="col-good" style="color: var(--accent-primary);">✓ Xuất file .xlsx chuẩn 12 mẫu VACPA chứa công thức sống</td>
             </tr>
             </tbody>
@@ -585,7 +591,7 @@
             </div>
             <div>
               <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Số tiền thanh toán:</span>
-              <strong id="qrAmountDisplay" class="mono nowrap" style="font-size: 1.25rem; color: var(--accent-primary); white-space: nowrap;">899.000&nbsp;VNĐ</strong>
+              <strong id="qrAmountDisplay" class="price-amount nowrap" style="font-size: 1.25rem; color: var(--accent-primary); white-space: nowrap;">899.000&nbsp;VNĐ</strong>
             </div>
             <div style="grid-column: span 2;">
               <span style="font-size: 0.8125rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nội dung chuyển khoản (bắt buộc):</span>
@@ -615,7 +621,7 @@
           <div class="final-cta-actions">
             <a href="https://github.com/dacthinh05/AuditSoft/releases" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg btn-magic-glow nowrap" style="display: inline-flex; align-items: center; gap: 8px;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-              <span>Tải AuditSoft v2.0.7 (.exe)</span>
+              <span>Tải Bộ Cài Đặt AuditSoft (.exe)</span>
             </a>
             <a href="#pricing" class="btn btn-secondary btn-lg nowrap">Xem Bảng Giá Bản Quyền</a>
             <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-lg nowrap" style="display: inline-flex; align-items: center; gap: 8px;">
@@ -648,28 +654,25 @@
         <div>
           <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Bộ Ba Công Cụ</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem;">
-            <li><a href="../tools/auditsoft.html" class="nav-link">AuditSoft NKC v2.0.7</a></li>
-            <li><a href="../tools/invoicedesk.html" class="nav-link">InvoiceDesk v2.9.4</a></li>
-            <li><a href="../tools/taxinsight.html" class="nav-link">TaxInsight v3.3.7</a></li>
+            <li><a href="../tools/auditsoft.html" class="nav-link">AuditSoft NKC Pro</a></li>
+            <li><a href="../tools/invoicedesk.html" class="nav-link">InvoiceDesk Pro</a></li>
+            <li><a href="../tools/taxinsight.html" class="nav-link">TaxInsight Pro</a></li>
+            <li><a href="../tools/vietstock.html" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">Vietstock TP Benchmarking</a></li>
             <li><a href="../index.html#downloads" class="nav-link" style="color: var(--accent-primary);">⚡ Tải Bản Cài Đặt (GitHub)</a></li>
             <li><a href="../index.html#pipeline" class="nav-link">Quy Trình 3 Bước</a></li>
           </ul>
         </div>
 
         <div>
-          <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Pháp Lý &amp; Chuẩn Mực</h4>
+          <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Pháp Lý &amp; Cẩm Nang</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem; color: var(--text-muted);">
+            <li><a href="../articles/phan-mem-kiem-toan-so-khop-nkc-auditsoft-suite.html" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">⚡ Cẩm Nang So Khớp NKC B360</a></li>
             <li>Nghị định 181/2025/NĐ-CP (Chi TM &ge; 5tr)</li>
             <li>Thông tư 200/2014/TT-BTC &amp; 133/2016</li>
             <li>Chuẩn mực Kiểm toán Việt Nam VSA 530</li>
             <li>Bộ mẫu 12 Giấy làm việc VACPA</li>
           </ul>
         </div>
-
-        <div>
-          <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Hỗ Trợ Kỹ Thuật</h4>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem;">
-            <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link">Zalo: 0817.567.008</a></li>
             <li><a href="../index.html#downloads" class="nav-link">Tải Dùng Thử 30 Ngày</a></li>
             <li><a href="../index.html#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
             <li><a href="../index.html#vietqr" class="nav-link">Cổng Thanh Toán VietQR</a></li>
@@ -683,9 +686,9 @@
           &copy; 2026 AuditSoft Suite. Toàn bộ quyền được bảo lưu.
         </div>
         <div style="display: flex; gap: 16px;">
-          <span class="mono" style="color: var(--accent-primary); font-size: 0.8125rem;">v2.0.7 CHÍNH THỨC</span>
+          <span class="meta-tag" style="color: var(--accent-primary);">BẢN MỚI NHẤT • AUTO UPDATE</span>
           <span>•</span>
-          <span>Bảo hành trọn đời theo máy</span>
+          <span>Tự động cập nhật liên tục</span>
         </div>
       </div>
     </div>
@@ -775,93 +778,182 @@
       });
     });
 
-    // ==========================================
-    // Scroll-Reveal & Dynamic Entrance Engine
-    // ==========================================
-    (function initScrollRevealEngine() {
+    // ==========================================================================
+    // High-End Animation Suite: Aceternity 3D Scroll, Spotlight, Number Ticker
+    // ==========================================================================
+    (function initAdvancedAnimationSuite() {
       const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // 1. Neon Scroll Progress Bar & Back to Top Controller
+      const progressBar = document.createElement('div');
+      progressBar.id = 'scrollProgressBar';
+      progressBar.className = 'scroll-progress-bar';
+      document.body.appendChild(progressBar);
+
+      const backToTop = document.createElement('button');
+      backToTop.id = 'backToTopBtn';
+      backToTop.className = 'back-to-top-btn';
+      backToTop.setAttribute('aria-label', 'Lên đầu trang');
+      backToTop.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>';
+      backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      document.body.appendChild(backToTop);
+
+      // 2. Aceternity 3D Container Scroll on Hero Mockup Stage
+      const stageWrapper = document.querySelector('.border-beam-wrapper');
+
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            
+            // Update Scroll Progress Bar
+            if (maxScroll > 0) {
+              const pct = Math.min(Math.max((scrollY / maxScroll) * 100, 0), 100);
+              progressBar.style.width = pct.toFixed(1) + '%';
+            }
+
+            // Toggle Back to Top Button
+            backToTop.classList.toggle('is-active', scrollY > 400);
+
+            // Aceternity 3D Perspective Tilt on Scroll
+            if (stageWrapper && !prefersReducedMotion && window.innerWidth > 900) {
+              if (scrollY < 900) {
+                const progress = Math.min(Math.max(scrollY / 600, 0), 1);
+                const rotX = (15 * (1 - progress)).toFixed(2);
+                const scale = (0.92 + 0.08 * progress).toFixed(3);
+                const shadowAlpha = (0.35 + 0.35 * progress).toFixed(2);
+                stageWrapper.style.transform = 'perspective(1200px) rotateX(' + rotX + 'deg) scale(' + scale + ')';
+                stageWrapper.style.boxShadow = '0 ' + Math.round(15 + progress * 25) + 'px ' + Math.round(40 + progress * 40) + 'px rgba(0,0,0,' + shadowAlpha + '), 0 0 ' + Math.round(20 + progress * 25) + 'px rgba(179,240,93,' + (0.08 + progress * 0.12).toFixed(2) + ')';
+              } else {
+                stageWrapper.style.transform = 'perspective(1200px) rotateX(0deg) scale(1)';
+              }
+            }
+
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      // 3. Aceternity Card Spotlight Effect (Mouse Radial Tracking)
+      if (!prefersReducedMotion && window.matchMedia('(hover: hover)').matches) {
+        const spotlightSelectors = [
+          '.problem-card',
+          '.bento-card',
+          '.step-card',
+          '.testimonial-card',
+          '.offer-combo-card',
+          '.price-card-compact',
+          '.pricing-card',
+          '.card'
+        ];
+        const spotlightCards = document.querySelectorAll(spotlightSelectors.join(', '));
+        spotlightCards.forEach(card => {
+          card.classList.add('spotlight-card');
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', x + 'px');
+            card.style.setProperty('--mouse-y', y + 'px');
+          }, { passive: true });
+        });
+      }
+
+      // 4. Directional Fan-Out & Staggered Scroll-Reveal Engine
       if (prefersReducedMotion || !('IntersectionObserver' in window)) {
         return;
       }
 
-      const targetSelectors = [
-        '.section-header',
-        '.problem-card',
-        '.bento-card',
-        '.step-card',
-        '.how-it-works-grid > *',
-        '.problem-grid > *',
-        '.bento-grid-suite > *',
-        '.grid-2 > *',
-        '.testimonial-card',
-        '.testimonial-grid > *',
-        '.offer-combo-card',
-        '.price-card-compact',
-        '.pricing-tiered-grid > *',
-        '.pricing-grid-3 > *',
-        '.pricing-card',
-        '.comparison-table-wrap',
-        '.vacpa-table-wrap',
-        '#vietqr',
-        '.final-cta-banner',
-        '.pillar-card',
-        '.feature-card',
-        '.downloads-grid > *',
-        '#downloads .card',
-        '.faq-item'
-      ];
-
-      const targets = document.querySelectorAll(targetSelectors.join(', '));
-      if (!targets || targets.length === 0) return;
-
       document.documentElement.classList.add('sr-active');
 
-      const gridContainers = [
-        '.problem-grid',
-        '.bento-grid-suite',
-        '.how-it-works-grid',
-        '.testimonial-grid',
-        '.pricing-tiered-grid',
-        '.pricing-grid-3',
-        '.pricing-grid',
-        '.grid-2',
-        '.features-grid',
-        '.downloads-grid'
-      ];
-
-      gridContainers.forEach(sel => {
-        document.querySelectorAll(sel).forEach(grid => {
-          const children = Array.from(grid.children);
-          children.forEach((child, idx) => {
-            if (!child.style.transitionDelay && !child.className.includes('stagger-')) {
-              child.style.transitionDelay = ((idx % 6) * 0.08).toFixed(2) + 's';
-            }
-          });
+      // Intelligent Directional Grid Assignment
+      const threeColGrids = document.querySelectorAll('.problem-grid, .how-it-works-grid, .testimonial-grid, .downloads-grid, .pricing-grid-3');
+      threeColGrids.forEach(grid => {
+        const items = Array.from(grid.children);
+        items.forEach((item, idx) => {
+          const col = idx % 3;
+          if (col === 0) item.classList.add('reveal-left');
+          else if (col === 1) item.classList.add('reveal-pop');
+          else item.classList.add('reveal-right');
+          item.style.transitionDelay = (col * 0.09) + 's';
         });
       });
+
+      const twoColGrids = document.querySelectorAll('.bento-grid-suite, .grid-2, .pricing-tiered-grid');
+      twoColGrids.forEach(grid => {
+        const items = Array.from(grid.children);
+        items.forEach((item, idx) => {
+          const col = idx % 2;
+          if (col === 0) item.classList.add('reveal-left');
+          else item.classList.add('reveal-right');
+          item.style.transitionDelay = (col * 0.12) + 's';
+        });
+      });
+
+      // General targets
+      const generalTargets = document.querySelectorAll('.section-header, .vacpa-table-wrap, .comparison-table-wrap, #vietqr, .final-cta-banner, .faq-item, .marquee-section');
+      generalTargets.forEach(el => {
+        if (!el.classList.contains('reveal') && !el.classList.contains('reveal-left') && !el.classList.contains('reveal-right') && !el.classList.contains('reveal-pop')) {
+          if (el.classList.contains('final-cta-banner') || el.classList.contains('comparison-table-wrap') || el.id === 'vietqr') {
+            el.classList.add('reveal-scale');
+          } else {
+            el.classList.add('reveal-up');
+          }
+        }
+      });
+
+      // 5. Magic UI Number Ticker on Scroll
+      function animateCountUp(el, targetNumber, duration) {
+        let start = 0;
+        const startTime = performance.now();
+        const isCurrency = el.textContent.includes('VNĐ') || el.textContent.includes('đ');
+        
+        function updateNumber(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // Smooth ease-out cubic curve
+          const easeOut = 1 - Math.pow(1 - progress, 3);
+          const current = Math.round(start + (targetNumber - start) * easeOut);
+          
+          if (isCurrency) {
+            el.innerHTML = new Intl.NumberFormat('vi-VN').format(current) + '&nbsp;VNĐ';
+          } else {
+            el.textContent = new Intl.NumberFormat('vi-VN').format(current);
+          }
+          
+          if (progress < 1) {
+            requestAnimationFrame(updateNumber);
+          }
+        }
+        requestAnimationFrame(updateNumber);
+      }
 
       const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-revealed');
+            
+            // Check for counter tickers inside this revealed block
+            const tickers = entry.target.querySelectorAll('.ticker-number');
+            tickers.forEach(t => {
+              const val = parseInt(t.getAttribute('data-value') || '0', 10);
+              if (val > 0) animateCountUp(t, val, 1400);
+            });
+
             obs.unobserve(entry.target);
           }
         });
       }, {
-        threshold: 0.08,
-        rootMargin: '0px 0px -40px 0px'
+        threshold: 0.05,
+        rootMargin: '0px 0px -30px 0px'
       });
 
+      const allAnimTargets = document.querySelectorAll('.reveal, .reveal-up, .reveal-pop, .reveal-scale, .reveal-left, .reveal-right');
       const vh = window.innerHeight || document.documentElement.clientHeight;
-      targets.forEach(el => {
-        if (!el.classList.contains('reveal') && !el.classList.contains('reveal-scale')) {
-          if (el.classList.contains('final-cta-banner') || el.classList.contains('comparison-table-wrap') || el.id === 'vietqr') {
-            el.classList.add('reveal-scale');
-          } else {
-            el.classList.add('reveal');
-          }
-        }
-
+      allAnimTargets.forEach(el => {
         const rect = el.getBoundingClientRect();
         if (rect.top < vh && rect.bottom > 0) {
           el.classList.add('is-revealed');

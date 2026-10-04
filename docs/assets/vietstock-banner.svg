@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Background Canvas -->
+    <linearGradient id="banBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070D1B" />
+      <stop offset="45%" stop-color="#0B1528" />
+      <stop offset="85%" stop-color="#062828" />
+      <stop offset="100%" stop-color="#043224" />
+    </linearGradient>
+
+    <!-- Emerald Primary Gradient -->
+    <linearGradient id="banEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="35%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+
+    <!-- Cyan/Teal Tech Gradient -->
+    <linearGradient id="banTeal" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0D9488" />
+      <stop offset="50%" stop-color="#14B8A6" />
+      <stop offset="100%" stop-color="#5EEAD4" />
+    </linearGradient>
+
+    <!-- Gold Accent Gradient -->
+    <linearGradient id="banGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+
+    <!-- Radial Glows -->
+    <radialGradient id="leftGlow" cx="28%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.18" />
+      <stop offset="60%" stop-color="#0D9488" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#070D1B" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="topRightGlow" cx="85%" cy="15%" r="40%">
+      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#070D1B" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="banShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+
+    <filter id="banGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1280" height="640" fill="url(#banBg)" />
+  <rect width="1280" height="640" fill="url(#leftGlow)" />
+  <rect width="1280" height="640" fill="url(#topRightGlow)" />
+
+  <!-- Subtle Financial Coordinate Grid Pattern -->
+  <g opacity="0.08">
+    <line x1="80" y1="100" x2="1200" y2="100" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" />
+    <line x1="80" y1="180" x2="1200" y2="180" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" />
+    <line x1="80" y1="260" x2="1200" y2="260" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" />
+    <line x1="80" y1="340" x2="1200" y2="340" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" />
+    <line x1="80" y1="420" x2="1200" y2="420" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" />
+    <line x1="80" y1="500" x2="1200" y2="500" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" />
+
+    <line x1="180" y1="60" x2="180" y2="540" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" />
+    <line x1="360" y1="60" x2="360" y2="540" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" />
+    <line x1="540" y1="60" x2="540" y2="540" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" />
+    <line x1="720" y1="60" x2="720" y2="540" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" />
+    <line x1="900" y1="60" x2="900" y2="540" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" />
+    <line x1="1080" y1="60" x2="1080" y2="540" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="5 5" />
+  </g>
+
+  <!-- LEFT HERO SECTION: 3D Emblem Showcase (Center around x=260, y=300) -->
+  <g transform="translate(100, 110)" filter="url(#banShadow)">
+    <!-- Container Squircle 380x380 -->
+    <rect width="380" height="380" rx="84" fill="#0B1A2C" stroke="#1E3E4B" stroke-width="2.5" />
+    <!-- Glossy Upper Sheen -->
+    <rect x="2" y="2" width="376" height="180" rx="82" fill="white" fill-opacity="0.06" />
+
+    <!-- Core Scaled Emblem Glyph -->
+    <g transform="translate(15, 15) scale(0.68)">
+      <!-- Left Wing -->
+      <path d="M 124 142 C 142 142, 168 156, 178 174 L 242 334 C 248 348, 246 362, 236 370 C 226 378, 212 376, 204 362 L 106 172 C 98 156, 108 142, 124 142 Z" 
+            fill="url(#banEmerald)" />
+      <path d="M 128 152 L 216 348" stroke="rgba(255, 255, 255, 0.55)" stroke-width="4" stroke-linecap="round" />
+
+      <!-- Ascending Right Pillars (Q1, Median, Q3) -->
+      <rect x="264" y="278" width="34" height="96" rx="10" fill="url(#banTeal)" />
+      <rect x="316" y="214" width="34" height="160" rx="10" fill="url(#banEmerald)" />
+      <rect x="368" y="146" width="34" height="228" rx="10" fill="url(#banEmerald)" />
+
+      <!-- The Arm's Length Arc -->
+      <path d="M 100 286 C 170 366, 260 380, 360 280 C 400 240, 428 175, 436 128" 
+            fill="none" stroke="url(#banGold)" stroke-width="6.5" stroke-linecap="round" filter="url(#banGlow)" />
+
+      <!-- Nodes -->
+      <circle cx="152" cy="336" r="8" fill="#F59E0B" stroke="#FFFFFF" stroke-width="3" />
+      <circle cx="333" cy="298" r="10" fill="#10B981" stroke="#FFFFFF" stroke-width="3" />
+      <circle cx="436" cy="128" r="7" fill="#FDE68A" stroke="#F59E0B" stroke-width="2.5" />
+
+      <!-- Apex Star -->
+      <g transform="translate(436, 128)">
+        <path d="M 0 -24 L 6 -6 L 24 0 L 6 6 L 0 24 L -6 6 L -24 0 L -6 -6 Z" fill="url(#banGold)" />
+      </g>
+    </g>
+
+    <!-- Bottom Pill on Squircle -->
+    <g transform="translate(190, 335)">
+      <rect x="-85" y="-12" width="170" height="25" rx="12.5" fill="rgba(6, 78, 59, 0.7)" stroke="#10B981" stroke-width="1" />
+      <text x="0" y="4" font-family="'Inter', sans-serif" font-size="11" font-weight="700" letter-spacing="1.5px" fill="#A7F3D0" text-anchor="middle">
+        VERIFIED AUDIT ENGINE
+      </text>
+    </g>
+  </g>
+
+  <!-- RIGHT HERO SECTION: Typography & Key Selling Propositions (x=530..1200) -->
+  <g transform="translate(530, 115)">
+    <!-- Top Authority Pill -->
+    <g transform="translate(0, 0)">
+      <rect width="270" height="30" rx="15" fill="rgba(16, 185, 129, 0.12)" stroke="#10B981" stroke-width="1.2" />
+      <circle cx="15" cy="15" r="4" fill="#34D399" />
+      <text x="30" y="19" font-family="'Inter', sans-serif" font-size="11.5" font-weight="700" letter-spacing="1px" fill="#34D399">
+        NGHỊ ĐỊNH 132/2020 &amp; 20/2025
+      </text>
+    </g>
+
+    <!-- Main Title -->
+    <text x="0" y="85" font-family="'Inter', -apple-system, sans-serif" font-size="54" font-weight="800" letter-spacing="-1px" fill="#FFFFFF">
+      VIETSTOCK <tspan fill="url(#banEmerald)">TP</tspan>
+    </text>
+
+    <!-- English Subtitle -->
+    <text x="0" y="125" font-family="'Inter', sans-serif" font-size="16.5" font-weight="700" letter-spacing="2.5px" fill="#94A3B8">
+      TRANSFER PRICING BENCHMARKING SYSTEM
+    </text>
+
+    <!-- Vietnamese Description -->
+    <text x="0" y="172" font-family="'Inter', sans-serif" font-size="17" font-weight="500" fill="#E2E8F0">
+      Hệ thống tự động hóa thẩm định giá giao dịch liên kết
+    </text>
+    <text x="0" y="200" font-family="'Inter', sans-serif" font-size="14.5" font-weight="400" fill="#94A3B8">
+      Trích xuất BCTC, sàng lọc Comps đa tầng &amp; xác lập dải thị trường chuẩn IQR.
+    </text>
+
+    <!-- Feature Matrix Badges (Row 1) -->
+    <g transform="translate(0, 235)">
+      <!-- Badge 1: AI FAR Matching -->
+      <g transform="translate(0, 0)">
+        <rect width="180" height="34" rx="8" fill="#0F2236" stroke="#1E3E5C" stroke-width="1.2" />
+        <text x="90" y="21" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#6EE7B7" text-anchor="middle">
+          ⚡ AI FAR Matching
+        </text>
+      </g>
+
+      <!-- Badge 2: IQR Engine [Q1 - Q3] -->
+      <g transform="translate(192, 0)">
+        <rect width="180" height="34" rx="8" fill="#0F2236" stroke="#1E3E5C" stroke-width="1.2" />
+        <text x="90" y="21" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#38BDF8" text-anchor="middle">
+          📊 Động cơ IQR N+1
+        </text>
+      </g>
+
+      <!-- Badge 3: 26 ICB Industries -->
+      <g transform="translate(384, 0)">
+        <rect width="180" height="34" rx="8" fill="#0F2236" stroke="#1E3E5C" stroke-width="1.2" />
+        <text x="90" y="21" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#FCD34D" text-anchor="middle">
+          🏢 26 Ngành ICB &amp; VSIC
+        </text>
+      </g>
+    </g>
+
+    <!-- Feature Matrix Badges (Row 2) -->
+    <g transform="translate(0, 280)">
+      <!-- Badge 4: Audit Matrix Trail -->
+      <g transform="translate(0, 0)">
+        <rect width="210" height="34" rx="8" fill="#0F2236" stroke="#1E3E5C" stroke-width="1.2" />
+        <text x="105" y="21" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#E2E8F0" text-anchor="middle">
+          🔍 Search Matrix Audit Trail
+        </text>
+      </g>
+
+      <!-- Badge 5: Full Excel & Word Workpaper -->
+      <g transform="translate(222, 0)">
+        <rect width="210" height="34" rx="8" fill="#0F2236" stroke="#1E3E5C" stroke-width="1.2" />
+        <text x="105" y="21" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#E2E8F0" text-anchor="middle">
+          📑 Xuất Workpaper Excel &amp; Docx
+        </text>
+      </g>
+    </g>
+
+    <!-- Trust / Status Line -->
+    <g transform="translate(0, 345)">
+      <circle cx="6" cy="6" r="5" fill="#10B981" />
+      <text x="22" y="10" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#94A3B8">
+        Full Suite Automated Tests: <tspan fill="#34D399" font-weight="700">58/58 Tests Passed (100%)</tspan> • Production Ready
+      </text>
+    </g>
+  </g>
+
+  <!-- BOTTOM BAR: Arm's Length Range Gauge Ribbon -->
+  <g transform="translate(80, 545)">
+    <!-- Base track line -->
+    <rect width="1120" height="42" rx="10" fill="#0A1828" stroke="#1E334D" stroke-width="1" />
+    
+    <!-- Arm's Length Range Highlighting Band [Q1 - Q3] -->
+    <rect x="350" y="4" width="420" height="34" rx="6" fill="rgba(16, 185, 129, 0.18)" stroke="#10B981" stroke-width="1.2" />
+
+    <!-- Labels on the gauge -->
+    <text x="90" y="26" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#64748B">Min (X₁)</text>
+    
+    <text x="350" y="26" font-family="'Inter', sans-serif" font-size="12" font-weight="800" fill="#10B981" text-anchor="middle">Q₁ (25%)</text>
+    
+    <text x="560" y="26" font-family="'Inter', sans-serif" font-size="13" font-weight="800" fill="#F59E0B" text-anchor="middle">MEDIAN (50%)</text>
+    
+    <text x="770" y="26" font-family="'Inter', sans-serif" font-size="12" font-weight="800" fill="#10B981" text-anchor="middle">Q₃ (75%)</text>
+    
+    <text x="1030" y="26" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#64748B" text-anchor="middle">Max (Xₙ)</text>
+
+    <!-- Range Pill in Center -->
+    <g transform="translate(560, 2)">
+      <!-- Tick mark for median -->
+      <line x1="0" y1="2" x2="0" y2="38" stroke="#F59E0B" stroke-width="2" stroke-dasharray="2 2" />
+    </g>
+  </g>
+</svg>

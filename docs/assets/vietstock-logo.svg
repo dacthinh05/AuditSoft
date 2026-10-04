@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 200" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="v12Emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="40%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+
+    <linearGradient id="v12Teal" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0D9488" />
+      <stop offset="60%" stop-color="#14B8A6" />
+      <stop offset="100%" stop-color="#5EEAD4" />
+    </linearGradient>
+
+    <linearGradient id="v12Gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+
+    <linearGradient id="v12IconBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#081426" />
+      <stop offset="45%" stop-color="#0B202A" />
+      <stop offset="100%" stop-color="#064E3B" />
+    </linearGradient>
+
+    <filter id="v12Shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.16" />
+    </filter>
+  </defs>
+
+  <!-- Left: Emblem Container -->
+  <g transform="translate(22, 22)" filter="url(#v12Shadow)">
+    <rect width="156" height="156" rx="36" fill="url(#v12IconBg)" stroke="#1E3E4B" stroke-width="1.8" />
+    <rect x="2" y="2" width="152" height="74" rx="34" fill="white" fill-opacity="0.06" />
+
+    <!-- Scaled Vector Glyph inside 156x156 box -->
+    <g transform="translate(-10, -8) scale(0.34)">
+      <!-- LEFT WING OF "V" -->
+      <path d="M 124 142 C 142 142, 168 156, 178 174 L 242 334 C 248 348, 246 362, 236 370 C 226 378, 212 376, 204 362 L 106 172 C 98 156, 108 142, 124 142 Z" 
+            fill="url(#v12Emerald)" />
+      <path d="M 128 152 L 216 348" stroke="rgba(255, 255, 255, 0.45)" stroke-width="3.5" stroke-linecap="round" />
+
+      <!-- RIGHT WING OF "V" (Q1, Median, Q3) -->
+      <rect x="264" y="278" width="34" height="96" rx="10" fill="url(#v12Teal)" opacity="0.9" />
+      <rect x="316" y="214" width="34" height="160" rx="10" fill="url(#v12Emerald)" />
+      <rect x="368" y="146" width="34" height="228" rx="10" fill="url(#v12Emerald)" />
+
+      <!-- The Arm's Length Arc -->
+      <path d="M 100 286 C 170 366, 260 380, 360 280 C 400 240, 428 175, 436 128" 
+            fill="none" stroke="url(#v12Gold)" stroke-width="6" stroke-linecap="round" />
+
+      <!-- Nodes -->
+      <circle cx="152" cy="336" r="7" fill="#F59E0B" stroke="#FFFFFF" stroke-width="2.5" />
+      <circle cx="333" cy="298" r="9" fill="#10B981" stroke="#FFFFFF" stroke-width="2.5" />
+      <circle cx="436" cy="128" r="6" fill="#FDE68A" stroke="#F59E0B" stroke-width="2.5" />
+
+      <!-- Star -->
+      <g transform="translate(436, 128)">
+        <path d="M 0 -22 L 5 -6 L 21 0 L 5 6 L 0 22 L -5 6 L -21 0 L -5 -6 Z" fill="url(#v12Gold)" />
+      </g>
+    </g>
+  </g>
+
+  <!-- Right: Typography & Brand Hierarchy -->
+  <g transform="translate(208, 0)">
+    <!-- Project Index Pill + Primary Brand Lockup -->
+    <g transform="translate(0, 40)">
+      <!-- Number 12 Badge -->
+      <rect width="64" height="46" rx="12" fill="url(#v12Emerald)" />
+      <text x="32" y="32" 
+            font-family="'Inter', -apple-system, BlinkMacSystemFont, sans-serif" 
+            font-size="28" 
+            font-weight="800" 
+            fill="#FFFFFF" 
+            text-anchor="middle">12</text>
+      
+      <!-- VIETSTOCK Wordmark -->
+      <text x="78" y="35" 
+            font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+            font-size="44" 
+            font-weight="800" 
+            letter-spacing="-0.5px" 
+            fill="#0F172A">VIETSTOCK</text>
+    </g>
+
+    <!-- Subtitle / Capability Lockup -->
+    <text x="0" y="122" 
+          font-family="'Inter', -apple-system, BlinkMacSystemFont, sans-serif" 
+          font-size="14.5" 
+          font-weight="600" 
+          letter-spacing="2.2px" 
+          fill="#475569">FINANCIAL MARKET DATA &amp; TP BENCHMARKING</text>
+
+    <!-- Divider Line -->
+    <line x1="0" y1="140" x2="630" y2="140" stroke="#E2E8F0" stroke-width="1.2" />
+
+    <!-- Methodological Footnote -->
+    <g transform="translate(0, 166)">
+      <text font-family="'Inter', sans-serif" font-size="13" font-weight="500" fill="#64748B">
+        Thẩm Định Giá GDLK
+        <tspan fill="#94A3B8" dx="8">•</tspan>
+        <tspan fill="#047857" font-weight="600" dx="8">Trích Xuất BCTC Vietstock &amp; CafeF</tspan>
+        <tspan fill="#94A3B8" dx="8">•</tspan>
+        <tspan fill="#64748B" dx="8">Chuẩn Nghị Định 132</tspan>
+      </text>
+    </g>
+  </g>
+</svg>
