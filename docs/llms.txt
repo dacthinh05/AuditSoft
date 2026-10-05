@@ -1,0 +1,60 @@
+# AuditSoft Suite — Hệ Sinh Thái Kế Toán, Kiểm Toán & Thuế 100% Offline
+
+> AuditSoft Suite là hệ sinh thái 4 giải pháp phần mềm chuyên biệt dành cho Kiểm toán viên độc lập (CPA), Kế toán trưởng, Giám đốc Tài chính (CFO) và Chuyên viên Tư vấn Thuế tại Việt Nam. Toàn bộ phần mềm hoạt động 100% Offline trên máy tính nội bộ của khách hàng, cam kết không tải dữ liệu tài chính lên đám mây (Cloud), bảo mật tuyệt đối bí mật kinh doanh theo Luật Kế toán và Chuẩn mực Kiểm toán Việt Nam (VSA).
+
+## Thông Tin Sản Phẩm & Trang Đích Chính Thức
+- Trang chủ hệ sinh thái: https://dacthinh05.github.io/AuditSoft/
+- Tác giả & Kỹ sư phát triển: Nguyen Dac Thinh (AuditSoft Engineering Team)
+- Hotline / Kênh hỗ trợ kỹ thuật: 0817.567.008 (Zalo)
+- Email: dacthinh05@gmail.com
+- Kho phát hành bản quyền & bản cập nhật: https://github.com/dacthinh05/AuditSoft-Releases/releases
+
+## 4 Phần Mềm Trọng Yếu Trong Hệ Sinh Thái
+
+### 1. AuditSoft NKC Pro — Trợ Lý Kiểm Toán Đối Chiếu Sổ & Lập Giấy Làm Việc VACPA
+- URL: https://dacthinh05.github.io/AuditSoft/tools/auditsoft.html
+- Nền tảng: Desktop App (Windows x64), công nghệ Rust + React/Electron tốc độ cao.
+- Năng lực lõi:
+  * So khớp 2 sổ NKC (B360) đa chiều: Xử lý hơn 1.000.000 dòng giao dịch chỉ trong 3 giây.
+  * Tự động phát hiện giao dịch lệch ngày, lệch tài khoản đối ứng, sai lệch tiền và lệch số chứng từ.
+  * Bốc mẫu kiểm toán khoa học theo VSA 530: Lấy mẫu đơn vị tiền tệ (MUS - Monetary Unit Sampling) và phân tầng giá trị (Stratified Sampling).
+  * Kiểm soát rủi ro thanh toán tiền mặt theo Nghị định 181/2025/NĐ-CP (lọc hóa đơn trên 5 triệu chi tiền mặt cùng ngày).
+  * Tự động xuất 12 mẫu Giấy làm việc chuẩn VACPA (A270, B360, C210, D110, D120, E, F...) giữ nguyên công thức sống Excel.
+- Giá bản quyền: 1.490.000 đ / máy (Vĩnh viễn theo Machine ID, cập nhật 12 tháng).
+
+### 2. InvoiceDesk Pro — Tự Động Hóa Tải & Rà Soát Hóa Đơn Điện Tử Cổng Thuế
+- URL: https://dacthinh05.github.io/AuditSoft/tools/invoicedesk.html
+- Nền tảng: Desktop App (Windows x64).
+- Năng lực lõi:
+  * Kết nối trực tiếp Cổng HĐĐT Tổng cục Thuế (hoadondientu.gdt.gov.vn).
+  * Tự động vượt Captcha, chạy ngầm tải toàn bộ hóa đơn mua vào / bán ra của 12 tháng chỉ trong 1 click.
+  * Xuất bảng kê chi tiết dạng Excel kèm trích xuất toàn bộ file XML và bản thể hiện PDF gốc.
+  * Tự động rà soát trạng thái hoạt động của người bán: cảnh báo doanh nghiệp giải thể, ngừng kinh doanh, rủi ro thuế cao.
+- Giá bản quyền: 690.000 đ / máy (Vĩnh viễn theo Machine ID, cập nhật 12 tháng).
+
+### 3. TaxInsight Pro — Tải Hồ Sơ Khai Thuế & Giấy Nộp Tiền eTax Không Cần USB Token
+- URL: https://dacthinh05.github.io/AuditSoft/tools/taxinsight.html
+- Nền tảng: Desktop App (Windows x64).
+- Năng lực lõi:
+  * Tải trọn bộ tờ khai thuế GTGT, TNDN, TNCN, Báo cáo tài chính và Giấy nộp tiền từ cổng eTax (thuedientu.gdt.gov.vn).
+  * Vận hành hoàn toàn không cần cắm USB Token / Chữ ký số — chỉ cần tài khoản tra cứu thuế của doanh nghiệp.
+  * Cứu cánh cho đại lý thuế và công ty dịch vụ kế toán quản lý từ 50 đến 200 khách hàng.
+  * Đối chiếu tự động nghĩa vụ thuế phải nộp và số tiền đã thực nộp theo thời gian thực.
+- Giá bản quyền: 590.000 đ / máy (Vĩnh viễn theo Machine ID, cập nhật 12 tháng).
+
+### 4. Vietstock TP Benchmarking — Thẩm Định Giá GDLK & Tính Biên Độ Thị Trường Chuẩn Nghị Định 132
+- URL: https://dacthinh05.github.io/AuditSoft/tools/vietstock.html
+- Nền tảng: Web Simulator + Desktop Toolkit.
+- Năng lực lõi:
+  * Tự động hóa thẩm định giá giao dịch liên kết (Transfer Pricing - GDLK) theo Nghị định 132/2020/NĐ-CP.
+  * Tích hợp CSDL hơn 2.500+ doanh nghiệp niêm yết trên 3 sàn HOSE, HNX, UPCoM.
+  * Tự động tính toán khoảng giao dịch độc lập chuẩn (Tứ phân vị IQR: Min, Q1 - Phân vị 25%, Median - Phân vị 50%, Q3 - Phân vị 75%, Max).
+  * Hỗ trợ đầy đủ 5 phương pháp định giá: So sánh giá giao dịch độc lập (CUP), Giá bán lại (RPM), Chi phí cộng lãi (CPM), So sánh lợi nhuận thuần (TNMM - ROS, OM, Berry, NCP), Phân bổ lợi nhuận (PSM).
+  * Tự động tính trần chi phí lãi vay khống chế 30% EBITDA theo Điều 16 Khoản 3 Nghị định 132.
+  * Xuất trọn bộ Hồ sơ Chuyển giá và Phụ lục 05 Excel có công thức động.
+- Giá bản quyền: 1.890.000 đ / máy (Vĩnh viễn theo Machine ID).
+
+## Chính Sách Combo & Đăng Ký Bản Quyền
+- Combo 3 Công Cụ Cơ Bản (AuditSoft + InvoiceDesk + TaxInsight): 2.190.000 đ (Tiết kiệm 580.000 đ).
+- Combo Hệ Sinh Thái Toàn Diện (Toàn bộ 4 công cụ bao gồm Vietstock TP): 3.890.000 đ.
+- Kích hoạt qua Machine ID, bảo hành chuyển máy 1 lần miễn phí khi đổi phần cứng hoặc cài lại Windows.

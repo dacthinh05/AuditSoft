@@ -2316,6 +2316,31 @@ html[data-theme="light"] .btn-magic-glow:hover {
   flex-shrink: 0;
 }
 
+.testimonial-avatar-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-primary);
+  box-shadow: 0 0 12px rgba(179, 240, 93, 0.25);
+  flex-shrink: 0;
+}
+
+@media (max-width: 1300px) {
+  .nav-zalo-btn {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1140px) {
+  .nav-menu {
+    display: none !important;
+  }
+  .nav-mobile-toggle {
+    display: inline-flex !important;
+  }
+}
+
 .testimonial-meta {
   display: flex;
   flex-direction: column;
@@ -3064,4 +3089,70 @@ html[data-theme="light"] .spotlight-card::after {
   border-radius: 14px;
   padding: 24px;
   text-align: center;
+}
+
+/* ==========================================================================
+   Accessibility & Mobile Enhancements (WCAG AA & Touch Targets)
+   ========================================================================== */
+
+/* 1. Skip-to-content Link */
+.skip-to-content {
+  position: absolute;
+  top: -120px;
+  left: 16px;
+  background: var(--accent-primary);
+  color: var(--accent-primary-fg) !important;
+  padding: 12px 20px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  z-index: 999999;
+  text-decoration: none;
+  transition: top 0.2s ease-in-out;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+.skip-to-content:focus {
+  top: 16px;
+  outline: 3px solid #FFFFFF !important;
+  outline-offset: 2px !important;
+}
+
+/* 2. High-Visibility Keyboard Focus (WCAG AA 2.4.7) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent-primary) !important;
+  outline-offset: 3px !important;
+}
+
+/* 3. Mobile Touch Tap Target Size (WCAG 2.5.5 / 2.5.8 >= 44x44px) */
+@media (max-width: 768px), (pointer: coarse) {
+  .btn,
+  .btn-sm,
+  .nav-mobile-link,
+  .footer-links a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .nav-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* 4. Smooth scrolling with respect to user preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
