@@ -156,8 +156,13 @@ p.lead {
   font-family: 'JetBrains Mono', Consolas, monospace;
 }
 
+/* Universal Form & Button Font Inheritance Guard */
+button, input, select, textarea, .btn {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
 /* Vietnamese Uppercase Diacritic Guard */
-.badge, .btn, h1, h2, h3, h4, th {
+.badge, .btn, h1, h2, h3, h4, th, .featured-pill, .badge-recommended {
   line-height: 1.35 !important;
 }
 
@@ -862,6 +867,7 @@ html[data-theme="light"] .law-pill {
 /* Pricing Grid */
 .pricing-card {
   position: relative;
+  overflow: visible !important;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: 16px;
@@ -875,6 +881,7 @@ html[data-theme="light"] .law-pill {
   border: 2px solid var(--accent-primary);
   box-shadow: 0 0 35px rgba(179, 240, 93, 0.18);
   background: linear-gradient(180deg, rgba(25, 38, 37, 0.95) 0%, rgba(18, 26, 25, 0.98) 100%);
+  overflow: visible !important;
 }
 
 .badge-recommended {
@@ -956,14 +963,21 @@ html[data-theme="light"] .law-pill {
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--accent-primary);
-  color: var(--accent-primary-fg);
+  color: #0b1413 !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 0.75rem;
   font-weight: 800;
-  padding: 4px 16px;
+  line-height: 1.35 !important;
+  padding: 5px 16px;
   border-radius: 9999px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 4px 14px rgba(179, 240, 93, 0.4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .price-val {
@@ -2148,7 +2162,9 @@ html[data-theme="light"] .btn-magic-glow:hover {
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   align-items: stretch;
-  margin-top: 40px;
+  margin-top: 48px;
+  padding-top: 18px; /* Guarantees .featured-pill is never clipped */
+  overflow: visible !important;
 }
 
 @media (max-width: 1024px) {
@@ -2364,7 +2380,8 @@ html[data-theme="light"] .btn-magic-glow:hover {
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   margin-top: 36px;
 }
 
@@ -2372,13 +2389,15 @@ html[data-theme="light"] .btn-magic-glow:hover {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  min-width: 980px;
 }
 
 .comparison-table th,
 .comparison-table td {
-  padding: 16px 20px;
+  padding: 14px 14px;
   border-bottom: 1px solid var(--border-color);
   font-size: 0.9375rem;
+  white-space: nowrap;
 }
 
 .comparison-table th {
@@ -2792,6 +2811,10 @@ html.sr-active .feature-card.is-revealed:hover {
 .spotlight-card {
   position: relative;
   overflow: hidden;
+}
+.spotlight-card.pricing-card,
+.spotlight-card.pricing-card.featured {
+  overflow: visible !important;
 }
 .spotlight-card::after {
   content: '';

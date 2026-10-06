@@ -16,15 +16,7 @@
   <meta property="og:locale" content="vi_VN">
   <meta property="og:site_name" content="AuditSoft Suite">
 
-  <link rel="canonical" href="https://dacthinh05.github.io/AuditSoft/articles/phan-mem-kiem-toan-so-khop-nkc-auditsoft-suite.html">
-
-  <!-- Favicon & Touch Icons -->
-  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
-  <link rel="icon" type="image/svg+xml" href="../assets/auditsoft.svg">
-  <meta name="theme-color" content="#192625">
+  <link rel="canonical" href="https://dacthinh05.github.io/AuditSoft-Releases/articles/phan-mem-kiem-toan-so-khop-nkc-auditsoft-suite.html">
   <!-- Structured Data: Article, FAQPage, BreadcrumbList -->
   <script type="application/ld+json">
   {
@@ -121,20 +113,65 @@
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../assets/theme.css?v=2.0.8">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../assets/theme.css?v=2.1.0">
 
-  <!-- Critical Inline CSS: Guarantees zero mobile-drawer leakage on desktop -->
+  <!-- Critical Inline CSS: Guarantees zero mobile-drawer leakage on desktop & font consistency -->
   <style>
+    button, input, select, textarea, .btn {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    }
     .nav-mobile-drawer { display: none !important; }
     .nav-mobile-drawer.active { display: block !important; }
     .nav-mobile-toggle { display: none !important; }
     .nowrap { white-space: nowrap !important; }
+    .pricing-grid-3 {
+      padding-top: 18px !important;
+      overflow: visible !important;
+    }
+    .pricing-card, .pricing-card.featured {
+      overflow: visible !important;
+    }
+    .featured-pill {
+      position: absolute !important;
+      top: -14px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      background-color: var(--accent-primary) !important;
+      color: #0b1413 !important;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 0.75rem !important;
+      font-weight: 800 !important;
+      line-height: 1.35 !important;
+      padding: 5px 16px !important;
+      border-radius: 9999px !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.04em !important;
+      white-space: nowrap !important;
+      z-index: 10 !important;
+      box-shadow: 0 4px 14px rgba(179, 240, 93, 0.4) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .comparison-table-wrap {
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    .comparison-table {
+      width: 100% !important;
+      min-width: 980px !important;
+    }
+    .comparison-table th,
+    .comparison-table td {
+      padding: 14px 14px !important;
+      white-space: nowrap !important;
+    }
     @media (max-width: 1024px) {
       .nav-menu { display: none !important; }
       .nav-mobile-toggle { display: inline-flex !important; }
     }
   </style>
-
   <script>
     (function() {
       const savedTheme = localStorage.getItem('lynx_theme') || 'dark';
@@ -143,7 +180,6 @@
   </script>
 </head>
 <body>
-  <a href="#main-content" class="skip-to-content">Chuyển đến nội dung chính</a>
   <header class="navbar">
     <div class="container nav-container">
       <a href="../index.html" class="nav-brand nowrap" style="white-space: nowrap; display: inline-flex; align-items: center; gap: 10px; text-decoration: none;">
@@ -206,7 +242,7 @@
       <a href="../index.html#pricing" class="btn btn-primary" style="width: 100%;">Xem Bảng Giá Combo Ưu Đãi</a>
     </div>
   </header>
-  <main id="main-content" class="article-page-wrap">
+  <main class="article-page-wrap">
     <div class="container">
       <!-- Breadcrumbs -->
       <nav class="article-breadcrumbs" aria-label="Đường dẫn điều hướng">

@@ -115,10 +115,26 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/theme.css?v=2.0.8">
+  <link rel="stylesheet" href="../assets/theme.css?v=2.1.0">
 
   <!-- Living Design Tokens & Dedicated SiteForge Styles for Vietstock TP -->
   <style>
+    button, input, select, textarea, .btn {
+      font-family: var(--tp-font-body) !important;
+    }
+    .comparison-table-wrap {
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    .comparison-table {
+      width: 100% !important;
+      min-width: 980px !important;
+    }
+    .comparison-table th,
+    .comparison-table td {
+      padding: 14px 14px !important;
+      white-space: nowrap !important;
+    }
     :root {
       --tp-canvas: #070D1B;
       --tp-surface: #0F172A;
@@ -1120,43 +1136,42 @@
           <table class="comparison-table">
             <thead>
               <tr>
-                <th style="width: 25%;">Hạng Mục So Sánh</th>
-                <th class="col-bad" style="width: 37.5%;">Thủ Công &amp; CSDL Ngoại Cũ (Orbis, TP Catalyst)</th>
-                <th class="col-good" style="width: 37.5%;">Vietstock TP Benchmarking Pro</th>
+                <th style="width: 22%;">Hạng Mục So Sánh</th>
+                <th class="col-bad" style="width: 38%;">Thủ Công &amp; CSDL Ngoại Cũ (Orbis, TP Catalyst)</th>
+                <th class="col-good" style="width: 40%;">Vietstock TP Benchmarking Pro</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td style="font-weight: 600; color: var(--text-main);">Chi phí đầu tư hàng năm</td>
-                <td class="col-bad">&#10005; $15,000 – $35,000 USD/năm (380 – 900 triệu VNĐ)</td>
-                <td class="col-good" style="color: var(--tp-emerald);">&#10003; Chỉ từ 1.890.000 VNĐ/năm, tiết kiệm 99% chi phí</td>
+                <td class="col-bad">&#10005; $15,000 – $35,000 USD/năm (380 – 900 triệu&nbsp;VNĐ)</td>
+                <td class="col-good" style="color: var(--tp-emerald);">&#10003; Chỉ từ 1.890.000 VNĐ/năm, tiết kiệm 99%&nbsp;chi&nbsp;phí</td>
               </tr>
               <tr>
                 <td style="font-weight: 600; color: var(--text-main);">Dữ liệu Doanh nghiệp Việt Nam</td>
-                <td class="col-bad">&#10005; Chậm 1–2 năm, dữ liệu DN Việt Nam thường bị thiếu hụt BCTC</td>
-                <td class="col-good" style="color: var(--tp-emerald);">&#10003; Cập nhật liên tục từ sàn HOSE, HNX, UPCoM &amp; dữ liệu tư nhân</td>
+                <td class="col-bad">&#10005; Chậm 1–2 năm, dữ liệu DN Việt Nam thường bị thiếu hụt&nbsp;BCTC</td>
+                <td class="col-good" style="color: var(--tp-emerald);">&#10003; Cập nhật liên tục từ sàn HOSE, HNX, UPCoM &amp; dữ liệu&nbsp;tư&nbsp;nhân</td>
               </tr>
               <tr>
                 <td style="font-weight: 600; color: var(--text-main);">Rà soát tính độc lập Thuyết minh BCTC</td>
-                <td class="col-bad">&#10005; Phải tải tay từng file PDF hàng chục trang để đọc Thuyết minh</td>
-                <td class="col-good" style="color: var(--tp-emerald);">&#10003; AI tự động quét thuyết minh phát hiện bên liên kết &gt; 20%</td>
+                <td class="col-bad">&#10005; Phải tải tay từng file PDF hàng chục trang để đọc&nbsp;Thuyết&nbsp;minh</td>
+                <td class="col-good" style="color: var(--tp-emerald);">&#10003; AI tự động quét thuyết minh phát hiện bên liên kết&nbsp;&gt;&nbsp;20%</td>
               </tr>
               <tr>
                 <td style="font-weight: 600; color: var(--text-main);">So khớp chức năng FAR</td>
-                <td class="col-bad">&#10005; Định tính cảm quan, khó lập luận bảo vệ trước cơ quan Thuế</td>
-                <td class="col-good" style="color: var(--tp-emerald);">&#10003; AI Semantic FAR Matching chấm điểm 0–100% kèm văn bản giải trình</td>
+                <td class="col-bad">&#10005; Định tính cảm quan, khó lập luận bảo vệ trước cơ quan&nbsp;Thuế</td>
+                <td class="col-good" style="color: var(--tp-emerald);">&#10003; AI Semantic FAR Matching chấm điểm 0–100% kèm văn bản&nbsp;giải&nbsp;trình</td>
               </tr>
               <tr>
                 <td style="font-weight: 600; color: var(--text-main);">Độ chuẩn xác công thức nội suy IQR</td>
-                <td class="col-bad">&#10005; Dễ nhầm giữa mẫu số (N-1) và (N+1) của Phụ lục Nghị định 132</td>
-                <td class="col-good" style="color: var(--tp-emerald);">&#10003; 100% Khớp công thức nội suy mẫu số N+1 &amp; PERCENTILE.INC</td>
+                <td class="col-bad">&#10005; Dễ nhầm giữa mẫu số (N-1) và (N+1) của Phụ lục Nghị định&nbsp;132</td>
+                <td class="col-good" style="color: var(--tp-emerald);">&#10003; 100% Khớp công thức nội suy mẫu số N+1 &amp;&nbsp;PERCENTILE.INC</td>
               </tr>
               <tr>
                 <td style="font-weight: 600; color: var(--text-main);">Thời gian hoàn thành 1 bộ hồ sơ</td>
-                <td class="col-bad">&#10005; Mất 2 – 3 tuần làm việc cho 1 bộ hồ sơ so sánh</td>
-                <td class="col-good" style="color: var(--tp-emerald);">&#10003; Chỉ mất 5 – 10 phút là có trọn bộ file Excel và Word hoàn chỉnh</td>
+                <td class="col-bad">&#10005; Mất 2 – 3 tuần làm việc cho 1 bộ hồ sơ&nbsp;so&nbsp;sánh</td>
+                <td class="col-good" style="color: var(--tp-emerald);">&#10003; Chỉ mất 5 – 10 phút là có trọn bộ file Excel và Word&nbsp;hoàn&nbsp;chỉnh</td>
               </tr>
-            </tbody>
           </table>
         </div>
       </div>

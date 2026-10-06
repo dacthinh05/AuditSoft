@@ -1,16 +1,16 @@
 {
-  "version": "2.0.7",
-  "releaseDate": "2026-10-03",
-  "title": "AuditSoft v2.0.7 — Nhận Diện Thương Hiệu Mới The Dual-Ledger Monogram",
+  "version": "2.0.9",
+  "releaseDate": "2026-10-06",
+  "title": "AuditSoft v2.0.9 — Nâng Cấp Đối Chiếu Tờ Khai Hải Quan & Tự Động So Khớp Sổ NKC",
   "changelog": [
-    "Cập nhật biểu tượng nhận diện thương hiệu mới The Dual-Ledger Monogram (Chuẩn hình học hiện đại 100% vector).",
-    "Tối ưu hóa giao diện Sáng / Tối (Light & Dark Theme) sắc nét, chống cấn chữ và bảo vệ mắt.",
-    "Nâng cấp bộ cài đặt Windows Setup chính thức và tối ưu hóa hiệu năng khởi động."
+    "Bổ sung nút [Ghép cột] (Universal Column Mapping) trực quan trên phân hệ Đối chiếu Tờ khai Hải quan (G100/D150), cho phép KTV tùy chọn lại từng cột và xem trước dữ liệu sống.",
+    "Hỗ trợ tệp BKTK đa sheet (chứa cả sheet XK và NK): tự động chọn sheet theo phân hệ và tự động chuyển đổi sheet khi bấm chọn D150 / G100 mà không cần nạp lại.",
+    "Tự động hóa thông minh khi nạp Sổ Nhật Ký Chung (NKC): phân biệt chuẩn xác cột USD (nguyên tệ) và SỐ TIỀN (VND), bóc tách mã đối tượng từ số hiệu tài khoản chi tiết (131VCS -> VCS), và tự động so khớp tiền công gia công (TTTGGC) cho hợp đồng gia công loại hình E52 đạt tỷ lệ khớp > 95%."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.7/AuditSoft-2.0.7-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.7/AuditSoft-2.0.7-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.9/AuditSoft-2.0.9-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.9/AuditSoft-2.0.9-Portable.exe",
   "required": false,
   "minSupportedVersion": "1.0.0",
-  "sha256": "4d5e1a37ac3f0486808b1810d02eb81787b28e4467e9e21031b9bad82af3ebba",
-  "signature": "3u3sktBPceammR8rOTTXOPmXFKKvSAH8OAeRkJNmvddm9D4ad63Q3HVhG-lvxBwMZUGRLt9EK1bR24qzkO2uDQ"
+  "sha256": "2b8e84fc0cbcb8d1d26a28ef26d06597dc36d78de6eca328f7469812d74ea545",
+  "signature": "HR4nsZJ7hptK7uoX-Domv8EcdnfhSRsrD7QCci8G9rx4xaY56birChYkpfapRK7FnpQl93hEZebyV0sqGeDwCA"
 }
