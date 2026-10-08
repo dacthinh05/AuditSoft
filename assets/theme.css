@@ -1341,7 +1341,15 @@ html[data-theme="light"] .law-pill {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: center;
   gap: 4px;
+  align-self: stretch;
+}
+.single-tool-action-col .price-amount {
+  margin-bottom: auto;
+}
+.single-tool-action-col a {
+  margin-top: auto;
 }
 @media (max-width: 640px) {
   .single-tool-card {
