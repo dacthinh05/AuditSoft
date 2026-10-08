@@ -13,8 +13,33 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="TenStartup · AuditSoft Suite — Bộ Tứ Giải Pháp Kế Toán, Kiểm Toán & Chuyển Giá (Transfer Pricing)">
   <meta property="og:description" content="Hệ sinh thái phần mềm Kế toán & Kiểm toán Offline bảo mật 100%: Kéo HĐĐT Cổng thuế cả năm (InvoiceDesk), tải tờ khai eTax không cần USB Token (TaxInsight), so khớp 2 sổ NKC B360 và bốc mẫu VSA 530 (AuditSoft), thẩm định dải IQR chuyển giá Nghị định 132 (Vietstock TP).">
+  <meta property="og:url" content="https://tenstartup.com/">
+  <meta property="og:image" content="https://tenstartup.com/assets/logo-tenstartup-a.png">
   <meta property="og:locale" content="vi_VN">
   <meta property="og:site_name" content="AuditSoft Suite">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TenStartup · AuditSoft Suite — Bộ Tứ Giải Pháp Kế Toán, Kiểm Toán & Chuyển Giá (Transfer Pricing)">
+  <meta name="twitter:description" content="Hệ sinh thái phần mềm Kế toán & Kiểm toán Offline bảo mật 100%: Kéo HĐĐT Cổng thuế cả năm (InvoiceDesk), tải tờ khai eTax không cần USB Token (TaxInsight), so khớp 2 sổ NKC B360 và bốc mẫu VSA 530 (AuditSoft), thẩm định dải IQR chuyển giá Nghị định 132 (Vietstock TP).">
+  <meta name="twitter:image" content="https://tenstartup.com/assets/logo-tenstartup-a.png">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AuditSoft Suite — TenStartup",
+    "operatingSystem": "Windows 10, Windows 11",
+    "applicationCategory": "BusinessApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "2890000",
+      "priceCurrency": "VND"
+    },
+    "description": "Hệ sinh thái phần mềm Kế toán & Kiểm toán Offline bảo mật 100%: Kéo HĐĐT Cổng thuế cả năm (InvoiceDesk), tải tờ khai eTax không cần USB Token (TaxInsight), so khớp 2 sổ NKC B360 và bốc mẫu VSA 530 (AuditSoft), thẩm định dải IQR chuyển giá Nghị định 132 (Vietstock TP)."
+  }
+  </script>
 
   <link rel="canonical" href="https://tenstartup.com/">
 
@@ -79,6 +104,17 @@
       .nav-menu { display: none !important; }
       .nav-mobile-toggle { display: inline-flex !important; }
     }
+    @media (max-width: 640px) {
+      .nav-actions .btn-secondary,
+      .nav-actions .nav-dl-btn {
+        display: none !important;
+      }
+      .nav-brand {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+      }
+    }
   </style>
   <script>
     (function() {
@@ -102,14 +138,14 @@
       <ul class="nav-menu">
         <!-- 1. Dropdown Sản Phẩm -->
         <li class="nav-item nav-dropdown">
-          <button class="nav-link nav-dropdown-toggle" aria-expanded="false" type="button">
+          <button class="nav-link nav-dropdown-toggle" aria-expanded="false" type="button" style="color: var(--accent-primary); font-weight: 700;">
             <span>Sản Phẩm</span>
             <svg class="nav-dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="nav-dropdown-menu">
             <a href="./tools/auditsoft/" class="nav-dropdown-item ">
-              <div class="nav-dropdown-icon" style="color: var(--accent-primary);">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              <div class="nav-dropdown-icon">
+                <img src="./assets/auditsoft.svg" alt="AuditSoft NKC Pro" width="24" height="24" style="border-radius: 6px; display: block; object-fit: contain;">
               </div>
               <div class="nav-dropdown-content">
                 <div class="nav-dropdown-title">AuditSoft NKC Pro</div>
@@ -117,8 +153,8 @@
               </div>
             </a>
             <a href="./tools/invoicedesk/" class="nav-dropdown-item ">
-              <div class="nav-dropdown-icon" style="color: #38BDF8;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              <div class="nav-dropdown-icon">
+                <img src="./assets/invoicedesk.png" alt="InvoiceDesk Pro" width="24" height="24" style="border-radius: 6px; display: block; object-fit: contain;">
               </div>
               <div class="nav-dropdown-content">
                 <div class="nav-dropdown-title">InvoiceDesk Pro</div>
@@ -126,8 +162,8 @@
               </div>
             </a>
             <a href="./tools/taxinsight/" class="nav-dropdown-item ">
-              <div class="nav-dropdown-icon" style="color: #A855F7;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <div class="nav-dropdown-icon">
+                <img src="./assets/taxinsight.svg" alt="TaxInsight Pro" width="24" height="24" style="border-radius: 6px; display: block; object-fit: contain;">
               </div>
               <div class="nav-dropdown-content">
                 <div class="nav-dropdown-title">TaxInsight Pro</div>
@@ -135,8 +171,8 @@
               </div>
             </a>
             <a href="./tools/vietstock/" class="nav-dropdown-item ">
-              <div class="nav-dropdown-icon" style="color: #10B981;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              <div class="nav-dropdown-icon">
+                <img src="./assets/vietstock-mark.svg" alt="Vietstock TP Benchmarking" width="24" height="24" style="border-radius: 6px; display: block; object-fit: contain;">
               </div>
               <div class="nav-dropdown-content">
                 <div class="nav-dropdown-title">Vietstock TP Benchmarking</div>
@@ -147,8 +183,7 @@
         </li>
 
         <!-- 2. Công Nghệ AI -->
-        <li><a href="./#ai-engine" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">Công Nghệ AI</a></li>
-
+        <li><a href="./#ai-engine" class="nav-link">Công Nghệ AI</a></li>
         <!-- 3. Bảng Giá -->
         <li><a href="./#pricing" class="nav-link">Bảng Giá</a></li>
 
@@ -203,7 +238,7 @@
 
     <!-- Mobile Slide-Down Drawer (Hidden by default via inline style) -->
     <div id="navMobileDrawer" class="nav-mobile-drawer" style="display: none;">
-      <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 8px;">Sản Phẩm Hàng Đầu</div>
+      <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--accent-primary); letter-spacing: 0.05em; margin-bottom: 8px;">Sản Phẩm Hàng Đầu</div>
       <ul style="margin-bottom: 16px;">
         <li><a href="./tools/auditsoft/" class="nav-link ">AuditSoft NKC Pro — So khớp 2 sổ NKC</a></li>
         <li><a href="./tools/invoicedesk/" class="nav-link ">InvoiceDesk Pro — Kéo HĐĐT Cổng thuế</a></li>
@@ -212,7 +247,7 @@
       </ul>
       <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 8px;">Điều Hướng &amp; Hỗ Trợ</div>
       <ul>
-        <li><a href="./#ai-engine" class="nav-link" style="color: var(--accent-primary); font-weight: 700;">Công Nghệ AI Claude 3.7</a></li>
+        <li><a href="./#ai-engine" class="nav-link">Công Nghệ AI Claude 3.7</a></li>
         <li><a href="./cam-nang/so-khop-nkc/" class="nav-link ">Cẩm Nang So Khớp NKC B360</a></li>
         <li><a href="./#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
         <li><a href="./#faq" class="nav-link">Hỏi Đáp Chuyên Gia</a></li>
@@ -298,25 +333,25 @@
       </div>
       <div class="marquee-wrapper">
         <div class="marquee-track">
-          <div class="marquee-item"><span class="logo-tag">✦</span> VACPA (Chuẩn Mực Kiểm Toán)</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> Tổng Cục Thuế eTax</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> Cổng HĐĐT Nghị Định 123/78</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> MISA SME &amp; AMIS</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> FAST Accounting</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> BRAVO ERP</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> SAP ERP Financials</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> Vietcombank Fx &amp; Bank Recon</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> MB Bank VietQR Gateway</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> VACPA (Chuẩn Mực Kiểm Toán)</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> Tổng Cục Thuế eTax</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> Cổng HĐĐT Nghị Định 123/78</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> MISA SME &amp; AMIS</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> FAST Accounting</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> BRAVO ERP</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> SAP ERP Financials</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> Vietcombank Fx &amp; Bank Recon</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> MB Bank VietQR Gateway</div>
           <!-- Loop duplicate -->
-          <div class="marquee-item"><span class="logo-tag">✦</span> VACPA (Chuẩn Mực Kiểm Toán)</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> Tổng Cục Thuế eTax</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> Cổng HĐĐT Nghị Định 123/78</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> MISA SME &amp; AMIS</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> FAST Accounting</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> BRAVO ERP</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> SAP ERP Financials</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> Vietcombank Fx &amp; Bank Recon</div>
-          <div class="marquee-item"><span class="logo-tag">✦</span> MB Bank VietQR Gateway</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> VACPA (Chuẩn Mực Kiểm Toán)</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> Tổng Cục Thuế eTax</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> Cổng HĐĐT Nghị Định 123/78</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> MISA SME &amp; AMIS</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> FAST Accounting</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> BRAVO ERP</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> SAP ERP Financials</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> Vietcombank Fx &amp; Bank Recon</div>
+          <div class="marquee-item"><span class="marquee-bullet"><svg class="marquee-bullet-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2L12 17l-6.3 4.2 2.3-7.2-6-4.6h7.6z"/></svg></span> MB Bank VietQR Gateway</div>
         </div>
       </div>
     </section>
@@ -490,7 +525,7 @@
             </div>
 
             <div style="display: flex; gap: 12px; margin-top: auto; flex-wrap: wrap;">
-              <a href="https://gates-greater-mainly-few.trycloudflare.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary nowrap" style="flex: 1; text-align: center; background: #10B981; border-color: #10B981; color: #070D1B; font-weight: 700;">Trải Nghiệm Live Demo</a>
+              <a href="http://207.148.72.169:8000" target="_blank" rel="noopener noreferrer" class="btn btn-primary nowrap" style="flex: 1; text-align: center; background: #10B981; border-color: #10B981; color: #070D1B; font-weight: 700;">Trải Nghiệm Live Demo</a>
               <a href="./tools/vietstock/" class="btn btn-secondary nowrap">Chi Tiết &rarr;</a>
             </div>
           </div>
@@ -563,56 +598,115 @@
           </p>
         </div>
 
-        <!-- 3 Pillars Grid -->
+        <!-- 3 Micro-UI Artifact Cards (FinTech B2B Standard) -->
         <div class="grid grid-3" style="gap: 24px;">
-          <!-- Pillar 1 -->
+          <!-- Card 1: Giấy làm việc VACPA -->
           <div class="card ai-engine-card">
-            <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--accent-primary);"></div>
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-              <span class="badge" style="background: rgba(179,240,93,0.15); color: var(--accent-primary); font-size: 0.75rem;">PILLAR 01</span>
-              <span class="mono" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">200K · HYBRID REASONING</span>
+            <div class="ai-card-header">
+              <div class="ai-card-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              </div>
+              <span class="ai-card-tag">MẪU B360 · VSA 520</span>
             </div>
-            <h3 class="ai-card-title">Autonomous Working Paper Synthesis</h3>
+            <h3 class="ai-card-title">Tự Động Sinh Thuyết Minh &amp; Giấy Làm Việc VACPA</h3>
             <p class="ai-card-desc">
-              Claude 3.7 Sonnet kích hoạt cơ chế Hybrid Reasoning tự động đọc các bảng đối chiếu chênh lệch thô từ AuditSoft, suy luận chuỗi logic kiểm toán đa bước và tự động soạn thảo Thuyết minh Giấy làm việc chuẩn VACPA (B360, E300, D146) hoàn toàn tự động với đầy đủ lập luận chuẩn mực VSA.
+              Claude 3.7 kích hoạt suy luận nhận thức, tự động đọc đối chiếu chênh lệch thô từ sổ cái và soạn thảo thuyết minh kiểm toán chuẩn VSA có lập luận chặt chẽ.
             </p>
-            <div class="ai-engine-snippet">
-              <div class="mono" style="font-size: 0.75rem; color: var(--accent-primary); font-weight: 600; margin-bottom: 4px;">→ Lập luận kiểm toán VSA 500/520 tự sinh</div>
-              <div class="mono" style="font-size: 0.75rem; color: var(--text-muted);">→ Loại bỏ 100% thời gian gõ biên bản thủ công</div>
+
+            <!-- Micro-UI Artifact 1: Mini Working Paper Widget -->
+            <div class="ai-artifact-box">
+              <div class="ai-artifact-header">
+                <span>GIẤY LÀM VIỆC • ĐỐI SOÁT TIỀN GỬI NH</span>
+                <span style="color: var(--accent-primary); font-weight: 700;">KHỚP 100%</span>
+              </div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.775rem; display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; color: var(--text-muted);">
+                  <span>TK 1121 Sổ Cái:</span>
+                  <strong style="color: var(--text-main);">1.450.000.000 đ</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; color: var(--text-muted);">
+                  <span>Sổ Phụ Ngân Hàng:</span>
+                  <strong style="color: var(--text-main);">1.437.550.000 đ</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding-top: 4px; border-top: 1px dashed rgba(255,255,255,0.08);">
+                  <span style="color: #F87171;">Chênh lệch phát hiện:</span>
+                  <strong style="color: #F87171;">-12.450.000 đ</strong>
+                </div>
+              </div>
+              <div style="background: rgba(179,240,93,0.06); border: 1px solid rgba(179,240,93,0.18); border-radius: 6px; padding: 7px 10px; font-size: 0.75rem; line-height: 1.45;">
+                <div style="color: var(--accent-primary); font-weight: 700; margin-bottom: 2px;">⚡ Bút toán điều chỉnh đề xuất (AJE):</div>
+                <div style="font-family: 'JetBrains Mono', monospace; color: var(--text-main);">Nợ TK 6425 / Có TK 1121: 12.450.000 đ</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 2px;">Nguyên nhân: Phí quản lý tài khoản chưa hạch toán tháng 12</div>
+              </div>
             </div>
           </div>
 
-          <!-- Pillar 2 -->
+          <!-- Card 2: Rà quét rủi ro chi tiền mặt NĐ 181 -->
           <div class="card ai-engine-card">
-            <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #00d2ff;"></div>
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-              <span class="badge" style="background: rgba(0,210,255,0.15); color: #00d2ff; font-size: 0.75rem;">PILLAR 02</span>
-              <span class="mono" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">DEEP FORENSIC &amp; FRAUD</span>
+            <div class="ai-card-header">
+              <div class="ai-card-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              </div>
+              <span class="ai-card-tag">NGHỊ ĐỊNH 181/2025</span>
             </div>
-            <h3 class="ai-card-title">Contextual Decree 181 &amp; Tax Anomaly Detection</h3>
+            <h3 class="ai-card-title">Rà Quét Chi Tiền Mặt &amp; Rủi Ro Hóa Đơn NĐ 181</h3>
             <p class="ai-card-desc">
-              Vượt xa các bộ lọc tĩnh thông thường: Claude 3.7 Sonnet phân tích ngữ nghĩa diễn giải hóa đơn để phát hiện các giao dịch chia nhỏ cố tình né trần thanh toán tiền mặt 5 triệu đồng theo Nghị định 181/2025/NĐ-CP và bóc tách các đơn vị bán có dấu hiệu rủi ro cao.
+              Phân tích ngữ nghĩa diễn giải hóa đơn và sổ quỹ để phát hiện hành vi xé nhỏ thanh toán né trần 5 triệu đồng, tự động phân loại chi phí trước kỳ quyết toán.
             </p>
-            <div class="ai-engine-snippet">
-              <div class="mono" style="font-size: 0.75rem; color: #00d2ff; font-weight: 600; margin-bottom: 4px;">→ Quét chia nhỏ giao dịch liên quan (&lt; 5tr)</div>
-              <div class="mono" style="font-size: 0.75rem; color: var(--text-muted);">→ Tự động xếp chỉ tiêu B4 Quyết toán TNDN</div>
+
+            <!-- Micro-UI Artifact 2: Mini Forensic Anomaly Log -->
+            <div class="ai-artifact-box">
+              <div class="ai-artifact-header">
+                <span>RÀ QUÉT HÓA ĐƠN • CÙNG NGÀY &ge; 5TR</span>
+                <span class="ai-artifact-badge-warn">CẢNH BÁO B4</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; font-size: 0.775rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 5px 8px; border-radius: 4px;">
+                  <span style="font-family: 'JetBrains Mono', monospace; color: var(--text-main);">HĐ 00412 · 14/08</span>
+                  <span style="color: var(--text-muted);">4.800.000 đ (Tiền mặt)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 5px 8px; border-radius: 4px;">
+                  <span style="font-family: 'JetBrains Mono', monospace; color: var(--text-main);">HĐ 00413 · 14/08</span>
+                  <span style="color: var(--text-muted);">3.500.000 đ (Tiền mặt)</span>
+                </div>
+              </div>
+              <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 6px; padding: 7px 10px; font-size: 0.75rem; line-height: 1.45;">
+                <div style="color: #F59E0B; font-weight: 700; margin-bottom: 2px;">⚠️ Phát hiện xé nhỏ giao dịch né trần:</div>
+                <div style="color: var(--text-main);">Cùng NCC · Tổng chi trong ngày: <strong>8.300.000 đ</strong> &gt; 5.000.000 đ</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 2px;">Tự động xếp: Chi phí không được trừ (Chỉ tiêu B4 QTT TNDN)</div>
+              </div>
             </div>
           </div>
 
-          <!-- Pillar 3 -->
+          <!-- Card 3: Truy vấn sổ cái tự nhiên & đối soát 2 chiều -->
           <div class="card ai-engine-card">
-            <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #ffaa00;"></div>
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-              <span class="badge" style="background: rgba(255,170,0,0.15); color: #ffaa00; font-size: 0.75rem;">PILLAR 03</span>
-              <span class="mono" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">ZERO HALLUCINATION</span>
+            <div class="ai-card-header">
+              <div class="ai-card-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="13" y2="13"/></svg>
+              </div>
+              <span class="ai-card-tag">ĐỐI SOÁT 2 CHIỀU</span>
             </div>
-            <h3 class="ai-card-title">Natural Language Financial Ledger Copilot</h3>
+            <h3 class="ai-card-title">Truy Vấn Sổ Cái &amp; Dẫn Chứng Đối Soát Tự Nhiên</h3>
             <p class="ai-card-desc">
-              Kiểm toán viên và Giám đốc Tài chính có thể truy vấn mọi góc khuất số liệu kế toán bằng ngôn ngữ tự nhiên: <em>"Tổng hợp tất cả khoản chi phí tiếp khách vượt định mức không có bảng kê chi tiết"</em> — Claude 3.7 Sonnet phản hồi kèm chuỗi suy luận minh bạch và bằng chứng đối chiếu 2 chiều có thể kiểm chứng 100%.
+              Kiểm toán viên truy vấn trực tiếp số liệu bằng tiếng Việt tự nhiên, nhận phản hồi kèm chuỗi suy luận minh bạch và số liệu đối chiếu có thể kiểm chứng 100%.
             </p>
-            <div class="ai-engine-snippet">
-              <div class="mono" style="font-size: 0.75rem; color: #ffaa00; font-weight: 600; margin-bottom: 4px;">→ Truy vấn số liệu phi cấu trúc &amp; Chuỗi suy luận</div>
-              <div class="mono" style="font-size: 0.75rem; color: var(--text-muted);">→ Bằng chứng đối chiếu 2 chiều minh bạch</div>
+
+            <!-- Micro-UI Artifact 3: Mini Conversational Ledger Copilot -->
+            <div class="ai-artifact-box">
+              <div class="ai-artifact-header">
+                <span>TRUY VẤN SỔ CÁI BẰNG TIẾNG VIỆT</span>
+                <span class="ai-artifact-badge-success">0 ẢO GIÁC</span>
+              </div>
+              <div style="background: rgba(255,255,255,0.04); border-left: 2px solid var(--accent-primary); border-radius: 4px; padding: 6px 9px; margin-bottom: 8px; font-size: 0.765rem; color: var(--text-main); font-style: italic;">
+                "Lọc các khoản chi phí tiếp khách vượt định mức không có bảng kê chi tiết?"
+              </div>
+              <div style="background: rgba(179,240,93,0.06); border: 1px solid rgba(179,240,93,0.18); border-radius: 6px; padding: 7px 10px; font-size: 0.75rem; line-height: 1.45;">
+                <div style="color: var(--accent-primary); font-weight: 700; margin-bottom: 2px;">Claude 3.7 Sonnet phản hồi:</div>
+                <div style="color: var(--text-main);">Phát hiện <strong>3 chứng từ</strong> tại TK 6428 (Tổng <strong>46.500.000 đ</strong>) thiếu bảng kê món.</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-muted); margin-top: 3px;">
+                  Dẫn chứng: PC-0842, PC-0915, PC-1102 &rarr; Đã trích xuất sang Sheet R01
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -963,7 +1057,7 @@
               <div style="text-align: right; flex-shrink: 0;">
                 <div class="price-amount nowrap" style="font-size: 1.3rem; color: var(--accent-primary); white-space: nowrap;">1.490.000&nbsp;đ</div>
                 <button class="btn btn-secondary btn-sm nowrap" style="margin-top: 6px; white-space: nowrap;" onclick="setVietQRPlan('auditsoft', 1490000, 'AUDITSOFT PRO', 'AuditSoft NKC Pro'); location.href='#vietqr';">Chọn Mua</button>
-                <a href="https://github.com/dacthinh05/AuditSoft/releases" target="_blank" rel="noopener noreferrer" style="display: block; font-size: 0.75rem; color: var(--accent-primary); margin-top: 4px; text-decoration: none;">Tải Dùng Thử &rarr;</a>
+                <a href="https://github.com/dacthinh05/AuditSoft/releases" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: flex-end; min-height: 40px; font-size: 0.8125rem; color: var(--accent-primary); margin-top: 2px; text-decoration: none;">Tải Dùng Thử &rarr;</a>
               </div>
             </div>
 
@@ -986,7 +1080,7 @@
               <div style="text-align: right; flex-shrink: 0;">
                 <div class="price-amount nowrap" style="font-size: 1.3rem; color: var(--accent-primary); white-space: nowrap;">1.890.000&nbsp;đ</div>
                 <button class="btn btn-secondary btn-sm nowrap" style="margin-top: 6px; white-space: nowrap;" onclick="setVietQRPlan('vietstock', 1890000, 'VIETSTOCK PRO', 'Vietstock TP Pro (1.890.000 đ)'); location.href='#vietqr';">Chọn Mua</button>
-                <a href="./tools/vietstock/" style="display: block; font-size: 0.75rem; color: var(--accent-primary); margin-top: 4px; text-decoration: none;">Trải Nghiệm Demo &rarr;</a>
+                <a href="./tools/vietstock/" style="display: inline-flex; align-items: center; justify-content: flex-end; min-height: 40px; font-size: 0.8125rem; color: var(--accent-primary); margin-top: 2px; text-decoration: none;">Trải Nghiệm Demo &rarr;</a>
               </div>
             </div>
 
@@ -1009,7 +1103,7 @@
               <div style="text-align: right; flex-shrink: 0;">
                 <div class="price-amount nowrap" style="font-size: 1.3rem; color: var(--accent-primary); white-space: nowrap;">690.000&nbsp;đ</div>
                 <button class="btn btn-secondary btn-sm nowrap" style="margin-top: 6px; white-space: nowrap;" onclick="setVietQRPlan('invoicedesk', 690000, 'INVOICEDESK PRO', 'InvoiceDesk Pro'); location.href='#vietqr';">Chọn Mua</button>
-                <a href="https://github.com/dacthinh05/InvoiceDesk/releases" target="_blank" rel="noopener noreferrer" style="display: block; font-size: 0.75rem; color: var(--accent-primary); margin-top: 4px; text-decoration: none;">Tải Dùng Thử &rarr;</a>
+                <a href="https://github.com/dacthinh05/InvoiceDesk/releases" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: flex-end; min-height: 40px; font-size: 0.8125rem; color: var(--accent-primary); margin-top: 2px; text-decoration: none;">Tải Dùng Thử &rarr;</a>
               </div>
             </div>
 
@@ -1032,7 +1126,7 @@
               <div style="text-align: right; flex-shrink: 0;">
                 <div class="price-amount nowrap" style="font-size: 1.3rem; color: var(--accent-primary); white-space: nowrap;">590.000&nbsp;đ</div>
                 <button class="btn btn-secondary btn-sm nowrap" style="margin-top: 6px; white-space: nowrap;" onclick="setVietQRPlan('taxinsight', 590000, 'TAXINSIGHT PRO', 'TaxInsight Pro'); location.href='#vietqr';">Chọn Mua</button>
-                <a href="https://github.com/dacthinh05/TaxInsight-Releases/releases" target="_blank" rel="noopener noreferrer" style="display: block; font-size: 0.75rem; color: var(--accent-primary); margin-top: 4px; text-decoration: none;">Tải Dùng Thử &rarr;</a>
+                <a href="https://github.com/dacthinh05/TaxInsight-Releases/releases" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: flex-end; min-height: 40px; font-size: 0.8125rem; color: var(--accent-primary); margin-top: 2px; text-decoration: none;">Tải Dùng Thử &rarr;</a>
               </div>
             </div>
 
@@ -1097,7 +1191,7 @@
               <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Số tài khoản MB:</span>
               <div style="display: flex; align-items: center; gap: 8px;">
                 <strong class="mono" style="font-size: 1.25rem; color: var(--accent-primary);">0817567008</strong>
-                <button type="button" class="btn btn-sm btn-secondary" style="padding: 2px 10px; min-height: 28px;" onclick="navigator.clipboard.writeText('0817567008'); alert('Đã sao chép STK: 0817567008');">Copy</button>
+                <button type="button" class="btn btn-sm btn-secondary" style="padding: 8px 14px; min-height: 40px; display: inline-flex; align-items: center;" onclick="navigator.clipboard.writeText('0817567008'); alert('Đã sao chép STK: 0817567008');">Copy</button>
               </div>
             </div>
             <div>
@@ -1108,7 +1202,7 @@
               <span style="font-size: 0.8125rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nội dung chuyển khoản (bắt buộc):</span>
               <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                 <strong id="qrMemoDisplay" class="vietqr-memo-code">COMBO 4IN1 [SĐT CỦA BẠN]</strong>
-                <button type="button" class="btn btn-sm btn-secondary" style="padding: 2px 12px; min-height: 30px;" onclick="copyQrMemo()">Copy Cú Pháp</button>
+                <button type="button" class="btn btn-sm btn-secondary" style="padding: 8px 14px; min-height: 40px; display: inline-flex; align-items: center;" onclick="copyQrMemo()">Copy Cú Pháp</button>
               </div>
             </div>
           </div>
@@ -1316,13 +1410,13 @@
         </div>
 
         <div>
-          <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Bộ Ba Công Cụ</h4>
+          <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Hệ Sinh Thái 4 Trụ Cột</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem;">
             <li><a href="./tools/auditsoft/" class="nav-link">AuditSoft NKC Pro</a></li>
             <li><a href="./tools/invoicedesk/" class="nav-link">InvoiceDesk Pro</a></li>
             <li><a href="./tools/taxinsight/" class="nav-link">TaxInsight Pro</a></li>
             <li><a href="./tools/vietstock/" class="nav-link" style="color: #10B981; font-weight: 600;">Vietstock TP Benchmarking</a></li>
-            <li><a href="./index.html#downloads" class="nav-link" style="color: var(--accent-primary);">⚡ Tải Bản Cài Đặt (GitHub)</a></li>
+            <li><a href="./index.html#downloads" class="nav-link" style="color: var(--accent-primary);">Tải Bản Cài Đặt (GitHub)</a></li>
             <li><a href="./index.html#pipeline" class="nav-link">Quy Trình 3 Bước</a></li>
           </ul>
         </div>
@@ -1330,13 +1424,17 @@
         <div>
           <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Pháp Lý &amp; Cẩm Nang</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem; color: var(--text-muted);">
-            <li><a href="./cam-nang/so-khop-nkc/" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">⚡ Cẩm Nang So Khớp NKC B360</a></li>
+            <li><a href="./cam-nang/so-khop-nkc/" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">Cẩm Nang So Khớp NKC B360</a></li>
             <li>Nghị định 181/2025/NĐ-CP (Chi TM &ge; 5tr)</li>
             <li>Thông tư 200/2014/TT-BTC &amp; 133/2016</li>
             <li>Chuẩn mực Kiểm toán Việt Nam VSA 530</li>
             <li>Bộ mẫu 12 Giấy làm việc VACPA</li>
           </ul>
         </div>
+
+        <div>
+          <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Điều Hướng &amp; Hỗ Trợ</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem;">
             <li><a href="./index.html#downloads" class="nav-link">Tải Dùng Thử 30 Ngày</a></li>
             <li><a href="./index.html#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
             <li><a href="./index.html#vietqr" class="nav-link">Cổng Thanh Toán VietQR</a></li>
