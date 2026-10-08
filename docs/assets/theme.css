@@ -200,6 +200,8 @@ html[data-theme="light"] .navbar {
   height: 72px;
   gap: 16px;
   max-width: 1440px;
+  width: 100%;
+  box-sizing: border-box;
   padding-left: 24px;
   padding-right: 24px;
 }
@@ -262,6 +264,137 @@ html[data-theme="light"] .navbar {
 
 .nav-link:hover, .nav-link.active {
   color: var(--text-main);
+}
+
+/* Navigation Dropdowns for B2B SaaS IA */
+.nav-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.nav-dropdown-toggle:hover,
+.nav-dropdown:hover .nav-dropdown-toggle,
+.nav-dropdown.active .nav-dropdown-toggle {
+  color: var(--text-main);
+}
+
+.nav-dropdown-arrow {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.7;
+}
+
+.nav-dropdown:hover .nav-dropdown-arrow,
+.nav-dropdown.active .nav-dropdown-arrow {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  min-width: 330px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+  pointer-events: none;
+  z-index: 250;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+html[data-theme="light"] .nav-dropdown-menu {
+  background-color: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Hover bridge so mouse movement doesn't close dropdown */
+.nav-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 0;
+  right: 0;
+  height: 14px;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu,
+.nav-dropdown.active .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.nav-dropdown-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.nav-dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+html[data-theme="light"] .nav-dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.nav-dropdown-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.nav-dropdown-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-dropdown-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.25;
+  margin-bottom: 2px;
+}
+
+.nav-dropdown-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+  white-space: normal;
 }
 
 .nav-actions {
@@ -1054,7 +1187,7 @@ html[data-theme="light"] .law-pill {
   background: linear-gradient(180deg, rgba(20, 26, 22, 0.98) 0%, rgba(12, 16, 14, 0.99) 100%);
   border: 1px solid rgba(179, 240, 93, 0.45);
   border-radius: 20px;
-  padding: 36px 32px;
+  padding: 26px 26px;
   box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.7), 0 0 35px rgba(179, 240, 93, 0.08);
   display: flex;
   flex-direction: column;
@@ -1101,8 +1234,8 @@ html[data-theme="light"] .law-pill {
   background: rgba(179, 240, 93, 0.035);
   border: 1px dashed rgba(179, 240, 93, 0.32);
   border-radius: 14px;
-  padding: 18px 20px;
-  margin: 20px 0 24px;
+  padding: 14px 16px;
+  margin: 14px 0 16px;
 }
 .offer-bonus-header {
   display: flex;
@@ -1167,11 +1300,11 @@ html[data-theme="light"] .law-pill {
   flex-shrink: 0;
 }
 .single-tool-card {
+  display: flex;
   background: linear-gradient(180deg, rgba(20, 24, 22, 0.9) 0%, rgba(15, 18, 16, 0.95) 100%);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 22px 24px;
-  display: flex;
+  border-radius: 14px;
+  padding: 14px 18px;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
@@ -1195,6 +1328,44 @@ html[data-theme="light"] .law-pill {
     justify-content: space-between;
     text-align: left;
   }
+}
+
+.single-tool-bullets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.single-tool-bullet-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.single-tool-bullet-item svg,
+.single-tool-bullet-item span.bullet-check {
+  color: var(--accent-primary);
+  font-weight: 700;
+}
+.pricing-trust-banner {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.pricing-trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
 /* VietQR Frame */
@@ -1305,34 +1476,43 @@ html[data-theme="light"] .law-pill {
    ========================================================= */
 
 /* Responsive Navbar Adaptations across Desktop & Laptop */
-@media (max-width: 1440px) {
+@media (max-width: 1536px) {
+  .nav-brand-sub {
+    display: none !important;
+  }
   .nav-zalo-btn .nav-zalo-text {
     display: none !important;
   }
   .nav-zalo-btn {
     padding: 6px 10px !important;
   }
+  .nav-menu {
+    gap: 14px;
+  }
 }
 
 @media (max-width: 1360px) {
-  .nav-brand-sub {
+  .nav-brand .badge {
     display: none !important;
   }
   .nav-menu {
-    gap: 12px;
+    gap: 10px;
   }
   .nav-link {
     font-size: 0.8125rem;
   }
+  .nav-actions {
+    gap: 6px;
+  }
 }
 
-@media (max-width: 1220px) {
+@media (max-width: 1240px) {
   .nav-zalo-btn {
     display: none !important;
   }
 }
 
-/* 1. Large Laptop (1181px - 1280px) */
+/* 1. Large Laptop (1201px - 1280px) */
 @media (max-width: 1280px) {
   .grid-4 {
     /* Adaptive 2x2 grid for Pricing on laptops! Eliminates narrow card spills */
@@ -1341,8 +1521,8 @@ html[data-theme="light"] .law-pill {
   }
 }
 
-/* 2. Standard Laptop / Small Screen / Tablet (under 1180px) */
-@media (max-width: 1180px) {
+/* 2. Standard Laptop / Small Screen / Tablet (under 1200px) */
+@media (max-width: 1200px) {
   .nav-menu {
     display: none !important; /* Transition cleanly to mobile/tablet menu */
   }
@@ -1363,7 +1543,7 @@ html[data-theme="light"] .law-pill {
   }
 }
 
-@media (min-width: 1181px) {
+@media (min-width: 1201px) {
   .nav-mobile-toggle {
     display: none !important;
   }
@@ -1451,7 +1631,7 @@ html[data-theme="light"] .law-pill {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   gap: 32px;
-  align-items: stretch;
+  align-items: start;
 }
 
 @media (max-width: 1024px) {
@@ -1946,8 +2126,7 @@ html[data-theme="light"] .law-pill {
 }
 .bento-grid-suite {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  grid-template-rows: auto auto;
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   margin-top: 40px;
 }
@@ -1966,7 +2145,6 @@ html[data-theme="light"] .law-pill {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 .bento-card.hero-tool {
-  grid-row: span 2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1979,7 +2157,7 @@ html[data-theme="light"] .law-pill {
     grid-template-columns: 1fr;
   }
   .bento-card.hero-tool {
-    grid-row: span 1;
+    grid-row: auto;
   }
 }
 
@@ -2631,6 +2809,17 @@ html[data-theme="light"] .single-tool-card:hover {
 html[data-theme="light"] .price-anchor-callout {
   background: #F8FAF9 !important;
   border-color: var(--border-color) !important;
+}
+
+html[data-theme="light"] .pricing-trust-banner {
+  background: #F8FAF9 !important;
+  border-color: var(--border-color) !important;
+}
+html[data-theme="light"] .single-tool-card[style*="10B981"] .single-tool-bullets span {
+  color: #047857 !important;
+}
+html[data-theme="light"] .single-tool-card[style*="10B981"] .price-amount {
+  color: #047857 !important;
 }
 
 html[data-theme="light"] .section-badge-cyan {

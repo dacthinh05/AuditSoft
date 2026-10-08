@@ -1,4 +1,4 @@
-# robots.txt for AuditSoft Suite (https://dacthinh05.github.io/AuditSoft/)
+# robots.txt for TenStartup · AuditSoft (https://tenstartup.com/)
 User-agent: *
 Allow: /
 
@@ -47,4 +47,4 @@ User-agent: FacebookBot
 Allow: /
 
 # Sitemap Location
-Sitemap: https://dacthinh05.github.io/AuditSoft/sitemap.xml
+Sitemap: https://tenstartup.com/sitemap.xml

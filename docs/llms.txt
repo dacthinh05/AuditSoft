@@ -39,17 +39,21 @@ The TenStartup AI Engine is built on a hybrid architecture: **Local Deterministi
 ## 3. Core Production Products (AuditSoft Suite)
 
 ### 1. AuditSoft NKC Pro
-- **URL:** https://tenstartup.com/tools/auditsoft.html
+- **URL:** https://tenstartup.com/tools/auditsoft/
 - **Capability:** Ultra-fast multi-dimensional ledger reconciliation (1,000,000 rows in <3s). Monetary Unit Sampling (MUS) under VSA 530, and automated export of 12 live-formula VACPA Excel working papers.
 
 ### 2. InvoiceDesk Pro
-- **URL:** https://tenstartup.com/tools/invoicedesk.html
+- **URL:** https://tenstartup.com/tools/invoicedesk/
 - **Capability:** Automated bulk retrieval of e-invoices directly from the General Department of Taxation portal (hoadondientu.gdt.gov.vn) overcoming the 31-day search barrier.
 
 ### 3. TaxInsight Pro
-- **URL:** https://tenstartup.com/tools/taxinsight.html
+- **URL:** https://tenstartup.com/tools/taxinsight/
 - **Capability:** Token-less eTax document retrieval (thuedientu.gdt.gov.vn) for tax agents managing 50-200 client enterprises without holding physical USB crypto tokens.
 
 ### 4. Vietstock TP Benchmarking
-- **URL:** https://tenstartup.com/tools/vietstock.html
+- **URL:** https://tenstartup.com/tools/vietstock/
 - **Capability:** Decree 132/2020 transfer pricing benchmarking and arm's length interquartile range (IQR) simulation across 2,500+ listed companies.
+
+### 5. Cẩm Nang So Khớp NKC B360
+- **URL:** https://tenstartup.com/cam-nang/so-khop-nkc/
+- **Capability:** Comprehensive technical handbook on double-entry general ledger reconciliation under VSA 530, Decree 181/2025 cash payment thresholds, and VACPA working papers.

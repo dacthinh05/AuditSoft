@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>TenStartup — Concept C: Binary Nexus</title>
+  <!-- The '1' Monolith Pillar: Precision Foundation (Left) -->
+  <path d="M 46 86 
+           L 78 54 
+           L 98 54 
+           L 98 202 
+           L 62 202 
+           L 62 96 
+           L 46 96 Z" 
+        fill="#38BDF8" />
+
+  <!-- The '0' Loop / Ring: Continuous Cognitive Reasoning (Right) -->
+  <path d="M 160 54 
+           C 192 54 210 76 210 112 
+           L 210 144 
+           C 210 180 192 202 160 202 
+           C 128 202 110 180 110 144 
+           L 110 112 
+           C 110 76 128 54 160 54 Z 
+           M 160 90 
+           C 146 90 142 102 142 120 
+           L 142 136 
+           C 142 154 146 166 160 166 
+           C 174 166 178 154 178 136 
+           L 178 120 
+           C 178 102 174 90 160 90 Z" 
+        fill="#10B981" 
+        fill-rule="evenodd" />
+
+  <!-- Connecting Quantum Bridge (Forms Monogram T) -->
+  <rect x="82" y="74" width="44" height="24" rx="4" fill="#F8FAFC" />
+</svg>

@@ -26,7 +26,7 @@ Financial auditing requires deterministic mathematical rigor combined with subtl
 ### High-Speed Deterministic Core (AuditSoft Core)
 - Built with Rust, TypeScript, and high-performance local memory data structures.
 - Parses and reconciles 1,000,000+ journal entries in under 3 seconds.
-- Performs exact Monetary Unit Sampling (MUS) and stratified sampling per VSA 530.
+- Performs exact Monetary Unit Sampling (MUS) under VSA 530.
 - Executes 100% offline on client hardware for sensitive financial isolation.
 
 ### Cognitive Reasoning Layer (Powered by Anthropic Claude 3.7 Sonnet / Opus)
@@ -38,7 +38,8 @@ Financial auditing requires deterministic mathematical rigor combined with subtl
 ---
 
 ## 3. Product Suite Details
-1. **AuditSoft NKC Pro:** Multi-dimensional journal entry reconciliation and automated VACPA Excel generation with live calculation formulas.
-2. **InvoiceDesk Pro:** Automated batch downloading of XML/PDF invoices from the General Department of Taxation.
-3. **TaxInsight Pro:** Tokenless tax return and payment slip retrieval from the eTax system.
-4. **Vietstock TP Benchmarking:** Interquartile range (IQR) benchmarking against 2,500+ listed Vietnamese companies for Decree 132 compliance.
+1. **AuditSoft NKC Pro:** Multi-dimensional journal entry reconciliation and automated VACPA Excel generation with live calculation formulas. (URL: https://tenstartup.com/tools/auditsoft/)
+2. **InvoiceDesk Pro:** Automated batch downloading of XML/PDF invoices from the General Department of Taxation. (URL: https://tenstartup.com/tools/invoicedesk/)
+3. **TaxInsight Pro:** Tokenless tax return and payment slip retrieval from the eTax system. (URL: https://tenstartup.com/tools/taxinsight/)
+4. **Vietstock TP Benchmarking (Transfer Pricing):** Automated arm's length interquartile range (IQR) benchmarking compliant with Decree 132/2020/ND-CP and Decree 20/2025/ND-CP. Features 7-tier screening across 2,500+ listed Vietnamese tickers, AI Semantic FAR Matching, 30% EBITDA net interest expense limitation verification, and dynamic Annex 05 live-formula Excel export. (URL: https://tenstartup.com/tools/vietstock/)
+5. **Cẩm Nang So Khớp NKC B360:** Technical handbook on double-entry general ledger reconciliation, MUS sampling, and Decree 181 cash payment compliance. (URL: https://tenstartup.com/cam-nang/so-khop-nkc/)

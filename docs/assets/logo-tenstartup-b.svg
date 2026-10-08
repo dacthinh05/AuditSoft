@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>TenStartup — Concept B: The Verified Ledger</title>
+  <!-- Left Ledger Face: Structured General Ledger Base (dx=71, dy=41 => 30.0°) -->
+  <path d="M 120 45 
+           L 49 86 
+           L 49 170 
+           L 120 211 
+           L 120 145 
+           L 85 125 
+           L 85 105 
+           L 120 125 Z" 
+        fill="#38BDF8" />
+
+  <!-- Right Ledger Face & Upward Audit Checkmark / Arrow -->
+  <path d="M 136 45 
+           L 136 125 
+           L 171 105 
+           L 171 125 
+           L 136 145 
+           L 136 211 
+           L 207 170 
+           L 207 86 Z" 
+        fill="#10B981" />
+
+  <!-- Top Monogram T Keystone -->
+  <polygon points="128,34 163,54 128,74 93,54" fill="#F8FAFC" />
+</svg>
