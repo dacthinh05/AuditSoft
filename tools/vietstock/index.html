@@ -221,11 +221,42 @@
       color: var(--tp-text-muted, #94A3B8) !important;
       line-height: 1.35 !important;
     }
+    html {
+      overflow-x: hidden !important;
+      overflow-x: clip !important;
+    }
+    body {
+      overflow-x: hidden !important;
+      overflow-x: clip !important;
+      width: 100% !important;
+      max-width: 100vw !important;
+    }
     .nowrap { white-space: nowrap !important; }
-    
     @media (max-width: 1200px) {
       .nav-menu { display: none !important; }
       .nav-mobile-toggle { display: inline-flex !important; align-items: center; justify-content: center; }
+    }
+    @media (max-width: 1024px) {
+      .nav-actions .btn-secondary { display: none !important; }
+    }
+    @media (max-width: 640px) {
+      .nav-actions .btn-primary,
+      .nav-actions .nav-dl-btn { display: none !important; }
+      .nav-brand { min-height: 44px !important; display: inline-flex !important; align-items: center !important; }
+      .aurora-glow-1, .aurora-glow-2 { max-width: 85vw !important; max-height: 85vw !important; overflow: hidden !important; }
+      body, p, li { font-size: 1rem !important; line-height: 1.65 !important; }
+      .badge { white-space: normal !important; max-width: 100% !important; text-align: center; }
+    }
+    footer a, .footer a, .footer-grid a, .footer-col ul li a, .footer-links a {
+      min-height: 42px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      padding: 6px 0 !important;
+    }
+    .sim-slider {
+      min-height: 42px !important;
+      padding: 10px 0 !important;
+      touch-action: none;
     }
 
     /* 44px minimum touch targets */
@@ -315,10 +346,11 @@
       border-color: rgba(16, 185, 129, 0.3);
     }
     .preset-btn.active {
-      background: rgba(16, 185, 129, 0.18);
-      color: #34D399;
-      border-color: var(--tp-emerald);
-      box-shadow: 0 0 12px var(--tp-emerald-glow);
+      background-color: #0b221a !important;
+      background: #0b221a !important;
+      color: #34D399 !important;
+      border-color: var(--tp-emerald) !important;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.35) !important;
     }
     .sim-grid {
       display: grid;
@@ -479,12 +511,14 @@
       gap: 14px;
     }
     .sim-result-card.safe {
-      background: rgba(16, 185, 129, 0.1);
-      border-color: rgba(16, 185, 129, 0.4);
+      background-color: #0b221a !important;
+      background: #0b221a !important;
+      border-color: rgba(16, 185, 129, 0.4) !important;
     }
     .sim-result-card.warning {
-      background: rgba(239, 68, 68, 0.1);
-      border-color: rgba(239, 68, 68, 0.4);
+      background-color: #2a1215 !important;
+      background: #2a1215 !important;
+      border-color: rgba(239, 68, 68, 0.4) !important;
     }
     .sim-result-icon {
       flex-shrink: 0;
@@ -851,7 +885,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           <span class="nav-zalo-text">Zalo: 0817.567.008</span>
         </a>
-        <a href="https://gates-greater-mainly-few.trycloudflare.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm nowrap" style="white-space: nowrap; background: #10B981; border-color: #10B981; color: #070D1B; font-weight: 700;">
+        <a href="https://gates-greater-mainly-few.trycloudflare.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm nowrap nav-dl-btn" style="white-space: nowrap; background: #10B981; border-color: #10B981; color: #070D1B; font-weight: 700;">
           <span>Trải Nghiệm Miễn Phí</span>
         </a>
         <button id="navMobileBtn" class="nav-mobile-toggle" style="display: none;" aria-label="Menu Điều Hướng Di Động">
@@ -879,59 +913,6 @@
         <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary);">Hotline Kỹ Thuật Zalo: 0817.567.008</a></li>
       </ul>
       <a href="../../#pricing" class="btn btn-primary" style="width: 100%;">Xem Bảng Giá Combo Ưu Đãi</a>
-    </div>
-      <ul style="margin-bottom: 16px;">
-        <li><a href="../auditsoft/" class="nav-link ">AuditSoft NKC Pro — So khớp 2 sổ NKC</a></li>
-        <li><a href="../invoicedesk/" class="nav-link ">InvoiceDesk Pro — Kéo HĐĐT Cổng thuế</a></li>
-        <li><a href="../taxinsight/" class="nav-link ">TaxInsight Pro — Tải eTax không token</a></li>
-        <li><a href="#" class="nav-link active" style="color: #10B981; font-weight: 600;">Vietstock TP Benchmarking</a></li>
-      </ul>
-      <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 8px;">Điều Hướng &amp; Hỗ Trợ</div>
-      <ul>
-        <li><a href="../../" class="nav-link ">Trang Chủ Hệ Sinh Thái</a></li>
-        <li><a href="../../#ai-engine" class="nav-link" style="color: var(--accent-primary); font-weight: 700;">Công Nghệ AI Claude 3.7</a></li>
-        <li><a href="../../cam-nang/so-khop-nkc/" class="nav-link ">Cẩm Nang So Khớp NKC B360</a></li>
-        <li><a href="../../#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
-        <li><a href="../../#faq" class="nav-link">Hỏi Đáp Chuyên Gia</a></li>
-        <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary);">Hotline Kỹ Thuật Zalo: 0817.567.008</a></li>
-      </ul>
-      <a href="../../#pricing" class="btn btn-primary" style="width: 100%;">Xem Bảng Giá Combo Ưu Đãi</a>
-    </div>
-      <ul style="margin-bottom: 16px;">
-        <li><a href="../auditsoft/" class="nav-link ">AuditSoft NKC Pro — So khớp 2 sổ NKC</a></li>
-        <li><a href="../invoicedesk/" class="nav-link ">InvoiceDesk Pro — Kéo HĐĐT Cổng thuế</a></li>
-        <li><a href="../taxinsight/" class="nav-link ">TaxInsight Pro — Tải eTax không token</a></li>
-        <li><a href="#" class="nav-link active" style="color: #10B981; font-weight: 600;">Vietstock TP Benchmarking</a></li>
-      </ul>
-      <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 8px;">Điều Hướng &amp; Hỗ Trợ</div>
-      <ul>
-        <li><a href="../../" class="nav-link ">Trang Chủ Hệ Sinh Thái</a></li>
-        <li><a href="../../#ai-engine" class="nav-link" style="color: var(--accent-primary); font-weight: 700;">Công Nghệ AI Claude 3.7</a></li>
-        <li><a href="../../cam-nang/so-khop-nkc/" class="nav-link ">Cẩm Nang So Khớp NKC B360</a></li>
-        <li><a href="../../#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
-        <li><a href="../../#faq" class="nav-link">Hỏi Đáp Chuyên Gia</a></li>
-        <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary);">Hotline Kỹ Thuật Zalo: 0817.567.008</a></li>
-      </ul>
-      <a href="../../#pricing" class="btn btn-primary" style="width: 100%;">Xem Bảng Giá Combo Ưu Đãi</a>
-    </div>
-      <ul style="margin-bottom: 16px;">
-        <li><a href="../auditsoft/" class="nav-link ">AuditSoft NKC Pro — So khớp 2 sổ NKC</a></li>
-        <li><a href="../invoicedesk/" class="nav-link ">InvoiceDesk Pro — Kéo HĐĐT Cổng thuế</a></li>
-        <li><a href="../taxinsight/" class="nav-link ">TaxInsight Pro — Tải eTax không token</a></li>
-        <li><a href="#" class="nav-link active" style="color: #10B981; font-weight: 600;">Vietstock TP Benchmarking</a></li>
-      </ul>
-      <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 8px;">Điều Hướng &amp; Hỗ Trợ</div>
-      <ul>
-        <li><a href="../../" class="nav-link ">Trang Chủ Hệ Sinh Thái</a></li>
-        <li><a href="../../#ai-engine" class="nav-link">Công Nghệ AI Claude 3.7</a></li>
-        <li><a href="../../cam-nang/so-khop-nkc/" class="nav-link ">Cẩm Nang So Khớp NKC B360</a></li>
-        <li><a href="#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
-        <li><a href="../../#faq" class="nav-link">Hỏi Đáp Chuyên Gia</a></li>
-        <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary);">Hotline Kỹ Thuật Zalo: 0817.567.008</a></li>
-      </ul>
-      <a href="https://gates-greater-mainly-few.trycloudflare.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; background: #10B981; border-color: #10B981; color: #070D1B; font-weight: 700;">
-        <span>Trải Nghiệm Trực Tuyến Miễn Phí (Cloud)</span>
-      </a>
     </div>
   </header>
 
@@ -1020,13 +1001,16 @@
           </div>
           <div class="preset-selector-bar">
             <button type="button" class="preset-btn active" onclick="loadSimPreset('fob')">
-              ✦ Kịch Bản 1: FDI May Mặc Xuất Khẩu (FOB) — Biên ROS 6.8% (An toàn)
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 6px;"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Kịch Bản 1: FDI May Mặc Xuất Khẩu (FOB) — Biên ROS 6.8% (An toàn)</span>
             </button>
             <button type="button" class="preset-btn" onclick="loadSimPreset('electronics')">
-              ⚠ Kịch Bản 2: Sản Xuất Linh Kiện Điện Tử — Biên ROS 2.2% (Dưới Q1, Rủi ro)
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span>Kịch Bản 2: Sản Xuất Linh Kiện Điện Tử — Biên ROS 2.2% (Dưới Q1, Rủi ro)</span>
             </button>
             <button type="button" class="preset-btn" onclick="loadSimPreset('leverage')">
-              ⚡ Kịch Bản 3: Vay Vốn Lớn — Lãi Vay Vượt 30% EBITDA (Khoản 3 Đ16)
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span>Kịch Bản 3: Vay Vốn Lớn — Lãi Vay Vượt 30% EBITDA (Khoản 3 Đ16)</span>
             </button>
           </div>
 

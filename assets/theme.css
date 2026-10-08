@@ -525,10 +525,14 @@ html[data-theme="light"] .nav-dropdown-item:hover {
   transform: translateY(-1px);
 }
 
-.btn-sm {
-  padding: 8px 16px;
+.btn-sm,
+.plan-pill {
+  padding: 10px 18px !important;
   font-size: 0.875rem;
-  min-height: 38px;
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .btn-lg {
@@ -1616,9 +1620,12 @@ html[data-theme="light"] .law-pill {
   .hero-centered-actions .btn {
     width: 100%;
   }
-  body, p, li, .prose p {
+  body, p, li, .prose p, span {
     font-size: 1rem !important;
     line-height: 1.65 !important;
+  }
+  .bullet-check, .window-dot, .nav-dropdown-arrow, .price-currency, .price-period {
+    font-size: 0.75rem !important;
   }
   .nav-actions .btn-secondary {
     display: none !important;
@@ -1902,7 +1909,8 @@ html[data-theme="light"] .law-pill {
 /* Magic UI Shimmering Glowing CTA Button */
 .btn-magic-glow {
   position: relative;
-  background: linear-gradient(135deg, #B3F05D 0%, #10B981 100%) !important;
+  background-color: #B3F05D !important;
+  background-image: linear-gradient(135deg, #B3F05D 0%, #10B981 100%) !important;
   color: #080A0F !important;
   font-weight: 800 !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
@@ -2196,7 +2204,7 @@ html[data-theme="light"] .law-pill {
   margin-top: 40px;
 }
 .step-card {
-  background: rgba(255, 255, 255, 0.02);
+  background-color: var(--bg-surface) !important;
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 32px;
@@ -2683,7 +2691,8 @@ html[data-theme="light"] .btn-magic-glow:hover {
 
 /* 3. High Impact Final CTA Banner */
 .final-cta-banner {
-  background: linear-gradient(135deg, rgba(35, 49, 48, 0.95) 0%, rgba(25, 38, 37, 0.98) 100%);
+  background-color: var(--bg-surface) !important;
+  background-image: linear-gradient(135deg, rgba(35, 49, 48, 0.95) 0%, rgba(25, 38, 37, 0.98) 100%) !important;
   border: 1px solid rgba(179, 240, 93, 0.35);
   border-radius: 20px;
   padding: 56px 40px;
@@ -3263,9 +3272,16 @@ html[data-theme="light"] .spotlight-card::after {
   text-decoration: none;
   line-height: 1.45;
   transition: color 0.15s ease, transform 0.15s ease;
-  display: block;
-  min-height: 38px;
-  padding: 8px 0;
+  display: flex !important;
+  align-items: center !important;
+  min-height: 44px !important;
+  padding: 10px 0 !important;
+}
+.article-breadcrumbs a {
+  min-height: 42px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 8px 6px !important;
 }
 .article-toc-list a:hover {
   color: var(--accent-primary);
