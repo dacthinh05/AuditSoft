@@ -109,6 +109,10 @@ body {
   width: 100%;
 }
 
+main, section, .section {
+  overflow-x: clip;
+}
+
 /* Typography Hierarchy & Fluid Scaling */
 h1 {
   font-size: clamp(2.25rem, 3.5vw + 0.75rem, 3.25rem);
@@ -1309,7 +1313,7 @@ html[data-theme="light"] .law-pill {
   background: linear-gradient(180deg, rgba(20, 24, 22, 0.9) 0%, rgba(15, 18, 16, 0.95) 100%);
   border: 1px solid var(--border-color);
   border-radius: 14px;
-  padding: 14px 18px;
+  padding: 16px 20px;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
@@ -1320,18 +1324,38 @@ html[data-theme="light"] .law-pill {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
 }
+.single-tool-card > div:first-child {
+  flex: 1;
+  min-width: 0;
+}
+.single-tool-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.single-tool-action-col {
+  text-align: right;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
 @media (max-width: 640px) {
   .single-tool-card {
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
   }
-  .single-tool-card > div:last-child {
+  .single-tool-action-col {
     width: 100%;
-    display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     text-align: left;
+    margin-top: 4px;
   }
 }
 
@@ -1649,8 +1673,8 @@ html[data-theme="light"] .law-pill {
 /* Tiered Pricing Responsive Grid */
 .pricing-tiered-grid {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 32px;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 28px;
   align-items: start;
 }
 
