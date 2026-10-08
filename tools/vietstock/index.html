@@ -116,7 +116,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../assets/theme.css?v=2.1.0">
+  <link rel="stylesheet" href="../../assets/theme.css?v=2.1.1">
 
   <!-- Living Design Tokens & Dedicated SiteForge Styles for Vietstock TP -->
   <style>
@@ -707,16 +707,87 @@
         <span class="badge" style="font-size: 0.6875rem; padding: 2px 8px; white-space: nowrap;">NĐ 132 &amp; 20</span>
       </a>
 
-      <!-- Desktop Navigation Menu -->
+      <!-- Desktop Navigation Menu (4 B2B SaaS Pillars) -->
       <ul class="nav-menu">
-        <li><a href="../../" class="nav-link ">Trang Chủ</a></li>
-        <li><a href="../../#ai-engine" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">Giới Thiệu &amp; AI (Claude 3.7)</a></li>
-        <li><a href="../auditsoft/" class="nav-link ">AuditSoft</a></li>
-        <li><a href="../invoicedesk/" class="nav-link ">InvoiceDesk</a></li>
-        <li><a href="../taxinsight/" class="nav-link ">TaxInsight</a></li>
-        <li><a href="#" class="nav-link active">Vietstock TP</a></li>
-        <li><a href="../../cam-nang/so-khop-nkc/" class="nav-link ">Cẩm Nang NKC</a></li>
-        <li><a href="../../#faq" class="nav-link">Hỏi Đáp</a></li>
+        <!-- 1. Dropdown Sản Phẩm -->
+        <li class="nav-item nav-dropdown">
+          <button class="nav-link nav-dropdown-toggle active" aria-expanded="false" type="button">
+            <span>Sản Phẩm</span>
+            <svg class="nav-dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="../auditsoft/" class="nav-dropdown-item ">
+              <div class="nav-dropdown-icon" style="color: var(--accent-primary);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              </div>
+              <div class="nav-dropdown-content">
+                <div class="nav-dropdown-title">AuditSoft NKC Pro</div>
+                <div class="nav-dropdown-desc">So khớp 2 sổ NKC B360, bốc mẫu VSA 530 &amp; cảnh báo thuế</div>
+              </div>
+            </a>
+            <a href="../invoicedesk/" class="nav-dropdown-item ">
+              <div class="nav-dropdown-icon" style="color: #38BDF8;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              </div>
+              <div class="nav-dropdown-content">
+                <div class="nav-dropdown-title">InvoiceDesk Pro</div>
+                <div class="nav-dropdown-desc">Đồng bộ HĐĐT Cổng thuế cả năm &amp; giải nén XML tự động</div>
+              </div>
+            </a>
+            <a href="../taxinsight/" class="nav-dropdown-item ">
+              <div class="nav-dropdown-icon" style="color: #A855F7;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="nav-dropdown-content">
+                <div class="nav-dropdown-title">TaxInsight Pro</div>
+                <div class="nav-dropdown-desc">Tải tờ khai thuế eTax không cần USB Token &amp; đối chiếu nghĩa vụ</div>
+              </div>
+            </a>
+            <a href="#" class="nav-dropdown-item active">
+              <div class="nav-dropdown-icon" style="color: #10B981;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              </div>
+              <div class="nav-dropdown-content">
+                <div class="nav-dropdown-title">Vietstock TP Benchmarking</div>
+                <div class="nav-dropdown-desc">Phân tích biên độ giao dịch liên kết IQR chuẩn NĐ 132/2020</div>
+              </div>
+            </a>
+          </div>
+        </li>
+
+        <!-- 2. Công Nghệ AI -->
+        <li><a href="../../#ai-engine" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">Công Nghệ AI</a></li>
+
+        <!-- 3. Bảng Giá -->
+        <li><a href="../../#pricing" class="nav-link">Bảng Giá</a></li>
+
+        <!-- 4. Dropdown Tài Liệu -->
+        <li class="nav-item nav-dropdown">
+          <button class="nav-link nav-dropdown-toggle" aria-expanded="false" type="button">
+            <span>Tài Liệu</span>
+            <svg class="nav-dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu" style="min-width: 280px;">
+            <a href="../../cam-nang/so-khop-nkc/" class="nav-dropdown-item">
+              <div class="nav-dropdown-icon" style="color: var(--accent-primary);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+              <div class="nav-dropdown-content">
+                <div class="nav-dropdown-title">Cẩm Nang So Khớp NKC</div>
+                <div class="nav-dropdown-desc">Quy trình kiểm toán thực chiến &amp; hồ sơ thanh tra</div>
+              </div>
+            </a>
+            <a href="../../#faq" class="nav-dropdown-item">
+              <div class="nav-dropdown-icon" style="color: #F59E0B;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="nav-dropdown-content">
+                <div class="nav-dropdown-title">Hỏi Đáp Chuyên Gia</div>
+                <div class="nav-dropdown-desc">Giải đáp về bảo mật offline &amp; bản quyền</div>
+              </div>
+            </a>
+          </div>
+        </li>
       </ul>
 
       <!-- Action Buttons -->
@@ -731,7 +802,7 @@
         </a>
         <a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm nav-zalo-btn nowrap" style="display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <span class="nav-zalo-text">Zalo</span>
+          <span class="nav-zalo-text">Zalo: 0817.567.008</span>
         </a>
         <a href="#pricing" class="btn btn-primary btn-sm nowrap" style="white-space: nowrap;">
           <span>Mua Bản Quyền</span>
@@ -744,20 +815,42 @@
 
     <!-- Mobile Slide-Down Drawer -->
     <div id="navMobileDrawer" class="nav-mobile-drawer" style="display: none;">
+      <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 8px;">Sản Phẩm Hàng Đầu</div>
+      <ul style="margin-bottom: 16px;">
+        <li><a href="../auditsoft/" class="nav-link ">AuditSoft NKC Pro — So khớp 2 sổ NKC</a></li>
+        <li><a href="../invoicedesk/" class="nav-link ">InvoiceDesk Pro — Kéo HĐĐT Cổng thuế</a></li>
+        <li><a href="../taxinsight/" class="nav-link ">TaxInsight Pro — Tải eTax không token</a></li>
+        <li><a href="#" class="nav-link active" style="color: #10B981; font-weight: 600;">Vietstock TP Benchmarking</a></li>
+      </ul>
+      <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 8px;">Điều Hướng &amp; Hỗ Trợ</div>
       <ul>
         <li><a href="../../" class="nav-link ">Trang Chủ Hệ Sinh Thái</a></li>
-        <li><a href="../../#ai-engine" class="nav-link" style="color: var(--accent-primary); font-weight: 700;">🤖 Giới Thiệu &amp; AI (Claude 3.7)</a></li>
+        <li><a href="../../#ai-engine" class="nav-link" style="color: var(--accent-primary); font-weight: 700;">Công Nghệ AI Claude 3.7</a></li>
+        <li><a href="../../cam-nang/so-khop-nkc/" class="nav-link ">Cẩm Nang So Khớp NKC B360</a></li>
+        <li><a href="../../#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
+        <li><a href="../../#faq" class="nav-link">Hỏi Đáp Chuyên Gia</a></li>
+        <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary);">Hotline Kỹ Thuật Zalo: 0817.567.008</a></li>
+      </ul>
+      <a href="../../#pricing" class="btn btn-primary" style="width: 100%;">Xem Bảng Giá Combo Ưu Đãi</a>
+    </div>
+      <ul style="margin-bottom: 16px;">
         <li><a href="../auditsoft/" class="nav-link ">AuditSoft NKC Pro</a></li>
         <li><a href="../invoicedesk/" class="nav-link ">InvoiceDesk Pro</a></li>
         <li><a href="../taxinsight/" class="nav-link ">TaxInsight Pro</a></li>
         <li><a href="#" class="nav-link active" style="color: #10B981; font-weight: 600;">Vietstock TP Benchmarking</a></li>
-        <li><a href="../../cam-nang/so-khop-nkc/" class="nav-link " style="color: var(--accent-primary); font-weight: 600;">📖 Cẩm Nang So Khớp NKC B360</a></li>
-        <li><a href="../../#downloads" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">⚡ Tải Dùng Thử (GitHub)</a></li>
-        <li><a href="../../#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
-        <li><a href="../../#faq" class="nav-link">Hỏi Đáp Chuyên Gia</a></li>
-        <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary);">Hotline Kỹ Thuật: 0817.567.008</a></li>
       </ul>
-      <a href="../../#pricing" class="btn btn-primary" style="width: 100%;">Xem Bảng Giá Combo Ưu Đãi</a>
+      <div style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 8px;">Điều Hướng &amp; Hỗ Trợ</div>
+      <ul>
+        <li><a href="../../" class="nav-link ">Trang Chủ Hệ Sinh Thái</a></li>
+        <li><a href="../../#ai-engine" class="nav-link" style="color: var(--accent-primary); font-weight: 700;">Công Nghệ AI Claude 3.7</a></li>
+        <li><a href="../../cam-nang/so-khop-nkc/" class="nav-link ">Cẩm Nang So Khớp NKC B360</a></li>
+        <li><a href="#pricing" class="nav-link">Bảng Giá Bản Quyền</a></li>
+        <li><a href="../../#faq" class="nav-link">Hỏi Đáp Chuyên Gia</a></li>
+        <li><a href="https://zalo.me/0817567008" target="_blank" rel="noopener noreferrer" class="nav-link" style="color: var(--accent-primary);">Hotline Kỹ Thuật Zalo: 0817.567.008</a></li>
+      </ul>
+      <a href="http://207.148.72.169:8000" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <span>Trải Nghiệm Live Demo (VPS)</span>
+      </a>
     </div>
   </header>
 

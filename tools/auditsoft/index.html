@@ -16,12 +16,13 @@
   <meta property="og:locale" content="vi_VN">
   <meta property="og:site_name" content="AuditSoft Suite">
 
+  <link rel="canonical" href="https://tenstartup.com/tools/auditsoft/">
 
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="../../assets/theme.css?v=2.1.0">
+  <link rel="stylesheet" href="../../assets/theme.css?v=2.1.1">
 
   <!-- Critical Inline CSS: Guarantees zero mobile-drawer leakage on desktop & font consistency -->
   <style>
@@ -31,6 +32,54 @@
     .nav-mobile-drawer { display: none !important; }
     .nav-mobile-drawer.active { display: block !important; }
     .nav-mobile-toggle { display: none !important; }
+    .nav-dropdown { position: relative !important; display: inline-flex !important; align-items: center !important; }
+    .nav-dropdown-menu {
+      position: absolute !important;
+      top: calc(100% + 12px) !important;
+      left: 50% !important;
+      transform: translateX(-50%) translateY(8px) !important;
+      min-width: 330px !important;
+      background-color: var(--bg-surface) !important;
+      border: 1px solid var(--border-color) !important;
+      border-radius: 12px !important;
+      padding: 8px !important;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45) !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      z-index: 250 !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s !important;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu,
+    .nav-dropdown.active .nav-dropdown-menu {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: translateX(-50%) translateY(0) !important;
+      pointer-events: auto !important;
+    }
+    .nav-dropdown-item {
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 12px !important;
+      padding: 10px 12px !important;
+      border-radius: 8px !important;
+      text-decoration: none !important;
+      color: inherit !important;
+    }
+    .nav-dropdown-title {
+      font-size: 0.875rem !important;
+      font-weight: 600 !important;
+      color: var(--text-main) !important;
+      margin-bottom: 2px !important;
+    }
+    .nav-dropdown-desc {
+      font-size: 0.75rem !important;
+      color: var(--text-muted) !important;
+      line-height: 1.35 !important;
+    }
     .nowrap { white-space: nowrap !important; }
     .pricing-grid-3 {
       padding-top: 18px !important;
@@ -775,9 +824,10 @@
         <div>
           <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Bộ Ba Công Cụ</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem;">
-            <li><a href="../../tools/auditsoft.html" class="nav-link">AuditSoft NKC Pro</a></li>
-            <li><a href="../../tools/invoicedesk.html" class="nav-link">InvoiceDesk Pro</a></li>
-            <li><a href="../../tools/taxinsight.html" class="nav-link">TaxInsight Pro</a></li>
+            <li><a href="../../tools/auditsoft/" class="nav-link">AuditSoft NKC Pro</a></li>
+            <li><a href="../../tools/invoicedesk/" class="nav-link">InvoiceDesk Pro</a></li>
+            <li><a href="../../tools/taxinsight/" class="nav-link">TaxInsight Pro</a></li>
+            <li><a href="../../tools/vietstock/" class="nav-link" style="color: #10B981; font-weight: 600;">Vietstock TP Benchmarking</a></li>
             <li><a href="../../index.html#downloads" class="nav-link" style="color: var(--accent-primary);">⚡ Tải Bản Cài Đặt (GitHub)</a></li>
             <li><a href="../../index.html#pipeline" class="nav-link">Quy Trình 3 Bước</a></li>
           </ul>
@@ -786,7 +836,7 @@
         <div>
           <h4 style="font-size: 0.9375rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 16px;">Pháp Lý &amp; Cẩm Nang</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem; color: var(--text-muted);">
-            <li><a href="../../articles/phan-mem-kiem-toan-so-khop-nkc-auditsoft-suite.html" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">⚡ Cẩm Nang So Khớp NKC B360</a></li>
+            <li><a href="../../cam-nang/so-khop-nkc/" class="nav-link" style="color: var(--accent-primary); font-weight: 600;">⚡ Cẩm Nang So Khớp NKC B360</a></li>
             <li>Nghị định 181/2025/NĐ-CP (Chi TM &ge; 5tr)</li>
             <li>Thông tư 200/2014/TT-BTC &amp; 133/2016</li>
             <li>Chuẩn mực Kiểm toán Việt Nam VSA 530</li>
@@ -867,7 +917,7 @@
 
       if (qrImage) {
         const encodedMemo = encodeURIComponent(memoPrefix);
-        qrImage.src = `https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=${amount}&addInfo=${encodedMemo}&accountName=THINH%20LYNX`;
+        qrImage.src = `https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=${amount}&addInfo=${encodedMemo}&accountName=NGUYEN%20DAC%20THINH`;
       }
 
       if (qrAmountDisplay) {
