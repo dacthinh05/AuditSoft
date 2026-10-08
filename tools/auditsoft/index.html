@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="../../assets/theme.css?v=2.1.1">
+  <link rel="stylesheet" href="../../assets/theme.css?v=2.1.0">
 
   <!-- Critical Inline CSS: Guarantees zero mobile-drawer leakage on desktop & font consistency -->
   <style>
@@ -32,54 +32,6 @@
     .nav-mobile-drawer { display: none !important; }
     .nav-mobile-drawer.active { display: block !important; }
     .nav-mobile-toggle { display: none !important; }
-    .nav-dropdown { position: relative !important; display: inline-flex !important; align-items: center !important; }
-    .nav-dropdown-menu {
-      position: absolute !important;
-      top: calc(100% + 12px) !important;
-      left: 50% !important;
-      transform: translateX(-50%) translateY(8px) !important;
-      min-width: 330px !important;
-      background-color: var(--bg-surface) !important;
-      border: 1px solid var(--border-color) !important;
-      border-radius: 12px !important;
-      padding: 8px !important;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45) !important;
-      opacity: 0 !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
-      z-index: 250 !important;
-      backdrop-filter: blur(20px) !important;
-      -webkit-backdrop-filter: blur(20px) !important;
-      transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s !important;
-    }
-    .nav-dropdown:hover .nav-dropdown-menu,
-    .nav-dropdown:focus-within .nav-dropdown-menu,
-    .nav-dropdown.active .nav-dropdown-menu {
-      opacity: 1 !important;
-      visibility: visible !important;
-      transform: translateX(-50%) translateY(0) !important;
-      pointer-events: auto !important;
-    }
-    .nav-dropdown-item {
-      display: flex !important;
-      align-items: flex-start !important;
-      gap: 12px !important;
-      padding: 10px 12px !important;
-      border-radius: 8px !important;
-      text-decoration: none !important;
-      color: inherit !important;
-    }
-    .nav-dropdown-title {
-      font-size: 0.875rem !important;
-      font-weight: 600 !important;
-      color: var(--text-main) !important;
-      margin-bottom: 2px !important;
-    }
-    .nav-dropdown-desc {
-      font-size: 0.75rem !important;
-      color: var(--text-muted) !important;
-      line-height: 1.35 !important;
-    }
     .nowrap { white-space: nowrap !important; }
     .pricing-grid-3 {
       padding-top: 18px !important;
@@ -446,6 +398,114 @@
       </div>
     </section>
 
+    <!-- Before vs After Comparison Matrix -->
+    <section id="comparison" class="section">
+      <div class="container">
+        <div class="section-header" style="text-align: center; max-width: 960px; margin: 0 auto 36px;">
+          <span class="section-badge section-badge-cyan">BẢNG SO SÁNH HIỆU NĂNG THỰC TẾ</span>
+          <h2>Phương Pháp Thủ Công Đối Đầu AuditSoft NKC Pro</h2>
+          <p>Sự khác biệt đột phá giữa quy trình làm việc thủ công truyền thống và giải pháp tự động hóa chuyên biệt.</p>
+        </div>
+
+        <div class="comparison-table-wrap">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th style="width: 22%;">Hạng Mục So Sánh</th>
+                <th class="col-bad" style="width: 36%;">Thao Tác Thủ Công &amp; Web Cũ</th>
+                <th class="col-good" style="width: 42%;">AuditSoft NKC Pro</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td style="font-weight: 600; color: var(--text-main);">Tốc độ xử lý dữ liệu lớn</td>
+              <td class="col-bad">✕ File Excel > 100.000 dòng đơ giật, dễ crash mất&nbsp;file</td>
+              <td class="col-good" style="color: var(--accent-primary);">✓ Quét 1.000.000 dòng NKC dưới 3 giây không giật&nbsp;lag</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600; color: var(--text-main);">So khớp đối chiếu 2 sổ (B360)</td>
+              <td class="col-bad">✕ Viết hàm VLOOKUP / SUMIFS thủ công cả&nbsp;ngày</td>
+              <td class="col-good" style="color: var(--accent-primary);">✓ Engine Heuristic đối chiếu chéo tự động từng cặp định&nbsp;khoản</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600; color: var(--text-main);">Bốc mẫu kiểm toán VSA 530</td>
+              <td class="col-bad">✕ Chọn mẫu cảm tính hoặc viết hàm ngẫu nhiên đơn&nbsp;sơ</td>
+              <td class="col-good" style="color: var(--accent-primary);">✓ 4 Thuật toán chuẩn mực (MUS, Phân tầng) kèm giải&nbsp;trình</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600; color: var(--text-main);">Rà soát rủi ro thuế NĐ 181</td>
+              <td class="col-bad">✕ Dò mắt thường từng phiếu chi, khó phát hiện xé&nbsp;nhỏ</td>
+              <td class="col-good" style="color: var(--accent-primary);">✓ Tự động gom nhóm cùng ngày, bóc tách Chỉ tiêu B4&nbsp;chuẩn</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600; color: var(--text-main);">Chất lượng Giấy làm việc</td>
+              <td class="col-bad">✕ Mẫu biểu rời rạc, mất công định dạng lại font&nbsp;chữ</td>
+              <td class="col-good" style="color: var(--accent-primary);">✓ Xuất file .xlsx chuẩn 12 mẫu VACPA chứa công thức&nbsp;sống</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600; color: var(--text-main);">Bảo mật dữ liệu tài chính</td>
+              <td class="col-bad">✕ Nguy cơ lộ dữ liệu khi tải lên các web tool đám&nbsp;mây</td>
+              <td class="col-good" style="color: var(--accent-primary);">✓ 100% Offline trên RAM máy tính, bảo mật tuyệt&nbsp;đối</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof & Customer Reviews -->
+    <section class="section" style="border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+      <div class="container">
+        <div class="section-header" style="text-align: center; max-width: 960px; margin: 0 auto 36px;">
+          <span class="section-badge" style="background: rgba(179, 240, 93, 0.12); color: var(--accent-primary);">ĐÁNH GIÁ THỰC TẾ TỪ CHUYÊN GIA</span>
+          <h2>Được Tin Dùng Bởi Kế Toán Trưởng &amp; KTV Toàn Quốc</h2>
+          <p>Lắng nghe trải nghiệm trực tiếp từ những người đã chuyển đổi từ quy trình thủ công sang AuditSoft Suite.</p>
+        </div>
+        <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div>
+            <div class="testimonial-stars"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+            <p class="testimonial-quote">“Tính năng so khớp 2 sổ NKC (B360) và bốc mẫu VSA 530 xuất thẳng file Excel chứa công thức sống SUM, IF cực chuẩn. Hồ sơ soát xét đưa lên Giám đốc kiểm toán ký duyệt ngay lần đầu mà không phải giải trình lại.”</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="../../assets/avatars/avatar-long.jpg" alt="Lê Hoàng Long" class="testimonial-avatar-img" width="48" height="48" loading="lazy">
+            <div class="testimonial-meta">
+              <span class="testimonial-name">Lê Hoàng Long</span>
+              <span class="testimonial-role">Senior Auditor • Top 10 Công ty Kiểm toán Độc lập</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div>
+            <div class="testimonial-stars"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+            <p class="testimonial-quote">“Nghị định 181/2025 siết chặt thanh toán không dùng tiền mặt từ 5 triệu. Trước đây nhặt tay trong 40.000 dòng phiếu chi rất dễ sót. Module rà quét chi tiền mặt của AuditSoft đã lọc sạch và bóc tách Chỉ tiêu B4 chuẩn xác 100%.”</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="../../assets/avatars/avatar-thao.jpg" alt="Mai Phương Thảo" class="testimonial-avatar-img" width="48" height="48" loading="lazy">
+            <div class="testimonial-meta">
+              <span class="testimonial-name">Mai Phương Thảo</span>
+              <span class="testimonial-role">Kế toán tổng hợp Công ty CP Bất động sản H.P</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div>
+            <div class="testimonial-stars"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+            <p class="testimonial-quote">“Chạy trực tiếp 100% trên RAM máy tính, xử lý tệp NKC hơn 1.200.000 dòng chỉ mất 2.8 giây mà máy tính không hề bị đơ như khi dùng Excel. Dữ liệu bảo mật tuyệt đối không lo bị lộ lên cloud.”</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="../../assets/avatars/avatar-hung.jpg" alt="Đặng Văn Hưng" class="testimonial-avatar-img" width="48" height="48" loading="lazy">
+            <div class="testimonial-meta">
+              <span class="testimonial-name">Đặng Văn Hưng</span>
+              <span class="testimonial-role">Trưởng phòng Tài chính - Kế toán Tập đoàn Cơ điện</span>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+
     <!-- Tiered Pricing Section with Price Anchoring & Scarcity Lever -->
     <section id="pricing" class="section">
       <div class="container">
@@ -611,113 +671,6 @@
             Gia Hạn 1 Năm (1.890.000 đ)
           </button>
         </div>
-    <!-- Before vs After Comparison Matrix -->
-    <section id="comparison" class="section">
-      <div class="container">
-        <div class="section-header" style="text-align: center; max-width: 960px; margin: 0 auto 36px;">
-          <span class="section-badge section-badge-cyan">BẢNG SO SÁNH HIỆU NĂNG THỰC TẾ</span>
-          <h2>Phương Pháp Thủ Công Đối Đầu AuditSoft NKC Pro</h2>
-          <p>Sự khác biệt đột phá giữa quy trình làm việc thủ công truyền thống và giải pháp tự động hóa chuyên biệt.</p>
-        </div>
-
-        <div class="comparison-table-wrap">
-          <table class="comparison-table">
-            <thead>
-              <tr>
-                <th style="width: 22%;">Hạng Mục So Sánh</th>
-                <th class="col-bad" style="width: 36%;">Thao Tác Thủ Công &amp; Web Cũ</th>
-                <th class="col-good" style="width: 42%;">AuditSoft NKC Pro</th>
-              </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td style="font-weight: 600; color: var(--text-main);">Tốc độ xử lý dữ liệu lớn</td>
-              <td class="col-bad">✕ File Excel > 100.000 dòng đơ giật, dễ crash mất&nbsp;file</td>
-              <td class="col-good" style="color: var(--accent-primary);">✓ Quét 1.000.000 dòng NKC dưới 3 giây không giật&nbsp;lag</td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600; color: var(--text-main);">So khớp đối chiếu 2 sổ (B360)</td>
-              <td class="col-bad">✕ Viết hàm VLOOKUP / SUMIFS thủ công cả&nbsp;ngày</td>
-              <td class="col-good" style="color: var(--accent-primary);">✓ Engine Heuristic đối chiếu chéo tự động từng cặp định&nbsp;khoản</td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600; color: var(--text-main);">Bốc mẫu kiểm toán VSA 530</td>
-              <td class="col-bad">✕ Chọn mẫu cảm tính hoặc viết hàm ngẫu nhiên đơn&nbsp;sơ</td>
-              <td class="col-good" style="color: var(--accent-primary);">✓ 4 Thuật toán chuẩn mực (MUS, Phân tầng) kèm giải&nbsp;trình</td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600; color: var(--text-main);">Rà soát rủi ro thuế NĐ 181</td>
-              <td class="col-bad">✕ Dò mắt thường từng phiếu chi, khó phát hiện xé&nbsp;nhỏ</td>
-              <td class="col-good" style="color: var(--accent-primary);">✓ Tự động gom nhóm cùng ngày, bóc tách Chỉ tiêu B4&nbsp;chuẩn</td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600; color: var(--text-main);">Chất lượng Giấy làm việc</td>
-              <td class="col-bad">✕ Mẫu biểu rời rạc, mất công định dạng lại font&nbsp;chữ</td>
-              <td class="col-good" style="color: var(--accent-primary);">✓ Xuất file .xlsx chuẩn 12 mẫu VACPA chứa công thức&nbsp;sống</td>
-            </tr>
-            <tr>
-              <td style="font-weight: 600; color: var(--text-main);">Bảo mật dữ liệu tài chính</td>
-              <td class="col-bad">✕ Nguy cơ lộ dữ liệu khi tải lên các web tool đám&nbsp;mây</td>
-              <td class="col-good" style="color: var(--accent-primary);">✓ 100% Offline trên RAM máy tính, bảo mật tuyệt&nbsp;đối</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- Social Proof & Customer Reviews -->
-    <section class="section" style="border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
-      <div class="container">
-        <div class="section-header" style="text-align: center; max-width: 960px; margin: 0 auto 36px;">
-          <span class="section-badge" style="background: rgba(179, 240, 93, 0.12); color: var(--accent-primary);">ĐÁNH GIÁ THỰC TẾ TỪ CHUYÊN GIA</span>
-          <h2>Được Tin Dùng Bởi Kế Toán Trưởng &amp; KTV Toàn Quốc</h2>
-          <p>Lắng nghe trải nghiệm trực tiếp từ những người đã chuyển đổi từ quy trình thủ công sang AuditSoft Suite.</p>
-        </div>
-        <div class="testimonial-grid">
-        <div class="testimonial-card">
-          <div>
-            <div class="testimonial-stars"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-            <p class="testimonial-quote">“Tính năng so khớp 2 sổ NKC (B360) và bốc mẫu VSA 530 xuất thẳng file Excel chứa công thức sống SUM, IF cực chuẩn. Hồ sơ soát xét đưa lên Giám đốc kiểm toán ký duyệt ngay lần đầu mà không phải giải trình lại.”</p>
-          </div>
-          <div class="testimonial-author">
-            <img src="../../assets/avatars/avatar-long.jpg" alt="Lê Hoàng Long" class="testimonial-avatar-img" width="48" height="48" loading="lazy">
-            <div class="testimonial-meta">
-              <span class="testimonial-name">Lê Hoàng Long</span>
-              <span class="testimonial-role">Senior Auditor • Top 10 Công ty Kiểm toán Độc lập</span>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div>
-            <div class="testimonial-stars"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-            <p class="testimonial-quote">“Nghị định 181/2025 siết chặt thanh toán không dùng tiền mặt từ 5 triệu. Trước đây nhặt tay trong 40.000 dòng phiếu chi rất dễ sót. Module rà quét chi tiền mặt của AuditSoft đã lọc sạch và bóc tách Chỉ tiêu B4 chuẩn xác 100%.”</p>
-          </div>
-          <div class="testimonial-author">
-            <img src="../../assets/avatars/avatar-thao.jpg" alt="Mai Phương Thảo" class="testimonial-avatar-img" width="48" height="48" loading="lazy">
-            <div class="testimonial-meta">
-              <span class="testimonial-name">Mai Phương Thảo</span>
-              <span class="testimonial-role">Kế toán tổng hợp Công ty CP Bất động sản H.P</span>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div>
-            <div class="testimonial-stars"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-            <p class="testimonial-quote">“Chạy trực tiếp 100% trên RAM máy tính, xử lý tệp NKC hơn 1.200.000 dòng chỉ mất 2.8 giây mà máy tính không hề bị đơ như khi dùng Excel. Dữ liệu bảo mật tuyệt đối không lo bị lộ lên cloud.”</p>
-          </div>
-          <div class="testimonial-author">
-            <img src="../../assets/avatars/avatar-hung.jpg" alt="Đặng Văn Hưng" class="testimonial-avatar-img" width="48" height="48" loading="lazy">
-            <div class="testimonial-meta">
-              <span class="testimonial-name">Đặng Văn Hưng</span>
-              <span class="testimonial-role">Trưởng phòng Tài chính - Kế toán Tập đoàn Cơ điện</span>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </section>
-
 
 
               <!-- VietQR Automated Payment Frame (Fully Responsive) -->
