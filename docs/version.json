@@ -9,9 +9,9 @@
     "Đồng bộ tự động số liệu giấy làm việc E 310 và E 310.1 (Lead schedule và Chi tiết các loại thuế).",
     "Bảo đảm an toàn chất lượng: 100% test suite vượt qua, 0 lỗi typecheck."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.12/AuditSoft-2.0.12-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.12/AuditSoft-2.0.12-Setup.exe",
   "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.12/AuditSoft-2.0.12-Portable.exe",
   "required": false,
-  "sha256": "457ce66dfe1bafdcca5bc8b47fc54f5ff3de56a4b2f5176e7a7052ff7745b92f",
-  "signature": "q8fxNCDbqc7SO6xIKrckBZETkX8iZMRfRENY8ZnkSyfPiF1Ehn5hVaTNKDLVos0lvIo2NlXYqPwaLpdB795RCw"
+  "sha256": "4f571b1a537da2653d10e70fc697aa1fb67c507029b25f413533d9058df94009",
+  "signature": "wX9quyK6Aw7_M8mM13G-9QM0GyyiOyOnOocrfzEWundG7wxlFG1aN7BLnT2I7ueijc1HkBeLGiPOZjQtpRT6Cw"
 }

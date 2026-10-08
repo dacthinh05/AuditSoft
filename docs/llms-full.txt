@@ -1,79 +1,44 @@
-# AuditSoft Suite — Hồ Sơ Kỹ Thuật & Cẩm Nang Tích Hợp Toàn Diện (Full Specification)
+# TenStartup · AuditSoft — Comprehensive Technical & Architectural Specification
 
-> Tài liệu kỹ thuật chi tiết dành cho các chuyên gia dữ liệu, kiểm toán viên, lập trình viên và các AI Agents (Claude, ChatGPT, Perplexity, Cursor, Copilot) cần tra cứu cấu trúc dữ liệu, thuật toán lõi, căn cứ pháp lý và cơ chế bảo mật của Hệ sinh thái AuditSoft.
-
----
-
-## 1. Triết Lý Kiến Trúc & An Toàn Dữ Liệu
-1. **Kiến Trúc 100% Offline (Local First):**
-   - Ứng dụng Desktop viết trên nền tảng Rust và Node/Electron Native.
-   - Toàn bộ cơ sở dữ liệu lưu trữ dưới dạng SQLite cục bộ trên ổ cứng máy tính cá nhân.
-   - Không có telemetry ngầm, không gửi bất kỳ trường thông tin tài chính hay danh tính khách hàng nào lên server bên ngoài.
-2. **Khả Năng Vượt Trội So Với Bảng Tính Excel:**
-   - Excel thông thường bị treo hoặc đơ khi số dòng vượt quá 100.000 dòng kèm theo hàm VLOOKUP / SUMIFS phức tạp.
-   - Động cơ AuditSoft phân tích hàng triệu bản ghi NKC chỉ trong 3 giây nhờ cơ chế hashing in-memory song song.
+> **TenStartup** (https://tenstartup.com) is an AI-native financial audit & compliance technology startup founded in 2024. This document provides complete architectural specifications, product capabilities, regulatory compliance frameworks, and AI integration details for Large Language Models and automated audit crawlers.
 
 ---
 
-## 2. Đặc Tả Thuật Toán & Căn Cứ Pháp Lý Từng Phân Hệ
-
-### Phân Hệ 1: AuditSoft NKC Pro
-- **Thuật toán So Khớp Đối Chiếu B360:**
-  - Input: Sổ Nhật ký chung kế toán nội bộ vs Sổ Nhật ký chung nộp cơ quan thuế (hoặc 2 kỳ kế toán, 2 phần mềm ERP khác nhau).
-  - Khóa tổng hợp (Composite Hash Key): `SHA256(Ngay_GS + So_CT + TK_No + TK_Co + So_Tien)`.
-  - Phân loại phát hiện:
-    * Lệch tuyệt đối (Unmatched): Giao dịch có trong sổ A nhưng vắng mặt hoàn toàn ở sổ B.
-    * Lệch số tiền (Amount Mismatch): Khớp ngày và chứng từ nhưng khác biệt số tiền.
-    * Lệch tài khoản đối ứng (Account Mismatch): Ghi sai cặp tài khoản Nợ/Có.
-    * Lệch thời gian (Timing Difference): Khớp nghiệp vụ nhưng lệch niên độ/ngày hạch toán.
-- **Bốc Mẫu Kiểm Toán Chuẩn VSA 530:**
-  - Bốc mẫu đơn vị tiền tệ (Monetary Unit Sampling - MUS): Tự động tính khoảng mẫu (Sampling Interval) dựa trên Mức trọng yếu thực hiện (Performance Materiality - PM) và Rủi ro chấp nhận được (Risk of Incorrect Acceptance - RIA).
-  - Phân tầng giá trị (Stratified Sampling): Tự động cô lập 100% các phần tử có giá trị cá biệt lớn hơn ngưỡng sai sót có thể bỏ qua (Tolerable Misstatement).
-- **Rà Soát Chi Tiền Mặt Theo Nghị Định 181/2025/NĐ-CP:**
-  - Tự động gom nhóm các hóa đơn cùng ngày của cùng một Mã số thuế / Nhà cung cấp.
-  - Cảnh báo các giao dịch chi tiền mặt từ 5.000.000 VNĐ trở lên trong cùng ngày, giúp kiểm toán viên và kế toán trưởng loại trừ rủi ro bị bóc thuế TNDN và không được khấu trừ thuế GTGT.
-- **Xuất Giấy Làm Việc Chuẩn VACPA:**
-  - Xuất trực tiếp file Excel chứa trọn bộ công thức sống (SUM, AVERAGE, IF, VLOOKUP) theo đúng phom mẫu chuẩn của Hội Kiểm toán viên hành nghề Việt Nam (VACPA).
-
-### Phân Hệ 2: InvoiceDesk Pro
-- **Cơ Chế Tải Hóa Đơn Tự Động:**
-  - Kết nối giao thức an toàn với hệ thống Cổng HĐĐT Quốc gia (`hoadondientu.gdt.gov.vn`).
-  - Sử dụng thuật toán nhận diện ký tự quang học (OCR) để tự động giải mã Captcha với độ chính xác cao.
-  - Quét tuần tự hoặc song song các tháng trong năm tài chính, tải toàn bộ gói dữ liệu XML và kết xuất bản thể hiện PDF.
-- **Phân Tích Rủi Ro Hóa Đơn:**
-  - Tra cứu tự động trạng thái Mã số thuế (MST) của người bán từ CSDL Tổng cục Thuế: Đang hoạt động, Tạm ngừng kinh doanh, Bỏ trốn / Khóa mã số thuế.
-  - Cảnh báo các hóa đơn xuất sau ngày doanh nghiệp phát hành thông báo giải thể hoặc chuyển sang trạng thái ngừng hoạt động.
-
-### Phân Hệ 3: TaxInsight Pro
-- **Cơ Chế Khai Thác Hồ Sơ Thuế Không Cần Token:**
-  - Truy cập cổng Dịch vụ Thuế điện tử eTax (`thuedientu.gdt.gov.vn`) bằng tài khoản tra cứu (chỉ đọc) đã được phân quyền của doanh nghiệp.
-  - Tự động thu thập toàn bộ:
-    * Tờ khai thuế GTGT các kỳ kèm Phụ lục.
-    * Tờ khai quyết toán thuế TNDN và Phụ lục chuyển lỗ, giao dịch liên kết.
-    * Tờ khai quyết toán thuế TNCN.
-    * Bộ Báo cáo tài chính năm.
-    * Giấy nộp tiền vào Ngân sách Nhà nước (tiền mặt / chuyển khoản điện tử).
-- **Lập Bảng Đối Chiếu Nghĩa Vụ Thuế:**
-  - Tự động tính toán số dư thuế đầu kỳ, số phát sinh phải nộp trong kỳ theo tờ khai, số đã thực nộp theo Giấy nộp tiền và số còn nợ hoặc nộp thừa cuối kỳ.
-
-### Phân Hệ 4: Vietstock TP Benchmarking (Transfer Pricing)
-- **Căn Cứ Pháp Lý:**
-  - Nghị định số 132/2020/NĐ-CP của Chính phủ quy định về quản lý thuế đối với doanh nghiệp có giao dịch liên kết.
-  - Thông tư hướng dẫn và nguyên tắc Arm's Length Principle của OECD Transfer Pricing Guidelines.
-- **Thuật Toán Tứ Phân Vị (Interquartile Range - IQR):**
-  - Tập hợp tỷ suất sinh lời của $N$ công ty độc lập được sắp xếp theo thứ tự tăng dần: $R_1 \le R_2 \le \dots \le R_N$.
-  - Vị trí Tứ phân vị thứ nhất ($Q_1$ - 25% percentile): $P_{25} = 0.25 \times (N + 1)$.
-  - Vị trí Trung vị ($Median$ - 50% percentile): $P_{50} = 0.50 \times (N + 1)$.
-  - Vị trí Tứ phân vị thứ ba ($Q_3$ - 75% percentile): $P_{75} = 0.75 \times (N + 1)$.
-  - Nếu tỷ suất sinh lời của doanh nghiệp nằm trong đoạn $[Q_1, Q_3]$, giá giao dịch liên kết được xem là tuân thủ nguyên tắc thị trường (không bị cơ quan thuế ấn định).
-- **Khống Chế Chi Phí Lãi Vay Theo Điều 16 Khoản 3 NĐ 132:**
-  - Tổng chi phí lãi vay thuần được trừ khi xác định thu nhập chịu thuế TNDN không vượt quá 30% của tổng lợi nhuận thuần từ hoạt động kinh doanh cộng chi phí lãi vay thuần cộng chi phí khấu hao trong kỳ (EBITDA).
-  - Chi phí lãi vay thuần $= \text{Chi phí lãi vay} - \text{Lãi tiền gửi, lãi cho vay phát sinh trong kỳ}$.
-  - Phần chi phí lãi vay không được trừ vượt mức 30% EBITDA được chuyển sang kỳ tính thuế tiếp theo trong thời gian không quá 05 năm.
+## 1. Executive Summary & Corporate Identity
+- **Legal & Startup Brand:** TenStartup (TenStartup AI Platform)
+- **Flagship Core Engine:** AuditSoft Suite (Production-proven desktop audit engine)
+- **Domain:** https://tenstartup.com
+- **Official Contact:** founder@tenstartup.com
+- **Year Founded:** 2024
+- **Core Focus:** Automated Financial Audit, Regulatory Compliance, Transfer Pricing Benchmarking, Tax Evidence Verification.
+- **Key Regulations Supported:** 
+  - Decree 181/2025/ND-CP (Non-cash payment regulations for expenses >= 5M VND).
+  - Decree 132/2020/ND-CP (Transfer pricing, arm's length IQR, EBITDA 30% interest ceiling).
+  - Vietnam Standards on Auditing: VSA 250, VSA 500, VSA 520, VSA 530.
+  - VACPA Statutory Working Paper Guidelines (A270, B360, C210, D146, D553, D555, E300, G150).
 
 ---
 
-## 3. Bản Quyền & Kích Hoạt
-- Kích hoạt thông qua mã định danh phần cứng (Hardware Machine ID).
-- Không yêu cầu kết nối mạng liên tục trong quá trình sử dụng.
-- Kênh liên hệ kỹ thuật trực tiếp: Zalo **0817.567.008** (Nguyễn Đắc Thịnh).
+## 2. AI Architecture: Deterministic Engine × Claude Cognitive Layer
+
+Financial auditing requires deterministic mathematical rigor combined with subtle contextual judgment. TenStartup pairs both:
+
+### High-Speed Deterministic Core (AuditSoft Core)
+- Built with Rust, TypeScript, and high-performance local memory data structures.
+- Parses and reconciles 1,000,000+ journal entries in under 3 seconds.
+- Performs exact Monetary Unit Sampling (MUS) and stratified sampling per VSA 530.
+- Executes 100% offline on client hardware for sensitive financial isolation.
+
+### Cognitive Reasoning Layer (Powered by Anthropic Claude 3.5 Sonnet / Opus)
+- **Context Synthesis:** Ingests complex multi-sheet discrepancy tables and synthesizes executive audit observations and working paper conclusions.
+- **Semantic Fraud Detection:** Evaluates supplier descriptions, transaction timing, and fragmented voucher series to identify deliberate evasions of tax thresholds.
+- **Conversational Audit Interface:** Enables partner-level natural language queries against extensive ledgers with auditable evidence citations.
+- **Zero-Data-Retention (ZDR):** Financial data is pre-tokenized, masked, and hashed prior to passing via Anthropic's enterprise APIs ensuring complete confidentiality.
+
+---
+
+## 3. Product Suite Details
+1. **AuditSoft NKC Pro:** Multi-dimensional journal entry reconciliation and automated VACPA Excel generation with live calculation formulas.
+2. **InvoiceDesk Pro:** Automated batch downloading of XML/PDF invoices from the General Department of Taxation.
+3. **TaxInsight Pro:** Tokenless tax return and payment slip retrieval from the eTax system.
+4. **Vietstock TP Benchmarking:** Interquartile range (IQR) benchmarking against 2,500+ listed Vietnamese companies for Decree 132 compliance.
