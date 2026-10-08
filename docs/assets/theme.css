@@ -3677,14 +3677,25 @@ html[data-theme="light"] .ai-artifact-box {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.7rem;
+  gap: 8px;
+  font-size: 0.6875rem;
   font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   margin-bottom: 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   padding-bottom: 6px;
+  white-space: nowrap;
+}
+.ai-artifact-header > span:first-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ai-artifact-header > span:last-child {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 html[data-theme="light"] .ai-artifact-header {
