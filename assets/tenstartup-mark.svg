@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>TenStartup — Concept A: The Precision Node</title>
+  <!-- Top Crossbar: Interlocking Wing Prism -->
+  <path d="M 36 68 
+           L 128 36 
+           L 220 68 
+           L 196 104 
+           L 148 88 
+           L 148 116 
+           L 108 116 
+           L 108 88 
+           L 60 104 Z" 
+        fill="#38BDF8" />
+  
+  <!-- Vertical Pillar & Upward Growth Keystone -->
+  <path d="M 108 128 
+           L 148 128 
+           L 148 200 
+           L 128 220 
+           L 108 200 Z" 
+        fill="#10B981" />
+
+  <!-- Center Verification Spark Node -->
+  <polygon points="128,96 138,108 128,120 118,108" fill="#F8FAFC" />
+</svg>

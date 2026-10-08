@@ -1,7 +1,6 @@
 # TenStartup · AuditSoft — AI-Native Financial Audit & Compliance Workspace
 
-> **TenStartup** is a financial technology startup founded in 2024, building next-generation AI compliance and statutory audit automation solutions. The platform bridges deterministic high-speed financial parsing (via **AuditSoft Suite**) with state-of-the-art cognitive reasoning powered by Anthropic's **Claude 3.5 Sonnet & Opus** models.
-
+> **TenStartup** is a financial technology startup founded in 2024, building next-generation AI compliance and statutory audit automation solutions. The platform bridges deterministic high-speed financial parsing (via **AuditSoft Suite**) with state-of-the-art cognitive reasoning powered by Anthropic's **Claude 3.7 Sonnet (Hybrid Reasoning)** and Claude 3.5 models.
 ---
 
 ## 1. Company & Entity Information
@@ -11,8 +10,7 @@
 - **Year Founded:** 2024
 - **Founder & Lead Engineer:** Dac Thinh (Nguyen Dac Thinh)
 - **GitHub Organization / Releases:** https://github.com/dacthinh05/AuditSoft-Releases/releases
-- **Engineering Stack:** Rust, TypeScript, React, Electron, Python, Anthropic Claude API (Sonnet 3.5 / Opus).
-
+- **Engineering Stack:** Rust, TypeScript, React, Electron, Python, Anthropic Claude API (Claude 3.7 Sonnet with Hybrid Reasoning & Extended Thinking).
 ---
 
 ## 2. TenStartup AI Engine Architecture (Powered by Claude)
@@ -20,10 +18,9 @@
 The TenStartup AI Engine is built on a hybrid architecture: **Local Deterministic RAM Vault + Claude Cognitive Layer**:
 
 ### Pillar 1: Autonomous Working Paper Synthesis (VSA/VACPA Standard)
-- Integrates Claude 3.5 Sonnet's 200,000-token context window to process massive raw transaction discrepancies identified by AuditSoft.
+- Integrates Claude 3.7 Sonnet's 200,000-token context window and Hybrid Reasoning to process massive raw transaction discrepancies identified by AuditSoft.
 - Automatically synthesizes audit observations and generates formal statutory audit working paper memos (B360, E300, D146) compliant with Vietnam Standards on Auditing (VSA 500, VSA 520, VSA 530).
 - Eliminates 100% of manual transcription and repetitive drafting work for certified auditors.
-
 ### Pillar 2: Contextual Decree 181 & Tax Anomaly Detection
 - Beyond static rule-based filters, Claude semantically analyzes unstructured invoice descriptions, line items, and counterparty metadata.
 - Detects split-payment evasion patterns intended to circumvent Decree 181/2025/ND-CP (mandatory non-cash payment threshold of 5,000,000 VND).
@@ -33,6 +30,10 @@ The TenStartup AI Engine is built on a hybrid architecture: **Local Deterministi
 - Allows CFOs, audit partners, and senior accountants to query complex enterprise ledgers using natural language.
 - Produces verifiable, bi-directionally linked calculation proofs with zero hallucination.
 
+
+### Enterprise Data Privacy & Local Masking
+- All sensitive financial transaction rows, tax IDs, and counterparty entities are deterministically pseudonymized and masked on RAM locally before passing reasoning context to the Claude API.
+- Operates under Anthropic's commercial API terms where customer inputs and outputs are never used to train foundation models.
 ---
 
 ## 3. Core Production Products (AuditSoft Suite)

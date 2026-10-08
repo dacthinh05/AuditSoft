@@ -29,11 +29,11 @@ Financial auditing requires deterministic mathematical rigor combined with subtl
 - Performs exact Monetary Unit Sampling (MUS) and stratified sampling per VSA 530.
 - Executes 100% offline on client hardware for sensitive financial isolation.
 
-### Cognitive Reasoning Layer (Powered by Anthropic Claude 3.5 Sonnet / Opus)
+### Cognitive Reasoning Layer (Powered by Anthropic Claude 3.7 Sonnet / Opus)
 - **Context Synthesis:** Ingests complex multi-sheet discrepancy tables and synthesizes executive audit observations and working paper conclusions.
 - **Semantic Fraud Detection:** Evaluates supplier descriptions, transaction timing, and fragmented voucher series to identify deliberate evasions of tax thresholds.
 - **Conversational Audit Interface:** Enables partner-level natural language queries against extensive ledgers with auditable evidence citations.
-- **Zero-Data-Retention (ZDR):** Financial data is pre-tokenized, masked, and hashed prior to passing via Anthropic's enterprise APIs ensuring complete confidentiality.
+- **Enterprise Data Privacy & Local Masking:** Financial data is pre-tokenized, masked, and hashed locally on RAM prior to passing reasoning context to the Claude API (operating under commercial terms where customer data is never used to train foundation models).
 
 ---
 
