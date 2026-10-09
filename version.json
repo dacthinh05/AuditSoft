@@ -1,17 +1,18 @@
 {
-  "version": "2.0.12",
-  "releaseDate": "2026-10-06",
-  "title": "AuditSoft v2.0.12 — Nhận Diện Thuế GTGT Hàng Nhập Khẩu 333102 & Khớp Tuyệt Đối Mẫu E380",
+  "version": "2.1.1",
+  "releaseDate": "2026-10-09",
+  "title": "AuditSoft v2.1.1 — Chuẩn Hóa Tổng Hợp B410: Tự Động Nhận Diện Trưởng Nhóm, Khắc Phục Lỗi Mất Cột Ngày & Đồng Bộ SĐT KTV",
   "changelog": [
-    "Nâng cấp thuật toán đối chiếu thuế GTGT Mẫu E380: Nhận diện toàn diện tài khoản Thuế GTGT hàng nhập khẩu tiểu khoản 6 số (TK 333102, 33312) và thuế nhà thầu FCT (TK 3338, 3333).",
-    "Hỗ trợ tự động các hệ thống tài khoản doanh nghiệp FDI và ERP thông dụng (Bravo, Fast, SAP, Kingdee) sử dụng TK 333101 (đầu ra) và 333102 (nhập khẩu).",
-    "Triệt tiêu chênh lệch giả định CL Đầu Vào trên Giấy làm việc Mẫu E380: Đảm bảo số phát sinh Nợ 133 phản ánh đầy đủ thuế đầu vào mua hàng nội địa và hàng nhập khẩu.",
-    "Đồng bộ tự động số liệu giấy làm việc E 310 và E 310.1 (Lead schedule và Chi tiết các loại thuế).",
-    "Bảo đảm an toàn chất lượng: 100% test suite vượt qua, 0 lỗi typecheck."
+    "Tự động nhận diện & ưu tiên Trưởng nhóm (Senior in charge): Tự động xác định Trưởng nhóm khi gộp nhiều file B410 (theo file Master hoặc số lượt bầu Soát xét 1) và đưa lên vị trí đầu tiên.",
+    "Bảo toàn 100% dữ liệu cột Ngày trong sheet phụ: Khắc phục triệt để lỗi mất dữ liệu ngày tháng khi copy bảng kê đính kèm (BK E191.1, E240.BK01), bảo toàn nguyên vẹn kiểu dữ liệu Date và format dd/mm/yyyy.",
+    "Siết chặt nhận diện sheet AJE (Bút toán điều chỉnh): Không bao giờ nhận nhầm các bảng kê phụ lục (.BK) thành sheet Bút toán điều chỉnh, chống đè số liệu.",
+    "Bảo toàn số điện thoại KTV tại dòng phân nhóm: Hiển thị đầy đủ SĐT liên hệ của từng KTV trong bảng Master (ví dụ: 'Người thực hiện: Lưu Hoàng Tiến - SĐT: 0824 028 565').",
+    "Chuẩn hóa tiêu đề & độ rộng cột chuẩn mực VACPA 9 cột: Tự động căn chỉnh STT, GLV, Thực trạng, Hướng xử lý, và gỡ merge lệch trên các template cũ.",
+    "Bảo toàn họ tên KTV có dấu chấm viết tắt: Khắc phục lỗi cắt cụt tên người soát xét có dấu chấm (như 'Hoàng T. Phúc')."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.12/AuditSoft-2.0.12-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.0.12/AuditSoft-2.0.12-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.1/AuditSoft-2.1.1-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.1/AuditSoft-2.1.1-Portable.exe",
   "required": false,
-  "sha256": "4f571b1a537da2653d10e70fc697aa1fb67c507029b25f413533d9058df94009",
-  "signature": "wX9quyK6Aw7_M8mM13G-9QM0GyyiOyOnOocrfzEWundG7wxlFG1aN7BLnT2I7ueijc1HkBeLGiPOZjQtpRT6Cw"
+  "sha256": "54b9dfbf5e1b9f5026afa567a4ae6c2388b29bb466880ef7772074dad6c19f23",
+  "signature": "C2JWvELZqMA7NEOqWuTX77cRmMSiqd6iA2WDnT9CF_8vasAnakEdt26_844VHCjtVVue74Weeeb3wWVARbd6Aw"
 }
