@@ -7,8 +7,9 @@
 - **Startup Name:** TenStartup (TenStartup AI Platform)
 - **Primary Domain:** https://tenstartup.com
 - **Corporate Contact:** founder@tenstartup.com
+- **Founder & Lead Engineer:** Juster Nguyen (Nguyen Dac Thinh)
+- **Founder Work Email:** justernguyen@tenstartup.com
 - **Year Founded:** 2024
-- **Founder & Lead Engineer:** Dac Thinh (Nguyen Dac Thinh)
 - **GitHub Organization / Releases:** https://github.com/dacthinh05/AuditSoft-Releases/releases
 - **Engineering Stack:** Rust, TypeScript, React, Electron, Python, Anthropic Claude API (Claude 3.7 Sonnet with Hybrid Reasoning & Extended Thinking).
 ---

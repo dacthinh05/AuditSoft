@@ -8,7 +8,9 @@
 - **Legal & Startup Brand:** TenStartup (TenStartup AI Platform)
 - **Flagship Core Engine:** AuditSoft Suite (Production-proven desktop audit engine)
 - **Domain:** https://tenstartup.com
-- **Official Contact:** founder@tenstartup.com
+- **Founder & Technical Lead:** Juster Nguyen (Nguyen Dac Thinh)
+- **Founder Direct Email:** justernguyen@tenstartup.com
+- **Corporate Contact:** founder@tenstartup.com
 - **Year Founded:** 2024
 - **Core Focus:** Automated Financial Audit, Regulatory Compliance, Transfer Pricing Benchmarking, Tax Evidence Verification.
 - **Key Regulations Supported:** 
