@@ -1,18 +1,19 @@
 {
-  "version": "2.1.1",
+  "version": "2.1.2",
   "releaseDate": "2026-10-09",
-  "title": "AuditSoft v2.1.1 — Chuẩn Hóa Tổng Hợp B410: Tự Động Nhận Diện Trưởng Nhóm, Khắc Phục Lỗi Mất Cột Ngày & Đồng Bộ SĐT KTV",
+  "title": "AuditSoft v2.1.2 — Tự Động Ngắt Trang Chống Lọt Tên KTV Cuối Trang In B410 (Anti-Orphan Header) & Chuẩn Hóa Bố Cục Master",
   "changelog": [
-    "Tự động nhận diện & ưu tiên Trưởng nhóm (Senior in charge): Tự động xác định Trưởng nhóm khi gộp nhiều file B410 (theo file Master hoặc số lượt bầu Soát xét 1) và đưa lên vị trí đầu tiên.",
+    "Cơ chế Anti-Orphan Header chống lọt tên KTV xuống cuối trang in: Tự động chèn thẻ ngắt trang ngang row.addPageBreak() trước mỗi nhóm KTV mới (từ KTV thứ 2 trở đi), đảm bảo 100% dòng tiêu đề KTV luôn xuất hiện cùng lưu ý đầu tiên ở đầu trang in mới, không bao giờ bị rơi đơn độc ở đáy trang.",
+    "Bảo toàn lặp lại tiêu đề bảng khi ngắt trang: Thiết lập printTitlesRow 9:9 lặp lại đầy đủ các cột STT, GLV, Thực trạng, Hướng xử lý ở đầu mỗi trang in mới.",
+    "Tự động nhận diện & ưu tiên Trưởng nhóm (Senior in charge): Tự động xác định Trưởng nhóm khi gộp nhiều file B410 và đưa lên vị trí đầu tiên.",
     "Bảo toàn 100% dữ liệu cột Ngày trong sheet phụ: Khắc phục triệt để lỗi mất dữ liệu ngày tháng khi copy bảng kê đính kèm (BK E191.1, E240.BK01), bảo toàn nguyên vẹn kiểu dữ liệu Date và format dd/mm/yyyy.",
     "Siết chặt nhận diện sheet AJE (Bút toán điều chỉnh): Không bao giờ nhận nhầm các bảng kê phụ lục (.BK) thành sheet Bút toán điều chỉnh, chống đè số liệu.",
     "Bảo toàn số điện thoại KTV tại dòng phân nhóm: Hiển thị đầy đủ SĐT liên hệ của từng KTV trong bảng Master (ví dụ: 'Người thực hiện: Lưu Hoàng Tiến - SĐT: 0824 028 565').",
-    "Chuẩn hóa tiêu đề & độ rộng cột chuẩn mực VACPA 9 cột: Tự động căn chỉnh STT, GLV, Thực trạng, Hướng xử lý, và gỡ merge lệch trên các template cũ.",
     "Bảo toàn họ tên KTV có dấu chấm viết tắt: Khắc phục lỗi cắt cụt tên người soát xét có dấu chấm (như 'Hoàng T. Phúc')."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.1/AuditSoft-2.1.1-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.1/AuditSoft-2.1.1-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.2/AuditSoft-2.1.2-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.2/AuditSoft-2.1.2-Portable.exe",
   "required": false,
-  "sha256": "54b9dfbf5e1b9f5026afa567a4ae6c2388b29bb466880ef7772074dad6c19f23",
-  "signature": "C2JWvELZqMA7NEOqWuTX77cRmMSiqd6iA2WDnT9CF_8vasAnakEdt26_844VHCjtVVue74Weeeb3wWVARbd6Aw"
+  "sha256": "06c3b9bce58e6827def734132be87dcd2b012ea1d9bbb0e31b38ff6b113d5fab",
+  "signature": "6MrGYChaT5jeNNi4a8zE0B8pWublfYl0Puo695cOr-ksx-89eiT3juzXh_nokicXKgT7PRCxLfhKY6mI6X6DCw"
 }
