@@ -1,16 +1,16 @@
 {
-  "version": "2.1.3",
-  "releaseDate": "2026-10-12",
-  "title": "AuditSoft v2.1.3 — Chuẩn Hóa Gộp Sheet Tiếng Trung / CJK & Tra Cứu Tỷ Giá Vietcombank Online",
+  "version": "2.1.4",
+  "releaseDate": "2026-10-13",
+  "title": "AuditSoft v2.1.4 — Chuẩn Hóa Nhận Diện Danh Tính & Bảo Toàn SĐT Khi Tổng Hợp B410",
   "changelog": [
-    "Bảo toàn 100% cột dữ liệu khi gộp sheet tiếng Trung / CJK: Nâng cấp HeaderDetector và FuzzyColumnAligner hỗ trợ trọn vẹn ký tự Unicode CJK, chặn triệt để tình trạng nuốt cột và ghi đè dữ liệu khi gộp nhiều sheet trong cùng workbook.",
-    "Tích hợp tra cứu tỷ giá Vietcombank online: Hỗ trợ kiểm tra tức thì tỷ giá mua/bán chuyển khoản bình quân Vietcombank chuẩn TT 200 & TT 99 ngay trên giao diện.",
-    "Chống treo luồng đọc Excel (ExcelJS Streaming Resilience): Tự động dự phòng sang cơ chế tải toàn phần khi stream sheet gặp sự cố bộ nhớ đệm trên Windows.",
-    "Tối ưu giao diện và chuẩn hóa bố cục B410: Tinh chỉnh đường viền và canh lề cột chuẩn VACPA."
+    "Bảo toàn 100% Họ tên và SĐT KTV khi tổng hợp B410: Nâng cấp B410Parser và B410Renderer, bóc tách thông minh các định dạng số điện thoại trần, số điện thoại có nhãn (SĐT, ĐT, Tel) hoặc trong ngoặc, triệt tiêu lỗi nuốt tên thành số điện thoại (trường hợp KTV ghi Người thực hiện: Vũ Lê Trúc Nhã - 056 558 5801).",
+    "Hiển thị đồng bộ danh tính KTV trong thân bảng: Đảm bảo toàn bộ các KTV đều giữ nguyên số điện thoại liên hệ trên dòng phân nhóm chuẩn mực VACPA.",
+    "Bảo toàn bố cục in ấn và chống orphan header: Mỗi KTV mới được ngắt trang trang trọng ở đầu trang in kèm lặp lại tiêu đề bảng chuẩn VACPA.",
+    "Kiểm thử thực chiến trên bộ hồ sơ thực tế Đệ Nhất 2026 (D:\\Desktop\\TV): 10/10 lưu ý từ 4 file KTV được gộp chuẩn xác, nhận diện đủ danh tính và số điện thoại."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.3/AuditSoft-2.1.3-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.3/AuditSoft-2.1.3-Portable.exe",
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.4/AuditSoft-2.1.4-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.4/AuditSoft-2.1.4-Portable.exe",
   "required": false,
-  "sha256": "90a69f3e7db65c47614922e7be4f186a5a470027194fc5577c1bebd1a1ef9a4d",
-  "signature": "SPyyfowAPtKs2qjgNgDshLMNhFB1VUDc1uPQqr_sIyUxUZku7SyeS2BnDXteJhn_oztmzzCdQzWzbtft4lgSCw"
+  "sha256": "bfd6f7cb58fca1f96852fedefbdb025640dc7f3006bd58421cf4bca3080810c8",
+  "signature": "d3K_5W4Qrfxs-1QCdmWuEWD_FVtXfm40tvb88djeEdjzP77lsW7iCDfqgwgRnMCrnUqnxr8FPGbFya52iTwmDQ"
 }
