@@ -1,15 +1,15 @@
 {
-  "version": "2.1.5",
-  "releaseDate": "2026-10-13",
-  "title": "AuditSoft v2.1.5 — Triệt Tiêu Lỗi XML Corrupt & Tối Ưu Phân Trang Anti-Orphan B410",
+  "version": "2.1.10",
+  "releaseDate": "2026-10-22",
+  "title": "AuditSoft v2.1.10 — Tinh Gọn Giao Diện, Phân Rã God Components & Chuẩn Hóa IPC",
   "changelog": [
-    "Khắc phục triệt để lỗi cảnh báo XML Corrupt (We found a problem with some content...): Tự động khử thuộc tính editAs vi phạm schema ECMA-376 trên oneCellAnchor trong DrawingML và thay thế các giá trị NaN/Infinity bằng 0 khi sao chép sheet phụ.",
-    "Tối ưu phân trang in ấn thông minh (Anti-Orphan & Gom trang B410): Cho phép gom nhiều KTV vào cùng một trang in khi còn đủ chỗ, loại bỏ lãng phí khoảng trắng. Khi trang không đủ chỗ, tự động ngắt trang TRƯỚC dòng KTV để tiêu đề KTV luôn đi liền trọn vẹn với các lưu ý kiểm toán của họ ở đầu trang mới.",
-    "Bảo toàn 100% Họ tên và SĐT KTV chuẩn mực VACPA: Toàn bộ danh tính và số điện thoại liên hệ của các KTV phụ trách phần hành được hiển thị rõ ràng, chuyên nghiệp."
+    "Tinh gọn giao diện & phân rã God Components: Tách nhỏ các màn hình Công nợ 131/331 (DebtPairControls, DebtFileSlot, DebtConfirmationCell) và Bảng đối chiếu doanh thu G150, giảm hơn 40% độ phức tạp code giao diện.",
+    "Phân tách Động cơ Xuất Excel: Tách nhỏ exportDebtExcel thành các builder chuyên biệt (singleVendorWorkbookBuilder, riskAndDiscrepancySheetBuilder), tăng tốc độ xuất file và bảo trì an toàn.",
+    "Kiến trúc IPC Controller: Modular hóa toàn bộ các kênh IPC Main Process theo từng domain riêng biệt (excel, confirmation, pdf, payroll).",
+    "Tương thích phần mềm HTKK 5.8.0 mới nhất và chuẩn hóa 100% Clean URLs cho hệ sinh thái."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.5/AuditSoft-2.1.5-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.5/AuditSoft-2.1.5-Portable.exe",
-  "required": false,
-  "sha256": "0ea53c50b79b8898b7565b5e51d7d90335707c9716ebdd31549d8ccf9d18290e",
-  "signature": "KC8p9kTDnURA2WbTyRoJpoa62tP6G7vW6YGXlOmRq-_SjGEaq2RWtDhB9QSuWNPZ5CT0AgiW0ZI_fHxphnWUDQ"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.10/AuditSoft-2.1.10-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.10/AuditSoft-2.1.10-Portable.exe",
+  "sha256": "f2a773fc7459099405af6e0e2065a385732cbdcd9a3df66945dfd7b0384d0aa2",
+  "signature": "Zb0t4mtv-etPp2NtWQkXS7pzwNqXOVZHH45Yl9cyUGQRZuXaeOOpFLavdifIzaAPGYKAYBZfq6jCcnzbZnaQDQ"
 }
