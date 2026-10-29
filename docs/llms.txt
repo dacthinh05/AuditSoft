@@ -1,60 +1,53 @@
-# TenStartup · AuditSoft — AI-Native Financial Audit & Compliance Workspace
+# TenStartup — AuditSoft, InvoiceDesk, TaxInsight
 
-> **TenStartup** is a financial technology startup founded in 2024, building next-generation AI compliance and statutory audit automation solutions. The platform bridges deterministic high-speed financial parsing (via **AuditSoft Suite**) with state-of-the-art cognitive reasoning powered by Anthropic's **Claude 3.7 Sonnet (Hybrid Reasoning)** and Claude 3.5 models.
----
+> TenStartup builds three Windows desktop apps for Vietnamese accountants, auditors and tax agents. Financial data is processed on the user's computer; optional AI features (Gemini) run only with the user's own API key.
 
-## 1. Company & Entity Information
-- **Startup Name:** TenStartup (TenStartup AI Platform)
-- **Primary Domain:** https://tenstartup.com
-- **Corporate Contact:** founder@tenstartup.com
-- **Founder & Lead Engineer:** Juster Nguyen (Nguyen Dac Thinh)
-- **Founder Work Email:** justernguyen@tenstartup.com
-- **Year Founded:** 2024
-- **GitHub Organization / Releases:** https://github.com/dacthinh05/AuditSoft-Releases/releases
-- **Engineering Stack:** Rust, TypeScript, React, Electron, Python, Anthropic Claude API (Claude 3.7 Sonnet with Hybrid Reasoning & Extended Thinking).
----
+## Company
+- Name: TenStartup
+- Domain: https://tenstartup.com
+- Founder & Lead Engineer: Juster Nguyen (Nguyen Dac Thinh)
+- Founder Work Email: justernguyen@tenstartup.com
+- Corporate Contact: founder@tenstartup.com
+- Support (Zalo): 0817.567.008
 
-## 2. TenStartup AI Engine Architecture (Powered by Claude)
+## Sản phẩm
 
-The TenStartup AI Engine is built on a hybrid architecture: **Local Deterministic RAM Vault + Claude Cognitive Layer**:
+### AuditSoft 2.8.2
+- Trang: https://tenstartup.com/tools/auditsoft/
+- Tải về: https://github.com/dacthinh05/AuditSoft-Releases/releases
+- Tóm tắt: Phần mềm làm hồ sơ kiểm toán báo cáo tài chính theo 4 giai đoạn: tiếp nhận sổ NKC và CĐSPS, lập kế hoạch và mức trọng yếu, thực hiện thủ tục theo từng phần hành, hoàn thành và lưu trữ hồ sơ. Tự điền bộ Giấy làm việc theo mẫu VACPA từ số liệu sổ sách.
+- Dùng thử: Dùng thử đầy đủ tính năng đến 31/12/2026
+- Dữ liệu: Sổ sách và hồ sơ được xử lý và lưu trên máy của bạn. Trợ lý AI là tùy chọn: chỉ khi bạn bật và nhập API key Gemini của mình, phần nội dung cần soát xét mới được gửi tới Google.
+- Bảng giá (theo máy):
+  - Early Bird — Vĩnh Viễn: 899.000 đ (Trọn đời / 1 máy)
+  - Gói 1 Năm (Năm Đầu): 990.000 đ (1 năm (365 ngày) / 1 máy)
+  - Gói 3 Năm: 2.490.000 đ (3 năm (1.095 ngày) / 1 máy)
+  - Gia Hạn 1 Năm: 1.890.000 đ (1 năm (gia hạn))
 
-### Pillar 1: Autonomous Working Paper Synthesis (VSA/VACPA Standard)
-- Integrates Claude 3.7 Sonnet's 200,000-token context window and Hybrid Reasoning to process massive raw transaction discrepancies identified by AuditSoft.
-- Automatically synthesizes audit observations and generates formal statutory audit working paper memos (B360, E300, D146) compliant with Vietnam Standards on Auditing (VSA 500, VSA 520, VSA 530).
-- Eliminates 100% of manual transcription and repetitive drafting work for certified auditors.
-### Pillar 2: Contextual Decree 181 & Tax Anomaly Detection
-- Beyond static rule-based filters, Claude semantically analyzes unstructured invoice descriptions, line items, and counterparty metadata.
-- Detects split-payment evasion patterns intended to circumvent Decree 181/2025/ND-CP (mandatory non-cash payment threshold of 5,000,000 VND).
-- Identifies high-risk ghost suppliers and auto-allocates ineligible VAT/CIT expenses directly into Form B4 tax return adjustments.
+### InvoiceDesk 4.1.8
+- Trang: https://tenstartup.com/tools/invoicedesk/
+- Tải về: https://github.com/dacthinh05/InvoiceDesk/releases
+- Tóm tắt: Tải hàng loạt hóa đơn mua vào, bán ra và hóa đơn máy tính tiền từ Cổng HĐĐT của Cục Thuế, tự chia khoảng tra cứu theo tháng để lấy đủ cả năm. Xuất bảng kê chi tiết từng dòng hàng và mẫu nhập MISA AMIS, FAST, HTKK.
+- Dùng thử: Dùng thử đầy đủ tính năng 7 ngày
+- Dữ liệu: Hóa đơn được tải thẳng từ Cổng HĐĐT về máy của bạn, thông tin đăng nhập lưu mã hóa trên máy, không qua máy chủ trung gian. Trợ lý AI Gemini là tùy chọn và dùng API key của bạn.
+- Bảng giá (theo máy):
+  - PRO 1 Năm: 490.000 đ (1 năm / 1 máy)
+  - PRO 2 Năm: 690.000 đ (2 năm / 1 máy)
+  - Dùng Trọn Đời: 1.190.000 đ (Trọn đời / 1 máy)
 
-### Pillar 3: Natural Language Financial Ledger Copilot
-- Allows CFOs, audit partners, and senior accountants to query complex enterprise ledgers using natural language.
-- Produces verifiable, bi-directionally linked calculation proofs with zero hallucination.
+### TaxInsight 3.12.0
+- Trang: https://tenstartup.com/tools/taxinsight/
+- Tải về: https://github.com/dacthinh05/TaxInsight-Releases/releases
+- Tóm tắt: Dành cho đại lý thuế và kế toán dịch vụ: tải tờ khai đã nộp và giấy nộp tiền C1-02/NS của nhiều doanh nghiệp từ eTax và Cổng dịch vụ công ngành thuế chỉ bằng tài khoản tra cứu, không cần chữ ký số (USB Token). Lập Giấy làm việc GTGT, đối chiếu quyết toán TNCN và khớp giấy nộp tiền với nghĩa vụ thuế.
+- Dùng thử: Dùng thử đầy đủ tính năng 7 ngày
+- Dữ liệu: Tờ khai và giấy nộp tiền được tải thẳng từ cổng thuế về máy của bạn. Mật khẩu doanh nghiệp được mã hóa bằng cơ chế bảo vệ của Windows, nhật ký được che mật khẩu và cookie.
+- Bảng giá (theo máy):
+  - Gói Cá Nhân (1 Năm): 490.000 đ (1 năm / 1 máy)
+  - Gói Dịch Vụ / Đại Lý (1 Năm): 890.000 đ (1 năm / 2 máy)
+  - Gói Vĩnh Viễn: 1.290.000 đ (Trọn đời / 1 máy)
 
+## Công cụ khác
+- Vietstock TP (https://tenstartup.com/tools/vietstock/): Công cụ web phân tích so sánh giao dịch liên kết theo NĐ 132/2020/NĐ-CP: sàng lọc doanh nghiệp so sánh và tính khoảng giá trị giao dịch độc lập (tứ phân vị).
 
-### Enterprise Data Privacy & Local Masking
-- All sensitive financial transaction rows, tax IDs, and counterparty entities are deterministically pseudonymized and masked on RAM locally before passing reasoning context to the Claude API.
-- Operates under Anthropic's commercial API terms where customer inputs and outputs are never used to train foundation models.
----
-
-## 3. Core Production Products (AuditSoft Suite)
-
-### 1. AuditSoft NKC Pro
-- **URL:** https://tenstartup.com/tools/auditsoft/
-- **Capability:** Ultra-fast multi-dimensional ledger reconciliation (1,000,000 rows in <3s). Monetary Unit Sampling (MUS) under VSA 530, and automated export of 12 live-formula VACPA Excel working papers.
-
-### 2. InvoiceDesk Pro
-- **URL:** https://tenstartup.com/tools/invoicedesk/
-- **Capability:** Automated bulk retrieval of e-invoices directly from the General Department of Taxation portal (hoadondientu.gdt.gov.vn) overcoming the 31-day search barrier.
-
-### 3. TaxInsight Pro
-- **URL:** https://tenstartup.com/tools/taxinsight/
-- **Capability:** Token-less eTax document retrieval (thuedientu.gdt.gov.vn) for tax agents managing 50-200 client enterprises without holding physical USB crypto tokens.
-
-### 4. Vietstock TP Benchmarking
-- **URL:** https://tenstartup.com/tools/vietstock/
-- **Capability:** Decree 132/2020 transfer pricing benchmarking and arm's length interquartile range (IQR) simulation across 2,500+ listed companies.
-
-### 5. Cẩm Nang So Khớp NKC B360
-- **URL:** https://tenstartup.com/cam-nang/so-khop-nkc/
-- **Capability:** Comprehensive technical handbook on double-entry general ledger reconciliation under VSA 530, Decree 181/2025 cash payment thresholds, and VACPA working papers.
+## Cẩm nang
+- Đối chiếu sổ NKC (B360) và hồ sơ kiểm toán: https://tenstartup.com/cam-nang/so-khop-nkc/

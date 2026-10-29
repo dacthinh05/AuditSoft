@@ -1,47 +1,143 @@
-# TenStartup · AuditSoft — Comprehensive Technical & Architectural Specification
+# TenStartup — AuditSoft, InvoiceDesk, TaxInsight
 
-> **TenStartup** (https://tenstartup.com) is an AI-native financial audit & compliance technology startup founded in 2024. This document provides complete architectural specifications, product capabilities, regulatory compliance frameworks, and AI integration details for Large Language Models and automated audit crawlers.
+> TenStartup builds three Windows desktop apps for Vietnamese accountants, auditors and tax agents. Financial data is processed on the user's computer; optional AI features (Gemini) run only with the user's own API key.
 
----
+## Company
+- Name: TenStartup
+- Domain: https://tenstartup.com
+- Founder & Lead Engineer: Juster Nguyen (Nguyen Dac Thinh)
+- Founder Work Email: justernguyen@tenstartup.com
+- Corporate Contact: founder@tenstartup.com
+- Support (Zalo): 0817.567.008
 
-## 1. Executive Summary & Corporate Identity
-- **Legal & Startup Brand:** TenStartup (TenStartup AI Platform)
-- **Flagship Core Engine:** AuditSoft Suite (Production-proven desktop audit engine)
-- **Domain:** https://tenstartup.com
-- **Founder & Technical Lead:** Juster Nguyen (Nguyen Dac Thinh)
-- **Founder Direct Email:** justernguyen@tenstartup.com
-- **Corporate Contact:** founder@tenstartup.com
-- **Year Founded:** 2024
-- **Core Focus:** Automated Financial Audit, Regulatory Compliance, Transfer Pricing Benchmarking, Tax Evidence Verification.
-- **Key Regulations Supported:** 
-  - Decree 181/2025/ND-CP (Non-cash payment regulations for expenses >= 5M VND).
-  - Decree 132/2020/ND-CP (Transfer pricing, arm's length IQR, EBITDA 30% interest ceiling).
-  - Vietnam Standards on Auditing: VSA 250, VSA 500, VSA 520, VSA 530.
-  - VACPA Statutory Working Paper Guidelines (A270, B360, C210, D146, D553, D555, E300, G150).
+## Sản phẩm
 
----
+### AuditSoft 2.8.2
+- Trang: https://tenstartup.com/tools/auditsoft/
+- Tải về: https://github.com/dacthinh05/AuditSoft-Releases/releases
+- Tóm tắt: Phần mềm làm hồ sơ kiểm toán báo cáo tài chính theo 4 giai đoạn: tiếp nhận sổ NKC và CĐSPS, lập kế hoạch và mức trọng yếu, thực hiện thủ tục theo từng phần hành, hoàn thành và lưu trữ hồ sơ. Tự điền bộ Giấy làm việc theo mẫu VACPA từ số liệu sổ sách.
+- Dùng thử: Dùng thử đầy đủ tính năng đến 31/12/2026
+- Dữ liệu: Sổ sách và hồ sơ được xử lý và lưu trên máy của bạn. Trợ lý AI là tùy chọn: chỉ khi bạn bật và nhập API key Gemini của mình, phần nội dung cần soát xét mới được gửi tới Google.
+- Bảng giá (theo máy):
+  - Early Bird — Vĩnh Viễn: 899.000 đ (Trọn đời / 1 máy)
+  - Gói 1 Năm (Năm Đầu): 990.000 đ (1 năm (365 ngày) / 1 máy)
+  - Gói 3 Năm: 2.490.000 đ (3 năm (1.095 ngày) / 1 máy)
+  - Gia Hạn 1 Năm: 1.890.000 đ (1 năm (gia hạn))
 
-## 2. AI Architecture: Deterministic Engine × Claude Cognitive Layer
+#### Tiếp Nhận Dữ Liệu
+- Chuẩn hóa sổ NKC và bảng CĐSPS xuất từ MISA, Bravo, FAST vào biểu mẫu kiểm toán.
+- Đọc tờ khai thuế XML từ eTax để đối chiếu với sổ sách.
+- Gộp nhiều tệp Excel, chuyển đổi tệp Access (.mdb) cũ.
 
-Financial auditing requires deterministic mathematical rigor combined with subtle contextual judgment. TenStartup pairs both:
+#### Lập Kế Hoạch Kiểm Toán
+- Phân tích sơ bộ BCTC (A510) theo VSA 520: biến động, tỷ số tài chính.
+- Xác định mức trọng yếu và lập kế hoạch kiểm toán (nhóm A).
+- Chương trình thủ tục kiểm toán theo VSA cho từng khoản mục.
 
-### High-Speed Deterministic Core (AuditSoft Core)
-- Built with Rust, TypeScript, and high-performance local memory data structures.
-- Parses and reconciles 1,000,000+ journal entries in under 3 seconds.
-- Performs exact Monetary Unit Sampling (MUS) under VSA 530.
-- Executes 100% offline on client hardware for sensitive financial isolation.
+#### Thực Hiện Theo Phần Hành
+- Tiền: đối chiếu TGNH và chênh lệch tỷ giá (D146), kiểm tra chi tiết TK 112.
+- Công nợ: chốt công nợ phải thu 131, phải trả 331; thư xác nhận theo VSA 505 và sổ theo dõi thư.
+- Hàng tồn kho và giá thành: kiểm toán kho (D553, D555), giá thành TK 154, đối chiếu bán và xuất kho (G152).
+- Doanh thu: đối chiếu doanh thu với tờ khai thuế (G150), tờ khai hải quan xuất khẩu (G100) và nhập khẩu (D150), cut-off doanh thu, chi phí, mua hàng.
+- Lương và bảo hiểm (E490, E491 đối chiếu mẫu C12), khấu hao TSCĐ (214), phân bổ CCDC và chi phí trả trước (242), chốt nợ vay (341).
+- Chọn mẫu kiểm toán theo VSA 530; rà soát thanh toán không dùng tiền mặt từ 5 triệu đồng (NĐ 181/2025/NĐ-CP) và chi phí không được trừ.
 
-### Cognitive Reasoning Layer (Powered by Anthropic Claude 3.7 Sonnet / Opus)
-- **Context Synthesis:** Ingests complex multi-sheet discrepancy tables and synthesizes executive audit observations and working paper conclusions.
-- **Semantic Fraud Detection:** Evaluates supplier descriptions, transaction timing, and fragmented voucher series to identify deliberate evasions of tax thresholds.
-- **Conversational Audit Interface:** Enables partner-level natural language queries against extensive ledgers with auditable evidence citations.
-- **Enterprise Data Privacy & Local Masking:** Financial data is pre-tokenized, masked, and hashed locally on RAM prior to passing reasoning context to the Claude API (operating under commercial terms where customer data is never used to train foundation models).
+#### Hoàn Thành & Lưu Trữ Hồ Sơ
+- Tổng hợp điều chỉnh B360 (NKC trước và sau điều chỉnh), sổ bút toán điều chỉnh (AJE) dùng chung, tổng hợp sai sót B410.
+- Soát xét chéo Giấy làm việc theo quy tắc và trợ lý AI (tùy chọn).
+- Kiểm soát chất lượng hồ sơ theo QĐ 2079/QĐ-BTC và biên bản kiểm tra hồ sơ.
+- Tự điền bộ Giấy làm việc theo mẫu VACPA (A-B-H, Leadsheet, D100 đến G500); đóng và lưu trữ hồ sơ.
 
----
+#### Mẫu Giấy làm việc tự điền
+- A - B - H: Master BCTC (A-B-H)
+- Leadsheet: 38 CTKT Leadsheet
+- A400-C100: Chu trình KSNB (A400–C100, A810, A820)
+- D100: Tiền & Tương đương tiền
+- D200: Đầu tư tài chính
+- D300: Phải thu khách hàng
+- D500: Hàng tồn kho
+- D600: Chi phí trả trước
+- D700: Tài sản cố định
+- E100: Vay & nợ thuê tài chính
+- E200: Phải trả người bán
+- E300: Thuế & phải nộp Nhà nước
+- E400: Lương & BHXH
+- F100: Vốn chủ sở hữu
+- G100: Doanh thu & thu nhập khác
+- G200: Chi phí SXKD & giá vốn
+- G500: Doanh thu & CP tài chính
 
-## 3. Product Suite Details
-1. **AuditSoft NKC Pro:** Multi-dimensional journal entry reconciliation and automated VACPA Excel generation with live calculation formulas. (URL: https://tenstartup.com/tools/auditsoft/)
-2. **InvoiceDesk Pro:** Automated batch downloading of XML/PDF invoices from the General Department of Taxation. (URL: https://tenstartup.com/tools/invoicedesk/)
-3. **TaxInsight Pro:** Tokenless tax return and payment slip retrieval from the eTax system. (URL: https://tenstartup.com/tools/taxinsight/)
-4. **Vietstock TP Benchmarking (Transfer Pricing):** Automated arm's length interquartile range (IQR) benchmarking compliant with Decree 132/2020/ND-CP and Decree 20/2025/ND-CP. Features 7-tier screening across 2,500+ listed Vietnamese tickers, AI Semantic FAR Matching, 30% EBITDA net interest expense limitation verification, and dynamic Annex 05 live-formula Excel export. (URL: https://tenstartup.com/tools/vietstock/)
-5. **Cẩm Nang So Khớp NKC B360:** Technical handbook on double-entry general ledger reconciliation, MUS sampling, and Decree 181 cash payment compliance. (URL: https://tenstartup.com/cam-nang/so-khop-nkc/)
+### InvoiceDesk 4.1.8
+- Trang: https://tenstartup.com/tools/invoicedesk/
+- Tải về: https://github.com/dacthinh05/InvoiceDesk/releases
+- Tóm tắt: Tải hàng loạt hóa đơn mua vào, bán ra và hóa đơn máy tính tiền từ Cổng HĐĐT của Cục Thuế, tự chia khoảng tra cứu theo tháng để lấy đủ cả năm. Xuất bảng kê chi tiết từng dòng hàng và mẫu nhập MISA AMIS, FAST, HTKK.
+- Dùng thử: Dùng thử đầy đủ tính năng 7 ngày
+- Dữ liệu: Hóa đơn được tải thẳng từ Cổng HĐĐT về máy của bạn, thông tin đăng nhập lưu mã hóa trên máy, không qua máy chủ trung gian. Trợ lý AI Gemini là tùy chọn và dùng API key của bạn.
+- Bảng giá (theo máy):
+  - PRO 1 Năm: 490.000 đ (1 năm / 1 máy)
+  - PRO 2 Năm: 690.000 đ (2 năm / 1 máy)
+  - Dùng Trọn Đời: 1.190.000 đ (Trọn đời / 1 máy)
+
+#### Tải Đủ Hóa Đơn Cả Năm
+- Tải hóa đơn mua vào, bán ra và hóa đơn khởi tạo từ máy tính tiền (MTT).
+- Tự chia khoảng ngày theo tháng vì Cổng HĐĐT chỉ cho tra cứu tối đa 1 tháng mỗi lần; tự tải lại các tháng bị lỗi.
+- Tự nhận diện mã captcha ngay trên máy, cho nhập tay khi nhận sai.
+
+#### XML, PDF Gốc & Bản Thể Hiện
+- Lưu tệp XML gốc và tải PDF gốc từ nhà cung cấp hóa đơn (MISA, Viettel, VNPT, BKAV, FPT, EasyInvoice…).
+- Kết xuất bản thể hiện hóa đơn, kiểm tra chữ ký số.
+- Đổi tên tệp hàng loạt theo quy tắc thống nhất.
+
+#### Trạng Thái & Rủi Ro Hóa Đơn
+- Phân loại 6 trạng thái: gốc, điều chỉnh, bị điều chỉnh, thay thế, bị thay thế, hủy; dựng chuỗi hóa đơn thay thế.
+- Rà soát rủi ro, cut-off kỳ kế toán, phát hiện hóa đơn về muộn.
+- Thống kê số lượng theo từng loại hóa đơn, lọc nhanh hóa đơn bị ẩn.
+
+#### Bảng Kê & Đối Soát
+- Bảng kê Excel chi tiết từng dòng hàng: tên hàng, số lượng, đơn giá, thuế suất.
+- Xuất mẫu nhập MISA AMIS, FAST và HTKK (tách thuế suất 0%, 5%, 8%, 10%).
+- Đối soát danh sách hóa đơn trên Cổng thuế với bảng kê của bạn theo mã số thuế và số hóa đơn, nhận diện mã số thuế chi nhánh.
+
+### TaxInsight 3.12.0
+- Trang: https://tenstartup.com/tools/taxinsight/
+- Tải về: https://github.com/dacthinh05/TaxInsight-Releases/releases
+- Tóm tắt: Dành cho đại lý thuế và kế toán dịch vụ: tải tờ khai đã nộp và giấy nộp tiền C1-02/NS của nhiều doanh nghiệp từ eTax và Cổng dịch vụ công ngành thuế chỉ bằng tài khoản tra cứu, không cần chữ ký số (USB Token). Lập Giấy làm việc GTGT, đối chiếu quyết toán TNCN và khớp giấy nộp tiền với nghĩa vụ thuế.
+- Dùng thử: Dùng thử đầy đủ tính năng 7 ngày
+- Dữ liệu: Tờ khai và giấy nộp tiền được tải thẳng từ cổng thuế về máy của bạn. Mật khẩu doanh nghiệp được mã hóa bằng cơ chế bảo vệ của Windows, nhật ký được che mật khẩu và cookie.
+- Bảng giá (theo máy):
+  - Gói Cá Nhân (1 Năm): 490.000 đ (1 năm / 1 máy)
+  - Gói Dịch Vụ / Đại Lý (1 Năm): 890.000 đ (1 năm / 2 máy)
+  - Gói Vĩnh Viễn: 1.290.000 đ (Trọn đời / 1 máy)
+
+#### Tải Tờ Khai Không Cần USB Token
+- Tra cứu và tải tờ khai đã nộp chỉ cần tài khoản eTax, không cần chữ ký số (việc ký nộp tờ khai vẫn cần chữ ký số).
+- Kết nối cả Cổng dịch vụ công và eTax của ngành thuế, tự chuyển cổng khi một cổng lỗi.
+- Quét theo năm, quý, tháng; tự mở rộng đến 31/03 năm sau để không sót hồ sơ quyết toán.
+
+#### Giấy Nộp Tiền & Nghĩa Vụ Thuế
+- Tải giấy nộp tiền vào NSNN (mẫu C1-02/NS) và xem chi tiết từng khoản nộp.
+- Tính hạn nộp theo Luật Quản lý thuế 38/2019/QH14 và NĐ 126/2020/NĐ-CP, tự dời ngày nghỉ, lễ.
+- Khớp giấy nộp tiền với tờ khai theo 4 mức tin cậy; báo thiếu dữ liệu thay vì kết luận nợ thuế khi chưa đủ căn cứ.
+
+#### Giấy Làm Việc Thuế
+- Giấy làm việc thuế GTGT: đối chiếu tính liên tục chỉ tiêu [22] ↔ [43], xem theo 12 tháng hoặc 4 quý.
+- Đối chiếu số thuế TNCN khấu trừ từng kỳ (05/KK-TNCN) với quyết toán năm (05/QTT-TNCN) theo Thông tư 80/2021/TT-BTC, kèm lịch sử bổ sung.
+- Mở thẳng tờ khai gốc từ danh sách hồ sơ.
+
+#### Lưu Trữ Có Tổ Chức
+- Tự giải nén, cứu tệp ZIP hỏng và lưu theo Mã số thuế / Năm / Loại thuế, kèm mã băm SHA-256.
+- Phân tích tệp XML tờ khai có sẵn trên máy bằng cách kéo thả, không cần đăng nhập.
+- Tự kiểm tra bản cập nhật mỗi khi mở ứng dụng.
+
+## Công cụ khác
+- Vietstock TP (https://tenstartup.com/tools/vietstock/): Công cụ web phân tích so sánh giao dịch liên kết theo NĐ 132/2020/NĐ-CP: sàng lọc doanh nghiệp so sánh và tính khoảng giá trị giao dịch độc lập (tứ phân vị).
+
+## Cẩm nang
+- Đối chiếu sổ NKC (B360) và hồ sơ kiểm toán: https://tenstartup.com/cam-nang/so-khop-nkc/
+
+## Câu hỏi thường gặp
+- Dữ liệu tài chính có bị đưa lên máy chủ không? Không. Sổ sách, hóa đơn và tờ khai được xử lý và lưu trên máy của bạn. InvoiceDesk và TaxInsight kết nối thẳng tới cổng của Cục Thuế bằng tài khoản của bạn để tải dữ liệu về. Trợ lý AI trong AuditSoft và InvoiceDesk là tùy chọn: chỉ khi bạn bật và nhập API key Gemini của mình, phần nội dung cần phân tích mới được gửi tới Google.
+- Dùng thử được bao lâu? Bản dùng thử có đầy đủ tính năng. AuditSoft: dùng thử đến 31/12/2026; InvoiceDesk: dùng thử 7 ngày; TaxInsight: dùng thử 7 ngày.
+- Đổi máy tính thì bản quyền có chuyển sang máy mới được không? Có. Bản quyền gắn với mã máy. Khi đổi máy, cài lại Windows hoặc máy hỏng, nhắn Zalo 0817.567.008 kèm mã máy mới để được cấp lại mã kích hoạt.
+- Khi Cục Thuế thay đổi cổng hoặc mẫu tờ khai thì sao? Các phần mềm tự kiểm tra bản cập nhật mỗi khi mở. Bản sửa lỗi tương thích được phát hành qua GitHub Releases trong thời hạn bản quyền của bạn.
+- Làm dịch vụ kế toán cho nhiều công ty nên chọn gói nào? TaxInsight có Gói Dịch Vụ / Đại Lý (1 Năm) (890.000 đ, 1 năm / 2 máy); gói cá nhân (1 năm) cũng không giới hạn số mã số thuế tải. Các gói còn lại tính theo máy, xem chi tiết ở bảng giá.

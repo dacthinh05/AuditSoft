@@ -1,15 +1,15 @@
 {
-  "version": "2.1.10",
-  "releaseDate": "2026-10-22",
-  "title": "AuditSoft v2.1.10 — Tinh Gọn Giao Diện, Phân Rã God Components & Chuẩn Hóa IPC",
+  "version": "2.8.2",
+  "releaseDate": "2026-10-29",
+  "title": "AuditSoft v2.8.2 — Tách Mục Tổng Hợp B410 Ra Sidebar & Cân Bằng Giao Diện VSA 530",
   "changelog": [
-    "Tinh gọn giao diện & phân rã God Components: Tách nhỏ các màn hình Công nợ 131/331 (DebtPairControls, DebtFileSlot, DebtConfirmationCell) và Bảng đối chiếu doanh thu G150, giảm hơn 40% độ phức tạp code giao diện.",
-    "Phân tách Động cơ Xuất Excel: Tách nhỏ exportDebtExcel thành các builder chuyên biệt (singleVendorWorkbookBuilder, riskAndDiscrepancySheetBuilder), tăng tốc độ xuất file và bảo trì an toàn.",
-    "Kiến trúc IPC Controller: Modular hóa toàn bộ các kênh IPC Main Process theo từng domain riêng biệt (excel, confirmation, pdf, payroll).",
-    "Tương thích phần mềm HTKK 5.8.0 mới nhất và chuẩn hóa 100% Clean URLs cho hệ sinh thái."
+    "Tách mục Tổng Hợp B410 ra thanh bên Sidebar: Đưa chức năng gộp và tổng hợp file B410 thành mục độc lập ở giai đoạn 4. HOÀN THÀNH & BÀN GIAO, hỗ trợ KTV truy cập 1-chạm trực tiếp.",
+    "Khắc phục giao diện Chọn Mẫu VSA 530: Phân tách 2 hàng cân bằng giữa bộ chuyển chế độ (Dxxx / C1xx) và bộ chọn phần hành, khóa chặn min-width chống co rút dropdown Phần hành và hiển thị trọn vẹn placeholder ô Đầu TK.",
+    "Đồng bộ tiến độ ký duyệt hồ sơ: Kết nối trạng thái hoàn thành giai đoạn 3–4 với tiến độ soát xét thực tế của thư mục hồ sơ công ty.",
+    "Cầu đối chiếu thuế GTGT mua vào & Tự động hóa Phân tích sơ bộ A510: Đối chiếu chi tiết hóa đơn đầu vào TK 133 và đồng bộ rủi ro A510 sang A710/A810."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.10/AuditSoft-2.1.10-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.1.10/AuditSoft-2.1.10-Portable.exe",
-  "sha256": "f2a773fc7459099405af6e0e2065a385732cbdcd9a3df66945dfd7b0384d0aa2",
-  "signature": "Zb0t4mtv-etPp2NtWQkXS7pzwNqXOVZHH45Yl9cyUGQRZuXaeOOpFLavdifIzaAPGYKAYBZfq6jCcnzbZnaQDQ"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.8.2/AuditSoft-2.8.2-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.8.2/AuditSoft-2.8.2-Portable.exe",
+  "sha256": "b79157c94dc9586dcf4af49ad24692d2c70f27ccb67ed7a3151774ccb446853d",
+  "signature": "1rsv0gcf51rIG4wiYO7gqXW4DKXmpdRSYWvdROgNQKxUpWpNzd3MUNp8uda6eRWG3aFnurczjw8pV0Bl3jQNBw"
 }
