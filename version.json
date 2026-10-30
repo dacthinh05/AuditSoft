@@ -1,15 +1,14 @@
 {
-  "version": "2.8.2",
-  "releaseDate": "2026-10-29",
-  "title": "AuditSoft v2.8.2 — Tách Mục Tổng Hợp B410 Ra Sidebar & Cân Bằng Giao Diện VSA 530",
+  "version": "2.8.10",
+  "releaseDate": "2026-10-30",
+  "title": "AuditSoft v2.8.10 — Chuẩn Hóa Thứ Tự Tab Kế Hoạch A400 Trước A710 Chuẩn VACPA",
   "changelog": [
-    "Tách mục Tổng Hợp B410 ra thanh bên Sidebar: Đưa chức năng gộp và tổng hợp file B410 thành mục độc lập ở giai đoạn 4. HOÀN THÀNH & BÀN GIAO, hỗ trợ KTV truy cập 1-chạm trực tiếp.",
-    "Khắc phục giao diện Chọn Mẫu VSA 530: Phân tách 2 hàng cân bằng giữa bộ chuyển chế độ (Dxxx / C1xx) và bộ chọn phần hành, khóa chặn min-width chống co rút dropdown Phần hành và hiển thị trọn vẹn placeholder ô Đầu TK.",
-    "Đồng bộ tiến độ ký duyệt hồ sơ: Kết nối trạng thái hoàn thành giai đoạn 3–4 với tiến độ soát xét thực tế của thư mục hồ sơ công ty.",
-    "Cầu đối chiếu thuế GTGT mua vào & Tự động hóa Phân tích sơ bộ A510: Đối chiếu chi tiết hóa đơn đầu vào TK 133 và đồng bộ rủi ro A510 sang A710/A810."
+    "Tái sắp xếp thứ tự sub-tabs trong phân hệ Lập Kế Hoạch (Planning Hub #00A): đưa KSNB chu trình (A400) lên trước Mức trọng yếu (A710) theo đúng trình tự mã số hồ sơ VACPA 2019 (A110 -> A310 -> A400 -> A710 -> A810).",
+    "Tối ưu trải nghiệm: hỗ trợ KTV tìm hiểu đơn vị và đánh giá thiết kế KSNB chu trình trước khi chốt mức trọng yếu OM/PM.",
+    "Đồng bộ toàn bộ điều hướng sâu (Deep Link Navigation) và kiểm thử hồi quy 100% pass."
   ],
-  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.8.2/AuditSoft-2.8.2-Setup.exe",
-  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.8.2/AuditSoft-2.8.2-Portable.exe",
-  "sha256": "b79157c94dc9586dcf4af49ad24692d2c70f27ccb67ed7a3151774ccb446853d",
-  "signature": "1rsv0gcf51rIG4wiYO7gqXW4DKXmpdRSYWvdROgNQKxUpWpNzd3MUNp8uda6eRWG3aFnurczjw8pV0Bl3jQNBw"
+  "downloadUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.8.10/AuditSoft-2.8.10-Setup.exe",
+  "portableUrl": "https://github.com/dacthinh05/AuditSoft-Releases/releases/download/v2.8.10/AuditSoft-2.8.10-Portable.exe",
+  "sha256": "4c01b80b3536fee70e8fd06a043e110b7e0265c131e60a82ee4014cfc1431fb6",
+  "signature": "CiS_CZhmBFhGpTL_jju3A1gkwQgjlONU9EfC-appLlhFbTTZ6k0VTJPpB5kiC2apSvjKGuXzaA7e3upR5t4TBw"
 }

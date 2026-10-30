@@ -14,7 +14,11 @@
   <meta property="og:title" content="TenStartup — AuditSoft, InvoiceDesk, TaxInsight: Phần Mềm Kế Toán, Kiểm Toán & Thuế">
   <meta property="og:description" content="Ba phần mềm Windows cho kế toán, kiểm toán viên và đại lý thuế: InvoiceDesk tải hóa đơn điện tử cả năm từ Cổng HĐĐT, TaxInsight tải tờ khai và giấy nộp tiền không cần USB Token, AuditSoft lập hồ sơ kiểm toán BCTC theo mẫu VACPA.">
   <meta property="og:url" content="https://tenstartup.com/">
-  <meta property="og:image" content="https://tenstartup.com/assets/logo-tenstartup-a.png">
+  <meta property="og:image" content="https://tenstartup.com/assets/og-suite.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="TenStartup — AuditSoft, InvoiceDesk, TaxInsight: Phần Mềm Kế Toán, Kiểm Toán & Thuế">
   <meta property="og:locale" content="vi_VN">
   <meta property="og:site_name" content="TenStartup">
 
@@ -22,25 +26,117 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="TenStartup — AuditSoft, InvoiceDesk, TaxInsight: Phần Mềm Kế Toán, Kiểm Toán & Thuế">
   <meta name="twitter:description" content="Ba phần mềm Windows cho kế toán, kiểm toán viên và đại lý thuế: InvoiceDesk tải hóa đơn điện tử cả năm từ Cổng HĐĐT, TaxInsight tải tờ khai và giấy nộp tiền không cần USB Token, AuditSoft lập hồ sơ kiểm toán BCTC theo mẫu VACPA.">
-  <meta name="twitter:image" content="https://tenstartup.com/assets/logo-tenstartup-a.png">
+  <meta name="twitter:image" content="https://tenstartup.com/assets/og-suite.png">
+
+  <!-- LLM Context Link -->
+  <link rel="alternate" type="text/markdown" title="LLM Context" href="https://tenstartup.com/llms.txt">
 
   <!-- Schema.org JSON-LD -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "TenStartup — AuditSoft, InvoiceDesk, TaxInsight: Phần Mềm Kế Toán, Kiểm Toán & Thuế",
-    "operatingSystem": "Windows 10, Windows 11",
-    "applicationCategory": "BusinessApplication",
-    "offers": {
-      "@type": "AggregateOffer",
-      "lowPrice": "490000",
-      "highPrice": "2490000",
-      "offerCount": "10",
-      "priceCurrency": "VND"
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://tenstartup.com/#organization",
+      "name": "TenStartup",
+      "url": "https://tenstartup.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://tenstartup.com/assets/logo-tenstartup-a.png"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Nguyen Dac Thinh"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+84-817-567-008",
+        "contactType": "technical support",
+        "availableLanguage": "vi"
+      },
+      "sameAs": [
+        "https://github.com/dacthinh05"
+      ]
     },
-    "description": "Ba phần mềm Windows cho kế toán, kiểm toán viên và đại lý thuế: InvoiceDesk tải hóa đơn điện tử cả năm từ Cổng HĐĐT, TaxInsight tải tờ khai và giấy nộp tiền không cần USB Token, AuditSoft lập hồ sơ kiểm toán BCTC theo mẫu VACPA."
-  }
+    {
+      "@type": "WebSite",
+      "@id": "https://tenstartup.com/#website",
+      "name": "TenStartup",
+      "url": "https://tenstartup.com/",
+      "description": "Ba phần mềm Windows cho kế toán, kiểm toán viên và đại lý thuế: InvoiceDesk tải hóa đơn điện tử cả năm từ Cổng HĐĐT, TaxInsight tải tờ khai và giấy nộp tiền không cần USB Token, AuditSoft lập hồ sơ kiểm toán BCTC theo mẫu VACPA.",
+      "publisher": {
+        "@id": "https://tenstartup.com/#organization"
+      },
+      "inLanguage": "vi-VN"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tenstartup.com/#suite",
+      "name": "AuditSoft, InvoiceDesk & TaxInsight Suite",
+      "operatingSystem": "Windows 10, Windows 11",
+      "applicationCategory": "BusinessApplication",
+      "offers": {
+        "@type": "AggregateOffer",
+        "lowPrice": "490000",
+        "highPrice": "8900000",
+        "offerCount": "10",
+        "priceCurrency": "VND"
+      },
+      "description": "Ba phần mềm Windows cho kế toán, kiểm toán viên và đại lý thuế: InvoiceDesk tải hóa đơn điện tử cả năm từ Cổng HĐĐT, TaxInsight tải tờ khai và giấy nộp tiền không cần USB Token, AuditSoft lập hồ sơ kiểm toán BCTC theo mẫu VACPA.",
+      "image": "https://tenstartup.com/assets/og-suite.png",
+      "author": {
+        "@id": "https://tenstartup.com/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://tenstartup.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "1. Dữ liệu tài chính có bị đưa lên máy chủ không?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Không. Sổ sách, hóa đơn và tờ khai được xử lý và lưu trên máy của bạn. InvoiceDesk và TaxInsight kết nối thẳng tới cổng của Cục Thuế bằng tài khoản của bạn để tải dữ liệu về. Trợ lý AI trong AuditSoft và InvoiceDesk là tùy chọn: chỉ khi bạn bật và nhập API key Gemini của mình, phần nội dung cần phân tích mới được gửi tới Google."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "2. Dùng thử được bao lâu?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Bản dùng thử có đầy đủ tính năng. AuditSoft: dùng thử đến 31/12/2026; InvoiceDesk: dùng thử 7 ngày; TaxInsight: dùng thử 7 ngày."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "3. Đổi máy tính thì bản quyền có chuyển sang máy mới được không?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Có. Bản quyền gắn với mã máy. Khi đổi máy, cài lại Windows hoặc máy hỏng, nhắn Zalo 0817.567.008 kèm mã máy mới để được cấp lại mã kích hoạt."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "4. Khi Cục Thuế thay đổi cổng hoặc mẫu tờ khai thì sao?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Các phần mềm tự kiểm tra bản cập nhật mỗi khi mở. Bản sửa lỗi tương thích được phát hành qua GitHub Releases trong thời hạn bản quyền của bạn."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "5. Làm dịch vụ kế toán cho nhiều công ty nên chọn gói nào?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "TaxInsight có Gói Dịch Vụ / Đại Lý (1 Năm) (890.000 đ, 1 năm / 2 máy); gói cá nhân (1 năm) cũng không giới hạn số mã số thuế tải. Các gói còn lại tính theo máy, xem chi tiết ở bảng giá."
+          }
+        }
+      ]
+    }
+  ]
+}
   </script>
 
   <link rel="canonical" href="https://tenstartup.com/">
@@ -266,7 +362,7 @@
       <div class="container hero-centered-content">
         <a href="#downloads" class="announcement-pill hero-animate-1">
           <span class="pill-tag">MỚI</span>
-          <span>AuditSoft 2.8.2 · InvoiceDesk 4.1.8 · TaxInsight 3.12.0</span>
+          <span>AuditSoft 2.8.4 · InvoiceDesk 4.1.9 · TaxInsight 3.13.0</span>
           <span class="pill-arrow">→</span>
         </a>
 
@@ -305,9 +401,9 @@
                 <span class="window-dot green"></span>
               </div>
               <div class="stage-window-title">AuditSoft — Tổng quan hồ sơ kiểm toán</div>
-              <div style="font-size: 0.75rem; color: var(--accent-primary); font-family: 'JetBrains Mono', monospace;">v2.8.2</div>
+              <div style="font-size: 0.75rem; color: var(--accent-primary); font-family: 'JetBrains Mono', monospace;">v2.8.4</div>
             </div>
-            <img src="./assets/real-auditsoft-hub.png" alt="Ảnh chụp màn hình AuditSoft" class="stage-img">
+            <img src="./assets/real-auditsoft-hub.png" alt="Ảnh chụp màn hình AuditSoft" class="stage-img" width="1200" height="750" fetchpriority="high" decoding="async">
           </div>
         </div>
       </div>
@@ -399,7 +495,7 @@
                 <img src="./assets/auditsoft.svg" alt="AuditSoft" style="width: 46px; height: 46px; border-radius: 12px;">
                 <div>
                   <h3 style="font-size: 1.35rem; margin-bottom: 2px;">AuditSoft</h3>
-                  <span class="meta-tag" style="color: var(--accent-primary);">KIỂM TOÁN BCTC · v2.8.2</span>
+                  <span class="meta-tag" style="color: var(--accent-primary);">KIỂM TOÁN BCTC · v2.8.4</span>
                 </div>
               </div>
               <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">Phần mềm làm hồ sơ kiểm toán báo cáo tài chính theo 4 giai đoạn: tiếp nhận sổ NKC và CĐSPS, lập kế hoạch và mức trọng yếu, thực hiện thủ tục theo từng phần hành, hoàn thành và lưu trữ hồ sơ. Tự điền bộ Giấy làm việc theo mẫu VACPA từ số liệu sổ sách.</p>
@@ -429,7 +525,7 @@
                 <img src="./assets/invoicedesk.png" alt="InvoiceDesk" style="width: 46px; height: 46px; border-radius: 12px;">
                 <div>
                   <h3 style="font-size: 1.35rem; margin-bottom: 2px;">InvoiceDesk</h3>
-                  <span class="meta-tag" style="color: var(--accent-primary);">HÓA ĐƠN ĐIỆN TỬ · v4.1.8</span>
+                  <span class="meta-tag" style="color: var(--accent-primary);">HÓA ĐƠN ĐIỆN TỬ · v4.1.9</span>
                 </div>
               </div>
               <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">Tải hàng loạt hóa đơn mua vào, bán ra và hóa đơn máy tính tiền từ Cổng HĐĐT của Cục Thuế, tự chia khoảng tra cứu theo tháng để lấy đủ cả năm. Xuất bảng kê chi tiết từng dòng hàng và mẫu nhập MISA AMIS, FAST, HTKK.</p>
@@ -459,7 +555,7 @@
                 <img src="./assets/taxinsight.svg" alt="TaxInsight" style="width: 46px; height: 46px; border-radius: 12px;">
                 <div>
                   <h3 style="font-size: 1.35rem; margin-bottom: 2px;">TaxInsight</h3>
-                  <span class="meta-tag" style="color: var(--accent-primary);">TỜ KHAI THUẾ · v3.12.0</span>
+                  <span class="meta-tag" style="color: var(--accent-primary);">TỜ KHAI THUẾ · v3.13.0</span>
                 </div>
               </div>
               <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">Dành cho đại lý thuế và kế toán dịch vụ: tải tờ khai đã nộp và giấy nộp tiền C1-02/NS của nhiều doanh nghiệp từ eTax và Cổng dịch vụ công ngành thuế chỉ bằng tài khoản tra cứu, không cần chữ ký số (USB Token). Lập Giấy làm việc GTGT, đối chiếu quyết toán TNCN và khớp giấy nộp tiền với nghĩa vụ thuế.</p>
@@ -696,35 +792,35 @@
             <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 8px;">Dùng thử đầy đủ tính năng đến 31/12/2026.</p>
             <ul style="list-style: none; margin: 0 0 16px; padding: 0;">
               <li style="padding: 12px 0; border-top: 1px solid var(--border-color);">
-                <strong style="display: block; color: var(--text-main); font-size: 0.9375rem;">Early Bird — Vĩnh Viễn</strong>
-                <span style="display: block; font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 6px;">Trọn đời / 1 máy</span>
-                <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
-                  <span><span class="price-amount nowrap" style="font-size: 1.1rem; color: var(--accent-primary); white-space: nowrap;">899.000&nbsp;đ</span> <del style="color: var(--text-faint); font-size: 0.8125rem;">2.890.000&nbsp;đ</del></span>
-                  <button type="button" class="btn btn-secondary btn-sm nowrap" style="white-space: nowrap;" onclick="setVietQRPlan('auditsoft_early_bird', 899000, 'AS VINH VIEN', 'AuditSoft — Early Bird — Vĩnh Viễn'); location.href='#vietqr';">Chọn</button>
-                </div>
-              </li>
-              <li style="padding: 12px 0; border-top: 1px solid var(--border-color);">
-                <strong style="display: block; color: var(--text-main); font-size: 0.9375rem;">Gói 1 Năm (Năm Đầu)</strong>
+                <strong style="display: block; color: var(--text-main); font-size: 0.9375rem;">Gói 1 Năm (Chuyên Nghiệp)</strong>
                 <span style="display: block; font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 6px;">1 năm (365 ngày) / 1 máy</span>
                 <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
-                  <span><span class="price-amount nowrap" style="font-size: 1.1rem; color: var(--accent-primary); white-space: nowrap;">990.000&nbsp;đ</span> <del style="color: var(--text-faint); font-size: 0.8125rem;">1.890.000&nbsp;đ</del></span>
-                  <button type="button" class="btn btn-secondary btn-sm nowrap" style="white-space: nowrap;" onclick="setVietQRPlan('auditsoft_first_year', 990000, 'AS 1 NAM', 'AuditSoft — Gói 1 Năm (Năm Đầu)'); location.href='#vietqr';">Chọn</button>
+                  <span><span class="price-amount nowrap" style="font-size: 1.1rem; color: var(--accent-primary); white-space: nowrap;">3.890.000&nbsp;đ</span> <del style="color: var(--text-faint); font-size: 0.8125rem;">5.890.000&nbsp;đ</del></span>
+                  <button type="button" class="btn btn-secondary btn-sm nowrap" style="white-space: nowrap;" onclick="setVietQRPlan('auditsoft_first_year', 3890000, 'AS 1 NAM', 'AuditSoft — Gói 1 Năm (Chuyên Nghiệp)'); location.href='#vietqr';">Chọn</button>
                 </div>
               </li>
               <li style="padding: 12px 0; border-top: 1px solid var(--border-color);">
                 <strong style="display: block; color: var(--text-main); font-size: 0.9375rem;">Gói 3 Năm</strong>
                 <span style="display: block; font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 6px;">3 năm (1.095 ngày) / 1 máy</span>
                 <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
-                  <span><span class="price-amount nowrap" style="font-size: 1.1rem; color: var(--accent-primary); white-space: nowrap;">2.490.000&nbsp;đ</span> <del style="color: var(--text-faint); font-size: 0.8125rem;">5.670.000&nbsp;đ</del></span>
-                  <button type="button" class="btn btn-secondary btn-sm nowrap" style="white-space: nowrap;" onclick="setVietQRPlan('auditsoft_triennial', 2490000, 'AS 3 NAM', 'AuditSoft — Gói 3 Năm'); location.href='#vietqr';">Chọn</button>
+                  <span><span class="price-amount nowrap" style="font-size: 1.1rem; color: var(--accent-primary); white-space: nowrap;">8.900.000&nbsp;đ</span> <del style="color: var(--text-faint); font-size: 0.8125rem;">17.670.000&nbsp;đ</del></span>
+                  <button type="button" class="btn btn-secondary btn-sm nowrap" style="white-space: nowrap;" onclick="setVietQRPlan('auditsoft_triennial', 8900000, 'AS 3 NAM', 'AuditSoft — Gói 3 Năm'); location.href='#vietqr';">Chọn</button>
+                </div>
+              </li>
+              <li style="padding: 12px 0; border-top: 1px solid var(--border-color);">
+                <strong style="display: block; color: var(--text-main); font-size: 0.9375rem;">Early Bird — Vĩnh Viễn</strong>
+                <span style="display: block; font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 6px;">Trọn đời / 1 máy</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+                  <span><span class="price-amount nowrap" style="font-size: 1.1rem; color: var(--accent-primary); white-space: nowrap;">4.890.000&nbsp;đ</span> <del style="color: var(--text-faint); font-size: 0.8125rem;">9.890.000&nbsp;đ</del></span>
+                  <button type="button" class="btn btn-secondary btn-sm nowrap" style="white-space: nowrap;" onclick="setVietQRPlan('auditsoft_early_bird', 4890000, 'AS VINH VIEN', 'AuditSoft — Early Bird — Vĩnh Viễn'); location.href='#vietqr';">Chọn</button>
                 </div>
               </li>
               <li style="padding: 12px 0; border-top: 1px solid var(--border-color);">
                 <strong style="display: block; color: var(--text-main); font-size: 0.9375rem;">Gia Hạn 1 Năm</strong>
                 <span style="display: block; font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 6px;">1 năm (gia hạn)</span>
                 <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
-                  <span><span class="price-amount nowrap" style="font-size: 1.1rem; color: var(--accent-primary); white-space: nowrap;">1.890.000&nbsp;đ</span></span>
-                  <button type="button" class="btn btn-secondary btn-sm nowrap" style="white-space: nowrap;" onclick="setVietQRPlan('auditsoft_annual_renewal', 1890000, 'AS GIA HAN', 'AuditSoft — Gia Hạn 1 Năm'); location.href='#vietqr';">Chọn</button>
+                  <span><span class="price-amount nowrap" style="font-size: 1.1rem; color: var(--accent-primary); white-space: nowrap;">2.890.000&nbsp;đ</span> <del style="color: var(--text-faint); font-size: 0.8125rem;">3.890.000&nbsp;đ</del></span>
+                  <button type="button" class="btn btn-secondary btn-sm nowrap" style="white-space: nowrap;" onclick="setVietQRPlan('auditsoft_annual_renewal', 2890000, 'AS GIA HAN', 'AuditSoft — Gia Hạn 1 Năm'); location.href='#vietqr';">Chọn</button>
                 </div>
               </li>
             </ul>
@@ -817,10 +913,10 @@
           <div style="display: flex; flex-direction: column; gap: 10px;" id="planSelectorGroup">
             <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
               <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; min-width: 92px;">AuditSoft</span>
-              <button type="button" class="btn btn-sm btn-secondary plan-pill active" data-plan="auditsoft_early_bird" onclick="setVietQRPlan('auditsoft_early_bird', 899000, 'AS VINH VIEN', 'AuditSoft — Early Bird — Vĩnh Viễn')">Early Bird — Vĩnh Viễn (899k)</button>
-              <button type="button" class="btn btn-sm btn-secondary plan-pill" data-plan="auditsoft_first_year" onclick="setVietQRPlan('auditsoft_first_year', 990000, 'AS 1 NAM', 'AuditSoft — Gói 1 Năm (Năm Đầu)')">Gói 1 Năm (Năm Đầu) (990k)</button>
-              <button type="button" class="btn btn-sm btn-secondary plan-pill" data-plan="auditsoft_triennial" onclick="setVietQRPlan('auditsoft_triennial', 2490000, 'AS 3 NAM', 'AuditSoft — Gói 3 Năm')">Gói 3 Năm (2.490k)</button>
-              <button type="button" class="btn btn-sm btn-secondary plan-pill" data-plan="auditsoft_annual_renewal" onclick="setVietQRPlan('auditsoft_annual_renewal', 1890000, 'AS GIA HAN', 'AuditSoft — Gia Hạn 1 Năm')">Gia Hạn 1 Năm (1.890k)</button>
+              <button type="button" class="btn btn-sm btn-secondary plan-pill active" data-plan="auditsoft_first_year" onclick="setVietQRPlan('auditsoft_first_year', 3890000, 'AS 1 NAM', 'AuditSoft — Gói 1 Năm (Chuyên Nghiệp)')">Gói 1 Năm (Chuyên Nghiệp) (3.890k)</button>
+              <button type="button" class="btn btn-sm btn-secondary plan-pill" data-plan="auditsoft_triennial" onclick="setVietQRPlan('auditsoft_triennial', 8900000, 'AS 3 NAM', 'AuditSoft — Gói 3 Năm')">Gói 3 Năm (8.900k)</button>
+              <button type="button" class="btn btn-sm btn-secondary plan-pill" data-plan="auditsoft_early_bird" onclick="setVietQRPlan('auditsoft_early_bird', 4890000, 'AS VINH VIEN', 'AuditSoft — Early Bird — Vĩnh Viễn')">Early Bird — Vĩnh Viễn (4.890k)</button>
+              <button type="button" class="btn btn-sm btn-secondary plan-pill" data-plan="auditsoft_annual_renewal" onclick="setVietQRPlan('auditsoft_annual_renewal', 2890000, 'AS GIA HAN', 'AuditSoft — Gia Hạn 1 Năm')">Gia Hạn 1 Năm (2.890k)</button>
             </div>
             <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
               <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; min-width: 92px;">InvoiceDesk</span>
@@ -839,7 +935,7 @@
 
         <div class="vietqr-box">
           <div style="text-align: center; flex-shrink: 0;">
-            <img id="qrImage" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=899000&addInfo=AS%20VINH%20VIEN&accountName=NGUYEN%20DAC%20THINH" alt="Mã VietQR MB Bank" class="vietqr-img">
+            <img id="qrImage" src="https://img.vietqr.io/image/MB-0817567008-compact2.png?amount=3890000&addInfo=AS%201%20NAM&accountName=NGUYEN%20DAC%20THINH" alt="Mã VietQR MB Bank" class="vietqr-img" width="220" height="220" loading="lazy" decoding="async">
             <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; margin-bottom: 0;">Quét bằng app ngân hàng</p>
           </div>
 
@@ -861,12 +957,12 @@
             </div>
             <div>
               <span style="font-size: 0.8125rem; color: var(--text-muted); display: block;">Số tiền thanh toán:</span>
-              <strong id="qrAmountDisplay" class="price-amount nowrap" style="font-size: 1.25rem; color: var(--accent-primary); white-space: nowrap;">899.000&nbsp;đ</strong>
+              <strong id="qrAmountDisplay" class="price-amount nowrap" style="font-size: 1.25rem; color: var(--accent-primary); white-space: nowrap;">3.890.000&nbsp;đ</strong>
             </div>
             <div style="grid-column: span 2;">
               <span style="font-size: 0.8125rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nội dung chuyển khoản (bắt buộc):</span>
               <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                <strong id="qrMemoDisplay" class="vietqr-memo-code">AS VINH VIEN [SĐT CỦA BẠN]</strong>
+                <strong id="qrMemoDisplay" class="vietqr-memo-code">AS 1 NAM [SĐT CỦA BẠN]</strong>
                 <button type="button" class="btn btn-sm btn-secondary" style="padding: 10px 16px; min-height: 44px; display: inline-flex; align-items: center;" onclick="copyQrMemo()">Copy Cú Pháp</button>
               </div>
             </div>
@@ -898,7 +994,7 @@
             <div>
               <div class="card-header-badge-row">
                 <span class="badge" style="background: rgba(179,240,93,0.1); color: var(--accent-primary);">KIỂM TOÁN BCTC</span>
-                <span class="meta-tag" style="color: var(--accent-primary);">PHIÊN BẢN 2.8.2</span>
+                <span class="meta-tag" style="color: var(--accent-primary);">PHIÊN BẢN 2.8.4</span>
               </div>
               <h3 style="margin-bottom: 8px;">AuditSoft</h3>
               <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px;">Hồ sơ kiểm toán BCTC từ sổ NKC đến Giấy làm việc VACPA. Dùng thử đầy đủ tính năng đến 31/12/2026.</p>
@@ -915,7 +1011,7 @@
             <div>
               <div class="card-header-badge-row">
                 <span class="badge" style="background: rgba(179,240,93,0.1); color: var(--accent-primary);">HÓA ĐƠN ĐIỆN TỬ</span>
-                <span class="meta-tag" style="color: var(--accent-primary);">PHIÊN BẢN 4.1.8</span>
+                <span class="meta-tag" style="color: var(--accent-primary);">PHIÊN BẢN 4.1.9</span>
               </div>
               <h3 style="margin-bottom: 8px;">InvoiceDesk</h3>
               <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px;">Tải và đối soát hóa đơn điện tử cả năm từ Cổng HĐĐT. Dùng thử đầy đủ tính năng 7 ngày.</p>
@@ -932,7 +1028,7 @@
             <div>
               <div class="card-header-badge-row">
                 <span class="badge" style="background: rgba(179,240,93,0.1); color: var(--accent-primary);">TỜ KHAI THUẾ</span>
-                <span class="meta-tag" style="color: var(--accent-primary);">PHIÊN BẢN 3.12.0</span>
+                <span class="meta-tag" style="color: var(--accent-primary);">PHIÊN BẢN 3.13.0</span>
               </div>
               <h3 style="margin-bottom: 8px;">TaxInsight</h3>
               <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px;">Tải tờ khai, giấy nộp tiền và đối chiếu nghĩa vụ thuế. Dùng thử đầy đủ tính năng 7 ngày.</p>
@@ -960,46 +1056,46 @@
 
         <div class="faq-list" style="margin-top: 40px;">
           <div class="faq-item">
-            <div class="faq-question">
+            <button type="button" class="faq-question" aria-expanded="true">
               <span>1. Dữ liệu tài chính có bị đưa lên máy chủ không?</span>
               <span style="color: var(--accent-primary); font-size: 1.25rem;">+</span>
-            </div>
+            </button>
             <div class="faq-answer" style="display: block;">
               Không. Sổ sách, hóa đơn và tờ khai được xử lý và lưu trên máy của bạn. InvoiceDesk và TaxInsight kết nối thẳng tới cổng của Cục Thuế bằng tài khoản của bạn để tải dữ liệu về. Trợ lý AI trong AuditSoft và InvoiceDesk là tùy chọn: chỉ khi bạn bật và nhập API key Gemini của mình, phần nội dung cần phân tích mới được gửi tới Google.
             </div>
           </div>
           <div class="faq-item">
-            <div class="faq-question">
+            <button type="button" class="faq-question" aria-expanded="false">
               <span>2. Dùng thử được bao lâu?</span>
               <span style="color: var(--accent-primary); font-size: 1.25rem;">+</span>
-            </div>
+            </button>
             <div class="faq-answer" style="display: none;">
               Bản dùng thử có đầy đủ tính năng. AuditSoft: dùng thử đến 31/12/2026; InvoiceDesk: dùng thử 7 ngày; TaxInsight: dùng thử 7 ngày.
             </div>
           </div>
           <div class="faq-item">
-            <div class="faq-question">
+            <button type="button" class="faq-question" aria-expanded="false">
               <span>3. Đổi máy tính thì bản quyền có chuyển sang máy mới được không?</span>
               <span style="color: var(--accent-primary); font-size: 1.25rem;">+</span>
-            </div>
+            </button>
             <div class="faq-answer" style="display: none;">
               Có. Bản quyền gắn với mã máy. Khi đổi máy, cài lại Windows hoặc máy hỏng, nhắn Zalo 0817.567.008 kèm mã máy mới để được cấp lại mã kích hoạt.
             </div>
           </div>
           <div class="faq-item">
-            <div class="faq-question">
+            <button type="button" class="faq-question" aria-expanded="false">
               <span>4. Khi Cục Thuế thay đổi cổng hoặc mẫu tờ khai thì sao?</span>
               <span style="color: var(--accent-primary); font-size: 1.25rem;">+</span>
-            </div>
+            </button>
             <div class="faq-answer" style="display: none;">
               Các phần mềm tự kiểm tra bản cập nhật mỗi khi mở. Bản sửa lỗi tương thích được phát hành qua GitHub Releases trong thời hạn bản quyền của bạn.
             </div>
           </div>
           <div class="faq-item">
-            <div class="faq-question">
+            <button type="button" class="faq-question" aria-expanded="false">
               <span>5. Làm dịch vụ kế toán cho nhiều công ty nên chọn gói nào?</span>
               <span style="color: var(--accent-primary); font-size: 1.25rem;">+</span>
-            </div>
+            </button>
             <div class="faq-answer" style="display: none;">
               TaxInsight có Gói Dịch Vụ / Đại Lý (1 Năm) (890.000 đ, 1 năm / 2 máy); gói cá nhân (1 năm) cũng không giới hạn số mã số thuế tải. Các gói còn lại tính theo máy, xem chi tiết ở bảng giá.
             </div>
@@ -1088,7 +1184,7 @@
         </div>
         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
           <span class="meta-tag" style="color: var(--accent-primary);">PHIÊN BẢN MỚI NHẤT</span>
-          <span>AuditSoft 2.8.2 · InvoiceDesk 4.1.8 · TaxInsight 3.12.0</span>
+          <span>AuditSoft 2.8.4 · InvoiceDesk 4.1.9 · TaxInsight 3.13.0</span>
         </div>
       </div>
     </div>
@@ -1167,14 +1263,21 @@
       }
     }
 
-    // FAQ Accordion
+    // FAQ Accordion with WCAG a11y support
     document.querySelectorAll('.faq-question').forEach(q => {
       q.addEventListener('click', () => {
         const item = q.parentElement;
         const answer = item.querySelector('.faq-answer');
         const isOpen = answer.style.display === 'block';
-        document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
-        if (!isOpen) answer.style.display = 'block';
+        document.querySelectorAll('.faq-answer').forEach(a => {
+          a.style.display = 'none';
+          const btn = a.parentElement.querySelector('.faq-question');
+          if (btn) btn.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          answer.style.display = 'block';
+          q.setAttribute('aria-expanded', 'true');
+        }
       });
     });
 

@@ -12,19 +12,19 @@
 
 ## Sản phẩm
 
-### AuditSoft 2.8.2
+### AuditSoft 2.8.4
 - Trang: https://tenstartup.com/tools/auditsoft/
 - Tải về: https://github.com/dacthinh05/AuditSoft-Releases/releases
 - Tóm tắt: Phần mềm làm hồ sơ kiểm toán báo cáo tài chính theo 4 giai đoạn: tiếp nhận sổ NKC và CĐSPS, lập kế hoạch và mức trọng yếu, thực hiện thủ tục theo từng phần hành, hoàn thành và lưu trữ hồ sơ. Tự điền bộ Giấy làm việc theo mẫu VACPA từ số liệu sổ sách.
 - Dùng thử: Dùng thử đầy đủ tính năng đến 31/12/2026
 - Dữ liệu: Sổ sách và hồ sơ được xử lý và lưu trên máy của bạn. Trợ lý AI là tùy chọn: chỉ khi bạn bật và nhập API key Gemini của mình, phần nội dung cần soát xét mới được gửi tới Google.
 - Bảng giá (theo máy):
-  - Early Bird — Vĩnh Viễn: 899.000 đ (Trọn đời / 1 máy)
-  - Gói 1 Năm (Năm Đầu): 990.000 đ (1 năm (365 ngày) / 1 máy)
-  - Gói 3 Năm: 2.490.000 đ (3 năm (1.095 ngày) / 1 máy)
-  - Gia Hạn 1 Năm: 1.890.000 đ (1 năm (gia hạn))
+  - Gói 1 Năm (Chuyên Nghiệp): 3.890.000 đ (1 năm (365 ngày) / 1 máy)
+  - Gói 3 Năm: 8.900.000 đ (3 năm (1.095 ngày) / 1 máy)
+  - Early Bird — Vĩnh Viễn: 4.890.000 đ (Trọn đời / 1 máy)
+  - Gia Hạn 1 Năm: 2.890.000 đ (1 năm (gia hạn))
 
-### InvoiceDesk 4.1.8
+### InvoiceDesk 4.1.9
 - Trang: https://tenstartup.com/tools/invoicedesk/
 - Tải về: https://github.com/dacthinh05/InvoiceDesk/releases
 - Tóm tắt: Tải hàng loạt hóa đơn mua vào, bán ra và hóa đơn máy tính tiền từ Cổng HĐĐT của Cục Thuế, tự chia khoảng tra cứu theo tháng để lấy đủ cả năm. Xuất bảng kê chi tiết từng dòng hàng và mẫu nhập MISA AMIS, FAST, HTKK.
@@ -35,7 +35,7 @@
   - PRO 2 Năm: 690.000 đ (2 năm / 1 máy)
   - Dùng Trọn Đời: 1.190.000 đ (Trọn đời / 1 máy)
 
-### TaxInsight 3.12.0
+### TaxInsight 3.13.0
 - Trang: https://tenstartup.com/tools/taxinsight/
 - Tải về: https://github.com/dacthinh05/TaxInsight-Releases/releases
 - Tóm tắt: Dành cho đại lý thuế và kế toán dịch vụ: tải tờ khai đã nộp và giấy nộp tiền C1-02/NS của nhiều doanh nghiệp từ eTax và Cổng dịch vụ công ngành thuế chỉ bằng tài khoản tra cứu, không cần chữ ký số (USB Token). Lập Giấy làm việc GTGT, đối chiếu quyết toán TNCN và khớp giấy nộp tiền với nghĩa vụ thuế.

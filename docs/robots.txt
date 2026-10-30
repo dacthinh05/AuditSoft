@@ -1,4 +1,7 @@
 # robots.txt for TenStartup · AuditSoft (https://tenstartup.com/)
+# AI Context: https://tenstartup.com/llms.txt
+# AI Full Context: https://tenstartup.com/llms-full.txt
+
 User-agent: *
 Allow: /
 
@@ -44,6 +47,18 @@ User-agent: Google-Extended
 Allow: /
 
 User-agent: FacebookBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Cohere-ai
+Allow: /
+
+User-agent: meta-externalagent
 Allow: /
 
 # Sitemap Location
